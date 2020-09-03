@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 9 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en" >
+    <!--begin::Head-->
+    <head><base href="../../../../">
+                <meta charset="utf-8"/>
+        <title>Metronic | Login Page 4</title>
+        <meta name="description" content="Login page example"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta name="csrf-token" content="{{ csrf_token() }}">
+        <!--begin::Fonts-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        <!--end::Fonts-->
+
+
+                    <!--begin::Page Custom Styles(used by this page)-->
+                             <link href="{{ asset('dist/assets/css/pages/login/classic/login-4.css')}}" rel="stylesheet" type="text/css"/>
+                        <!--end::Page Custom Styles-->
+
+        <!--begin::Global Theme Styles(used by all pages)-->
+                    <link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
+                    <link href="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css"/>
+                    <link href="{{ asset('dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+                <!--end::Global Theme Styles-->
+
+        <!--begin::Layout Themes(used by all pages)-->
+                <!--end::Layout Themes-->
+
+        <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
+		
+		</head>
+    <!--end::Head-->
+
+    <!--begin::Body-->
+    <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading"  >
+
+    	<!--begin::Main-->
+	<div class="d-flex flex-column flex-root">
+		<!--begin::Login-->
+<div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+<div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
+		<div class="login-form text-center p-7 position-relative overflow-hidden">
+			<!--begin::Login Header-->
+			<div class="d-flex flex-center mb-15">
+				<a href="#">
+				<img src="{{ asset('dist/assets/media/logos/logo-letter-13.png') }}" class="max-h-75px" alt=""/>
+				</a>
+			</div>
+			<!--end::Login Header-->
+
+			<!--begin::Login Sign in form-->
+			<div class="login-signin">
+				<div class="mb-20">
+					<h3>Sign In To Admin</h3>
+					<div class="text-muted font-weight-bold">Enter your details to login to your account:</div>
+				</div>
+				<form class="form" id="kt_login_signin_form">
+					@csrf
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" id="username" autocomplete="off" />
+					</div>
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Password" name="password" id="password"  />
+					</div>
+					<div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+						<div class="checkbox-inline">
+							<label class="checkbox m-0 text-muted">
+								<input type="checkbox" name="remember" id="remember_me" />
+								<span></span>
+								Remember me
+							</label>
+						</div>
+						<a href="javascript:;" id="kt_login_forgot" class="text-muted text-hover-primary">Forget Password ?</a>
+					</div>
+					<button id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
+				</form>
+				<div class="mt-10">
+					<span class="opacity-70 mr-4">
+						Don't have an account yet?
+					</span>
+					<a href="javascript:;" id="kt_login_signup" class="text-muted text-hover-primary font-weight-bold">Sign Up!</a>
+				</div>
+			</div>
+			<!--end::Login Sign in form-->
+
+			<!--begin::Login Sign up form-->
+			<div class="login-signup">
+				<div class="mb-20">
+					<h3>Sign Up</h3>
+					<div class="text-muted font-weight-bold">Enter your details to create your account</div>
+				</div>
+				<form class="form" id="kt_login_signup_form">
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Fullname" name="fullname" id="fullname"/>
+					</div>
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Email" name="email" id="email" autocomplete="off" />
+					</div>
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" id="reg_username" autocomplete="off" />
+					</div>
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Password" name="password" id="reg_password"/>
+					</div>
+					<div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" />
+					</div>
+					{{-- <div class="form-group mb-5 text-left">
+						<div class="checkbox-inline">
+							<label class="checkbox m-0">
+								<input type="checkbox" name="agree" />
+								<span></span>
+								I Agree the <a href="#" class="font-weight-bold ml-1">terms and conditions</a>.
+							</label>
+						</div>
+						<div class="form-text text-muted text-center"></div>
+					</div> --}}
+					<div class="form-group d-flex flex-wrap flex-center mt-10">
+						<button id="kt_login_signup_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Sign Up</button>
+						<button id="kt_login_signup_cancel" class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-2">Cancel</button>
+					</div>
+				</form>
+			</div>
+			<!--end::Login Sign up form-->
+
+			<!--begin::Login forgot password form-->
+			<div class="login-forgot">
+				<div class="mb-20">
+					<h3>Forgotten Password ?</h3>
+					<div class="text-muted font-weight-bold">Enter your email to reset your password</div>
+				</div>
+				<form class="form" id="kt_login_forgot_form">
+					<div class="form-group mb-10">
+						<input class="form-control form-control-solid h-auto py-4 px-8" type="text" placeholder="Email" name="email" autocomplete="off"/>
+					</div>
+					<div class="form-group d-flex flex-wrap flex-center mt-10">
+						<button id="kt_login_forgot_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Request</button>
+						<button id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-2">Cancel</button>
+					</div>
+				</form>
+			</div>
+			<!--end::Login forgot password form-->
+		</div>
+	</div>
+</div>
+<!--end::Login-->
+	</div>
+<!--end::Main-->
+
+
+        <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+        <!--begin::Global Config(global config for global JS scripts)-->
+        <script>
+            var KTAppSettings = {
+    "breakpoints": {
+        "sm": 576,
+        "md": 768,
+        "lg": 992,
+        "xl": 1200,
+        "xxl": 1200
+    },
+    "colors": {
+        "theme": {
+            "base": {
+                "white": "#ffffff",
+                "primary": "#0BB783",
+                "secondary": "#E5EAEE",
+                "success": "#1BC5BD",
+                "info": "#8950FC",
+                "warning": "#FFA800",
+                "danger": "#F64E60",
+                "light": "#F3F6F9",
+                "dark": "#212121"
+            },
+            "light": {
+                "white": "#ffffff",
+                "primary": "#D7F9EF",
+                "secondary": "#ECF0F3",
+                "success": "#C9F7F5",
+                "info": "#EEE5FF",
+                "warning": "#FFF4DE",
+                "danger": "#FFE2E5",
+                "light": "#F3F6F9",
+                "dark": "#D6D6E0"
+            },
+            "inverse": {
+                "white": "#ffffff",
+                "primary": "#ffffff",
+                "secondary": "#212121",
+                "success": "#ffffff",
+                "info": "#ffffff",
+                "warning": "#ffffff",
+                "danger": "#ffffff",
+                "light": "#464E5F",
+                "dark": "#ffffff"
+            }
+        },
+        "gray": {
+            "gray-100": "#F3F6F9",
+            "gray-200": "#ECF0F3",
+            "gray-300": "#E5EAEE",
+            "gray-400": "#D6D6E0",
+            "gray-500": "#B5B5C3",
+            "gray-600": "#80808F",
+            "gray-700": "#464E5F",
+            "gray-800": "#1B283F",
+            "gray-900": "#212121"
+        }
+    },
+    "font-family": "Poppins"
+};
+        </script>
+        <!--end::Global Config-->
+
+    	<!--begin::Global Theme Bundle(used by all pages)-->
+    	    	   <script src="{{ asset('dist/assets/plugins/global/plugins.bundle.js')}}"></script>
+		    	   <script src="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
+		    	   <script src="{{ asset('dist/assets/js/scripts.bundle.js')}}"></script>
+				<!--end::Global Theme Bundle-->
+
+
+                    <!--begin::Page Scripts(used by this page)-->
+                            <script src="{{ asset('dist/assets/js/pages/custom/login/login-general.js')}}"></script>
+					<!--end::Page Scripts-->
+
+
+			<script>
+				$.ajaxSetup({
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader('Authorization', sessionStorage.getItem('token'));
+					},
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				});
+		</script>
+		<script>
+
+		$('#kt_login_signin_submit').on('click', function (e) {
+				e.preventDefault();
+				KTApp.block('#kt_body', {
+					overlayColor: '#000000',
+					state: 'primary',
+					message: 'Authenticating. . .'
+				});
+
+				var _url = "{{ route('send_login') }}";
+				var remember_me = document.getElementById('remember_me');
+				var _data = "username=" + $('#username').val() + '&password=' + $("#password").val() + '&remember_me=' + remember_me.checked;
+
+				$.ajax({
+					method:"POST",
+					url: _url,
+					data: _data,
+					success:function(data){
+						if(data.access_token != null)
+						{
+							sessionStorage.setItem('token',`Bearer ` + data.access_token);
+						
+							KTApp.unblock('#kt_body');
+							
+							window.location.href="{{ route('dashboard') }}";
+						}else if(data.message =='Unauthorized'){
+							swal.fire({
+								text: "Sorry, Invalid Credentials",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+							}).then(function() {
+								KTUtil.scrollTop();
+							});
+							KTApp.unblock('#kt_body');
+						}else{
+							swal.fire({
+								text: "Sorry, looks like there are some errors detected, please try again.",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+							}).then(function() {
+								KTUtil.scrollTop();
+							});
+							KTApp.unblock('#kt_body');
+						}
+					},
+					error:function(err){
+						console.log(err);
+					}
+				});
+         
+			});
+			
+			$("#kt_login_signup_submit").on('click',function(){
+			
+				KTApp.block('#kt_body', {
+					overlayColor: '#000000',
+					state: 'primary',
+					message: 'Creating Account. . .'
+				});
+
+				var _url ="{{ route('send_signup') }}";
+				var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val();
+			
+				$.ajax({
+					method:"POST",
+					url: _url,
+					data: _data,
+					success:function(data){
+						if(data.access_token != null)
+						{
+							sessionStorage.setItem('token',`Bearer ` + data.access_token);
+						
+							KTApp.unblock('#kt_body');
+							window.location.href="{{ route('dashboard') }}";
+						}else if(data.message != null){
+							swal.fire({
+								text: "Sorry, " +data.message,
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+							}).then(function() {
+								KTUtil.scrollTop();
+							});
+							KTApp.unblock('#kt_body');
+						}else{
+							swal.fire({
+								text: "Sorry, looks like there are some errors detected, please try again.",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+							}).then(function() {
+								KTUtil.scrollTop();
+							});
+							KTApp.unblock('#kt_body');
+						}
+					},
+					error:function(err){
+						console.log(err);
+					}
+				});
+			});
+
+
+			</script>
+								
+			<script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
+
+            </body>
+    <!--end::Body-->
+</html>
