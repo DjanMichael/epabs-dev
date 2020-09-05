@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\RefSourceOfFund;
+use App\SourceOfFund;
+
 class ref_source_of_fund extends Seeder
 {
     /**
@@ -11,7 +12,7 @@ class ref_source_of_fund extends Seeder
      */
     public function run()
     {
-        RefSourceOfFund::create(['sof_classification' => 'NEP', 'status'=>'ACTIVE']);
-        RefSourceOfFund::create(['sof_classification' => 'GAA', 'status'=>'ACTIVE']);
+        SourceOfFund::create(["id"=>"1", "sof_classification"=>"NEP", "status"=>"ACTIVE"]);
+        SourceOfFund::create(["id"=>"2", "sof_classification"=>"GAA", "status"=>"ACTIVE"]);
     }
 }
