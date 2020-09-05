@@ -1,5 +1,17 @@
 @extends('layouts.app')
 @section('title','SYSTEM MODULES')
+@section('breadcrumb')
+<li class="breadcrumb-item">
+    <a href="" class="text-muted">Features</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="" class="text-muted">Icons</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="" class="text-muted">Flaticon</a>
+</li>
+@endsection
+
 @section('content')
 <!-- begin::system modules-->
 <div class="card card-custom card-stretch gutter-b">
