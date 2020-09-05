@@ -321,6 +321,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				$.ajax({
 					method:"POST",
 					url: _url,
+					timeout: 15000,
 					data: _data,
 					success:function(data){
 						if(data.access_token != null)
@@ -357,8 +358,19 @@ License: You must have a valid license purchased only from themeforest(the above
 							KTApp.unblock('#kt_body');
 						}
 					},
-					error:function(err){
-						console.log(err);
+					error:function(x,t,m){
+						if(t==="timeout"){
+							swal.fire({
+								text: "Network Failed, Please Connect to a faster Internet Connection ",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+						}else{
+							console.log(err);
+						}
 					}
 				});
 			});
