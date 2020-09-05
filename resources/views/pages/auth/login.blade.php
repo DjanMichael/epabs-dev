@@ -382,6 +382,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								customClass: {
 									confirmButton: "btn font-weight-bold btn-light-primary"
 								}
+							});
 						}else{
 							console.log(err);
 						}
