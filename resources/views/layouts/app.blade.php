@@ -1524,7 +1524,28 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <div class="d-flex flex-column-fluid mb-6" style="background-color:white;">
         <div class="container">
-            @yield('breadcrumb')
+            <div class="subheader py-2 py-lg-6 subheader-transparent" id="kt_subheader">
+                <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-center flex-wrap mr-1">
+                        <!--begin::Page Heading-->
+                        <div class="d-flex align-items-baseline flex-wrap mr-5">
+                            <!--begin::Page Title-->
+                            <h5 class="text-dark font-weight-bold my-1 mr-5">@yield('title')</h5>
+                            <!--end::Page Title-->
+                            <!--begin::Breadcrumb-->
+                            <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                                @yield('breadcrumb')
+                            </ul>
+                            <!--end::Breadcrumb-->
+                        </div>
+                        <!--end::Page Heading-->
+                    </div>
+                    <!--end::Info-->
+                 
+                </div>
+            </div>
+            
         </div>
     </div>
     <!--begin::Entry-->
@@ -1542,7 +1563,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	</div>
 <!--end::Entry-->
 				</div>
-				<!--end::Content-->
+<!--end::Content-->
 
 				<!--begin::Footer-->
 <div class="footer bg-white py-4 d-flex flex-lg-column " id="kt_footer">
