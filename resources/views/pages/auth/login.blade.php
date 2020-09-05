@@ -263,6 +263,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				$.ajax({
 					method:"POST",
 					url: _url,
+					timeout: 10000,
 					data: _data,
 					success:function(data){
 						if(data.access_token != null)
@@ -300,11 +301,24 @@ License: You must have a valid license purchased only from themeforest(the above
 							KTApp.unblock('#kt_body');
 						}
 					},
-					error:function(err){
-						console.log(err);
+					error:function(err,t,m){
+						if (t==="timeout")
+						{
+							KTApp.unblock('#kt_body');
+							swal.fire({
+								text: "Network Failed , looks like your network is slow",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok, got it!",
+								customClass: {
+									confirmButton: "btn font-weight-bold btn-light-primary"
+								}
+							})
+						}else{
+							console.log(err);
+						}
 					}
 				});
-         
 			});
 			
 			$("#kt_login_signup_submit").on('click',function(){
