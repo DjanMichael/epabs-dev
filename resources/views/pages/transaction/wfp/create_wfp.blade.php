@@ -333,7 +333,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="exampleSelectd">Budget Line Item</label>
+                    <label for="exampleSelectd">Budget Line Item   <span class="text-danger">*</span></label>
                     <select class="form-control" id="buget_line_item">
                         <option>1</option>
                         <option>2</option>
@@ -350,7 +350,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleSelectd">Select UACS</label>
+                    <label for="exampleSelectd">Select UACS   <span class="text-danger">*</span></label>
                     <select class="form-control" id="uacs">
                         <option>1</option>
                         <option>2</option>
@@ -367,7 +367,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Performance Indicator</label>
+                    <label>Performance Indicator   <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" placeholder="Performance Indicator" id="peformance_indicator">
                 </div>
                 <div class="form-group row">
