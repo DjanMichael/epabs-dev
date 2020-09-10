@@ -114,7 +114,7 @@
                     <div class="form-group row p-5">
                         <label class="col-6 col-md-1 col-form-label">January</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_jan">
                                     <span></span>
@@ -123,7 +123,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">Febuary</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_feb">
                                     <span></span>
@@ -132,7 +132,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">March</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_mar">
                                     <span></span>
@@ -141,7 +141,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">April</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_apr">
                                     <span></span>
@@ -150,7 +150,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">May</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_may">
                                     <span></span>
@@ -159,7 +159,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">June</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_june">
                                     <span></span>
@@ -168,7 +168,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">July</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_july">
                                     <span></span>
@@ -177,7 +177,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">August</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_aug">
                                     <span></span>
@@ -186,7 +186,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">September</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_sept">
                                     <span></span>
@@ -195,7 +195,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">October</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_oct">
                                     <span></span>
@@ -204,7 +204,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">November</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_nov">
                                     <span></span>
@@ -213,7 +213,7 @@
                         </div>
                         <label class="col-6 col-md-1 col-form-label">December</label>
                         <div class="col-6 col-md-2">
-                            <span class="switch switch-icon">
+                            <span class="switch switch-primary">
                                 <label>
                                     <input type="checkbox" name="select" id="t_dec">
                                     <span></span>
@@ -256,9 +256,9 @@
                                            </div>
                                         </td>
                                         <td>00041292</td>
-                                        <td>STRATEGIC FUNCTION</td>
+                                        <td>5001356562</td>
                                         <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                        <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
+                                        <td>3,400,122.00</td>
                                         <td>12</td>
                                         <td>123</td>
                                         <td>412</td>
@@ -268,9 +268,9 @@
                                     <tr class="wfp_table_row">
                                         <td scope="row">1</td>
                                         <td>00041292</td>
-                                        <td>STRATEGIC FUNCTION</td>
+                                        <td>5001356562</td>
                                         <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                        <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
+                                        <td>1,000,100.00</td>
                                         <td>12</td>
                                         <td>123</td>
                                         <td>412</td>
@@ -326,13 +326,78 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Performance Indicator</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="form-group">
+                    <label for="exampleSelectd">Budget Line Item</label>
+                    <select class="form-control" id="buget_line_item">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="alert alert-light" role="alert">
+                    <div class="row">
+                        <div class="col-12 col-md-4">TOTAL BUDGET : <b>1,400,000.00</b></div>
+                        <div class="col-12 col-md-4">UTILIZED BUDGET : <b>1,200,000.00</b></div>
+                        <div class="col-12 col-md-4">REMAINING BUDGET : <b>200,000.00</b></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelectd">Select UACS</label>
+                    <select class="form-control" id="uacs">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="alert alert-light" role="alert">
+                    <div class="row">
+                        <div class="col-12 col-md-4">UACS CODE : <b>5001271912</b></div>
+                        <div class="col-12 col-md-4">CATEGORY : <b>PERSONEL SERVICES</b></div>
+                        <div class="col-12 col-md-4">SUB-CATEGORY : <b>OTHER PERSONNEL BENEFITS</b></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Performance Indicator</label>
+                    <input type="text" class="form-control" placeholder="Performance Indicator" id="peformance_indicator">
+                </div>
+                <div class="form-group row">
+                    <label class="col-12 col-md-2 col-form-label">INCLUDED PPMP</label>
+                    <div class="col-12 col-md-4">
+                        <span class="switch switch-primary">
+                            <label>
+                                <input type="checkbox" name="select" id="t_dec">
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <label class="col-12 col-md-2 col-form-label">CATERING SERVICES</label>
+                    <div class="col-12 col-md-4">
+                        <span class="switch switch-primary">
+                            <label>
+                                <input type="checkbox" name="select" id="t_dec">
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" placeholder="Cost" id="pi_cost">
+                </div>
+                <div class="form-group">
+                    <label>No. of Batch/s</label>
+                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
