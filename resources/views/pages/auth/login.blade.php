@@ -263,7 +263,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				$.ajax({
 					method:"POST",
 					url: _url,
-					timeout: 1000,
+					timeout: 10000,
 					data: _data,
 					success:function(data){
 						if(data.access_token != null)
