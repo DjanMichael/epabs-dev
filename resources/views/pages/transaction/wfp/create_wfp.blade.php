@@ -48,10 +48,10 @@
                         </label>
                         <div class="row">
                             <div class="col-10 col-md-11">
-                                <input type="text" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                                <input type="text" id="selected_output_function" value="" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
                             </div>
                             <div class="col-2 col-md-1 text-right">
-                                <a href="" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
+                                <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
                                     <i class="flaticon-search ml-2 icon-md"></i>
                                 </a>
                             </div>
@@ -256,19 +256,16 @@
 </div>
 
 
-
-
 <div class="modal fade" id="modal_functions_delivery_search" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_functions_delivery_search" aria-hidden="true" style="z-index: 99999;">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal modal_functions_delivery_search</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Users Output Functions</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                @include('pages.transaction.wfp.table.output_functions')
+            <div class="modal-body" id="modal_content_output_functions">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
@@ -358,7 +355,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
             </div>
         </div>
     </div>
@@ -367,5 +363,21 @@
 
 
 @push('scripts')
-    <script src="{{ asset('dist/assets/js/pages/features.miscellaneous/blockui.min.js') }}"></script>
+    <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $("#search_output_function").on('click',function(){
+                var _url = "{{ route('d_get_output_functions') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        document.getElementById('modal_content_output_functions').innerHTML= data;
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
