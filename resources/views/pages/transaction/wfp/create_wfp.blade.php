@@ -364,3 +364,8 @@
     </div>
 </div>
 @endsection
+
+
+@push('scripts')
+    <script src="{{ asset('dist/assets/js/pages/features.miscellaneous/blockui.min.js') }}"></script>
+@endpush
