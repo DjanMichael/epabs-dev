@@ -38,7 +38,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!--end::Layout Themes-->
 
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
-		
+
 		</head>
     <!--end::Head-->
 
@@ -302,11 +302,15 @@ License: You must have a valid license purchased only from themeforest(the above
 						}
 					},
 					error:function(err,t,m){
+
+						var str = err.responseJSON.message;
+
 						if (t==="timeout")
 						{
 							KTApp.unblock('#kt_body');
 							swal.fire({
-								text: "Network Failed , looks like your network is slow",
+								title: "Network Failed",
+								text: "looks like your network is slow",
 								icon: "error",
 								buttonsStyling: false,
 								confirmButtonText: "Ok, got it!",
@@ -315,7 +319,21 @@ License: You must have a valid license purchased only from themeforest(the above
 								}
 							})
 						}else{
-							console.log(err);
+							var res = str.search("HY000");
+							if(res != -1)
+							{
+								swal.fire({
+									title:"Can\'t Connect to Server",
+									text: "Make sure the server is UP",
+									icon: "error",
+									buttonsStyling: false,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn font-weight-bold btn-light-primary"
+									}
+								})
+							}
+							KTApp.unblock('#kt_body');
 						}
 					}
 				});
@@ -388,6 +406,45 @@ License: You must have a valid license purchased only from themeforest(the above
 						}
 					}
 				});
+			});
+			window.addEventListener('load', function() {
+
+
+			//checker network online offline
+			toastr.options = {
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-top-center",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "3000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+
+
+				function updateOnlineStatus(event) {
+					var condition = navigator.onLine ? "online" : "offline";
+
+
+					if (condition == "online")
+					{
+						toastr.success("Successfully reconnected", "Good Job");
+					}else{
+						toastr.error("No Internet Connection", "Error");
+					}
+
+				
+				}
+
+				window.addEventListener('online',  updateOnlineStatus);
+				window.addEventListener('offline', updateOnlineStatus);
 			});
 
 
