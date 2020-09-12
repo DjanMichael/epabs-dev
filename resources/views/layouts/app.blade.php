@@ -3108,16 +3108,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                 }
                         });
                         
-                       $(document).ready(){
-                        setInterval(function(){
-                                console.log(1);
-                                if(navigator.onLine){
-                                alert('online');
-                                } else {
-                                alert('offline');
-                                }
-                            },1000)
-                       }
                     </script>
             </body>
     <!--end::Body-->
