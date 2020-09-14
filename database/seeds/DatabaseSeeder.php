@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use DB as DBS;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -15,6 +15,13 @@ class DatabaseSeeder extends Seeder
         $this->call(ref_source_of_fund::class);
         $this->call(ref_units::class);
         $this->call(ref_year::class);
+        $this->call(ref_activity_category::class);
+        $this->call(ref_budget_line_item::class);
+        $this->call(ref_classification::class);
+        $this->call(ref_dm_category::class);
+        $this->call(ref_item_unit::class);
+        $this->call(ref_location::class);
+        $this->call(ref_uacs::class);
         $this->call(user::class);
         $this->call(tbl_user_roles::class);
         
