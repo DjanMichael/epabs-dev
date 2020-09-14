@@ -3100,6 +3100,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!--end::Page Scripts-->
 
                     <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
+                    <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
                     <script>
                         $.ajaxSetup({
                                 headers: {

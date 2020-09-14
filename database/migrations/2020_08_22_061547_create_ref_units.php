@@ -17,6 +17,7 @@ class CreateRefUnits extends Migration
             $table->id();
             $table->string('division');
             $table->string('section');
+            $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
     }
