@@ -8,4 +8,10 @@ class RefActivityCategory extends Model
 {
     //
     protected $table='ref_activity_category';
+
+    public function getAll()
+    {
+        $result = RefActivityCategory::all();
+        return $result;
+    }
 }

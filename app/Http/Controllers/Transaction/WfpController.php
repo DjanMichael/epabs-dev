@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\RefActivityOutputFunctions;
-
+use App\RefActivityCategory;
 class WfpController extends Controller
 {
     //
@@ -16,7 +16,11 @@ class WfpController extends Controller
     }
 
     public function goToCreateWfp(){
-        return view('pages.transaction.wfp.create_wfp');
+        $data = [];
+        $categ = new RefActivityCategory;
+        $data ["activity_category"] = $categ->getAll();
+        dd($data);
+        return view('pages.transaction.wfp.create_wfp',['data' => $data]);
     }
 
     public function goToDetailsWfp()
