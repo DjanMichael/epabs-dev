@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp','Transaction\WfpController@index')->name('r_wfp');
     Route::get('/users/wfp/create','Transaction\WfpController@goToCreateWfp')->name('r_create_wfp');
     Route::get('/users/wfp/details','Transaction\WfpController@goToDetailsWfp')->name('r_details_wfp');
-
+    Route::get('/ref/user/activity_output_functions/','Transaction\WfpController@getOutputFunctions')->name('d_get_output_functions');
 
 
     #System Menu

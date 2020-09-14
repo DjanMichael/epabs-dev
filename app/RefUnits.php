@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RefUnit extends Model
+class RefUnits extends Model
 {
     //
     protected $table ='ref_units';

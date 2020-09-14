@@ -16,6 +16,7 @@ class CreateRefYear extends Migration
         Schema::create('ref_year', function (Blueprint $table) {
             $table->id();
             $table->string('year');
+            $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
     }
