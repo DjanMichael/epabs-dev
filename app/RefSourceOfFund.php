@@ -14,7 +14,7 @@ class RefSourceOfFund extends Model
 
     public function getAll()
     {
-        $result = RefSourceOfFund::all();
+        $result = RefSourceOfFund::all()->toArray();
         return $result;
     }
 }

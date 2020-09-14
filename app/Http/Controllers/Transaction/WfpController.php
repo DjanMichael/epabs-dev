@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
+use App\RefSourceOfFund;
+
 class WfpController extends Controller
 {
     //
@@ -18,8 +20,11 @@ class WfpController extends Controller
     public function goToCreateWfp(){
         $data = [];
         $categ = new RefActivityCategory;
-        $data ["activity_category"] = $categ->getAll();
-        dd($data);
+        $sof = new RefSourceOfFund;
+
+        $data["activity_category"] = $categ->getAll();
+        $data["sof"] = $sof->getAll();
+  
         return view('pages.transaction.wfp.create_wfp',['data' => $data]);
     }
 

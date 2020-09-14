@@ -49,6 +49,7 @@
                         <div class="row">
                             <div class="col-10 col-md-11">
                                 <input type="text" id="selected_output_function" value="" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                                <input type="hidden" id="selected_output_function_id" value="" >
                             </div>
                             <div class="col-2 col-md-1 text-right">
                                 <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
@@ -70,17 +71,21 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <select class="form-control" id="source_of_fund">
-                                <option>NEP</option>
-                                <option>GAA</option>
+                                <option value=""></option>
+                                @foreach($data["sof"] as $row)
+                                    <option value="{{ $row["id"] }}">{{ $row["sof_classification"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-6">
                             <label for="exampleInputPassword1">Activity Category
                                 <span class="text-danger">*</span>
-                            </label>
+                           </label>   {{-- {{ dd($data["activity_category"]["id"]) }} --}}
                             <select class="form-control" id="activity_category">
-                                <option>NEP</option>
-                                <option>GAA</option>
+                                <option value=""></option>
+                                @foreach($data["activity_category"] as $row)
+                                    <option value="{{ $row["id"] }}">{{ $row["category"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -96,25 +101,25 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_1">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_2">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_3">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_4">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                     </div>
@@ -124,7 +129,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_jan">
+                                    <input type="checkbox" name="select" id="t_jan" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -133,7 +138,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_feb">
+                                    <input type="checkbox" name="select" id="t_feb" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -142,7 +147,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_mar">
+                                    <input type="checkbox" name="select" id="t_mar" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -151,7 +156,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_apr">
+                                    <input type="checkbox" name="select" id="t_apr" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -160,7 +165,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_may">
+                                    <input type="checkbox" name="select" id="t_may" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -169,7 +174,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_june">
+                                    <input type="checkbox" name="select" id="t_june" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -178,7 +183,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_july">
+                                    <input type="checkbox" name="select" id="t_july" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -187,7 +192,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_aug">
+                                    <input type="checkbox" name="select" id="t_aug" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -196,7 +201,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_sept">
+                                    <input type="checkbox" name="select" id="t_sept" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -205,7 +210,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_oct">
+                                    <input type="checkbox" name="select" id="t_oct" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -214,7 +219,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_nov">
+                                    <input type="checkbox" name="select" id="t_nov" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -223,7 +228,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_dec">
+                                    <input type="checkbox" name="select" id="t_dec" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -378,6 +383,20 @@
                     }
                 });
             });
+
+
+            function firstQuarterHasValue(){
+                var txt = $("#qtr_1").val();
+                if (txt != '' || txt != undefined || txt != 0){
+
+                }
+                $("#t_jan").removeAttr('disabled');
+            }
+            function secondQuarterHasValue(){}
+            function thirduarterHasValue(){}
+            function fourthQuarterHasValue(){}
+            
+
         });
     </script>
 @endpush

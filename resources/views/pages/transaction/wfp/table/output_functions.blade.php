@@ -1,5 +1,3 @@
-
-
 <div class="table-responsive">
     <div class="input-icon">
         <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query">
@@ -19,7 +17,7 @@
           @foreach ($output_functions as $row)
             <tr>
                 <td>
-                    <button class="btn btn-block btn-primary" onClick="select_output_functions('{{$row->function_description}}')" >SELECT</button>
+                <button class="btn btn-block btn-primary" onClick="select_output_functions('{{ $row->id }}','{{$row->function_description}}')" >SELECT</button>
                 </td>
                 <td>{{ $row->function_description }}</td>
             </tr>
