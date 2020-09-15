@@ -38,4 +38,13 @@ class WfpController extends Controller
         $res = RefActivityOutputFunctions::where('user_id' , Auth::user()->id)->get();
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
+
+    public function getSearchOutputFunctions(Request $req)
+    {
+        $q = $req->q;
+        $res = RefActivityOutputFunctions::where('user_id', Auth::user()->id)
+                                            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
+                                            ->get();
+        return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
+    }
 }

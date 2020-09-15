@@ -260,7 +260,7 @@
     <!--end::Form-->
 </div>
 
-
+<!-- Modal-->
 <div class="modal fade" id="modal_functions_delivery_search" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_functions_delivery_search" aria-hidden="true" style="z-index: 99999;">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -270,7 +270,29 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body" id="modal_content_output_functions">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon">
+                            <input type="text" class="form-control" placeholder="Search..." id="output_function_search" >
+                            <span>
+                                <i class="flaticon2-search-1 text-muted"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" id="output_function_table">
+                    <table class="table table-sm table-hover" >
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Output Functions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal_content_output_functions">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
@@ -372,16 +394,11 @@
 
     <script>
         $(document).ready(function(){
-
+           /*************************************************
+                        EVENT LISTENERS
+            *************************************************/
             $("#search_output_function").on('click',function(){
-                var _url = "{{ route('d_get_output_functions') }}";
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    success:function(data){
-                        document.getElementById('modal_content_output_functions').innerHTML= data;
-                    }
-                });
+                populateOutputFunctionsAll();
             });
 
 
@@ -395,8 +412,60 @@
             function secondQuarterHasValue(){}
             function thirduarterHasValue(){}
             function fourthQuarterHasValue(){}
-            
 
+
+       
+            $("#output_function_search").on('keyup',function(){
+                var str = $("#output_function_search").val();
+                populateOutputFunctionsSearch(str);
+            });
         });
+
+
+        /*************************************************
+                        REUSABLE FUNCTIONS
+        *************************************************/
+        function populateOutputFunctionsAll(){
+            var _url = "{{ route('d_get_output_functions') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                beforeSend:function(){
+                    KTApp.block('#output_function_table', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    KTApp.unblock('#output_function_table');
+                    document.getElementById('modal_content_output_functions').innerHTML= data;
+                }
+            });
+        }
+
+        function populateOutputFunctionsSearch(q){
+            var datastr = "q=" + q;
+            var _url = "{{ route('d_get_search_output_functions') }}"
+            $.ajax({
+                method: "GET",
+                url: _url,
+                data: datastr,
+                beforeSend:function(){
+                    KTApp.block('#output_function_table', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    KTApp.unblock('#output_function_table');
+                    document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
     </script>
 @endpush
