@@ -101,25 +101,25 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_1">
+                            <input type="number" class="form-control" placeholder="" id="qtr_1" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_2">
+                            <input type="number" class="form-control" placeholder="" id="qtr_2" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_3">
+                            <input type="number" class="form-control" placeholder="" id="qtr_3" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_4">
+                            <input type="number" class="form-control" placeholder="" id="qtr_4" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_jan" disabled>
+                                    <input type="checkbox" name="select" id="t_jan" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -138,7 +138,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_feb" disabled>
+                                    <input type="checkbox" name="select" id="t_feb" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -147,7 +147,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_mar" disabled>
+                                    <input type="checkbox" name="select" id="t_mar" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -156,7 +156,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_apr" disabled>
+                                    <input type="checkbox" name="select" id="t_apr" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -165,7 +165,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_may" disabled>
+                                    <input type="checkbox" name="select" id="t_may" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -174,7 +174,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_june" disabled>
+                                    <input type="checkbox" name="select" id="t_june" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -183,7 +183,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_july" disabled>
+                                    <input type="checkbox" name="select" id="t_july" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -192,7 +192,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_aug" disabled>
+                                    <input type="checkbox" name="select" id="t_aug" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -201,7 +201,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_sept" disabled>
+                                    <input type="checkbox" name="select" id="t_sept" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -210,7 +210,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_oct" disabled>
+                                    <input type="checkbox" name="select" id="t_oct" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -219,7 +219,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_nov" disabled>
+                                    <input type="checkbox" name="select" id="t_nov" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -228,7 +228,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_dec" disabled>
+                                    <input type="checkbox" name="select" id="t_dec" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -391,7 +391,7 @@
 
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
-
+    <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script>
         $(document).ready(function(){
            /*************************************************
@@ -401,24 +401,41 @@
                 populateOutputFunctionsAll();
             });
 
+            $("#qtr_1").bind('keyup click',function(e){
+                e.preventDefault();
+                
+                firstQuarterHasValue();
+            });
 
-            function firstQuarterHasValue(){
-                var txt = $("#qtr_1").val();
-                if (txt != '' || txt != undefined || txt != 0){
+            $("#qtr_2").bind('keyup click',function(){
+                secondQuarterHasValue();
+            });
 
-                }
-                $("#t_jan").removeAttr('disabled');
-            }
-            function secondQuarterHasValue(){}
-            function thirduarterHasValue(){}
-            function fourthQuarterHasValue(){}
+            $("#qtr_3").bind('keyup click',function(){
+                thirdQuarterHasValue();
+            });
 
+            $("#qtr_4").bind('keyup click',function(){
+                fourthQuarterHasValue();
+            });
 
-       
             $("#output_function_search").on('keyup',function(){
                 var str = $("#output_function_search").val();
                 populateOutputFunctionsSearch(str);
             });
+
+            $("#t_jan").on('click',function(){ switchChangeValue('t_jan') });
+            $("#t_feb").on('click',function(){ switchChangeValue('t_feb') });
+            $("#t_mar").on('click',function(){ switchChangeValue('t_mar') });
+            $("#t_apr").on('click',function(){ switchChangeValue('t_apr') });
+            $("#t_may").on('click',function(){ switchChangeValue('t_may') });
+            $("#t_june").on('click',function(){ switchChangeValue('t_june') });
+            $("#t_july").on('click',function(){ switchChangeValue('t_july') });
+            $("#t_aug").on('click',function(){ switchChangeValue('t_aug') });
+            $("#t_sept").on('click',function(){ switchChangeValue('t_sept') });
+            $("#t_oct").on('click',function(){ switchChangeValue('t_oct') });
+            $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
+            $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
         });
 
 
@@ -466,6 +483,148 @@
                     console.log(err);
                 }
             });
+        }
+
+        function firstQuarterHasValue(){
+            var val =Number($("#qtr_1").val());
+        
+            if (val >= 1){
+                $("#t_jan").removeAttr('disabled');
+                $("#t_feb").removeAttr('disabled');
+                $("#t_mar").removeAttr('disabled');
+            }else {
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_jan');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_feb');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_mar');
+                    })
+                    .then(()=>{
+                        $("#t_jan").attr('disabled','');
+                        $("#t_feb").attr('disabled','');
+                        $("#t_mar").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function secondQuarterHasValue(){
+            var val =Number($("#qtr_2").val());
+            if (val >= 1){
+                $("#t_apr").removeAttr('disabled');
+                $("#t_may").removeAttr('disabled');
+                $("#t_june").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_apr');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_may');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_june');
+                    })
+                    .then(()=>{
+                        $("#t_apr").attr('disabled','');
+                        $("#t_may").attr('disabled','');
+                        $("#t_june").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function thirdQuarterHasValue(){
+            var val =Number($("#qtr_3").val());
+            if (val >= 1){
+                $("#t_july").removeAttr('disabled');
+                $("#t_aug").removeAttr('disabled');
+                $("#t_sept").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_july');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_aug');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_sept');
+                    })
+                    .then(()=>{
+                        $("#t_july").attr('disabled','');
+                        $("#t_aug").attr('disabled','');
+                        $("#t_sept").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function fourthQuarterHasValue(){
+            var val =Number($("#qtr_4").val());
+            if (val >= 1){
+                $("#t_oct").removeAttr('disabled');
+                $("#t_nov").removeAttr('disabled');
+                $("#t_dec").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_oct');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_nov');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_dec');
+                    })
+                    .then(()=>{
+                        $("#t_oct").attr('disabled','');
+                        $("#t_nov").attr('disabled','');
+                        $("#t_dec").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+
+        function switchChangeValue(ob,type = null){
+            var el = document.getElementById(ob);
+            if (type == 'default'){
+                el.value = 'false';
+            }else{
+                el.value = (el.value == 'true') ? 'false' : 'true';
+            }
+            // console.log($("#t_jan").val());
+            // console.log($("#t_feb").val());
+            // console.log($("#t_mar").val());
+            // console.log($("#t_apr").val());
+            // console.log($("#t_may").val());
+            // console.log($("#t_june").val());
+            // console.log($("#t_july").val());
+            // console.log($("#t_aug").val());
+            // console.log($("#t_sept").val());
+            // console.log($("#t_oct").val());
+            // console.log($("#t_nov").val());
+            // console.log($("#t_dec").val());
+        }
+
+        function switchDisabledValueSetFalse(ob){
+            var el = document.getElementById(ob);
+           
+            if (el.value == 'true') {
+                    el.click();
+                    el.value = 'false';
+                }else{
+                    el.value = 'false';
+            }
         }
     </script>
 @endpush
