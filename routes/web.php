@@ -22,7 +22,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/create','Transaction\WfpController@goToCreateWfp')->name('r_create_wfp');
     Route::get('/users/wfp/details','Transaction\WfpController@goToDetailsWfp')->name('r_details_wfp');
     Route::get('/ref/user/activity_output_functions/','Transaction\WfpController@getOutputFunctions')->name('d_get_output_functions');
-
+    Route::get('/ref/user/activity_out_functions/search','Transaction\WfpController@getSearchOutputFunctions')->name('d_get_search_output_functions');
 
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
