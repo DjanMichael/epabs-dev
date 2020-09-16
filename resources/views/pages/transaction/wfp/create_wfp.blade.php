@@ -49,6 +49,7 @@
                         <div class="row">
                             <div class="col-10 col-md-11">
                                 <input type="text" id="selected_output_function" value="" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                                <input type="hidden" id="selected_output_function_id" value="" >
                             </div>
                             <div class="col-2 col-md-1 text-right">
                                 <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
@@ -70,17 +71,21 @@
                                 <span class="text-danger">*</span>
                             </label>
                             <select class="form-control" id="source_of_fund">
-                                <option>NEP</option>
-                                <option>GAA</option>
+                                <option value=""></option>
+                                @foreach($data["sof"] as $row)
+                                    <option value="{{ $row["id"] }}">{{ $row["sof_classification"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-6">
                             <label for="exampleInputPassword1">Activity Category
                                 <span class="text-danger">*</span>
-                            </label>
+                           </label>   {{-- {{ dd($data["activity_category"]["id"]) }} --}}
                             <select class="form-control" id="activity_category">
-                                <option>NEP</option>
-                                <option>GAA</option>
+                                <option value=""></option>
+                                @foreach($data["activity_category"] as $row)
+                                    <option value="{{ $row["id"] }}">{{ $row["category"] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -96,25 +101,25 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_1" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_2" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_3" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="number" class="form-control" placeholder="" id="qtr_4" value="0">
                             <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                         </div>
                     </div>
@@ -124,7 +129,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_jan">
+                                    <input type="checkbox" name="select" id="t_jan" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -133,7 +138,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_feb">
+                                    <input type="checkbox" name="select" id="t_feb" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -142,7 +147,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_mar">
+                                    <input type="checkbox" name="select" id="t_mar" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -151,7 +156,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_apr">
+                                    <input type="checkbox" name="select" id="t_apr" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -160,7 +165,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_may">
+                                    <input type="checkbox" name="select" id="t_may" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -169,7 +174,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_june">
+                                    <input type="checkbox" name="select" id="t_june" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -178,7 +183,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_july">
+                                    <input type="checkbox" name="select" id="t_july" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -187,7 +192,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_aug">
+                                    <input type="checkbox" name="select" id="t_aug" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -196,7 +201,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_sept">
+                                    <input type="checkbox" name="select" id="t_sept" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -205,7 +210,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_oct">
+                                    <input type="checkbox" name="select" id="t_oct" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -214,7 +219,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_nov">
+                                    <input type="checkbox" name="select" id="t_nov" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -223,7 +228,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_dec">
+                                    <input type="checkbox" name="select" id="t_dec" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -255,7 +260,7 @@
     <!--end::Form-->
 </div>
 
-
+<!-- Modal-->
 <div class="modal fade" id="modal_functions_delivery_search" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_functions_delivery_search" aria-hidden="true" style="z-index: 99999;">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -265,7 +270,29 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body" id="modal_content_output_functions">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon">
+                            <input type="text" class="form-control" placeholder="Search..." id="output_function_search" >
+                            <span>
+                                <i class="flaticon2-search-1 text-muted"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" id="output_function_table">
+                    <table class="table table-sm table-hover" >
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Output Functions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal_content_output_functions">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
@@ -289,18 +316,13 @@
                 <div class="form-group">
                     <label for="exampleSelectd">Budget Line Item   <span class="text-danger">*</span></label>
                     <select class="form-control" id="buget_line_item">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
                     </select>
                 </div>
                 <div class="alert alert-light" role="alert">
                     <div class="row">
-                        <div class="col-12 col-md-4">TOTAL BUDGET : <b>1,400,000.00</b></div>
-                        <div class="col-12 col-md-4">UTILIZED BUDGET : <b>1,200,000.00</b></div>
-                        <div class="col-12 col-md-4">REMAINING BUDGET : <b>200,000.00</b></div>
+                        <div class="col-12 col-md-4">TOTAL BUDGET : <b id="total_allocation">-------------</b></div>
+                        <div class="col-12 col-md-4">UTILIZED BUDGET : <b id="total_utilized">-------------</b></div>
+                        <div class="col-12 col-md-4">REMAINING BUDGET : <b id="total_remaining">-------------</b></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -364,20 +386,278 @@
 
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
-
+    <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script>
         $(document).ready(function(){
 
+            /************************************************
+             * 
+             *              INITIALIZATION 
+             * 
+             *************************************************/
+             getUserBudgetLineAllocation();
+
+           /*************************************************
+                        EVENT LISTENERS
+            *************************************************/
             $("#search_output_function").on('click',function(){
-                var _url = "{{ route('d_get_output_functions') }}";
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    success:function(data){
-                        document.getElementById('modal_content_output_functions').innerHTML= data;
-                    }
-                });
+                populateOutputFunctionsAll();
             });
+
+            $("#qtr_1").bind('keyup click',function(e){
+                e.preventDefault();
+                
+                firstQuarterHasValue();
+            });
+
+            $("#qtr_2").bind('keyup click',function(){
+                secondQuarterHasValue();
+            });
+
+            $("#qtr_3").bind('keyup click',function(){
+                thirdQuarterHasValue();
+            });
+
+            $("#qtr_4").bind('keyup click',function(){
+                fourthQuarterHasValue();
+            });
+
+            $("#output_function_search").on('keyup',function(){
+                var str = $("#output_function_search").val();
+                populateOutputFunctionsSearch(str);
+            });
+
+            $("#t_jan").on('click',function(){ switchChangeValue('t_jan') });
+            $("#t_feb").on('click',function(){ switchChangeValue('t_feb') });
+            $("#t_mar").on('click',function(){ switchChangeValue('t_mar') });
+            $("#t_apr").on('click',function(){ switchChangeValue('t_apr') });
+            $("#t_may").on('click',function(){ switchChangeValue('t_may') });
+            $("#t_june").on('click',function(){ switchChangeValue('t_june') });
+            $("#t_july").on('click',function(){ switchChangeValue('t_july') });
+            $("#t_aug").on('click',function(){ switchChangeValue('t_aug') });
+            $("#t_sept").on('click',function(){ switchChangeValue('t_sept') });
+            $("#t_oct").on('click',function(){ switchChangeValue('t_oct') });
+            $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
+            $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
         });
+
+
+        /*************************************************
+                        REUSABLE FUNCTIONS
+        *************************************************/
+        function populateOutputFunctionsAll(){
+            var _url = "{{ route('d_get_output_functions') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                beforeSend:function(){
+                    KTApp.block('#output_function_table', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    KTApp.unblock('#output_function_table');
+                    document.getElementById('modal_content_output_functions').innerHTML= data;
+                }
+            });
+        }
+
+        function populateOutputFunctionsSearch(q){
+            var datastr = "q=" + q;
+            var _url = "{{ route('d_get_search_output_functions') }}"
+            $.ajax({
+                method: "GET",
+                url: _url,
+                data: datastr,
+                beforeSend:function(){
+                    KTApp.block('#output_function_table', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    KTApp.unblock('#output_function_table');
+                    document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        function firstQuarterHasValue(){
+            var val =Number($("#qtr_1").val());
+        
+            if (val >= 1){
+                $("#t_jan").removeAttr('disabled');
+                $("#t_feb").removeAttr('disabled');
+                $("#t_mar").removeAttr('disabled');
+            }else {
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_jan');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_feb');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_mar');
+                    })
+                    .then(()=>{
+                        $("#t_jan").attr('disabled','');
+                        $("#t_feb").attr('disabled','');
+                        $("#t_mar").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function secondQuarterHasValue(){
+            var val =Number($("#qtr_2").val());
+            if (val >= 1){
+                $("#t_apr").removeAttr('disabled');
+                $("#t_may").removeAttr('disabled');
+                $("#t_june").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_apr');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_may');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_june');
+                    })
+                    .then(()=>{
+                        $("#t_apr").attr('disabled','');
+                        $("#t_may").attr('disabled','');
+                        $("#t_june").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function thirdQuarterHasValue(){
+            var val =Number($("#qtr_3").val());
+            if (val >= 1){
+                $("#t_july").removeAttr('disabled');
+                $("#t_aug").removeAttr('disabled');
+                $("#t_sept").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_july');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_aug');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_sept');
+                    })
+                    .then(()=>{
+                        $("#t_july").attr('disabled','');
+                        $("#t_aug").attr('disabled','');
+                        $("#t_sept").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+        function fourthQuarterHasValue(){
+            var val =Number($("#qtr_4").val());
+            if (val >= 1){
+                $("#t_oct").removeAttr('disabled');
+                $("#t_nov").removeAttr('disabled');
+                $("#t_dec").removeAttr('disabled');
+            }else{
+                Promise.resolve(6)
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_oct');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_nov');
+                    })
+                    .then(()=>{
+                        switchDisabledValueSetFalse('t_dec');
+                    })
+                    .then(()=>{
+                        $("#t_oct").attr('disabled','');
+                        $("#t_nov").attr('disabled','');
+                        $("#t_dec").attr('disabled','');
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+            }
+        }
+
+        function switchChangeValue(ob,type = null){
+            var el = document.getElementById(ob);
+            if (type == 'default'){
+                el.value = 'false';
+            }else{
+                el.value = (el.value == 'true') ? 'false' : 'true';
+            }
+            // console.log($("#t_jan").val());
+            // console.log($("#t_feb").val());
+            // console.log($("#t_mar").val());
+            // console.log($("#t_apr").val());
+            // console.log($("#t_may").val());
+            // console.log($("#t_june").val());
+            // console.log($("#t_july").val());
+            // console.log($("#t_aug").val());
+            // console.log($("#t_sept").val());
+            // console.log($("#t_oct").val());
+            // console.log($("#t_nov").val());
+            // console.log($("#t_dec").val());
+        }
+
+        function switchDisabledValueSetFalse(ob){
+            var el = document.getElementById(ob);
+           
+            if (el.value == 'true') {
+                    el.click();
+                    el.value = 'false';
+                }else{
+                    el.value = 'false';
+            }
+        }
+
+        function getUserBudgetLineAllocation(){
+            var _url ="{{ route('d_get_budget_line_item') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('buget_line_item').innerHTML = data;
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        function getCalculateBudgetLineItem(){
+            var _url ="{{ route('d_get_calculate_budget_alloc') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('total_allocation').innerHTML = data["total_allocation"];
+                    document.getElementById('total_utilized').innerHTML = data["total_utilized"];
+                    document.getElementById('total_remaining').innerHTML = data["total_remaining"];
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
     </script>
 @endpush

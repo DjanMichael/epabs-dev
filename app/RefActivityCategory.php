@@ -11,7 +11,7 @@ class RefActivityCategory extends Model
 
     public function getAll()
     {
-        $result = RefActivityCategory::all();
+        $result = RefActivityCategory::all()->toArray();
         return $result;
     }
 }
