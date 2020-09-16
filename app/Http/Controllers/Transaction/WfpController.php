@@ -47,4 +47,34 @@ class WfpController extends Controller
                                             ->get();
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
+    
+    public function userBudgetLineItem()
+    {
+        $data= [];
+        $id = Auth::user()->id;
+        $unit_id = Auth::user()->getUnitId();
+        
+        $data["profile"] = \App\UserProfile::where('user_id',$id)->first()->toArray();
+        $data['budget_allocation'] = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
+                                                                    ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
+                                                                    ->where('unit_id',$unit_id)
+                                                                    ->where('budget_line_item_id',1)
+                                                                    ->where('ref_budget_line_item.status','ACTIVE')
+                                                                    ->get()->toArray();
+    }
+
+
+    public function test(){
+        $data= [];
+        $id = Auth::user()->id;
+        $unit_id = Auth::user()->getUnitId();
+        
+        $data['budget_allocation'] = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
+                                                                    ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
+                                                                    ->where('unit_id',$unit_id)
+                                                                    ->where('ref_budget_line_item.status','ACTIVE')
+                                                                    ->get()->toArray();
+        
+        dd($data);
+    }
 }
