@@ -1,6 +1,5 @@
 
 
-$(document).ready(function(){
 
     function select_output_functions(id,output_desc){
         $("#selected_output_function").val(output_desc);
@@ -8,4 +7,3 @@ $(document).ready(function(){
         $("#modal_functions_delivery_search").modal('toggle');
     }
 
-});
