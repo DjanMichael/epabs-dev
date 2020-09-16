@@ -86,6 +86,16 @@ class WfpController extends Controller
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
 
+    public function getUacsCategory(){
+        $data = [];
+        $data["category"] = \App\RefUacs::groupBy('category')
+                                    ->selectRaw('category')
+                                    ->get()->toArray();
+
+       
+        return view('pages.transaction.wfp.component.uacs_category',['data'=>$data]);
+    }
+
     public function getCalculateBudgetAllocation(){
         $data =[];
         $id = Auth::user()->id;
@@ -97,6 +107,5 @@ class WfpController extends Controller
                                                                     ->where('ref_budget_line_item.status','ACTIVE')
                                                                     ->get()->toArray();
         
-
     }
 }

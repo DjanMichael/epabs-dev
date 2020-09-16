@@ -327,14 +327,11 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleSelectd">Select UACS   <span class="text-danger">*</span></label>
-                    <select class="form-control" id="uacs">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="js-example-basic-single" id="uacs_category" >
                     </select>
                 </div>
+               
+            
                 <div class="alert alert-light" role="alert">
                     <div class="row">
                         <div class="col-12 col-md-4">UACS CODE : <b>5001271912</b></div>
@@ -381,22 +378,32 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 @endsection
 
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
+
     <script>
         $(document).ready(function(){
-
+    
             /************************************************
              * 
              *              INITIALIZATION 
              * 
              *************************************************/
              getUserBudgetLineAllocation();
+             getUacsCategory();
 
+            $("#uacs_category").select2({ width: 'resolve' });
+            $('.js-example-basic-single').select2({ width: 'resolve' });
+
+           
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
@@ -656,6 +663,19 @@
                 },
                 error:function(err){
                     console.log(err);
+                }
+            });
+        }
+
+        function getUacsCategory(){
+            var _url ="{{ route('d_get_uacs_category') }}";
+            var _datalist;
+          
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success: function (data1) {
+                    document.getElementById('uacs_category').innerHTML = data1;                    
                 }
             });
         }

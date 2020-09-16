@@ -25,6 +25,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ref/user/activity_out_functions/search','Transaction\WfpController@getSearchOutputFunctions')->name('d_get_search_output_functions');
     Route::get('/ref/user/budget_line_items','Transaction\WfpController@getBudgetLineItem')->name('d_get_budget_line_item');
     Route::get('/ref/user/budget_line_items/calculate/budget','Transaction\WfpController@getCalculateBudgetAllocation')->name('d_get_calculate_budget_alloc');
+    Route::get('/ref/user/wfp/uacs/category','Transaction\WfpController@getUacsCategory')->name('d_get_uacs_category');
+
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
