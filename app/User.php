@@ -48,6 +48,18 @@ class User extends Authenticatable
         return $this->hasOne('App\UserRoles','role_id','role_id');
     }
 
+
+    public function getUnitId(){
+        $res = $this->profile != null ? \App\UserProfile::where('id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
+        if($res){
+            $res2 = \App\RefUnits::where('id',$res->unit_id)->first();
+            return ($res2 != null) ? $res2->id : null;
+        }else{
+            return null;
+        }
+    }
+  
+
     public function getUnit(){
         $res = $this->profile != null ? \App\UserProfile::where('id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
       

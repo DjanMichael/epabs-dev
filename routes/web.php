@@ -24,6 +24,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ref/user/activity_output_functions/','Transaction\WfpController@getOutputFunctions')->name('d_get_output_functions');
     Route::get('/ref/user/activity_out_functions/search','Transaction\WfpController@getSearchOutputFunctions')->name('d_get_search_output_functions');
 
+    Route::get('/test','Transaction\WfpController@test');
+
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', function ()  {
