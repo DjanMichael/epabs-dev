@@ -52,7 +52,7 @@ class User extends Authenticatable
         $res = $this->profile != null ? \App\UserProfile::where('id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
       
         if($res){
-            $res2 = \App\RefUnit::where('id',$res->unit_id)->first();
+            $res2 = \App\RefUnits::where('id',$res->unit_id)->first();
             return $res2->division . ' / ' . $res2->section;
         }else{
             return null;
