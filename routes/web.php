@@ -23,9 +23,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/details','Transaction\WfpController@goToDetailsWfp')->name('r_details_wfp');
     Route::get('/ref/user/activity_output_functions/','Transaction\WfpController@getOutputFunctions')->name('d_get_output_functions');
     Route::get('/ref/user/activity_out_functions/search','Transaction\WfpController@getSearchOutputFunctions')->name('d_get_search_output_functions');
+    Route::get('/ref/user/budget_line_items','Transaction\WfpController@getBudgetLineItem')->name('d_get_budget_line_item');
+    Route::get('/ref/user/budget_line_items/calculate/budget','Transaction\WfpController@getCalculateBudgetAllocation')->name('d_get_calculate_budget_alloc');
 
+    // GLOBAL SYSTEM SETTINGS
+    Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
     Route::get('/test','Transaction\WfpController@test');
-
+    Route::get('/user/settings/update/year','GlobalSettingsController@updateUserYear')->name('u_global_user_year');
+    Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', function ()  {

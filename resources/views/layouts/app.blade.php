@@ -1879,15 +1879,15 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Header-->
 	<div class="offcanvas-header offcanvas-header-navs d-flex align-items-center justify-content-between mb-5">
 		<ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary flex-grow-1 px-10" role="tablist">
-			<li class="nav-item">
+			{{-- <li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_logs" >Audit Logs</a>
-			</li>
+			</li> --}}
 
 			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#kt_quick_panel_notifications" >Notifications</a>
+				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_notifications" >Notifications</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#kt_quick_panel_settings" >Settings</a>
+				<a class="nav-link" data-toggle="tab" href="#kt_quick_panel_settings" id="global_settings_tab">Settings</a>
 			</li>
 		</ul>
 		<div class="offcanvas-close mt-n1 pr-5">
@@ -1901,7 +1901,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Content-->
 	<div class="offcanvas-content px-10">
 		<div class="tab-content">
-			<!--begin::Tabpane-->
+			{{-- <!--begin::Tabpane-->
 			<div class="tab-pane fade show pt-3 pr-5 mr-n5 active" id="kt_quick_panel_logs" role="tabpanel">
 				<!--begin::Section-->
 				<div class="mb-15">
@@ -2070,10 +2070,10 @@ License: You must have a valid license purchased only from themeforest(the above
 
 				<!--end::Section-->
 			</div>
-			<!--end::Tabpane-->
+			<!--end::Tabpane--> --}}
 
 			<!--begin::Tabpane-->
-			<div class="tab-pane fade pt-2 pr-5 mr-n5" id="kt_quick_panel_notifications" role="tabpanel">
+			<div class="tab-pane fade show pt-2 pr-5 mr-n5 active" id="kt_quick_panel_notifications" role="tabpanel">
 				<!--begin::Nav-->
 				<div class="navi navi-icon-circle navi-spacer-x-0">
 					<!--begin::Item-->
@@ -2307,19 +2307,16 @@ License: You must have a valid license purchased only from themeforest(the above
 				<form class="form">
 					<!--begin::Section-->
 					<div>
-						<h5 class="font-weight-bold mb-3">Customer Care</h5>
+						<h5 class="font-weight-bold mb-3">System</h5>
 						<div class="form-group mb-0 row align-items-center">
-							<label class="col-8 col-form-label">Enable Notifications:</label>
-							<div class="col-4 d-flex justify-content-end">
-								<span class="switch switch-success switch-sm">
-									<label>
-										<input type="checkbox" checked="checked" name="select"/>
-										<span></span>
-									</label>
-								</span>
-							</div>
+                            <label class="col-8 col-form-label">PLAN YEAR SET UP</label>
+                            <div class="col-4 d-flex justify-content-end">
+                                <select name="" id="GLOBAL_YEAR" class="form-control">
+                                </select>
+                            </div>
+							
 						</div>
-						<div class="form-group mb-0 row align-items-center">
+						{{-- <div class="form-group mb-0 row align-items-center">
 							<label class="col-8 col-form-label">Enable Case Tracking:</label>
 							<div class="col-4 d-flex justify-content-end">
 								<span class="switch switch-success switch-sm">
@@ -2340,13 +2337,13 @@ License: You must have a valid license purchased only from themeforest(the above
 									</label>
 								</span>
 							</div>
-						</div>
+						</div> --}}
 					</div>
 					<!--end::Section-->
 
 					<div class="separator separator-dashed my-6"></div>
 
-					<!--begin::Section-->
+					{{-- <!--begin::Section-->
 					<div class="pt-2">
 						<h5 class="font-weight-bold mb-3">Reports</h5>
 						<div class="form-group mb-0 row align-items-center">
@@ -2424,7 +2421,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</div>
 						</div>
 					</div>
-					<!--end::Section-->
+					<!--end::Section--> --}}
 				</form>
 			</div>
 			<!--end::Tabpane-->
@@ -3084,35 +3081,151 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--end::Global Config-->
 
     	<!--begin::Global Theme Bundle(used by all pages)-->
-    	    	   <script src="{{ asset('dist/assets/plugins/global/plugins.bundle.js')}}"></script>
-		    	   <script src="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
-                   <script src="{{ asset('dist/assets/js/scripts.bundle.js')}}"></script>
-                    <script src="{{ asset('dist/assets/js/config.js') }}"></script>
-                    <script src="{{ asset('dist/assets/js/controller.js') }}"></script>
-				<!--end::Global Theme Bundle-->
+            <script src="{{ asset('dist/assets/plugins/global/plugins.bundle.js')}}"></script>
+            <script src="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
+            <script src="{{ asset('dist/assets/js/scripts.bundle.js')}}"></script>
+            <script src="{{ asset('dist/assets/js/config.js') }}"></script>
+            <script src="{{ asset('dist/assets/js/controller.js') }}"></script>
+        <!--end::Global Theme Bundle-->
 
-                    <!--begin::Page Vendors(used by this page)-->
-                            <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
-                            <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
-                            <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
-                    <!--end::Page Vendors-->
+        <!--begin::Page Vendors(used by this page)-->
+                <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
+                <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
+                <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
+        <!--end::Page Vendors-->
 
-                    <!--begin::Page Scripts(used by this page)-->
-                            <script src="{{ asset('dist/assets/js/pages/widgets.js')}}"></script>
-                            @stack('scripts')
-                    <!--end::Page Scripts-->
+        <!--begin::Page Scripts(used by this page)-->
+                <script src="{{ asset('dist/assets/js/pages/widgets.js')}}"></script>
+                @stack('scripts')
+        <!--end::Page Scripts-->
 
-                    <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
-                    <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
-                    <script>
-                        $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                }
-                        });
+        <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
+        <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        <script>
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+            });
+        
+
+            function getYear(){
+                var _url = "{{ route('get_year') }}"
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        document.getElementById('GLOBAL_YEAR').innerHTML = data;
+                    }
+                });
+            }
+
+
+        $(document).ready(function(){
+            /***************************************************
+             * 
+             *      INITIALIZE
+             * 
+             * **************************************************/
+            getYear();
+
+            toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-center",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+            };
+
+
+
+            /***************************************************
+             * 
+             *      EVENTS
+             * 
+             * **************************************************/
+
+            $("#global_settings_tab").on('click',function(){
+                
+                if(localStorage.hasOwnProperty('GLOBAL_SETTINGS'))
+                {
+                    var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
+                    $("#GLOBAL_YEAR").val(settings.year);
+                }else{
+                    getUserYear();
+                }
+            });
+
+
+            $("#GLOBAL_YEAR").change(function(){
+                updateUserGlobalSettingsYear();
+            });
+
+
+              /***************************************************
+             * 
+             *      FUNCTIONS / REUSABLE
+             * 
+             * **************************************************/
+
+            function updateUserGlobalSettingsYear(){
+                var _url = "{{ route('u_global_user_year') }}";
+                var datastr = "id=" + $("#GLOBAL_YEAR").val();
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: datastr,
+                    success:function(data){
+                        if(data.message == 'success'){
+                            toastr.success("Settings Save Sucessfully ", "Good Job");
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            if(data.type =='insert')
+                            {
+                                a['year'] = data.data.id;
+                            }else{
+                                a['year'] = data.data.id;
+                            }
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                        }else{
+                            toastr.error("Saving Failed", "Error");
+                        }
                         
-                    </script>
-            </body>
+                    }
+                });
+            }
+
+            function getUserYear()
+            {
+                var _url = "{{ route('d_get_year') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        var a = localStorage.getItem('GLOBAL_SETTINGS');
+                        a = a ? JSON.parse(a) : {};
+
+                        a['year'] = data.data.select_year;
+                        
+                        localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                        $("#GLOBAL_YEAR").val(data.data.select_year);
+                    }
+                });
+            }
+        });
+
+        </script>
+        </body>
     <!--end::Body-->
 </html>
