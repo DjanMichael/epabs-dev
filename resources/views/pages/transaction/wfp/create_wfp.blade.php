@@ -316,18 +316,13 @@
                 <div class="form-group">
                     <label for="exampleSelectd">Budget Line Item   <span class="text-danger">*</span></label>
                     <select class="form-control" id="buget_line_item">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
                     </select>
                 </div>
                 <div class="alert alert-light" role="alert">
                     <div class="row">
-                        <div class="col-12 col-md-4">TOTAL BUDGET : <b>1,400,000.00</b></div>
-                        <div class="col-12 col-md-4">UTILIZED BUDGET : <b>1,200,000.00</b></div>
-                        <div class="col-12 col-md-4">REMAINING BUDGET : <b>200,000.00</b></div>
+                        <div class="col-12 col-md-4">TOTAL BUDGET : <b id="total_allocation">-------------</b></div>
+                        <div class="col-12 col-md-4">UTILIZED BUDGET : <b id="total_utilized">-------------</b></div>
+                        <div class="col-12 col-md-4">REMAINING BUDGET : <b id="total_remaining">-------------</b></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -394,6 +389,14 @@
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script>
         $(document).ready(function(){
+
+            /************************************************
+             * 
+             *              INITIALIZATION 
+             * 
+             *************************************************/
+             getUserBudgetLineAllocation();
+
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
@@ -625,6 +628,36 @@
                 }else{
                     el.value = 'false';
             }
+        }
+
+        function getUserBudgetLineAllocation(){
+            var _url ="{{ route('d_get_budget_line_item') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('buget_line_item').innerHTML = data;
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        function getCalculateBudgetLineItem(){
+            var _url ="{{ route('d_get_calculate_budget_alloc') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('total_allocation').innerHTML = data["total_allocation"];
+                    document.getElementById('total_utilized').innerHTML = data["total_utilized"];
+                    document.getElementById('total_remaining').innerHTML = data["total_remaining"];
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
         }
     </script>
 @endpush
