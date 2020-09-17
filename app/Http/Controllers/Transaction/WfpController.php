@@ -86,6 +86,49 @@ class WfpController extends Controller
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
 
+    public function getUacsCategory(){
+        $data = [];
+        $data["category"] = \App\RefUacs::where('status','ACTIVE')
+                                    ->groupBy('category')
+                                    ->selectRaw('category')
+                                    ->get()->toArray();
+
+       
+        return view('pages.transaction.wfp.component.uacs_category',['data'=>$data]);
+    }
+
+    public function getUacsSubCategory(Request $req){
+        $data = [];
+        $data["subcategory"] = \App\RefUacs::where('status','ACTIVE')
+                                            ->where('category',$req->categ)
+                                            ->select('category','subcategory')
+                                            ->groupBy('subcategory')
+                                            ->distinct()
+                                            ->get()->toArray();
+        return view('pages.transaction.wfp.component.uacs_subcategory',['data'=>$data]);
+
+    }
+
+    public function getUacsTitle(Request $req){
+        $data = [];
+        $data["title"] =  \App\RefUacs::where('status','ACTIVE')
+                                        ->where('subcategory',$req->subcateg)
+                                        ->select('category','subcategory','title')
+                                        ->groupBy('title')
+                                        ->distinct()
+                                        ->get()->toArray();
+
+        return view('pages.transaction.wfp.component.uacs_title',['data'=>$data]);
+    }
+
+    public function getUacsCode(Request $req){
+        $data = [];
+        $data["uacs"] = \App\RefUacs::where('status','ACTIVE')
+                                        ->where('title',$req->title)->first();
+
+       return $data["uacs"]->code;
+    }
+
     public function getCalculateBudgetAllocation(){
         $data =[];
         $id = Auth::user()->id;
@@ -97,6 +140,5 @@ class WfpController extends Controller
                                                                     ->where('ref_budget_line_item.status','ACTIVE')
                                                                     ->get()->toArray();
         
-
     }
 }

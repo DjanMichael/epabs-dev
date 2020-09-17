@@ -94,10 +94,7 @@ License: You must have a valid license purchased only from themeforest(the above
             }
         </style>
  
- 
-
-
-        </head>
+    </head>
     <!--end::Head-->
 
     <!--begin::Body-->
@@ -3101,6 +3098,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        
         <script>
             $.ajaxSetup({
                     headers: {
@@ -3226,6 +3224,7 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
         </script>
+
         </body>
     <!--end::Body-->
 </html>
