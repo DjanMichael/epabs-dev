@@ -361,7 +361,7 @@
                     <div class="col-12 col-md-4">
                         <span class="switch switch-primary">
                             <label>
-                                <input type="checkbox" name="select" id="t_dec">
+                                <input type="checkbox" name="select" id="c_ppmp" value="false">
                                 <span></span>
                             </label>
                         </span>
@@ -370,7 +370,7 @@
                     <div class="col-12 col-md-4">
                         <span class="switch switch-primary">
                             <label>
-                                <input type="checkbox" name="select" id="t_dec">
+                                <input type="checkbox" name="select" id="c_catering" value="false">
                                 <span></span>
                             </label>
                         </span>
@@ -386,6 +386,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary font-weight-bold" ">Save</button>
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -396,7 +397,7 @@
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
-
+    <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
     
@@ -407,6 +408,22 @@
              *************************************************/
              getUserBudgetLineAllocation();
              getUacsCategory();
+
+             let data = {
+                    name: '',
+                    email: 'johndoe@gmail.com',
+                    age: 28
+                };
+
+                let rules = {
+                    name: 'required',
+                    email: 'required|email',
+                    age: 'min:18'
+                };
+
+                let validation = new Validator(data, rules);
+                console.log( validation.errors); // true
+                validation.fails(); // false
 
            
            /*************************************************
@@ -451,6 +468,26 @@
             $("#t_oct").on('click',function(){ switchChangeValue('t_oct') });
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
+            $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
+            $("#c_catering").on('click',function(){ 
+              
+                Promise.resolve(4)
+                    .then(()=>{
+                        switchChangeValue('c_catering'); 
+                    })
+                    .then(()=>{
+                        if($("#c_catering").val() == 'false'){
+                            $("#no_batchs").attr('disabled',true);
+                        }else{
+                            $("#no_batchs").attr('disabled',false);
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+                
+            });
+          
 
             $("#uacs_category").change(function(){
                var a = $("#uacs_category").val();
