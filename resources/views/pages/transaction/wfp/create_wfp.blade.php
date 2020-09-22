@@ -326,20 +326,30 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleSelectd">Select UACS   <span class="text-danger">*</span></label>
-                    <select class="form-control" id="uacs">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <label for="exampleSelectd">Select UACS Category   <span class="text-danger">*</span></label>
+                    <select class="form-control" id="uacs_category" >
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="exampleSelectd">Select UACS Sub Category  <span class="text-danger">*</span></label>
+                        <div class="" id="uacs_subcategory_loading">
+                            <select class="form-control" id="uacs_subcategory" disabled></select>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelectd">Select UACS Title  <span class="text-danger">*</span></label>
+                        <div class="" id="uacs_title_loading">
+                            <select class="form-control" id="uacs_title" disabled></select>
+                        </div>
+                </div>
+            
                 <div class="alert alert-light" role="alert">
                     <div class="row">
-                        <div class="col-12 col-md-4">UACS CODE : <b>5001271912</b></div>
-                        <div class="col-12 col-md-4">CATEGORY : <b>PERSONEL SERVICES</b></div>
-                        <div class="col-12 col-md-4">SUB-CATEGORY : <b>OTHER PERSONNEL BENEFITS</b></div>
+                        <div class="col-12 col-md-4">CATEGORY : <b id="label_uacs_category">--------</b></div>
+                        <div class="col-12 col-md-4">SUB-CATEGORY : <b id="label_uacs_subcategory">--------</b></div>
+                        <div class="col-12 col-md-4">TITLE : <b id="label_uacs_title">--------</b></div>
+                        <div class="col-12 col-md-4">UACS CODE : <b id="label_uacs_code">--------</b></div>
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -351,7 +361,7 @@
                     <div class="col-12 col-md-4">
                         <span class="switch switch-primary">
                             <label>
-                                <input type="checkbox" name="select" id="t_dec">
+                                <input type="checkbox" name="select" id="c_ppmp" value="false">
                                 <span></span>
                             </label>
                         </span>
@@ -360,7 +370,7 @@
                     <div class="col-12 col-md-4">
                         <span class="switch switch-primary">
                             <label>
-                                <input type="checkbox" name="select" id="t_dec">
+                                <input type="checkbox" name="select" id="c_catering" value="false">
                                 <span></span>
                             </label>
                         </span>
@@ -376,6 +386,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary font-weight-bold" ">Save</button>
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -383,20 +394,58 @@
 </div>
 @endsection
 
-
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.min.js') }}"></script>
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
+    <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
-
+    
             /************************************************
              * 
              *              INITIALIZATION 
              * 
              *************************************************/
              getUserBudgetLineAllocation();
+             getUacsCategory();
 
+             let data = {
+                budget_line_item_id: '',
+                    email: 'johndoem',
+                    age: 28
+                };
+
+                let rules = {
+                    budget_line_item_id: 'required',
+                    email: 'required|email',
+                    age: 'min:18'
+                };
+
+                let validation = new Validator(data, rules);
+                console.log( validation.errors); // true
+                
+                validation.fails(); // false
+
+            let pi_data = {
+                    budget_line_item_id :'',
+                    budget_line_item :'',
+                    uacs_category_id:'',
+                    uacs_category:'',
+                    uacs_subcategory_id:'',
+                    uacs_subcategory:'',
+                    uacs_title_id:'',
+                    uacs_title:'',
+                    performance_indicator: '',
+                    ppmp_include:'',
+                    catering_include:'',
+                    cost:'',
+                    batches:''
+                };
+            
+            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+
+            
+           
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
@@ -439,6 +488,66 @@
             $("#t_oct").on('click',function(){ switchChangeValue('t_oct') });
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
+            $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
+            $("#c_catering").on('click',function(){ 
+              
+                Promise.resolve(4)
+                    .then(()=>{
+                        switchChangeValue('c_catering'); 
+                    })
+                    .then(()=>{
+                        if($("#c_catering").val() == 'false'){
+                            $("#no_batchs").attr('disabled',true);
+                        }else{
+                            $("#no_batchs").attr('disabled',false);
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+                
+            });
+          
+
+            $("#uacs_category").change(function(){
+               var a = $("#uacs_category").val();
+               if(a != null || a != undefined){
+                    getUacsSubCategory($( "#uacs_category option:selected" ).text());
+               }else{
+                    $("#uacs_subcategory").attr('disabled');
+               }
+            });
+
+            $("#uacs_subcategory").change(function(){
+               var a = $("#uacs_subcategory").val();
+               if(a != null || a != undefined){
+                    getUacsTitle($( "#uacs_subcategory option:selected" ).text());
+               }else{
+                    $("#uacs_title").attr('disabled');
+               }
+            });
+
+            $("#uacs_title").change(function(){
+               var a = $("#uacs_title").val();
+               if(a != null || a != undefined){
+                    getUacsCode($("#uacs_title option:selected").val());
+               }
+            });
+        
+            $("#uacs_category").bind( "change", function() {
+                $("#label_uacs_category").html($("#uacs_category option:selected").text());
+            });
+            $("#uacs_subcategory" ).bind( "change", function() {
+                $("#label_uacs_subcategory").html( $("#uacs_subcategory option:selected").text());
+            });
+            $("#uacs_title" ).bind( "change", function() {
+                $("#label_uacs_title").html( $("#uacs_title option:selected").text());
+            });
+
+            $("#buget_line_item").change(function(){
+                getBudgetAllocation($(this).val());
+            });
+
         });
 
 
@@ -658,6 +767,101 @@
                     console.log(err);
                 }
             });
+        }
+
+        function getUacsCategory(){
+            if($("#uacs_category").val() != ''){
+                var _url ="{{ route('d_get_uacs_category') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success: function (data1) {
+                        document.getElementById('uacs_category').innerHTML = data1;                    
+                    }
+                });
+            }else{
+                $("#uacs_subcategory").attr('disabled',true);
+            }
+          
+        }
+
+        function getUacsSubCategory(categ1){
+            if($("#uacs_subcategory").val() != '' || $("#uacs_subcategory").val() != 'NO SUBCATEGORY'){
+                var _url = "{{ route('d_get_uacs_subcategory') }}";
+                $.ajax({
+                    method:"GET",
+                    url : _url,
+                    data: ({ categ: categ1 }),
+                    beforeSend:function(){
+                        $("#uacs_subcategory_loading").addClass('spinner spinner-primary spinner-left');
+                    },
+                    success:function(data){
+                        document.getElementById('uacs_subcategory').innerHTML =data;
+                        $("#uacs_subcategory_loading").removeClass('spinner spinner-primary spinner-left');
+                        $("#uacs_subcategory").removeAttr('disabled');
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            }else{
+                $("#uacs_title").attr('disabled',true);
+            }
+         
+        }
+        function getUacsTitle(subcateg1){
+            var _url ="{{ route('d_get_uacs_title') }}"
+
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: ({ subcateg: subcateg1 }),
+                beforeSend:function(){
+                    $("#uacs_title_loading").addClass('spinner spinner-primary spinner-left');
+                },
+                success:function(data){
+                    document.getElementById('uacs_title').innerHTML =data;
+                    $("#uacs_title_loading").removeClass('spinner spinner-primary spinner-left');
+                    $("#uacs_title").removeAttr('disabled');
+                  
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        }
+
+        function getUacsCode(title1){
+            var _url = "{{ route('d_get_uacs_code') }}";
+
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: ({ title : title1 }),
+                success:function(data){
+                    document.getElementById('label_uacs_code').innerHTML = data;
+                }
+            });
+        }
+
+        function getBudgetAllocation(bli_id1){
+            var _url = "{{ route('d_get_calculate_budget_alloc') }}";
+            var unit_id1 = "{{ Auth::user()->getUnitId() }}";
+            var a = localStorage.getItem('GLOBAL_SETTINGS');
+            a = a ? JSON.parse(a) : {};
+            var year_id1 = a["year"];
+            if(a["year"] != null){
+
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
+                    success:function(data){
+                        document.getElementById('total_allocation').innerHTML =data.program_budget;
+                    }
+                });
+            }
+           
         }
     </script>
 @endpush

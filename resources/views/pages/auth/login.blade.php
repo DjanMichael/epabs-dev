@@ -24,15 +24,15 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        <!--end::Fonts-->
 
 
-                    <!--begin::Page Custom Styles(used by this page)-->
-                             <link href="{{ asset('dist/assets/css/pages/login/classic/login-4.css')}}" rel="stylesheet" type="text/css"/>
-                        <!--end::Page Custom Styles-->
+		<!--begin::Page Custom Styles(used by this page)-->
+		<link href="{{ asset('dist/assets/css/pages/login/classic/login-4.css')}}" rel="stylesheet" type="text/css"/>
+		<!--end::Page Custom Styles-->
 
         <!--begin::Global Theme Styles(used by all pages)-->
-                    <link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
-                    <link href="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css"/>
-                    <link href="{{ asset('dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
-                <!--end::Global Theme Styles-->
+			<link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
+			<link href="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css"/>
+			<link href="{{ asset('dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+		<!--end::Global Theme Styles-->
 
         <!--begin::Layout Themes(used by all pages)-->
                 <!--end::Layout Themes-->
@@ -303,7 +303,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					},
 					error:function(err,t,m){
 
-						var str = err.responseJSON.message;
+					
 
 						if (t==="timeout")
 						{
@@ -319,6 +319,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								}
 							})
 						}else{
+							var str = err.responseJSON.message || '';
 							var res = str.search("HY000");
 							if(res != -1)
 							{

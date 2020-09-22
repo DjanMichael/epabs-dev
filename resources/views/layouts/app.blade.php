@@ -94,15 +94,12 @@ License: You must have a valid license purchased only from themeforest(the above
             }
         </style>
  
- 
-
-
-        </head>
+    </head>
     <!--end::Head-->
 
     <!--begin::Body-->
     <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading " >
-      {{-- {{ dd(Auth::user()->getUnit()) }} --}}
+      {{-- {{ dd(Auth::user()->getUnitId()) }} --}}
     {{-- <div class="bg_loader">
         <div class="loader"></div>
     </div> --}}
@@ -3085,7 +3082,6 @@ License: You must have a valid license purchased only from themeforest(the above
             <script src="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
             <script src="{{ asset('dist/assets/js/scripts.bundle.js')}}"></script>
             <script src="{{ asset('dist/assets/js/config.js') }}"></script>
-            <script src="{{ asset('dist/assets/js/controller.js') }}"></script>
         <!--end::Global Theme Bundle-->
 
         <!--begin::Page Vendors(used by this page)-->
@@ -3101,6 +3097,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        
         <script>
             $.ajaxSetup({
                     headers: {
@@ -3226,6 +3223,7 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
         </script>
+
         </body>
     <!--end::Body-->
 </html>

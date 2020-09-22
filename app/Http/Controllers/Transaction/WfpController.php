@@ -8,7 +8,7 @@ use Auth;
 use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
-
+use App\TableUnitBudgetAllocation;
 class WfpController extends Controller
 {
     // 
@@ -60,20 +60,6 @@ class WfpController extends Controller
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
     
-    public function userBudgetLineItem()
-    {
-        $data= [];
-
-        $data["profile"] = \App\UserProfile::where('user_id',$id)->first()->toArray();
-        $data['budget_allocation'] = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
-                                                                    ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
-                                                                    ->where('unit_id',$this->auth_user_unit_id)
-                                                                    ->where('budget_line_item_id',1)
-                                                                    ->where('ref_budget_line_item.status','ACTIVE')
-                                                                    ->get()->toArray();
-    }
-
-
     public function getBudgetLineItem(){
         $data= [];
         
@@ -86,17 +72,53 @@ class WfpController extends Controller
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
 
-    public function getCalculateBudgetAllocation(){
-        $data =[];
-        $id = Auth::user()->id;
-        $unit_id = Auth::user()->getUnitId();
+    public function getUacsCategory(){
+        $data = [];
+        $data["category"] = \App\RefUacs::where('status','ACTIVE')
+                                    ->groupBy('category')
+                                    ->selectRaw('category')
+                                    ->get()->toArray();
 
-        $data["budget_allocation"] = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
-                                                                    ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
-                                                                    ->where('unit_id',$this->auth_user_unit_id)
-                                                                    ->where('ref_budget_line_item.status','ACTIVE')
-                                                                    ->get()->toArray();
+       
+        return view('pages.transaction.wfp.component.uacs_category',['data'=>$data]);
+    }
+
+    public function getUacsSubCategory(Request $req){
+        $data = [];
+        $data["subcategory"] = \App\RefUacs::where('status','ACTIVE')
+                                            ->where('category',$req->categ)
+                                            ->select('category','subcategory')
+                                            ->groupBy('subcategory')
+                                            ->distinct()
+                                            ->get()->toArray();
+        return view('pages.transaction.wfp.component.uacs_subcategory',['data'=>$data]);
+
+    }
+
+    public function getUacsTitle(Request $req){
+        $data = [];
+        $data["title"] =  \App\RefUacs::where('status','ACTIVE')
+                                        ->where('subcategory',$req->subcateg)
+                                        ->select('category','subcategory','title')
+                                        ->groupBy('title')
+                                        ->distinct()
+                                        ->get()->toArray();
+
+        return view('pages.transaction.wfp.component.uacs_title',['data'=>$data]);
+    }
+
+    public function getUacsCode(Request $req){
+        $data = [];
+        $data["uacs"] = \App\RefUacs::where('status','ACTIVE')
+                                        ->where('title',$req->title)->first();
+
+       return $data["uacs"]->code;
+    }
+
+    public function getCalculateBudgetAllocationUtilization(Request $req){
+        $a = new TableUnitBudgetAllocation();
+        $result = $a->getSingleBudgetAllocationUtilization($req->unit_id,$req->year_id,$req->bli_id);
         
-
+        return $result;
     }
 }
