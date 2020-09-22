@@ -303,7 +303,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					},
 					error:function(err,t,m){
 
-						var str = err.responseJSON.message;
+					
 
 						if (t==="timeout")
 						{
@@ -319,6 +319,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								}
 							})
 						}else{
+							var str = err.responseJSON.message || '';
 							var res = str.search("HY000");
 							if(res != -1)
 							{
