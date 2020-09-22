@@ -410,21 +410,41 @@
              getUacsCategory();
 
              let data = {
-                    name: '',
-                    email: 'johndoe@gmail.com',
+                budget_line_item_id: '',
+                    email: 'johndoem',
                     age: 28
                 };
 
                 let rules = {
-                    name: 'required',
+                    budget_line_item_id: 'required',
                     email: 'required|email',
                     age: 'min:18'
                 };
 
                 let validation = new Validator(data, rules);
                 console.log( validation.errors); // true
+                
                 validation.fails(); // false
 
+            let pi_data = {
+                    budget_line_item_id :'',
+                    budget_line_item :'',
+                    uacs_category_id:'',
+                    uacs_category:'',
+                    uacs_subcategory_id:'',
+                    uacs_subcategory:'',
+                    uacs_title_id:'',
+                    uacs_title:'',
+                    performance_indicator: '',
+                    ppmp_include:'',
+                    catering_include:'',
+                    cost:'',
+                    batches:''
+                };
+            
+            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+
+            
            
            /*************************************************
                         EVENT LISTENERS
@@ -522,6 +542,10 @@
             });
             $("#uacs_title" ).bind( "change", function() {
                 $("#label_uacs_title").html( $("#uacs_title option:selected").text());
+            });
+
+            $("#buget_line_item").change(function(){
+                getBudgetAllocation($(this).val());
             });
 
         });
@@ -818,6 +842,26 @@
                     document.getElementById('label_uacs_code').innerHTML = data;
                 }
             });
+        }
+
+        function getBudgetAllocation(bli_id1){
+            var _url = "{{ route('d_get_calculate_budget_alloc') }}";
+            var unit_id1 = "{{ Auth::user()->getUnitId() }}";
+            var a = localStorage.getItem('GLOBAL_SETTINGS');
+            a = a ? JSON.parse(a) : {};
+            var year_id1 = a["year"];
+            if(a["year"] != null){
+
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
+                    success:function(data){
+                        document.getElementById('total_allocation').innerHTML =data.program_budget;
+                    }
+                });
+            }
+           
         }
     </script>
 @endpush
