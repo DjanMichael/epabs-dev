@@ -101,26 +101,22 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_1" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_1">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_2" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_2" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_3" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_3" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_4" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_4" >
                         </div>
                     </div>
                     <div class="col-12 bg-secondary p-3">Timeframe</div>
@@ -386,7 +382,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary font-weight-bold" ">Save</button>
+                <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_pi">Save</button>
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -410,7 +406,7 @@
              getUacsCategory();
 
 
-            let pi_data = {
+             let pi_data = {
                     budget_line_item_id :'',
                     budget_line_item :'',
                     uacs_category_id:'',
@@ -457,30 +453,6 @@
                 'required.cost' : ':attribute is Required',
                 'required.batches' : ':attribute is Required'
             }
-
-            let validation1 = new Validator(pi_data, pi_rules, options);
-            validation1.setAttributeNames({
-                budget_line_item_id:'Budget Line Item',
-                budget_line_item :'Budget Line Item',
-                uacs_category_id:'UACS Category',
-                uacs_category:'UACS Category',
-                uacs_subcategory_id:'UACS Subcategory',
-                uacs_subcategory:'UACS Subcategory',
-                uacs_title_id:'UACS Title',
-                uacs_title:'UACS Title',
-                performance_indicator: 'Performance Indicator',
-                ppmp_include:'IsPPMP',
-                catering_include:'IsCatering',
-                cost:'Cost',
-                batches:'Batch',
-            })
-            
-            if (validation1.fails()) {
-                console.log(validation1.errors)
-            }
-
-
-            localStorage.setItem('pi_data',JSON.stringify(pi_data));
 
         
            
@@ -572,10 +544,10 @@
                }
             });
         
-            $("#uacs_category").bind( "change", function() {
+            $("#uacs_category").bind("change", function() {
                 $("#label_uacs_category").html($("#uacs_category option:selected").text());
             });
-            $("#uacs_subcategory" ).bind( "change", function() {
+            $("#uacs_subcategory" ).bind("change", function() {
                 $("#label_uacs_subcategory").html( $("#uacs_subcategory option:selected").text());
             });
             $("#uacs_title" ).bind( "change", function() {
@@ -586,8 +558,39 @@
                 getBudgetAllocation($(this).val());
             });
 
-        });
+            $("#btn_save_pi").on('click',function(){
+             
+            let pi_validation = new Validator(pi_data, pi_rules, options);
+           
+            pi_validation.setAttributeNames({
+                budget_line_item_id:'Budget Line Item',
+                budget_line_item :'Budget Line Item',
+                uacs_category_id:'UACS Category',
+                uacs_category:'UACS Category',
+                uacs_subcategory_id:'UACS Subcategory',
+                uacs_subcategory:'UACS Subcategory',
+                uacs_title_id:'UACS Title',
+                uacs_title:'UACS Title',
+                performance_indicator: 'Performance Indicator',
+                ppmp_include:'IsPPMP',
+                catering_include:'IsCatering',
+                cost:'Cost',
+                batches:'Batch',
+            })
 
+
+            if (pi_validation.passes()) {
+
+            }else{
+
+            }
+
+
+            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+
+            });
+        });
+        
 
         /*************************************************
                         REUSABLE FUNCTIONS
@@ -636,9 +639,8 @@
         }
 
         function firstQuarterHasValue(){
-            var val =Number($("#qtr_1").val());
-        
-            if (val >= 1){
+            var val =($("#qtr_1").val());
+            if ( val !=''){
                 $("#t_jan").removeAttr('disabled');
                 $("#t_feb").removeAttr('disabled');
                 $("#t_mar").removeAttr('disabled');
@@ -664,8 +666,8 @@
             }
         }
         function secondQuarterHasValue(){
-            var val =Number($("#qtr_2").val());
-            if (val >= 1){
+            var val =($("#qtr_2").val());
+            if (val !=''){
                 $("#t_apr").removeAttr('disabled');
                 $("#t_may").removeAttr('disabled');
                 $("#t_june").removeAttr('disabled');
@@ -691,8 +693,8 @@
             }
         }
         function thirdQuarterHasValue(){
-            var val =Number($("#qtr_3").val());
-            if (val >= 1){
+            var val =($("#qtr_3").val());
+            if (val != ''){
                 $("#t_july").removeAttr('disabled');
                 $("#t_aug").removeAttr('disabled');
                 $("#t_sept").removeAttr('disabled');
@@ -718,8 +720,8 @@
             }
         }
         function fourthQuarterHasValue(){
-            var val =Number($("#qtr_4").val());
-            if (val >= 1){
+            var val =($("#qtr_4").val());
+            if (val != ''){
                 $("#t_oct").removeAttr('disabled');
                 $("#t_nov").removeAttr('disabled');
                 $("#t_dec").removeAttr('disabled');

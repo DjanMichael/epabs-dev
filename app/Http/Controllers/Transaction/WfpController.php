@@ -9,6 +9,7 @@ use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
 use App\TableUnitBudgetAllocation;
+
 class WfpController extends Controller
 {
     // 
@@ -37,6 +38,7 @@ class WfpController extends Controller
         $data["activity_category"] = $categ->getAll();
         $data["sof"] = $sof->getAll();
   
+
         return view('pages.transaction.wfp.create_wfp',['data' => $data]);
     }
 

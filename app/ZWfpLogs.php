@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wfp extends Model
+class ZWfpLogs extends Model
 {
-    protected $table = "tbl_wfp";
+    protected $table = "z_wfp_logs";
 }
