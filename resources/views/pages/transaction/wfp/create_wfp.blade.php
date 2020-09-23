@@ -409,22 +409,6 @@
              getUserBudgetLineAllocation();
              getUacsCategory();
 
-             let data = {
-                budget_line_item_id: '',
-                    email: 'johndoem',
-                    age: 28
-                };
-
-                let rules = {
-                    budget_line_item_id: 'required',
-                    email: 'required|email',
-                    age: 'min:18'
-                };
-
-                let validation = new Validator(data, rules);
-                console.log( validation.errors); // true
-                
-                validation.fails(); // false
 
             let pi_data = {
                     budget_line_item_id :'',
@@ -440,11 +424,65 @@
                     catering_include:'',
                     cost:'',
                     batches:''
-                };
-            
-            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+            };
 
             
+            let pi_rules = {
+                budget_line_item_id:'required',
+                budget_line_item :'required',
+                uacs_category_id:'required',
+                uacs_category:'required',
+                uacs_subcategory_id:'required',
+                uacs_subcategory:'required',
+                uacs_title_id:'required',
+                uacs_title:'required',
+                performance_indicator: 'required',
+                ppmp_include:'required',
+                catering_include:'required',
+                cost:'required',
+                batches:''
+            }
+            let options = {
+                'required.budget_line_item_id' : ':attribute is Required',
+                'required.budget_line_item' : ':attribute is Required',
+                'required.uacs_category_id' : ':attribute is Required',
+                'required.uacs_category' : ':attribute is Required',
+                'required.uacs_subcategory_id' : ':attribute is Required',
+                'required.uacs_subcategory' : ':attribute is Required',
+                'required.uacs_title_id' : ':attribute is Required',
+                'required.uacs_title' : ':attribute is Required',
+                'required.performance_indicator' : ':attribute is Required',
+                'required.ppmp_include' : ':attribute is Required',
+                'required.catering_include' : ':attribute is Required',
+                'required.cost' : ':attribute is Required',
+                'required.batches' : ':attribute is Required'
+            }
+
+            let validation1 = new Validator(pi_data, pi_rules, options);
+            validation1.setAttributeNames({
+                budget_line_item_id:'Budget Line Item',
+                budget_line_item :'Budget Line Item',
+                uacs_category_id:'UACS Category',
+                uacs_category:'UACS Category',
+                uacs_subcategory_id:'UACS Subcategory',
+                uacs_subcategory:'UACS Subcategory',
+                uacs_title_id:'UACS Title',
+                uacs_title:'UACS Title',
+                performance_indicator: 'Performance Indicator',
+                ppmp_include:'IsPPMP',
+                catering_include:'IsCatering',
+                cost:'Cost',
+                batches:'Batch',
+            })
+            
+            if (validation1.fails()) {
+                console.log(validation1.errors)
+            }
+
+
+            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+
+        
            
            /*************************************************
                         EVENT LISTENERS

@@ -318,7 +318,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									confirmButton: "btn font-weight-bold btn-light-primary"
 								}
 							})
-						}else{
+						}else if(err.responseJSON.message != ''){
 							var str = err.responseJSON.message || '';
 							var res = str.search("HY000");
 							if(res != -1)
@@ -334,6 +334,21 @@ License: You must have a valid license purchased only from themeforest(the above
 									}
 								})
 							}
+							var res2 = str.search("CSRF");
+							if(res2 != -1)
+							{
+								swal.fire({
+									title:"Something went wrong, Reloading Page",
+									icon: "error",
+									buttonsStyling: false,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn font-weight-bold btn-light-primary"
+									}
+								})
+								window.location.reload(1);
+							}
+
 							KTApp.unblock('#kt_body');
 						}
 					}
