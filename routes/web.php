@@ -59,3 +59,4 @@ Route::get('/authenticate','AuthController@index')->name('login');
 
 Route::get('/users','AuthController@getAllUser')->name('g_users');
 
+Route::get('/system/reference/unit','Reference\UnitController@index')->name('r_unit');
