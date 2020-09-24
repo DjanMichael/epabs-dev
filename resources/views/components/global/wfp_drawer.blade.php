@@ -2,7 +2,7 @@
 <div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer"> --}}
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
     <div class="row">
-        <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR 2020</small></h1></div>
+    <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1></div>
         <div class="col-12 col-md-2 text-right">
             <a type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" href="{{ route('r_details_wfp') }}" style="z-index:1000;position: relative;bottom:0px;right:0px;">Comments</a>
             <button class="btn btn-primary" onclick="wfp_drawer_close()">Close</button>

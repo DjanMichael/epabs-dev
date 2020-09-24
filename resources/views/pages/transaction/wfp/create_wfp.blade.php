@@ -56,7 +56,7 @@
                         <label for="exampleInputPassword1">Activities for Outputs
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control" placeholder="Activities for Outputs">
+                        <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output">
                     </div>
                     <div class="form-group row">
                         <div class="col-6">
@@ -338,7 +338,7 @@
                         <div class="col-12 col-md-4">SUB-CATEGORY : <b id="label_uacs_subcategory">--------</b></div>
                         <div class="col-12 col-md-4">TITLE : <b id="label_uacs_title">--------</b></div>
                         <div class="col-12 col-md-4">UACS CODE : <b id="label_uacs_code">--------</b></div>
-
+                        <input type="hidden" id="uacs_code">
                     </div>
                 </div>
                 <div class="form-group">
@@ -401,15 +401,8 @@
             $("#pi_alert").delay(0).hide(0);
 
              let pi_data = {
-                    selected_output_function_id:'',
-                    budget_line_item_id :'',
                     budget_line_item :'',
-                    uacs_category_id:'',
-                    uacs_category:'',
-                    uacs_subcategory_id:'',
-                    uacs_subcategory:'',
                     uacs_title_id:'',
-                    uacs_title:'',
                     performance_indicator: '',
                     ppmp_include:'',
                     catering_include:'',
@@ -419,30 +412,17 @@
 
             
             let pi_rules = {
-                selected_output_function_id: 'required',
-                budget_line_item_id:'required',
                 budget_line_item :'required',
-                uacs_category_id:'required',
-                uacs_category:'required',
-                uacs_subcategory_id:'required',
-                uacs_subcategory:'required',
                 uacs_title_id:'required',
-                uacs_title:'required',
                 performance_indicator: 'required',
                 ppmp_include:'required',
                 catering_include:'required',
                 cost:'required',
-                batches:''
             }
             let options = {
                 'required.budget_line_item_id' : ':attribute is Required',
                 'required.budget_line_item' : ':attribute is Required',
-                'required.uacs_category_id' : ':attribute is Required',
-                'required.uacs_category' : ':attribute is Required',
-                'required.uacs_subcategory_id' : ':attribute is Required',
-                'required.uacs_subcategory' : ':attribute is Required',
                 'required.uacs_title_id' : ':attribute is Required',
-                'required.uacs_title' : ':attribute is Required',
                 'required.performance_indicator' : ':attribute is Required',
                 'required.ppmp_include' : ':attribute is Required',
                 'required.catering_include' : ':attribute is Required',
@@ -495,6 +475,7 @@
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
             $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
+            $("#c_ppmp").on('click',function(){ switchChangeValue('c_catering') });
             $("#c_catering").on('click',function(){ 
               
                 Promise.resolve(4)
@@ -556,17 +537,31 @@
 
             $("#btn_save_pi").on('click',function(){
              
+            pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
+            pi_data.uacs_title_id = $("#uacs_code").val();
+            pi_data.performance_indicator = $("#peformance_indicator").val();
+            pi_data.ppmp_include = $("#c_ppmp").val();
+            pi_data.catering_include = $("#c_catering").val() ;
+            pi_data.cost = $("#pi_cost").val();
+            pi_data.batches = $("#no_batchs").val();
+
+            console.log(pi_data.catering_include)
+                
+            if (pi_data.catering_include == 'true'){
+                pi_rules.batches='required';
+            }else{
+                delete pi_rules.batches;
+            }
+
+            console.log(pi_rules);
+            
+
+
             let pi_validation = new Validator(pi_data, pi_rules, options);
            
             pi_validation.setAttributeNames({
                 budget_line_item_id:'Budget Line Item',
-                budget_line_item :'Budget Line Item',
-                uacs_category_id:'UACS Category',
-                uacs_category:'UACS Category',
-                uacs_subcategory_id:'UACS Subcategory',
-                uacs_subcategory:'UACS Subcategory',
                 uacs_title_id:'UACS Title',
-                uacs_title:'UACS Title',
                 performance_indicator: 'Performance Indicator',
                 ppmp_include:'IsPPMP',
                 catering_include:'IsCatering',
@@ -972,15 +967,20 @@
 
         function getUacsCode(title1){
             var _url = "{{ route('d_get_uacs_code') }}";
-
-            $.ajax({
-                method:"GET",
-                url:_url,
-                data: ({ title : title1 }),
-                success:function(data){
-                    document.getElementById('label_uacs_code').innerHTML = data;
-                }
-            });
+            if (title1 !=''){
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: ({ title : title1 }),
+                    success:function(data){
+                        document.getElementById('label_uacs_code').innerHTML = data;
+                        $("#uacs_code").val(data);
+                    }
+                });
+            }else{
+                document.getElementById('label_uacs_code').innerHTML = "";
+            }
+       
         }
 
         function getBudgetAllocation(bli_id1){

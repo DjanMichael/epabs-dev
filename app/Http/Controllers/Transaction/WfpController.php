@@ -78,15 +78,19 @@ class WfpController extends Controller
         }
     }
     
-    public function getBudgetLineItem(){
+    public function getBudgetLineItem(Request $req){
         $data= [];
         
-        $data['budget_allocation'] = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
+        $a = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
                                                                     ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
                                                                     ->where('unit_id',$this->auth_user_unit_id)
+                                                                    ->where('year_id',$req->year_id)
                                                                     ->where('ref_budget_line_item.status','ACTIVE')
                                                                     ->get()
                                                                     ->toArray();
+
+        $data['budget_allocation'] = count($a) > 0 ? $a : []; 
+        // dd($data);
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
 
@@ -145,7 +149,7 @@ class WfpController extends Controller
         if($req->ajax()){
            
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
-            return view('components.global.wfp_drawer',['activities'=>$a]);  
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $a[0]->year]);  
         }
     }
 }
