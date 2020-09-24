@@ -143,8 +143,8 @@ class WfpController extends Controller
     public function getWfpByCode(Request $req)
     {
         if($req->ajax()){
-            // $req->wfp_code
-            $a = WfpActivityInfo::where('code',1)->get();
+           
+            $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
             return view('components.global.wfp_drawer',['activities'=>$a]);  
         }
     }

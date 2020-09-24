@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-xl-6">
                 <!--begin::Card-->
-                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right">
+                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right" onclick="wfp_drawer_open(1)" style="cursor:pointer;" id="wfp_card">
                     <div class="ribbon-target" style="top: 12px;">
                         <span class="ribbon-inner bg-warning"></span>Status
                        </div>
@@ -158,9 +158,9 @@
                                 <span class="label label-primary label-inline font-weight-bolder mr-2" >MAIP</span>
                             </div>
                         </div>
-                         <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" onclick="wfp_drawer_open(1)">View</button>
+                         {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" onclick="wfp_drawer_open(1)">View</button> --}}
                          
-                        <a type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" href="{{ route('r_details_wfp') }}">Comments</a>
+                       
                     </div>
                     <!--end::Footer-->
                 </div>
