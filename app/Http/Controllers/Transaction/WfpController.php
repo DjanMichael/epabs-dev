@@ -12,6 +12,9 @@ use App\TableUnitBudgetAllocation;
 use App\Wfp;
 use App\WfpActivity;
 use App\Views\WfpActivityInfo;
+use DB;
+use App\RefYear;
+use App\UserProfile;
 class WfpController extends Controller
 {
     // 
@@ -29,7 +32,8 @@ class WfpController extends Controller
 
     public function index()
     {
-        return view('pages.transaction.wfp.wfp');
+        $data["year"] = RefYear::all();
+        return view('pages.transaction.wfp.wfp',['data' => $data]);
     }
 
     public function goToCreateWfp(){
@@ -152,4 +156,28 @@ class WfpController extends Controller
             return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $a[0]->year]);  
         }
     }
+
+    public function generateWfpCode(Request $req){
+
+        $user_id = Auth::user()->id;
+        $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : null;
+        $year_id = $req->year_id;
+        // DB::select('EXEC my_stored_procedure ?,?,?',['var1','var2','var3']);
+
+        $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
+        $code = $code[0]->wfp_code;
+
+        $check = Wfp::where('user_id',$user_id)->where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+        if($check){
+            return 'duplicate';
+        }else{
+            $wfp = new Wfp;
+            $wfp->code = $code;
+            $wfp->user_id = $user_id;
+            $wfp->unit_id = $unit_id;
+            $wfp->year_id = $year_id;
+            return $wfp->save() ? 'success' : 'not saved';
+        }
+      
+    } 
 }

@@ -31,7 +31,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ref/user/wfp/uacs/uacs/code','Transaction\WfpController@getUacsCode')->name('d_get_uacs_code');
     Route::get('/users/wfp/create/search/pagination/output_function','Transaction\WfpController@getOutputFunctionByPage')->name('d_output_function_by_page');
     Route::get('/users/wfp/view','Transaction\WfpController@getWfpByCode')->name('d_wfp_view');
-
+    Route::get('/users/wfp/create/generate','Transaction\WfpController@generateWfpCode')->name('f_generate_code_wfp');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
@@ -52,6 +52,9 @@ Route::get('/logout/session',function(){
 })->name('Logout');
 
 Route::get('/authentication','AuthController@index');
+Route::get('/authtentication/user/section','AuthController@getSection')->name('d_get_section');
+Route::get('/authtentication/user/section/division/id','AuthController@getUnitId')->name('d_auth_get_unit_id');
+
 Route::any('/login','AuthController@loginUser')->name('send_login');
 Route::any('/signup','AuthController@signUpUser')->name('send_signup');
 

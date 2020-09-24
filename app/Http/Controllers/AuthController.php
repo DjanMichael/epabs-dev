@@ -9,16 +9,49 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Carbon\Carbon;
 use Session;
-
-
+use DB;
+use App\RefUnits;
+use App\UserProfile;
 class AuthController extends Controller
 {
     //
     function index()
     {
-        return view('pages.auth.login');
+        $data["division"] = RefUnits::where('status','ACTIVE')
+                            ->select('division')
+                            ->distinct('division')
+                            ->get()->toArray();
+
+        $data["section"] = RefUnits::where('status','ACTIVE')
+                            ->select('section')
+                            ->distinct('section')
+                            ->get()->toArray();
+       
+        return view('pages.auth.login',['data'=>$data]);
+    }
+    
+    function getSection(Request $req){
+        if($req->ajax()){
+            $data = RefUnits::where('status','ACTIVE')->where('division',$req->division)->get()->toArray();
+
+            return view('pages.auth.select_section',['data'=>$data]);
+        }else{
+            abort(403);
+        }
     }
 
+    function getUnitId(Request $req){
+        if($req->ajax()){
+            $data = RefUnits::where('status','ACTIVE')
+                            ->where('division',$req->division)
+                            ->where('section',$req->section)
+                            ->first();
+            return $data->id;
+        }else{
+            abort(403);
+        }
+
+    }
     function loginUser(Request $req)
     {
         if($req->ajax())
@@ -83,6 +116,7 @@ class AuthController extends Controller
     {
         if($req->ajax())
         {
+         
 
             $a = User::where('email',$req->email)->first();
             $b = User::where('username',$req->username)->first();
@@ -95,17 +129,45 @@ class AuthController extends Controller
                 return response()->json(['message'=>'username already taken']);
 
             }
-            $data['email']    = $req->email;
-            $data['name']    = $req->name;
-            $data['username'] = $req->username;
-            $data['password'] = bcrypt($req->password);
-            $data['role_id'] = '3';
+
+
+            
+            try {
+                DB::beginTransaction();
+
+                $data['email']    = $req->email;
+                $data['name']    = $req->name;
+                $data['username'] = $req->username;
+                $data['password'] = bcrypt($req->password);
+                $data['role_id'] = '3';
+            
+                $user = User::create($data);
         
-            $user = User::create($data);
+                $data2["user_id"] = $user->id;
+                $data2["unit_id"] = $req->unit_id;
+                $data2["contact"] ='';
+                $data2["pic"] = '';
+                $data2["designation"] = '';
     
-            $ACCESS_TOKEN = $user->createToken('Laravel Personal Access Client')->accessToken;
+                $c = UserProfile::where('unit_id',$req->unit_id)->first();
     
-            return response()->json(['access_token'=>$ACCESS_TOKEN]);
+                if($c){
+                    return response()->json(['message'=>'Unit account already registered']);
+                }else{
+                    UserProfile::create($data2);
+                }
+             
+                DB::commit();
+                
+                $ACCESS_TOKEN = $user->createToken('Laravel Personal Access Client')->accessToken;
+
+                return response()->json(['access_token'=>$ACCESS_TOKEN]);
+               
+            } catch (Throwable $e) {
+                DB::rollback();
+            }
+        
+
         }else{
             abort(404);
         }

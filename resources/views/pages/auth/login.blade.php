@@ -108,6 +108,27 @@ License: You must have a valid license purchased only from themeforest(the above
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Email" name="email" id="email" autocomplete="off" />
 					</div>
 					<div class="form-group mb-5">
+						<select name="select_division" id="select_division" class="form-control h-auto form-control-solid py-4 px-8">
+							<option value=""></option>
+							@forelse ($data["division"] as $row)
+								<option value="{{ $row["division"] }}">{{ $row["division"] }}</option>
+							@empty
+								<option value="">NO DATA</option>
+							@endforelse
+						</select>
+					</div>
+					<div class="form-group mb-5" id="loadiing_section">
+						<select name="select_section" id="select_section" class="form-control h-auto form-control-solid py-4 px-8">
+							<option value=""></option>
+							@forelse ($data["section"] as $row)
+							<option value="{{ $row["section"] }}">{{ $row["section"] }}</option>
+							@empty
+								<option value="">NO DATA</option>
+							@endforelse
+						</select>
+						<input type="hidden" value="" id="unit_id"/>
+					</div>
+					<div class="form-group mb-5">
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" id="reg_username" autocomplete="off" />
 					</div>
 					<div class="form-group mb-5">
@@ -116,6 +137,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<div class="form-group mb-5">
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" />
 					</div>
+
 					{{-- <div class="form-group mb-5 text-left">
 						<div class="checkbox-inline">
 							<label class="checkbox m-0">
@@ -247,7 +269,49 @@ License: You must have a valid license purchased only from themeforest(the above
 				});
 		</script>
 		<script>
+		$("#select_division").on('change',function(){
+				if($(this).val() != ''){
+					var _url = "{{ route('d_get_section') }}";
+					var _data = {
+						division : $(this).val()
+					};
 
+					$.ajax({
+						method:"GET",
+						url:_url,
+						data:_data,
+						beforeSend:function(){
+							$("#loadiing_section").addClass('spinner spinner-primary spinner-left');
+						},
+						success:function(data){
+							document.getElementById('select_section').innerHTML = data;
+							$("#loadiing_section").removeClass('spinner spinner-primary spinner-left');
+						}
+					});
+				}
+		});
+
+
+		$("#select_section").on('change',function(){
+			if($(this).val() != '' && 	$("#select_division").val() != ''){
+				var _url = "{{ route('d_auth_get_unit_id') }}";
+				var _data = {
+					division: $("#select_division").val(),
+					section: $(this).val()
+				}
+					$.ajax({
+						method:"GET",
+						url:_url,
+						data:_data,
+						success:function(data){
+							$("#unit_id").val(data);
+							// document.getElementById('unit_id').innerHTML = data;
+							alert($("#unit_id").val());
+							
+						}
+					});
+			}
+		});
 		$('#kt_login_signin_submit').on('click', function (e) {
 				e.preventDefault();
 				KTApp.block('#kt_body', {
@@ -303,8 +367,6 @@ License: You must have a valid license purchased only from themeforest(the above
 					},
 					error:function(err,t,m){
 
-					
-
 						if (t==="timeout")
 						{
 							KTApp.unblock('#kt_body');
@@ -356,73 +418,81 @@ License: You must have a valid license purchased only from themeforest(the above
 			});
 			
 			$("#kt_login_signup_submit").on('click',function(){
-			
-				KTApp.block('#kt_body', {
-					overlayColor: '#000000',
-					state: 'primary',
-					message: 'Creating Account. . .'
-				});
+				
+				var a = localStorage.getItem('signup_validate');
+				a = a ? JSON.parse(a) : {};
+				if(a['data'] == true){
+					KTApp.block('#kt_body', {
+						overlayColor: '#000000',
+						state: 'primary',
+						message: 'Creating Account. . .'
+					});
 
-				var _url ="{{ route('send_signup') }}";
-				var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val();
+					var _url ="{{ route('send_signup') }}";
+					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val();
+					alert($("#unit_id").val());
+				
+					$.ajax({
+						method:"POST",
+						url: _url,
+						timeout: 15000,
+						data: _data,
+						success:function(data){
+							if(data.access_token != null)
+							{
+								sessionStorage.setItem('token',`Bearer ` + data.access_token);
+							
+								KTApp.unblock('#kt_body');
+								localStorage.removeItem('signup_validate');
+								window.location.href="{{ route('dashboard') }}";
+							}else if(data.message != null){
+								swal.fire({
+									text: "Sorry, " +data.message,
+									icon: "error",
+									buttonsStyling: false,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn font-weight-bold btn-light-primary"
+									}
+								}).then(function() {
+									KTUtil.scrollTop();
+								});
+								KTApp.unblock('#kt_body');
+							}else{
+								swal.fire({
+									text: "Sorry, looks like there are some errors detected, please try again.",
+									icon: "error",
+									buttonsStyling: false,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn font-weight-bold btn-light-primary"
+									}
+								}).then(function() {
+									KTUtil.scrollTop();
+								});
+								KTApp.unblock('#kt_body');
+							}
+						},
+						error:function(x,t,m){
+							if(t==="timeout"){
+								swal.fire({
+									text: "Network Failed, Please Connect to a faster Internet Connection ",
+									icon: "error",
+									buttonsStyling: false,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn font-weight-bold btn-light-primary"
+									}
+								});
+							}else{
+								console.log(t);
+							}
+						}
+					});
+				}
 			
-				$.ajax({
-					method:"POST",
-					url: _url,
-					timeout: 15000,
-					data: _data,
-					success:function(data){
-						if(data.access_token != null)
-						{
-							sessionStorage.setItem('token',`Bearer ` + data.access_token);
-						
-							KTApp.unblock('#kt_body');
-							window.location.href="{{ route('dashboard') }}";
-						}else if(data.message != null){
-							swal.fire({
-								text: "Sorry, " +data.message,
-								icon: "error",
-								buttonsStyling: false,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn font-weight-bold btn-light-primary"
-								}
-							}).then(function() {
-								KTUtil.scrollTop();
-							});
-							KTApp.unblock('#kt_body');
-						}else{
-							swal.fire({
-								text: "Sorry, looks like there are some errors detected, please try again.",
-								icon: "error",
-								buttonsStyling: false,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn font-weight-bold btn-light-primary"
-								}
-							}).then(function() {
-								KTUtil.scrollTop();
-							});
-							KTApp.unblock('#kt_body');
-						}
-					},
-					error:function(x,t,m){
-						if(t==="timeout"){
-							swal.fire({
-								text: "Network Failed, Please Connect to a faster Internet Connection ",
-								icon: "error",
-								buttonsStyling: false,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn font-weight-bold btn-light-primary"
-								}
-							});
-						}else{
-							console.log(err);
-						}
-					}
-				});
 			});
+
 			window.addEventListener('load', function() {
 
 
