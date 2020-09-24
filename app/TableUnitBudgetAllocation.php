@@ -19,6 +19,7 @@ class TableUnitBudgetAllocation extends Model
                                         ->where('year_id',$year_id)
                                         ->where('bli_id',$bli_id)
                                         ->get();
+                                        
         return ($a) ? response()->json($a) : 0 ;
     }
     

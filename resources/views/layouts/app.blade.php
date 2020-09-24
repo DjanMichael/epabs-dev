@@ -3191,28 +3191,32 @@ License: You must have a valid license purchased only from themeforest(the above
             function updateUserGlobalSettingsYear(){
                 var _url = "{{ route('u_global_user_year') }}";
                 var datastr = "id=" + $("#GLOBAL_YEAR").val();
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    data: datastr,
-                    success:function(data){
-                        if(data.message == 'success'){
-                            toastr.success("Settings Save Sucessfully ", "Good Job");
-                            var a = localStorage.getItem('GLOBAL_SETTINGS');
-                            a = a ? JSON.parse(a) : {};
-                            if(data.type =='insert')
-                            {
-                                a['year'] = data.data.id;
+                if($("#GLOBAL_YEAR").val() != ''){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: datastr,
+                        success:function(data){
+                            if(data.message == 'success'){
+                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                var a = localStorage.getItem('GLOBAL_SETTINGS');
+                                a = a ? JSON.parse(a) : {};
+                                if(data.type =='insert')
+                                {
+                                    a['year'] = data.data.id;
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                }else{
+                                    a['year'] = data.data.id;
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                }
+                                localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
                             }else{
-                                a['year'] = data.data.id;
+                                toastr.error("Saving Failed", "Error");
                             }
-                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
-                        }else{
-                            toastr.error("Saving Failed", "Error");
+                            
                         }
-                        
-                    }
-                });
+                    });
+                }
             }
 
             function getUserYear()

@@ -22,7 +22,7 @@ class CreateProcedureGenerateWfpCode extends Migration
                  LPAD(unit_id,3,0),
                  LPAD(year_id,3,0),
                  LPAD((SELECT Count(*) + 1 FROM tbl_wfp where `user_id`=user_id and `unit_id`=unit_id and `year_id`=year_id) ,3,0) 
-                );
+                ) as `wfp_code`;
             END;
         ');
     }
