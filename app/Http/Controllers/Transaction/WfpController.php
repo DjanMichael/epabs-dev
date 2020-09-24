@@ -9,7 +9,9 @@ use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
 use App\TableUnitBudgetAllocation;
-
+use App\Wfp;
+use App\WfpActivity;
+use App\Views\WfpActivityInfo;
 class WfpController extends Controller
 {
     // 
@@ -49,17 +51,31 @@ class WfpController extends Controller
 
     public function getOutputFunctions()
     {
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->get();
+        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getSearchOutputFunctions(Request $req)
     {
         $q = $req->q;
-        $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
-                                            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
-                                            ->get();
+
+        if($q !=''){
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
+            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
+            ->paginate(10);
+        }else{
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate(10);
+        }
+ 
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
+    }
+
+    public function getOutputFunctionByPage(Request $req){
+        if($req->ajax())
+        {
+            $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
+            return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
+        }
     }
     
     public function getBudgetLineItem(){
@@ -122,5 +138,14 @@ class WfpController extends Controller
         $result = $a->getSingleBudgetAllocationUtilization($req->unit_id,$req->year_id,$req->bli_id);
         
         return $result;
+    }
+
+    public function getWfpByCode(Request $req)
+    {
+        if($req->ajax()){
+            // $req->wfp_code
+            $a = WfpActivityInfo::where('code',1)->get();
+            return view('components.global.wfp_drawer',['activities'=>$a]);  
+        }
     }
 }
