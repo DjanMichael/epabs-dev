@@ -9,20 +9,14 @@
 </li>
 @endsection
 @section('content')
-<div class="card card-custom gutter-b example example-compact">
+<div class="card card-custom gutter-b">
     <div class="card-header">
         <h3 class="card-title">Create Work and Financial Plan</h3>
-        <div class="card-toolbar">
-            <div class="example-tools justify-content-center">
-                <span class="example-toggle" data-toggle="tooltip" title="" data-original-title="View code"></span>
-                <span class="example-copy" data-toggle="tooltip" title="" data-original-title="Copy code"></span>
-            </div>
-        </div>
     </div>
     <!--begin::Form-->
     <form>
         <div class="card-body">
-            <div class="form-group mb-8">
+            {{-- <div class="form-group mb-8">
                 <div class="alert alert-custom alert-default" role="alert">
                     <div class="alert-icon">
                         <span class="svg-icon svg-icon-primary svg-icon-xl">
@@ -39,7 +33,7 @@
                     </div>
                     <div class="alert-text">The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.</div>
                 </div>
-            </div>
+            </div> --}}
            <div class="row">
                <div class="col-12 col-md-12">
                     <div class="form-group">
@@ -47,17 +41,16 @@
                             <span class="text-danger">*</span>
                         </label>
                         <div class="row">
-                            <div class="col-10 col-md-11">
+                            <div class="col-9 col-md-11">
                                 <input type="text" id="selected_output_function" value="" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
                                 <input type="hidden" id="selected_output_function_id" value="" >
                             </div>
-                            <div class="col-2 col-md-1 text-right">
+                            <div class="col-3 col-md-1 text-right">
                                 <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
                                     <i class="flaticon-search ml-2 icon-md"></i>
                                 </a>
                             </div>
                         </div>
-                        <span class="form-text text-muted">We'll never share your email with anyone else.</span>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Activities for Outputs
@@ -101,26 +94,22 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_1" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_1">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_2" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_2" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_3" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_3" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="number" class="form-control" placeholder="" id="qtr_4" value="0">
-                            <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                            <input type="text" class="form-control" placeholder="" id="qtr_4" >
                         </div>
                     </div>
                     <div class="col-12 bg-secondary p-3">Timeframe</div>
@@ -237,9 +226,9 @@
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
                   <div class="row">
                     <div class="col-12 mt-2 mb-2">
-                        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#wfp_performance_indicator">
+                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
                             <i class="flaticon2-add-1"></i> Add Performance Indicator
-                        </a>      
+                        </button>      
                     </div>
                     <div class="col-12" id="peformance_indicator_table_content">
                         <div class="col-12 p-20 w-100" style="height:150px; text-align:center;border:1px solid grey;">
@@ -282,29 +271,17 @@
                     </div>
                 </div>
                 <div class="table-responsive" id="output_function_table">
-                    <table class="table table-sm table-hover" >
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Output Functions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="modal_content_output_functions">
-                        </tbody>
-                    </table>
+                    <div id="modal_content_output_functions" >
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal-->
-<div class="modal fade" id="wfp_performance_indicator" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="wfp_performance_indicator" aria-hidden="true" style="z-index: 99999;">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+<div class="modal fade" id="wfp_performance_indicator"  tabindex="-1" role="dialog" aria-labelledby="wfp_performance_indicator" aria-hidden="true" style="z-index: 99999;">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Performance Indicator</h5>
@@ -313,9 +290,21 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div id="pi_alert" class="alert alert-custom alert-notice alert-light-danger" role="alert">
+                    <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                    <div class="alert-text" >
+                        <ul id="pi_alert_text">
+                        </ul>
+                    </div>
+                    <div class="alert-close">
+                        <button type="button" class="close" id="btn_alert_close">
+                            <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                        </button>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="exampleSelectd">Budget Line Item   <span class="text-danger">*</span></label>
-                    <select class="form-control" id="buget_line_item">
+                    <select class="form-control" id="buget_line_item" >
                     </select>
                 </div>
                 <div class="alert alert-light" role="alert">
@@ -386,8 +375,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary font-weight-bold" ">Save</button>
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_pi">Save</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold" id="btn_pi_close">Close</button>
             </div>
         </div>
     </div>
@@ -406,11 +395,13 @@
              *              INITIALIZATION 
              * 
              *************************************************/
-             getUserBudgetLineAllocation();
-             getUacsCategory();
+            getUserBudgetLineAllocation();
+            getUacsCategory();
+            populateOutputFunctionsAll();
+            $("#pi_alert").delay(0).hide(0);
 
-
-            let pi_data = {
+             let pi_data = {
+                    selected_output_function_id:'',
                     budget_line_item_id :'',
                     budget_line_item :'',
                     uacs_category_id:'',
@@ -428,6 +419,7 @@
 
             
             let pi_rules = {
+                selected_output_function_id: 'required',
                 budget_line_item_id:'required',
                 budget_line_item :'required',
                 uacs_category_id:'required',
@@ -458,38 +450,14 @@
                 'required.batches' : ':attribute is Required'
             }
 
-            let validation1 = new Validator(pi_data, pi_rules, options);
-            validation1.setAttributeNames({
-                budget_line_item_id:'Budget Line Item',
-                budget_line_item :'Budget Line Item',
-                uacs_category_id:'UACS Category',
-                uacs_category:'UACS Category',
-                uacs_subcategory_id:'UACS Subcategory',
-                uacs_subcategory:'UACS Subcategory',
-                uacs_title_id:'UACS Title',
-                uacs_title:'UACS Title',
-                performance_indicator: 'Performance Indicator',
-                ppmp_include:'IsPPMP',
-                catering_include:'IsCatering',
-                cost:'Cost',
-                batches:'Batch',
-            })
-            
-            if (validation1.fails()) {
-                console.log(validation1.errors)
-            }
-
-
-            localStorage.setItem('pi_data',JSON.stringify(pi_data));
-
         
            
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
-            $("#search_output_function").on('click',function(){
-                populateOutputFunctionsAll();
-            });
+            // $("#search_output_function").on('click',function(){
+            //     populateOutputFunctionsAll();
+            // });
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
@@ -572,10 +540,10 @@
                }
             });
         
-            $("#uacs_category").bind( "change", function() {
+            $("#uacs_category").bind("change", function() {
                 $("#label_uacs_category").html($("#uacs_category option:selected").text());
             });
-            $("#uacs_subcategory" ).bind( "change", function() {
+            $("#uacs_subcategory" ).bind("change", function() {
                 $("#label_uacs_subcategory").html( $("#uacs_subcategory option:selected").text());
             });
             $("#uacs_title" ).bind( "change", function() {
@@ -586,12 +554,86 @@
                 getBudgetAllocation($(this).val());
             });
 
-        });
+            $("#btn_save_pi").on('click',function(){
+             
+            let pi_validation = new Validator(pi_data, pi_rules, options);
+           
+            pi_validation.setAttributeNames({
+                budget_line_item_id:'Budget Line Item',
+                budget_line_item :'Budget Line Item',
+                uacs_category_id:'UACS Category',
+                uacs_category:'UACS Category',
+                uacs_subcategory_id:'UACS Subcategory',
+                uacs_subcategory:'UACS Subcategory',
+                uacs_title_id:'UACS Title',
+                uacs_title:'UACS Title',
+                performance_indicator: 'Performance Indicator',
+                ppmp_include:'IsPPMP',
+                catering_include:'IsCatering',
+                cost:'Cost',
+                batches:'Batch',
+            })
 
+
+            if (pi_validation.passes()) {
+
+            }else{
+                var msg = "";
+            // console.log(pi_validation.errors.all());
+                $.each(pi_validation.errors.all(),function(key,value){
+                    // console.log('key:' + key , 'value:' + value);
+                    msg += '<li>' + value + '</li>';
+                });
+                $("#pi_alert").delay(400).fadeIn(600);
+                $("#wfp_performance_indicator").animate({ scrollTop:0 },700);
+                $("#pi_alert").addClass('fade show');
+                $("#pi_alert_text").html(msg);
+                
+                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+                // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
+                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+
+               
+            }
+
+
+            localStorage.setItem('pi_data',JSON.stringify(pi_data));
+
+            });
+
+            $("#btn_pi_add_new").on('click',function(e){
+                $("#wfp_performance_indicator").modal({
+                    show:true,
+                    backdrop:'static',
+                    focus: true,
+                    keyboard:false
+                });
+            });
+
+            
+            $("#btn_pi_close").on('click',function(e){
+                $("#wfp_performance_indicator").modal('hide');
+            });
+
+            $("#btn_alert_close").on('click',function(){
+                $("#pi_alert").delay(0).fadeOut(600);
+            });
+
+
+      
+
+            // end for $(document).ready()
+        });
+        
 
         /*************************************************
                         REUSABLE FUNCTIONS
         *************************************************/
+
+
         function populateOutputFunctionsAll(){
             var _url = "{{ route('d_get_output_functions') }}";
             $.ajax({
@@ -607,13 +649,71 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
+                    
+                },
+                complete:function(){
+                    $("#output_function_pagination .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        // console.log($(this).attr('href').split('page=')[1]);
+                        fetch_output_function($(this).attr('href').split('page=')[1])
+                    });
                 }
             });
         }
 
+        function fetch_output_function(page1){
+            var _url= "{{ route('d_output_function_by_page') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data : { page: page1},
+                beforeSend:function(){
+                    KTApp.block('#output_function_table', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    KTApp.unblock('#output_function_table');
+                    document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                complete:function(){
+                    $("#output_function_pagination .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        // console.log($(this).attr('href').split('page=')[1]);
+                        fetch_output_function($(this).attr('href').split('page=')[1])
+                    });
+                }
+            })
+        }
+
+
+        // function populateOutputFunctionsAll(){
+        //     console.log('1');
+        //     var _url = "{{ route('d_get_output_functions') }}";
+        //     $.ajax({
+        //         method:"GET",
+        //         url: _url,
+        //         beforeSend:function(){
+        //             KTApp.block('#output_function_table', {
+        //                 overlayColor: '#000000',
+        //                 state: 'primary',
+        //                 message: 'Loading. . .'
+        //             });
+        //         },
+        //         success:function(data){
+        //             KTApp.unblock('#output_function_table');
+        //             document.getElementById('modal_content_output_functions').innerHTML= data;
+                
+        //         }
+        //     });
+        // }
+
         function populateOutputFunctionsSearch(q){
             var datastr = "q=" + q;
             var _url = "{{ route('d_get_search_output_functions') }}"
+           
             $.ajax({
                 method: "GET",
                 url: _url,
@@ -630,15 +730,16 @@
                     document.getElementById('modal_content_output_functions').innerHTML= data;
                 },
                 error:function(err){
-                    console.log(err);
+                    if(err.status == 500){
+                        populateOutputFunctionsSearch($("#output_function_search").val());
+                    }
                 }
             });
         }
 
         function firstQuarterHasValue(){
-            var val =Number($("#qtr_1").val());
-        
-            if (val >= 1){
+            var val =($("#qtr_1").val());
+            if ( val !=''){
                 $("#t_jan").removeAttr('disabled');
                 $("#t_feb").removeAttr('disabled');
                 $("#t_mar").removeAttr('disabled');
@@ -664,8 +765,8 @@
             }
         }
         function secondQuarterHasValue(){
-            var val =Number($("#qtr_2").val());
-            if (val >= 1){
+            var val =($("#qtr_2").val());
+            if (val !=''){
                 $("#t_apr").removeAttr('disabled');
                 $("#t_may").removeAttr('disabled');
                 $("#t_june").removeAttr('disabled');
@@ -691,8 +792,8 @@
             }
         }
         function thirdQuarterHasValue(){
-            var val =Number($("#qtr_3").val());
-            if (val >= 1){
+            var val =($("#qtr_3").val());
+            if (val != ''){
                 $("#t_july").removeAttr('disabled');
                 $("#t_aug").removeAttr('disabled');
                 $("#t_sept").removeAttr('disabled');
@@ -718,8 +819,8 @@
             }
         }
         function fourthQuarterHasValue(){
-            var val =Number($("#qtr_4").val());
-            if (val >= 1){
+            var val =($("#qtr_4").val());
+            if (val != ''){
                 $("#t_oct").removeAttr('disabled');
                 $("#t_nov").removeAttr('disabled');
                 $("#t_dec").removeAttr('disabled');
@@ -895,11 +996,20 @@
                     url:_url,
                     data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
-                        document.getElementById('total_allocation').innerHTML =data.program_budget;
+                        document.getElementById('total_allocation').innerHTML =data[0].program_budget;
                     }
                 });
             }
            
         }
+
+
+
+        $(document).ready(function(){
+            $("#output_function_pagination .pagination a").on('click',function(e){
+                e.preventDefault();
+                console.log($(this).attr('href'));
+            });
+        });
     </script>
 @endpush

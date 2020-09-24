@@ -15,11 +15,10 @@ class CreateTableTblWfpActivityPerIndicator extends Migration
     {
         Schema::create('tbl_wfp_activity_per_indicator', function (Blueprint $table) {
             $table->id();
-            $table->integer('wfp_id');
             $table->integer('uacs_id');
             $table->integer('bli_id');
             $table->string('performance_indicator');
-            $table->decimal('cost',2);
+            $table->decimal('cost',10,2);
             $table->enum('is_ppmp',['Y','N']);
             $table->enum('is_catering',['Y','N']);
             $table->string('batch');

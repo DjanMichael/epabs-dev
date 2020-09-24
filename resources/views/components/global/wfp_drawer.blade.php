@@ -1,5 +1,5 @@
-<div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer">
+{{-- <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer"> --}}
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
     <div class="row">
         <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR 2020</small></h1></div>
@@ -22,110 +22,43 @@
                                     <th scope="col">Q2</th>
                                     <th scope="col">Q3</th>
                                     <th scope="col">Q4</th>
-                                    <th scope="col">Cost</th>
+                                    <th scope="col">Cost (Php)</th>
                                     <th scope="col">Responsible Person</th>
                                     <th scope="col">Encoded by</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php 
+                                    $i=1; 
+
+                                    $total_cost = 0.00;
+                                ?>
+                                @forelse ($activities as $row)
                                 <tr class="wfp_table_row">
-                                    <td scope="row"></td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
+                                    <td scope="row">{{ $i }}</td>
+                                    <td>{{ $row->wfp_activity_id }}</td>
+                                    <td>{{ $row->function_class }}</td>
+                                    <td>{{ $row->function_description }}</td>
+                                    <td>{{ $row->out_activity }}</td>
+                                    <td>{{ $row->target_q1 }}</td>
+                                    <td>{{ $row->target_q2 }}</td>
+                                    <td>{{ $row->target_q3 }}</td>
+                                    <td>{{ $row->target_q4 }}</td>
+                                    <td>{{ number_format($row->activity_cost, 2, '.', ',') }}</td>
+                                    <td>{{ $row->responsible_person }}</td>
+                                    <td>{{ $row->name }}</td>
+
                                 </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
-                                <tr class="wfp_table_row">
-                                    <td scope="row">1</td>
-                                    <td>00041292</td>
-                                    <td>STRATEGIC FUNCTION</td>
-                                    <td>asdas das dasdasdasdasdasdasdasdasd asd asd a ad asda as eeg ge ge sgsdgdsdsf sf dsfdsfdsf dsf sfsdfdss sdf sfssd sd s sdfsdf </td>
-                                    <td>sdsdfdsf sd dsf dsfsfds sfs sfs sds sdf dsf asdas dasdasdasdasdas as dasdad   asd asdad asdasd a asd adad asdada  asdqw</td>
-                                    <td>12</td>
-                                    <td>123</td>
-                                    <td>412</td>
-                                    <td>412</td>
-                                    <td>1,300,200.00</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                    <td>DJAN MICAHEL ANTHONY A PENGSON</td>
-                                </tr>
+                                <?php 
+                                $i += 1; 
+                                $total_cost = $total_cost +  (float)$row->activity_cost;
+                                ?>
+                              
+                                @empty
+                                    <tr class="wfp_table_row">
+                                        <td colspan="12">NO ACTIVITY FOUND</td>
+                                    </tr>
+                                @endforelse
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -136,7 +69,7 @@
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col">Total</th>
-                                    <th scope="col">42,200,200.00</th>
+                                    <th scope="col">{{ number_format($total_cost, 2, '.', ',') }}</th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                 </tr>
@@ -146,6 +79,6 @@
                     </div>
                 </div>
         </div>
-    </div>
-</div>
+    {{-- </div>
+</div> --}}
 
