@@ -41,7 +41,13 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
         @stack('styles')
         <style>
-
+            #wfp_card{
+                transition: transform .5s; 
+            }
+            #wfp_card:hover
+            {
+                transform: scale(1.1);
+            }
            
 
             .loader
