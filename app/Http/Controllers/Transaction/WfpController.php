@@ -151,33 +151,39 @@ class WfpController extends Controller
     public function getWfpByCode(Request $req)
     {
         if($req->ajax()){
-           
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
             return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $a[0]->year]);  
         }
     }
 
     public function generateWfpCode(Request $req){
-
+        // dd(Auth::user());
+        // dd( Auth::user()->getUnitId());
+        // dd((UserProfile::where('user_id',Auth::user()->id)->first()));
         $user_id = Auth::user()->id;
-        $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : null;
+        $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = $req->year_id;
         // DB::select('EXEC my_stored_procedure ?,?,?',['var1','var2','var3']);
 
         $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
         $code = $code[0]->wfp_code;
-
+        // dd(array($user_id,$unit_id,$year_id));
         $check = Wfp::where('user_id',$user_id)->where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+        $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+// dd([$unit_id,$year_id]);
         if($check){
             return 'duplicate';
-        }else{
-            $wfp = new Wfp;
-            $wfp->code = $code;
-            $wfp->user_id = $user_id;
-            $wfp->unit_id = $unit_id;
-            $wfp->year_id = $year_id;
-            return $wfp->save() ? 'success' : 'not saved';
         }
-      
+
+        if($unitHasBadget == null){
+            return 'no budget';
+        
+        }
+        $wfp = new Wfp;
+        $wfp->code = $code;
+        $wfp->user_id = $user_id;
+        $wfp->unit_id = $unit_id;
+        $wfp->year_id = $year_id;
+        return $wfp->save() ? 'success' : 'not saved';
     } 
 }

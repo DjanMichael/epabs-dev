@@ -259,7 +259,20 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
+                    }else if (data == 'no budget'){
+                        $("#modal_create_wfp").modal('hide');
+                        swal.fire({
+                                title:"No Budget Allocated on you for Year " + a["year_data"],
+                                text:'Please Contact  your budget Officer',
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                     }else{
+                        $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"Network Error",
                                 icon: "error",
