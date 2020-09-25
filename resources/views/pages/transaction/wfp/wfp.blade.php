@@ -291,7 +291,6 @@
         $("#btn_show_year_wfp").on('click',function(){
             var a = localStorage.getItem('GLOBAL_SETTINGS');
             a = a ?  JSON.parse(a) : {} ;
-            console.log(a);
             $("#year_selected").html(a["year_data"]);
             $("#modal_create_wfp").modal({
                 show:true,

@@ -306,7 +306,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						success:function(data){
 							$("#unit_id").val(data);
 							// document.getElementById('unit_id').innerHTML = data;
-							alert($("#unit_id").val());
+							// alert($("#unit_id").val());
 							
 						}
 					});
@@ -430,7 +430,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 					var _url ="{{ route('send_signup') }}";
 					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val();
-					alert($("#unit_id").val());
+					// alert($("#unit_id").val());
 				
 					$.ajax({
 						method:"POST",
