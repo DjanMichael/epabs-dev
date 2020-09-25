@@ -152,7 +152,8 @@ class WfpController extends Controller
     {
         if($req->ajax()){
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $a[0]->year]);  
+            $year =  count($a) == 0 ? null : $a[0]->year;
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year]);  
         }
     }
 
