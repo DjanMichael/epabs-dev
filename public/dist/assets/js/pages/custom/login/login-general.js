@@ -122,6 +122,20 @@ var KTLogin = function() {
 							}
 						}
 					},
+					select_division: {
+						validators:{
+							notEmpty: {
+								message: 'Division is required'
+							}
+						}
+					},
+					select_section:{
+						validators:{
+							notEmpty: {
+								message: 'Section is required'
+							}
+						}
+					},
 					username: {
                         validators: {
 							notEmpty: {
@@ -168,7 +182,9 @@ var KTLogin = function() {
             e.preventDefault();
 
             validation.validate().then(function(status) {
+				
 		        if (status == 'Valid') {
+					localStorage.setItem('signup_validate',JSON.stringify({ data:true }));
                     // swal.fire({
 		            //     text: "All is cool! Now you submit this form",
 		            //     icon: "success",
@@ -181,6 +197,8 @@ var KTLogin = function() {
 					// 	KTUtil.scrollTop();
 					// });
 				} else {
+					localStorage.setItem('signup_validate',JSON.stringify({ data:false }));
+					
 					// swal.fire({
 		            //     text: "Sorry, looks like there are some errors detected, please try again.",
 		            //     icon: "error",

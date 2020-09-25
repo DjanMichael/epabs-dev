@@ -41,7 +41,13 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
         @stack('styles')
         <style>
-
+            #wfp_card{
+                transition: transform .5s; 
+            }
+            #wfp_card:hover
+            {
+                transform: scale(1.1);
+            }
            
 
             .loader
@@ -1595,7 +1601,13 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--end::Main-->
 
 <!-- begin:wfp_drawer -->
-@include('components.global.wfp_drawer')
+
+<div id="bg-drawer" onclick="wfp_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer">
+</div>
+</div>
+
+
 <!-- end:wfp_drawer -->
 
 
@@ -3179,28 +3191,32 @@ License: You must have a valid license purchased only from themeforest(the above
             function updateUserGlobalSettingsYear(){
                 var _url = "{{ route('u_global_user_year') }}";
                 var datastr = "id=" + $("#GLOBAL_YEAR").val();
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    data: datastr,
-                    success:function(data){
-                        if(data.message == 'success'){
-                            toastr.success("Settings Save Sucessfully ", "Good Job");
-                            var a = localStorage.getItem('GLOBAL_SETTINGS');
-                            a = a ? JSON.parse(a) : {};
-                            if(data.type =='insert')
-                            {
-                                a['year'] = data.data.id;
+                if($("#GLOBAL_YEAR").val() != ''){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: datastr,
+                        success:function(data){
+                            if(data.message == 'success'){
+                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                var a = localStorage.getItem('GLOBAL_SETTINGS');
+                                a = a ? JSON.parse(a) : {};
+                                if(data.type =='insert')
+                                {
+                                    a['year'] = data.data.id;
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                }else{
+                                    a['year'] = data.data.id;
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                }
+                                localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
                             }else{
-                                a['year'] = data.data.id;
+                                toastr.error("Saving Failed", "Error");
                             }
-                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
-                        }else{
-                            toastr.error("Saving Failed", "Error");
+                            
                         }
-                        
-                    }
-                });
+                    });
+                }
             }
 
             function getUserYear()
@@ -3220,7 +3236,39 @@ License: You must have a valid license purchased only from themeforest(the above
                     }
                 });
             }
+
+
+            
         });
+
+        function wfp_drawer_close(){
+            $("#bg-drawer").removeClass('bg-drawer');
+            $("#wfp_drawer").removeClass('wrapper-drawer-on');
+        }
+
+        function wfp_drawer_open(id){
+            $("#bg-drawer").addClass('bg-drawer');
+            $("#wfp_drawer").addClass('wrapper-drawer-on');
+
+            var _url ="{{ route('d_wfp_view') }}" ;
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: { wfp_code : id },
+                beforeSend:function(){
+                    KTApp.block('#wfp_drawer', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading. . .'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_drawer').innerHTML = data;
+                    KTApp.unblock('#wfp_drawer');
+                }
+            })
+
+        }
 
         </script>
 

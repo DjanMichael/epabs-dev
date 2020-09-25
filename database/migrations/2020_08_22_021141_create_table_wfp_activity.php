@@ -27,7 +27,7 @@ class CreateTableWfpActivity extends Migration
             $table->string('target_q3');
             $table->string('target_q4');
             $table->decimal('activity_cost',10,2);
-            $table->integer('status');
+            // $table->integer('status');
             // $table->foreign('status')->reference('id')->on('tbl_program_activity_status');
             $table->integer('encoded_by');
             $table->timestamps();
