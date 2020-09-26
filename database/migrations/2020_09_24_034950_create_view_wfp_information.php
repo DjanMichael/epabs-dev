@@ -81,6 +81,7 @@ class CreateViewWfpInformation extends Migration
                 ORDER BY
                     `rfd`.`class_sequence`
             )
+        )
        ');
     }
 

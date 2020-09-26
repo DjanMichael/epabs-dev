@@ -62,9 +62,9 @@ class WfpController extends Controller
         if($q !=''){
             $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
             ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
-            ->paginate(10);
+            ->paginate(5);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate(10);
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate(5);
         }
  
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);

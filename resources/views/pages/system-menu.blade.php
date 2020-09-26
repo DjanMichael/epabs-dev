@@ -358,7 +358,7 @@
         <div class="row ml-1 mr-1">
             <div class="col-12 col-md-4">
              <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                 <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                 <button onclick="window.location.href='{{ route('r_procurement_supplies') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                      <!--begin::Symbol-->
                      <div class="symbol symbol-40 symbol-light-primary mr-5">
                          <span class="symbol-label">
@@ -377,7 +377,7 @@
                      <!--end::Symbol-->
                      <!--begin::Text-->
                      <div class="d-flex flex-column font-weight-bold text-left">
-                         <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Supplies</a>
+                         <a href="{{ route('r_procurement_supplies') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Supplies</a>
                          <span class="text-muted">Build your Supplies Database</span>
                      </div>
                      <!--end::Text-->
