@@ -3270,6 +3270,12 @@ License: You must have a valid license purchased only from themeforest(the above
 
         }
 
+        $("#output_function_pagination .pagination a").on('click',function(e){
+                e.preventDefault();
+                alert('click');
+                // console.log($(this).attr('href').split('page=')[1]);
+                fetch_output_function($(this).attr('href').split('page=')[1])
+            });
         </script>
 
         </body>

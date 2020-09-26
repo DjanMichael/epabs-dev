@@ -395,6 +395,10 @@
              *              INITIALIZATION 
              * 
              *************************************************/
+
+
+
+
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
@@ -592,7 +596,6 @@
                
             }
 
-
             localStorage.setItem('pi_data',JSON.stringify(pi_data));
 
             });
@@ -643,23 +646,30 @@
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
                     
-                },
+                }
+                ,
                 complete:function(){
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             });
         }
 
-        function fetch_output_function(page1){
+ 
+
+        var page ;
+        function fetch_output_function(page1,q1){
+            page =page1;
+            // alert(typeof(q1));
             var _url= "{{ route('d_output_function_by_page') }}";
+            var _q = q1 == '' ? '' : q1;
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : { page: page1},
+                data : { page: page1, q : _q },
                 beforeSend:function(){
                     KTApp.block('#output_function_table', {
                         overlayColor: '#000000',
@@ -675,12 +685,16 @@
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             })
         }
 
+
+
+
+       
 
         // function populateOutputFunctionsAll(){
         //     console.log('1');
@@ -704,8 +718,9 @@
         // }
 
         function populateOutputFunctionsSearch(q){
-            var datastr = "q=" + q;
-            var _url = "{{ route('d_get_search_output_functions') }}"
+            var _url = "{{ route('d_get_search_output_functions') }}";
+            var _q = q == '' ? '' : q;
+            var datastr = "q=" + _q;
            
             $.ajax({
                 method: "GET",
@@ -721,6 +736,13 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                complete:function(){
+                    $("#output_function_pagination .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        // console.log($(this).attr('href').split('page=')[1]);
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
+                    });
                 },
                 error:function(err){
                     if(err.status == 500){
