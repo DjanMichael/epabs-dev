@@ -11,6 +11,8 @@ use App\User;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+|   r = Redirect
+|   a = Add
 */
 
 
@@ -62,4 +64,18 @@ Route::get('/authenticate','AuthController@index')->name('login');
 
 Route::get('/users','AuthController@getAllUser')->name('g_users');
 
+/*
+|--------------------------------------------------------------------------
+| References
+|--------------------------------------------------------------------------
+*/
+
+// Office Unit Routes
 Route::get('/system/reference/unit','Reference\UnitController@index')->name('r_unit');
+
+// Procurement Supplies Routes
+Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getOutputFunctionByPage')->name('d_get_procurement_supplies_by_page');
+Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getSearchOutputFunctions')->name('d_get_procurement_supplies_search');
+Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
