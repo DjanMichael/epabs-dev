@@ -41,17 +41,15 @@ class ProcurementSuppliesController extends Controller
     {
         if($request->ajax())
         {
-            $q = $request->query;
-            if(is_null($q)){
-                $data = ProcurementSupplies::where(fn($query) => $query->where('fix_price' ,'LIKE', '%'. $q .'%'))
-                ->paginate(10);
+            $query = $request->q;
+            if($query !=''){
+                $data = ProcurementSupplies::where('fix_price' ,'LIKE', '%'. $query .'%')->paginate(10);
             }else{
                 $data = ProcurementSupplies::paginate(10);
             }
-            // return dd($q);
             return view('pages.reference.table.display_supplies',['procurement_supplies'=> $data]);
         }
-    }
+    }   
 
     public function store(Request $request) {
         
