@@ -31,12 +31,12 @@
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li><a class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->nextPageUrl() }}" rel="next"><i class="ki ki-bold-arrow-next icon-xs"></i></a></li>
-            <li><a class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->url($paginator->lastItem()) }}" rel="next"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a></li>
-            <li><span>Showing {{ ($paginator->currentPage()-1)*10+1 }} - {{ $paginator->currentPage()*10 }} of {{$paginator->total()}} </span></li>
+            <li><a class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->url($paginator->lastPage()) }}" rel="next"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a></li>
+            <li><span>Showing {{ ($paginator->currentPage()-1)*10+1 }} - {{ $paginator->currentPage()*10 }} of {{$paginator->total()}} entries</span></li>
         @else
             <li class="disabled"><span><a style="pointer-events: none; cursor: default;" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a></span></li>
-            <li><span>Showing {{ ($paginator->currentPage()-1)*10+1 }} - {{ $paginator->currentPage()*10 }} of {{$paginator->total()}} </span></li>
+            <li class="disabled"><span><a style="pointer-events: none; cursor: default;" class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->url($paginator->lastPage()) }}"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a></span></li>
+            <li><span>Showing {{ ($paginator->currentPage()-1)*10+1 }} - {{ $paginator->currentPage()*10 }} of {{$paginator->total()}} entries</span></li>
          @endif
-        {{-- Showing 10 of 230 records --}}
     </ul>
 @endif

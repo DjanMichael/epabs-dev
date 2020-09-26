@@ -4,6 +4,7 @@
 |--------------------------------------------------------------------------
 */
 
+// Switch Checkbox Value
 function switchChangeValue(ob,type = null){
     var el = document.getElementById(ob);
     if (type == 'default'){
@@ -13,6 +14,7 @@ function switchChangeValue(ob,type = null){
     }
 }
 
+// Populate Table
 function populateTable(populate_url, per_page_url){
     var _url = populate_url;
     $.ajax({
@@ -39,12 +41,14 @@ function populateTable(populate_url, per_page_url){
     });
 }
 
-function populateTablePerPage(url, page){
-    var _url= url;
+// Populate Table with Pagination
+function populateTablePerPage(url, page, q1){
+    var _url = url;
+    var _q = q1 == '' ? '' : q1;
     $.ajax({
         method:"GET",
         url: _url,
-        data : { page: page},
+        data : { page: page, q : _q },
         beforeSend:function(){
             KTApp.block('#table_populate', {
                 overlayColor: '#000000',
@@ -59,15 +63,17 @@ function populateTablePerPage(url, page){
         complete:function(){
             $("#table_pagination .pagination a").on('click',function(e){
                 e.preventDefault();
-                populateTablePerPage(url, $(this).attr('href').split('page=')[1])
+                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val())
             });
         }
     })
 }
 
+// Populate Table thru search
 function populateTableBySearch(url, query){
-    var datastr = "query=" + query;
     var _url = url;
+    var _q = query == '' ? '' : query;
+    var datastr = "q=" + _q;
 
     $.ajax({
         method: "GET",
@@ -84,10 +90,11 @@ function populateTableBySearch(url, query){
             KTApp.unblock('#populate_table');
             document.getElementById('table_content').innerHTML= data;
         },
-        error:function(err){
-            if(err.status == 500){
-                populateTableBySearch(url, $("#output_function_search").val());
-            }
+        complete:function(){
+            $("#table_pagination .pagination a").on('click',function(e){
+                e.preventDefault();
+                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val())
+            });
         }
     });
 }
