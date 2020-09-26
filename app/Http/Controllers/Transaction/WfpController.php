@@ -21,11 +21,23 @@ class WfpController extends Controller
     public $auth_user_id;
     public $auth_user_unit_id;
 
+
+
+    // wfp performance table settings
+    public $pi_table_paginate;
+
+
+
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
             $this->auth_user_id = Auth::user()->id;
             $this->auth_user_unit_id = Auth::user()->getUnitId();
+
+            // wfp performance table settings
+            $this->pi_table_paginate = 3;
+
+
             return $next($request);
         });
     }
@@ -55,7 +67,7 @@ class WfpController extends Controller
 
     public function getOutputFunctions()
     {
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
+        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
@@ -66,18 +78,23 @@ class WfpController extends Controller
         if($q !=''){
             $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
             ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
-            ->paginate(5);
+            ->paginate($this->pi_table_paginate);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate(5);
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate($this->pi_table_paginate);
         }
- 
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getOutputFunctionByPage(Request $req){
         if($req->ajax())
         {
-            $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
+            if ($req->q !=''){
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
+                                                ->where('function_description','LIKE', '%' . $req->q . '%')
+                                                ->paginate($this->pi_table_paginate);
+            }else{
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
+            }
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
     }

@@ -1,4 +1,13 @@
 
+
+<script>
+    $("#output_function_pagination .pagination a").on('click',function(e){
+         e.preventDefault();
+         alert('click');
+         // console.log($(this).attr('href').split('page=')[1]);
+         fetch_output_function($(this).attr('href').split('page=')[1])
+ });
+</script>
 <table class="table table-sm table-hover table-bordered mt-3" >
     <thead class="bg-dark text-light" >
         <tr >
@@ -25,5 +34,4 @@
 <div id="output_function_pagination">
         {{ $output_functions->links() }}
 </div>
-
 
