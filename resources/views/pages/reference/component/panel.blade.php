@@ -121,8 +121,8 @@
                 <div class="card card-custom card-stretch gutter-b">
                     <!--begin::Body-->
                     <div class="card-body pt-2 pb-0 mt-n3">
-                        <div class="table-responsive" id="populate_table">
-                            <div id="modal_content_output_functions">
+                        <div class="table-responsive" id="table_populate">
+                            <div id="table_content">
                                 {{-- @include('pages.reference.table.display_supplies') --}}
                             </div>
                             

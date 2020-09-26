@@ -28,7 +28,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="12" class="text-center"> NO DATA</td> 
+                <td colspan="12" class="text-center"> NO DATA AVAILABLE IN TABLE</td> 
             </tr>
         @endforelse
     </tbody>
