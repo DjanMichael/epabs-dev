@@ -29,7 +29,7 @@ class ProcurementSuppliesController extends Controller
         return view('pages.reference.table.display_supplies',['procurement_supplies'=> $data]);
     }
 
-    public function getOutputFunctionByPage(Request $request){
+    public function getProcurementSuppliesByPage(Request $request){
         if($request->ajax())
         {
             $data = ProcurementSupplies::paginate(10);
@@ -37,19 +37,19 @@ class ProcurementSuppliesController extends Controller
         }
     }
 
-    public function getSearchOutputFunctions(Request $request)
+    public function getProcurementSuppliesSearch(Request $request)
     {
-        $q = $request->q;
-
-        if($q !=''){
-            $data = ProcurementSupplies::where(fn($query) => $query->where('description' ,'LIKE', '%'. $q .'%'))
-                    ->paginate(10);
-        }else{
-            $data = ProcurementSupplies::paginate(10);
+        if($request->ajax())
+        {
+            $query = $request->q;
+            if($query !=''){
+                $data = ProcurementSupplies::where('fix_price' ,'LIKE', '%'. $query .'%')->paginate(10);
+            }else{
+                $data = ProcurementSupplies::paginate(10);
+            }
+            return view('pages.reference.table.display_supplies',['procurement_supplies'=> $data]);
         }
- 
-        return view('pages.reference.table.display_supplies',['procurement_supplies'=> $data]);
-    }
+    }   
 
     public function store(Request $request) {
         
@@ -62,15 +62,4 @@ class ProcurementSuppliesController extends Controller
 
     }
 
-    public function goToAddProcurementSupplies(){
-        
-        $data = [];
-        $unit = new RefItemUnit;
-        $classification = new RefClassification;
-
-        $data["item_unit"] = $unit->where('status','ACTIVE')->get();
-        $data["item_classification"] = $classification->where('status','ACTIVE')->get();
-  
-        return view('pages.reference.procurement.procurement_supplies',['data' => $data]);
-    }
 }
