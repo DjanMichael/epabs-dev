@@ -17,7 +17,6 @@ class ProcurementSuppliesController extends Controller
         $data = [];
         $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         $data['classification'] = RefClassification::where('status','ACTIVE')->get();
-        // $data["procurement"] = ProcurementSupplies::paginate(10);
         $data["form-type"] = "Add Procurement Supplies";
         return view('pages.reference.procurement.procurement_supplies',['data' => $data]);
  
@@ -43,7 +42,7 @@ class ProcurementSuppliesController extends Controller
         {
             $query = $request->q;
             if($query !=''){
-                $data = ProcurementSupplies::where('fix_price' ,'LIKE', '%'. $query .'%')->paginate(10);
+                $data = ProcurementSupplies::where('description' ,'LIKE', '%'. $query .'%')->paginate(10);
             }else{
                 $data = ProcurementSupplies::paginate(10);
             }
