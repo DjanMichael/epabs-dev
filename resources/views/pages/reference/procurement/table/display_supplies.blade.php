@@ -9,6 +9,7 @@
             <th scope="col" class="text-center">Price</th>
             <th scope="col" class="text-center">Fix Price</th>
             <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -20,11 +21,14 @@
                 <td>{{ $row["classification"] }}</td>
                 <td>{{ $row["price"] }}</td>
                 <td>
-                    @if($row["fix_price"] == 'Y') Yes @else <a href="#" class="btn btn-light-primary"><i class="flaticon-price-tag"></i></a> @endif
+                    @if($row["fix_price"] == 'Y') Yes @else <a data-role="price" data-id="{{ $row["id"] }}" class="btn btn-light-primary"><i class="flaticon-price-tag"></i></a> @endif
                 </td>
                 <td>
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
                </td>
+                <td>
+                    <a href="javacript;;" class="btn btn-sm btn-clean btn-icon" title="Edit Details"><i class="la la-edit"></i></a>
+                </td>
             </tr>
             @empty
             <tr>

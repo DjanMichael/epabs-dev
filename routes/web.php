@@ -11,11 +11,11 @@ use App\User;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+|   Route Names
 |   r = Redirect
 |   a = Add
+|   d = Display
 */
-
-
 
 Route::group(['middleware' => ['web', 'auth']], function () {
     
@@ -75,4 +75,23 @@ Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppli
 Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
 Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
 Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesSearch')->name('d_get_procurement_supplies_search');
+Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
 Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
+
+// Procurement Medicine Routes
+Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMedicineController@getProcurementMedicine')->name('d_get_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
+Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineSearch')->name('d_get_procurement_medicine_search');
+Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
+Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
+
+// Year Routes
+Route::get('/system/reference/year','YearsController@index')->name('r_year');
+Route::get('/system/reference/year/all','YearsController@getYear')->name('d_year');
+Route::get('/system/reference/year/pagination','YearsController@getYearByPage')->name('d_get_year_by_page');
+Route::get('/system/reference/year/search','YearsController@getYearSearch')->name('d_get_year_search');
+Route::get('/system/reference/year/add-form','YearsController@getAddForm')->name('d_add_year');
+Route::post('/system/reference/add-year','YearsController@store')->name('a_year');

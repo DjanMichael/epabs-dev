@@ -1,16 +1,16 @@
 @extends('layouts.app')
-@section('title','Supplies')
+@section('title','Year')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li> 
     <li class="breadcrumb-item">
-        <a class="text-muted">Procurement Supplies</a>
+        <a class="text-muted">System Year</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Procurement Supplies')
+    @section('panel-title', 'Year')
     @section('panel-icon', 'flaticon2-box-1') 
     @include('pages.reference.component.panel')
 @endsection
@@ -28,25 +28,13 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_get_procurement_supplies') }}", "{{ route('d_get_procurement_supplies_by_page') }}");
+            populateTable("{{ route('d_year') }}", "{{ route('d_get_year_by_page') }}");
            
             $("#alert").delay(0).hide(0);
 
-            let data = {
-                description :'',
-                unit:'',
-                classification: '',
-                price: '',
-                fix_price:''
-            };
+            let data = { year :'' };
 
-            let rules = {
-                description :'required',
-                unit:'required',
-                classification: 'required',
-                price: 'required',
-                fix_price:'required'
-            };
+            let rules = { year :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
 
@@ -56,40 +44,14 @@
         |--------------------------------------------------------------------------
         */
 
-            $(document).on('click', '#chk_fix_price', function(){ switchChangeValue('chk_fix_price') });
-
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
-                populateTableBySearch("{{ route('d_get_procurement_supplies_search') }}", str);
-            });
-
-            // $("#btn_add").on('click',function(){
-            //     showModalContent("{{ route('d_add_procurement_supplies') }}");
-            // });
-
-            // function showModalContent(_url){
-            //     $.ajax({
-            //         url: _url,
-            //         method: 'GET',
-            //     }).done(function(data) {
-            //         document.getElementById('dynamic_content').innerHTML= data;
-            //         $('#modal_reference').modal('toggle');
-            //     });
-            // }
-
-            
-            $(document).on('click', 'a[data-role=price]', function(){
-                var id = $(this).data('id');
-                alert(id);
-                // var course = $('#'+id).children('td[data-target=course]').text();
-                // $('#edit-course').val(course);
-                // $('#course-id').val(id);
-                // $('#edit-modal').modal('toggle');
+                populateTableBySearch("{{ route('d_get_year_search') }}", str);
             });
             
             $("#btn_add").on('click',function(){
                 $.ajax({
-                    url: "{{ route('d_add_procurement_supplies') }}",
+                    url: "{{ route('d_add_year') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
@@ -98,25 +60,17 @@
             });
 
             $("#kt_btn_1").on('click', function(e){
-                data.description = $("#item_description").val();
-                data.unit = $("#item_unit").val();
-                data.classification = $("#item_classification").val();
-                data.price = $("#item_price").val();
-                data.fix_price = $("#chk_fix_price").val();
-
+                data.year = $("#year").val();
+             
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_procurement_supplies') }}",
+                        url: "{{ route('a_year') }}",
                         method: 'POST',
                         data: {
-                            "description": data.description,
-                            "unit_id": data.unit,
-                            "classification_id": data.classification,
-                            "price": data.price,
-                            "fix_price": data.fix_price
+                            "year": data.year
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -125,15 +79,19 @@
                            setTimeout(function() {
                                 KTUtil.btnRelease(btn);
                             }, 1000);
-                            $('#modal_reference').modal('toggle');
-                            populateTable("{{ route('d_get_procurement_supplies') }}", "{{ route('d_get_procurement_supplies_by_page') }}");
-                            toastr.success(result['message']);
-                          },
+                            if (result['type'] == 'insert') {
+                                $('#modal_reference').modal('toggle');
+                                populateTable("{{ route('d_year') }}", "{{ route('d_get_year_by_page') }}");
+                                toastr.success(result['message']);
+                            } else {
+                                Swal.fire("System Message", result['message'], "error");
+                            }
+                        },
                         error: function(result) {
                             setTimeout(function() {
                                 KTUtil.btnRelease(btn);
                             }, 1000);
-                            Swal.fire("System Message", "Something went wrong!", "error");
+                            Swal.fire("System Message", result['message'], "error");
                         }
                     });  
 
