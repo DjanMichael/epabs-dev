@@ -395,13 +395,17 @@
              *              INITIALIZATION 
              * 
              *************************************************/
+
+
+
+
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
             $("#pi_alert").delay(0).hide(0);
 
              let pi_data = {
-                    budget_line_item :'',
+                    budget_line_item_id :'',
                     uacs_title_id:'',
                     performance_indicator: '',
                     ppmp_include:'',
@@ -412,7 +416,7 @@
 
             
             let pi_rules = {
-                budget_line_item :'required',
+                budget_line_item_id :'required',
                 uacs_title_id:'required',
                 performance_indicator: 'required',
                 ppmp_include:'required',
@@ -421,7 +425,6 @@
             }
             let options = {
                 'required.budget_line_item_id' : ':attribute is Required',
-                'required.budget_line_item' : ':attribute is Required',
                 'required.uacs_title_id' : ':attribute is Required',
                 'required.performance_indicator' : ':attribute is Required',
                 'required.ppmp_include' : ':attribute is Required',
@@ -441,7 +444,6 @@
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
-                
                 firstQuarterHasValue();
             });
 
@@ -536,7 +538,7 @@
             });
 
             $("#btn_save_pi").on('click',function(){
-             
+             console.log( $("#buget_line_item option:selected").val());
             pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
             pi_data.uacs_title_id = $("#uacs_code").val();
             pi_data.performance_indicator = $("#peformance_indicator").val();
@@ -553,7 +555,7 @@
                 delete pi_rules.batches;
             }
 
-            console.log(pi_rules);
+            console.log(pi_data);
             
 
 
@@ -593,7 +595,6 @@
 
                
             }
-
 
             localStorage.setItem('pi_data',JSON.stringify(pi_data));
 
@@ -645,23 +646,30 @@
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
                     
-                },
+                }
+                ,
                 complete:function(){
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             });
         }
 
-        function fetch_output_function(page1){
+ 
+
+        var page ;
+        function fetch_output_function(page1,q1){
+            page =page1;
+            // alert(typeof(q1));
             var _url= "{{ route('d_output_function_by_page') }}";
+            var _q = q1 == '' ? '' : q1;
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : { page: page1},
+                data : { page: page1, q : _q },
                 beforeSend:function(){
                     KTApp.block('#output_function_table', {
                         overlayColor: '#000000',
@@ -677,12 +685,16 @@
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             })
         }
 
+
+
+
+       
 
         // function populateOutputFunctionsAll(){
         //     console.log('1');
@@ -706,8 +718,9 @@
         // }
 
         function populateOutputFunctionsSearch(q){
-            var datastr = "q=" + q;
-            var _url = "{{ route('d_get_search_output_functions') }}"
+            var _url = "{{ route('d_get_search_output_functions') }}";
+            var _q = q == '' ? '' : q;
+            var datastr = "q=" + _q;
            
             $.ajax({
                 method: "GET",
@@ -723,6 +736,13 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                complete:function(){
+                    $("#output_function_pagination .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        // console.log($(this).attr('href').split('page=')[1]);
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
+                    });
                 },
                 error:function(err){
                     if(err.status == 500){
@@ -875,9 +895,12 @@
 
         function getUserBudgetLineAllocation(){
             var _url ="{{ route('d_get_budget_line_item') }}";
+            var a = localStorage.getItem('GLOBAL_SETTINGS');
+            a = a ?  JSON.parse(a) : {} ;
             $.ajax({
                 method:"GET",
                 url: _url,
+                data: {year_id : a["year"] },
                 success:function(data){
                     document.getElementById('buget_line_item').innerHTML = data;
                 },
@@ -990,13 +1013,15 @@
             a = a ? JSON.parse(a) : {};
             var year_id1 = a["year"];
             if(a["year"] != null){
-
                 $.ajax({
                     method:"GET",
                     url:_url,
                     data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
-                        document.getElementById('total_allocation').innerHTML =data[0].program_budget;
+                        console.log(data.length);
+                        if(data.length != 0){
+                            document.getElementById('total_allocation').innerHTML =data[0].program_budget;
+                        }
                     }
                 });
             }

@@ -23,7 +23,5 @@
 </table>
 <hr>
 <div id="output_function_pagination">
-        {{ $output_functions->links() }}
+        {{ $output_functions->links('components.global.pagination') }}
 </div>
-
-

@@ -21,6 +21,7 @@ class CreateViewWfpInformation extends Migration
                     `tw`.`unit_id` AS `unit_id`,
                     `tw`.`user_id` AS `user_id`,
                     `tw`.`year_id` AS `year_id`,
+                    
                     `rfd`.`class_sequence` AS `class_sequence`,
                     `rfd`.`function_class` AS `function_class`,
                     lpad(

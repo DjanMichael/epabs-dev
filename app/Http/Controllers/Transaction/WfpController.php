@@ -12,24 +12,40 @@ use App\TableUnitBudgetAllocation;
 use App\Wfp;
 use App\WfpActivity;
 use App\Views\WfpActivityInfo;
+use DB;
+use App\RefYear;
+use App\UserProfile;
 class WfpController extends Controller
 {
     // 
     public $auth_user_id;
     public $auth_user_unit_id;
 
+
+
+    // wfp performance table settings
+    public $pi_table_paginate;
+
+
+
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
             $this->auth_user_id = Auth::user()->id;
             $this->auth_user_unit_id = Auth::user()->getUnitId();
+
+            // wfp performance table settings
+            $this->pi_table_paginate = 3;
+
+
             return $next($request);
         });
     }
 
     public function index()
     {
-        return view('pages.transaction.wfp.wfp');
+        $data["year"] = RefYear::all();
+        return view('pages.transaction.wfp.wfp',['data' => $data]);
     }
 
     public function goToCreateWfp(){
@@ -51,7 +67,7 @@ class WfpController extends Controller
 
     public function getOutputFunctions()
     {
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
+        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
@@ -62,18 +78,23 @@ class WfpController extends Controller
         if($q !=''){
             $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
             ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
-            ->paginate(5);
+            ->paginate($this->pi_table_paginate);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate(5);
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate($this->pi_table_paginate);
         }
- 
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getOutputFunctionByPage(Request $req){
         if($req->ajax())
         {
-            $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate(10);
+            if ($req->q !=''){
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
+                                                ->where('function_description','LIKE', '%' . $req->q . '%')
+                                                ->paginate($this->pi_table_paginate);
+            }else{
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
+            }
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
     }
@@ -147,9 +168,40 @@ class WfpController extends Controller
     public function getWfpByCode(Request $req)
     {
         if($req->ajax()){
-           
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $a[0]->year]);  
+            $year =  count($a) == 0 ? null : $a[0]->year;
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year]);  
         }
     }
+
+    public function generateWfpCode(Request $req){
+        // dd(Auth::user());
+        // dd( Auth::user()->getUnitId());
+        // dd((UserProfile::where('user_id',Auth::user()->id)->first()));
+        $user_id = Auth::user()->id;
+        $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
+        $year_id = $req->year_id;
+        // DB::select('EXEC my_stored_procedure ?,?,?',['var1','var2','var3']);
+
+        $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
+        $code = $code[0]->wfp_code;
+        // dd(array($user_id,$unit_id,$year_id));
+        $check = Wfp::where('user_id',$user_id)->where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+        $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+// dd([$unit_id,$year_id]);
+        if($check){
+            return 'duplicate';
+        }
+
+        if($unitHasBadget == null){
+            return 'no budget';
+        
+        }
+        $wfp = new Wfp;
+        $wfp->code = $code;
+        $wfp->user_id = $user_id;
+        $wfp->unit_id = $unit_id;
+        $wfp->year_id = $year_id;
+        return $wfp->save() ? 'success' : 'not saved';
+    } 
 }

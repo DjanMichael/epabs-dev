@@ -8,6 +8,4 @@
     }
 
 
-    $("#btn_drawer_wfp_view").on('click',function(){
-        console.log('tw');
-    });
+  
