@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title','Supplies')
+@section('title','Medicines')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li> 
     <li class="breadcrumb-item">
-        <a class="text-muted">Procurement Supplies</a>
+        <a class="text-muted">Procurement Medicines</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Procurement Supplies')
-    @section('panel-icon', 'flaticon2-box-1') 
+    @section('panel-title', 'Procurement Medicines')
+    @section('panel-icon', 'flaticon2-box') 
     @include('pages.reference.component.panel')
 @endsection
 
@@ -28,7 +28,7 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_get_procurement_supplies') }}", "{{ route('d_get_procurement_supplies_by_page') }}");
+            populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}");
            
             $("#alert").delay(0).hide(0);
 
@@ -60,23 +60,8 @@
 
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
-                populateTableBySearch("{{ route('d_get_procurement_supplies_search') }}", str);
+                populateTableBySearch("{{ route('d_get_procurement_medicine_search') }}", str);
             });
-
-            // $("#btn_add").on('click',function(){
-            //     showModalContent("{{ route('d_add_procurement_supplies') }}");
-            // });
-
-            // function showModalContent(_url){
-            //     $.ajax({
-            //         url: _url,
-            //         method: 'GET',
-            //     }).done(function(data) {
-            //         document.getElementById('dynamic_content').innerHTML= data;
-            //         $('#modal_reference').modal('toggle');
-            //     });
-            // }
-
             
             $(document).on('click', 'a[data-role=price]', function(){
                 var id = $(this).data('id');
@@ -89,7 +74,7 @@
             
             $("#btn_add").on('click',function(){
                 $.ajax({
-                    url: "{{ route('d_add_procurement_supplies') }}",
+                    url: "{{ route('d_add_procurement_medicine') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
@@ -109,7 +94,7 @@
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_procurement_supplies') }}",
+                        url: "{{ route('a_procurement_medicine') }}",
                         method: 'POST',
                         data: {
                             "description": data.description,
@@ -126,7 +111,7 @@
                                 KTUtil.btnRelease(btn);
                             }, 1000);
                             $('#modal_reference').modal('toggle');
-                            populateTable("{{ route('d_get_procurement_supplies') }}", "{{ route('d_get_procurement_supplies_by_page') }}");
+                            populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}");
                             toastr.success(result['message']);
                           },
                         error: function(result) {
