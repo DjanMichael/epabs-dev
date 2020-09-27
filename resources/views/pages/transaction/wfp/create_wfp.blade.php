@@ -365,13 +365,20 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label>Cost</label>
                     <input type="text" class="form-control" placeholder="Cost" id="pi_cost">
+                </div> --}}
+                <div class="form-group">
+                    <label>Cost<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                        <input type="text" class="form-control" id="pi_cost" placeholder="99.9">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>No. of Batch/s</label>
-                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs">
+                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs" disabled="true">
                 </div>
             </div>
             <div class="modal-footer">
@@ -411,7 +418,6 @@
                     ppmp_include:'',
                     catering_include:'',
                     cost:'',
-                    batches:''
             };
 
             
@@ -477,19 +483,19 @@
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
             $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
-            $("#c_ppmp").on('click',function(){ switchChangeValue('c_catering') });
             $("#c_catering").on('click',function(){ 
-              
                 Promise.resolve(4)
                     .then(()=>{
                         switchChangeValue('c_catering'); 
                     })
                     .then(()=>{
                         if($("#c_catering").val() == 'false'){
+                            $("#no_batchs").val('');
                             $("#no_batchs").attr('disabled',true);
                         }else{
                             $("#no_batchs").attr('disabled',false);
                         }
+                        console.log($("#c_catering").val());
                     })
                     .then((err)=>{
                         return Promise.reject(err);
@@ -538,24 +544,29 @@
             });
 
             $("#btn_save_pi").on('click',function(){
-             console.log( $("#buget_line_item option:selected").val());
+            //  console.log( $("#buget_line_item option:selected").val());
+      
+            $(this).addClass('spinner spinner-white spinner-right');
+            $(this).attr('disabled',true);
+            $(this).html('Processing . .');
             pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
             pi_data.uacs_title_id = $("#uacs_code").val();
             pi_data.performance_indicator = $("#peformance_indicator").val();
             pi_data.ppmp_include = $("#c_ppmp").val();
             pi_data.catering_include = $("#c_catering").val() ;
             pi_data.cost = $("#pi_cost").val();
-            pi_data.batches = $("#no_batchs").val();
+            // pi_data.batches = $("#no_batchs").val();
 
-            console.log(pi_data.catering_include)
+            // console.log(pi_data.catering_include)
                 
             if (pi_data.catering_include == 'true'){
                 pi_rules.batches='required';
+                pi_data.batches = $("#no_batchs").val();
             }else{
-                delete pi_rules.batches;
+                delete pi_data.batches;
             }
 
-            console.log(pi_data);
+            // console.log(pi_data);
             
 
 
@@ -573,7 +584,24 @@
 
 
             if (pi_validation.passes()) {
+                console.log('passed');
+                var _url = "{{ route('db_pi_save') }}";
+                var _data = {
+                    data : pi_data
+                };
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: _data,
+                    success:function(data){
 
+                        toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                        $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_save_pi").html('Save');
+                        $("#btn_save_pi").attr('disabled',false);
+                    }
+                })
+               
             }else{
                 var msg = "";
             // console.log(pi_validation.errors.all());
@@ -592,7 +620,9 @@
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-
+                $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
+                $("#btn_save_pi").html('Save');
+                $("#btn_save_pi").attr('disabled',false);
                
             }
 
@@ -1018,7 +1048,7 @@
                     url:_url,
                     data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
-                        console.log(data.length);
+                        // console.log(data.length);
                         if(data.length != 0){
                             document.getElementById('total_allocation').innerHTML =data[0].program_budget;
                         }

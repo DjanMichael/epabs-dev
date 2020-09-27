@@ -204,4 +204,8 @@ class WfpController extends Controller
         $wfp->year_id = $year_id;
         return $wfp->save() ? 'success' : 'not saved';
     } 
+
+    public function savePerformaceIndicator(Request $req){
+        dd($req->all());
+    }
 }

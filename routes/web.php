@@ -34,7 +34,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/create/search/pagination/output_function','Transaction\WfpController@getOutputFunctionByPage')->name('d_output_function_by_page');
     Route::get('/users/wfp/view','Transaction\WfpController@getWfpByCode')->name('d_wfp_view');
     Route::get('/users/wfp/create/generate','Transaction\WfpController@generateWfpCode')->name('f_generate_code_wfp');
-
+    Route::get('/users/wfp/performance_indicator/save','Transaction\WfpController@savePerformaceIndicator')->name('db_pi_save');
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
     Route::get('/test','Transaction\WfpController@test');
