@@ -14,14 +14,8 @@ class ProcurementSuppliesController extends Controller
     public function index(){
         
         $data = [];
-<<<<<<< Updated upstream
-        $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
-        $data['classification'] = RefClassification::where('status','ACTIVE')->get();
-        $data["form-type"] = "Add Procurement Supplies";
-=======
->>>>>>> Stashed changes
         return view('pages.reference.procurement.procurement_supplies',['data' => $data]);
- 
+
     }
     
     public function getProcurementSupplies()
@@ -43,11 +37,7 @@ class ProcurementSuppliesController extends Controller
         if($request->ajax())
         {
             $query = $request->q;
-<<<<<<< Updated upstream
-            if($query !=''){
-=======
             if($query != ''){
->>>>>>> Stashed changes
                 $data = ProcurementSupplies::where('description' ,'LIKE', '%'. $query .'%')->paginate(10);
             }else{
                 $data = ProcurementSupplies::paginate(10);
