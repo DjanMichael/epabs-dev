@@ -64,7 +64,7 @@
                                     <div class="symbol symbol-60 mr-3">
                                         <span class="symbol-label font-size-h6">P</span>
                                     </div>
-                                   
+
                                 </div>
                                 <!--end::Pic-->
                                 <!--begin::Info-->
@@ -101,7 +101,7 @@
                             <!--end::Progress-->
                         </div>
                         <!--end::Content--> --}}
-                       
+
                         <!--begin::Blog-->
                         <div class="d-flex flex-wrap">
                             <!--begin: Item-->
@@ -133,7 +133,7 @@
                             </div>
                             <!--end::Item-->
                         </div>
-                  
+
                         <!--end::Blog-->
                     </div>
                     <!--end::Body-->
@@ -159,18 +159,18 @@
                             </div>
                         </div>
                          {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" onclick="wfp_drawer_open(1)">View</button> --}}
-                         
-                       
+
+
                     </div>
                     <!--end::Footer-->
                 </div>
                 <!--end::Card-->
             </div>
-           
-          
+
+
         </div>
         <!--end::Row-->
-   
+
     </div>
     <!--end::Container-->
 </div>
@@ -213,7 +213,6 @@
 {{-- {{ route('r_create_wfp') }} --}}
 <script>
     $(document).ready(function(){
-      
 
         $("#btn_create_wfp_year").on('click',function(){
             var redirectTo = "{{ route('r_create_wfp') }}";
@@ -224,7 +223,7 @@
                 year_id: a["year"]
             };
 
- 
+
             $.ajax({
                 method:"GET",
                 url: _url,

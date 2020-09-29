@@ -5,10 +5,11 @@
     <a href="{{ route('r_wfp') }}" class="text-muted">WFP</a>
 </li>
 <li class="breadcrumb-item">
-    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create</a>
+    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create WFP</a>
 </li>
 @endsection
 @section('content')
+
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <h3 class="card-title">Create Work and Financial Plan</h3>
@@ -83,7 +84,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleSelect1">Responsible Person 
+                        <label for="exampleSelect1">Responsible Person
                         <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Responsible Person">
                     </div>
@@ -228,7 +229,7 @@
                     <div class="col-12 mt-2 mb-2">
                         <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
                             <i class="flaticon2-add-1"></i> Add Performance Indicator
-                        </button>      
+                        </button>
                     </div>
                     <div class="col-12" id="peformance_indicator_table_content">
                         <div class="col-12 p-20 w-100" style="height:150px; text-align:center;border:1px solid grey;">
@@ -239,7 +240,7 @@
                   </div>
                </div>
            </div>
-        
+
         </div>
         <div class="card-footer">
             <button type="reset" class="btn btn-primary mr-2">Submit</button>
@@ -331,7 +332,7 @@
                             <select class="form-control" id="uacs_title" disabled></select>
                         </div>
                 </div>
-            
+
                 <div class="alert alert-light" role="alert">
                     <div class="row">
                         <div class="col-12 col-md-4">CATEGORY : <b id="label_uacs_category">--------</b></div>
@@ -396,11 +397,11 @@
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
-    
+
             /************************************************
-             * 
-             *              INITIALIZATION 
-             * 
+             *
+             *              INITIALIZATION
+             *
              *************************************************/
 
 
@@ -420,7 +421,7 @@
                     cost:'',
             };
 
-            
+
             let pi_rules = {
                 budget_line_item_id :'required',
                 uacs_title_id:'required',
@@ -439,8 +440,8 @@
                 'required.batches' : ':attribute is Required'
             }
 
-        
-           
+
+
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
@@ -483,10 +484,10 @@
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
             $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
-            $("#c_catering").on('click',function(){ 
+            $("#c_catering").on('click',function(){
                 Promise.resolve(4)
                     .then(()=>{
-                        switchChangeValue('c_catering'); 
+                        switchChangeValue('c_catering');
                     })
                     .then(()=>{
                         if($("#c_catering").val() == 'false'){
@@ -500,9 +501,9 @@
                     .then((err)=>{
                         return Promise.reject(err);
                 });
-                
+
             });
-          
+
 
             $("#uacs_category").change(function(){
                var a = $("#uacs_category").val();
@@ -528,7 +529,7 @@
                     getUacsCode($("#uacs_title option:selected").val());
                }
             });
-        
+
             $("#uacs_category").bind("change", function() {
                 $("#label_uacs_category").html($("#uacs_category option:selected").text());
             });
@@ -545,7 +546,7 @@
 
             $("#btn_save_pi").on('click',function(){
             //  console.log( $("#buget_line_item option:selected").val());
-      
+
             $(this).addClass('spinner spinner-white spinner-right');
             $(this).attr('disabled',true);
             $(this).html('Processing . .');
@@ -558,7 +559,7 @@
             // pi_data.batches = $("#no_batchs").val();
 
             // console.log(pi_data.catering_include)
-                
+
             if (pi_data.catering_include == 'true'){
                 pi_rules.batches='required';
                 pi_data.batches = $("#no_batchs").val();
@@ -567,11 +568,11 @@
             }
 
             // console.log(pi_data);
-            
+
 
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
-           
+
             pi_validation.setAttributeNames({
                 budget_line_item_id:'Budget Line Item',
                 uacs_title_id:'UACS Title',
@@ -601,7 +602,7 @@
                         $("#btn_save_pi").attr('disabled',false);
                     }
                 })
-               
+
             }else{
                 var msg = "";
             // console.log(pi_validation.errors.all());
@@ -613,7 +614,7 @@
                 $("#wfp_performance_indicator").animate({ scrollTop:0 },700);
                 $("#pi_alert").addClass('fade show');
                 $("#pi_alert_text").html(msg);
-                
+
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
@@ -623,7 +624,7 @@
                 $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
                 $("#btn_save_pi").html('Save');
                 $("#btn_save_pi").attr('disabled',false);
-               
+
             }
 
             localStorage.setItem('pi_data',JSON.stringify(pi_data));
@@ -639,7 +640,7 @@
                 });
             });
 
-            
+
             $("#btn_pi_close").on('click',function(e){
                 $("#wfp_performance_indicator").modal('hide');
             });
@@ -649,11 +650,11 @@
             });
 
 
-      
+
 
             // end for $(document).ready()
         });
-        
+
 
         /*************************************************
                         REUSABLE FUNCTIONS
@@ -675,7 +676,7 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
-                    
+
                 }
                 ,
                 complete:function(){
@@ -688,7 +689,7 @@
             });
         }
 
- 
+
 
         var page ;
         function fetch_output_function(page1,q1){
@@ -724,7 +725,7 @@
 
 
 
-       
+
 
         // function populateOutputFunctionsAll(){
         //     console.log('1');
@@ -742,7 +743,7 @@
         //         success:function(data){
         //             KTApp.unblock('#output_function_table');
         //             document.getElementById('modal_content_output_functions').innerHTML= data;
-                
+
         //         }
         //     });
         // }
@@ -751,7 +752,7 @@
             var _url = "{{ route('d_get_search_output_functions') }}";
             var _q = q == '' ? '' : q;
             var datastr = "q=" + _q;
-           
+
             $.ajax({
                 method: "GET",
                 url: _url,
@@ -914,7 +915,7 @@
 
         function switchDisabledValueSetFalse(ob){
             var el = document.getElementById(ob);
-           
+
             if (el.value == 'true') {
                     el.click();
                     el.value = 'false';
@@ -963,13 +964,13 @@
                     method:"GET",
                     url: _url,
                     success: function (data1) {
-                        document.getElementById('uacs_category').innerHTML = data1;                    
+                        document.getElementById('uacs_category').innerHTML = data1;
                     }
                 });
             }else{
                 $("#uacs_subcategory").attr('disabled',true);
             }
-          
+
         }
 
         function getUacsSubCategory(categ1){
@@ -994,7 +995,7 @@
             }else{
                 $("#uacs_title").attr('disabled',true);
             }
-         
+
         }
         function getUacsTitle(subcateg1){
             var _url ="{{ route('d_get_uacs_title') }}"
@@ -1010,7 +1011,7 @@
                     document.getElementById('uacs_title').innerHTML =data;
                     $("#uacs_title_loading").removeClass('spinner spinner-primary spinner-left');
                     $("#uacs_title").removeAttr('disabled');
-                  
+
                 },
                 error:function(err){
                     console.log(err);
@@ -1033,7 +1034,7 @@
             }else{
                 document.getElementById('label_uacs_code').innerHTML = "";
             }
-       
+
         }
 
         function getBudgetAllocation(bli_id1){
@@ -1055,7 +1056,7 @@
                     }
                 });
             }
-           
+
         }
 
 
