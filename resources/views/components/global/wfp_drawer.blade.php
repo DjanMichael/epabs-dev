@@ -1,7 +1,8 @@
 {{-- <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer"> --}}
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
-<div class="row">
+@if(count($activities) != 0)
+    <div class="row">
     <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1></div>
         <div class="col-12 col-md-2 text-right">
             <a type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" href="{{ route('r_details_wfp') }}" style="z-index:1000;position: relative;bottom:0px;right:0px;">Comments</a>
@@ -31,11 +32,12 @@
                                 </tr>
                             </thead>
                         <tbody>
-                        <?php 
-                            $i=1; 
+                        <?php
+                            $i=1;
 
                             $total_cost = 0.00;
                         ?>
+@endif
                         @forelse ($activities as $row)
                             <tr class="wfp_table_row">
                                 <td scope="row">{{ $i }}</td>
@@ -52,15 +54,16 @@
                                 <td>{{ $row->name }}</td>
 
                             </tr>
-                            <?php 
-                                $i += 1; 
+                            <?php
+                                $i += 1;
                                 $total_cost = $total_cost +  (float)$row->activity_cost;
                             ?>
-                         
+
                         @empty
+
                             <div class="row"  style="height:100%;width:100%;">
                                 <div class="col-12 text-center" style="height:100%;width:100%;">
-                                    <img style="position: absolute;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);height:10rem;width:10rem" src="{{ asset('dist/assets/media/svg/icons/Code/Warning-2.svg') }}"/>
+                                    <img style="position: absolute;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);height:10rem;width:10rem" src="{{ asset('dist/assets/media/svg/icons/Code/Warning-2.svg') }}"/>
                                     <h1 style="position: absolute;top:40%;width:100%;">No Activity Encoded</h1>
                                     <div style="position: absolute;top:50%;width:100%;">
                                         <button class="btn btn-secondary" onclick="wfp_drawer_close()">Close</button>
@@ -68,6 +71,7 @@
                                 </div>
                             </div>
                         @endforelse
+@if(count($activities) != 0)
                         <tr>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -87,6 +91,7 @@
         </div>
     </div>
 </div>
+@endif
     {{-- </div>
 </div> --}}
 
