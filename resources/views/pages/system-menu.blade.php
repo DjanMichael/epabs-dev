@@ -1,17 +1,5 @@
 @extends('layouts.app')
 @section('title','SYSTEM MODULES')
-@section('breadcrumb')
-<li class="breadcrumb-item">
-    <a href="" class="text-muted">Features</a>
-</li>
-<li class="breadcrumb-item">
-    <a href="" class="text-muted">Icons</a>
-</li>
-<li class="breadcrumb-item">
-    <a href="" class="text-muted">Flaticon</a>
-</li>
-@endsection
-
 @section('content')
 <!-- begin::system modules-->
 <div class="card card-custom card-stretch gutter-b">
@@ -93,7 +81,7 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                    <a href="{{ route('r_wfp') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Work and Financial Plan</a>
+                        <a href="{{ route('r_wfp') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Work and Financial Plan</a>
                         <span class="text-muted">Create your WFP</span>
                     </div>
                     <!--end::Text-->
@@ -131,7 +119,7 @@
            </div>
            <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                <button  class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -159,7 +147,7 @@
            </div>
            <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                <button onclick="window.location.href='{{ route('r_budget_allocation') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -178,7 +166,7 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Budget Allocation Management</a>
+                        <a href="{{ route('r_budget_allocation') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Budget Allocation Management</a>
                         <span class="text-muted">Manage your Budget</span>
                     </div>
                     <!--end::Text-->
@@ -791,7 +779,7 @@
 
 
 
-      
+
 
         {{-- <div style="postion:absolute;bottom:0; height:200px;top:0;" class="wave wave-animate-slow wave-primary"></div> --}}
     </div>
@@ -804,5 +792,5 @@
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/widgets.js')}}"></script>
     <script src="{{ asset('dist/assets/js/controllers/system-menu.js')}}"></script>
-    
+
 @endpush

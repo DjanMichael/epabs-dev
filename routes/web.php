@@ -18,7 +18,7 @@ use App\User;
 */
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-    
+
     //Transaction/WFP
     Route::get('/users/wfp','Transaction\WfpController@index')->name('r_wfp');
     Route::get('/users/wfp/create','Transaction\WfpController@goToCreateWfp')->name('r_create_wfp');
@@ -35,6 +35,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/view','Transaction\WfpController@getWfpByCode')->name('d_wfp_view');
     Route::get('/users/wfp/create/generate','Transaction\WfpController@generateWfpCode')->name('f_generate_code_wfp');
     Route::get('/users/wfp/performance_indicator/save','Transaction\WfpController@savePerformaceIndicator')->name('db_pi_save');
+
+
+    //Transaction/Budget Allocation
+    Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
+    Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');
+
+
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
     Route::get('/test','Transaction\WfpController@test');
@@ -48,7 +55,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::get('/logout/session',function(){
-    
+
     Auth::logout();
     return redirect()->route('login');
 })->name('Logout');
