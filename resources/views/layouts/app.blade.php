@@ -3210,10 +3210,20 @@ License: You must have a valid license purchased only from themeforest(the above
                                     a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
                                 }
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+
                             }else{
                                 toastr.error("Saving Failed", "Error");
                             }
-
+                        },
+                        complete:function(){
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Refreshing with new settings'
+                            });
+                            setTimeout(function(){
+                                window.location.reload(1);
+                            },2500);
                         }
                     });
                 }
