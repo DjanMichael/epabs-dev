@@ -9,6 +9,8 @@ class TableUnitBudgetAllocation extends Model
 {
     //
     protected $table = 'tbl_unit_budget_allocation';
+    protected $fillable = ['unit_id','budget_line_item_id','program_budget','year_id'];
+
 
     public function unit(){
         return $this->belongsTo('App\UserProfile');
@@ -19,8 +21,8 @@ class TableUnitBudgetAllocation extends Model
                                         ->where('year_id',$year_id)
                                         ->where('bli_id',$bli_id)
                                         ->get();
-                                        
+
         return ($a) ? response()->json($a) : 0 ;
     }
-    
+
 }
