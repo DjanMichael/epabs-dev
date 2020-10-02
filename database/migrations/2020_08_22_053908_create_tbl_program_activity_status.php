@@ -18,7 +18,7 @@ class CreateTblProgramActivityStatus extends Migration
             $table->integer('unit_id');
             // $table->foreign('program_id')->references('id')->on('ref_programs');
             $table->integer('budget_line_item_id');
-            $table->decimal('program_budget',10,2);
+            $table->decimal('program_budget',20,2);
             $table->integer('year_id');
             // $table->foreign('year_id')->references('id')->on('ref_year');
             $table->timestamps();
@@ -32,6 +32,6 @@ class CreateTblProgramActivityStatus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_program_activity_status');
+        Schema::dropIfExists('tbl_unit_budget_allocation');
     }
 }

@@ -137,6 +137,10 @@
             $("#bli_name").val("");
             $("#bli_amount").val("");
 
+            //set button default
+            $("btn_save_budget").attr('disabled',false);
+            $("btn_update_budget").attr('disabled',true);
+
             //edit
             $("#edit_bli").val("");
             $("#edit_amount").val("");

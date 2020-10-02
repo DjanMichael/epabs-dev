@@ -132,8 +132,10 @@
                         success:function(data){
                             if (data == 'success'){
                                 getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val());
-                                toastr.success("Budget Allocation Sucessfully Save", "Good Job");
                                 fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                                $("#bli_name").val("");
+                                $("#bli_amount").val("");
+                                toastr.success("Budget Allocation Sucessfully Save", "Good Job");
                             }else if (data == 'duplicate'){
                                 toastr.error("Budget Line Item Already Exist", "Opps");
                             }else{
