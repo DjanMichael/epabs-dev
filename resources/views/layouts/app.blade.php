@@ -1641,7 +1641,7 @@ License: You must have a valid license purchased only from themeforest(the above
             @else
             <div class="symbol-list d-flex flex-wrap">
                 <div class="symbol symbol-120  mr-3">
-                <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
+                    <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
                 </div>
             </div>
             @endif
@@ -3204,10 +3204,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                 if(data.type =='insert')
                                 {
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
                                 }else{
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
                                 }
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
