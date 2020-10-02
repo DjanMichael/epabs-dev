@@ -12,6 +12,7 @@ use App\Views\BudgetAllocationUtilization;
 use Auth;
 use App\RefYear;
 use App\TableUnitBudgetAllocation;
+use App\Views\BudgetAllocationAllYearPerProgram;
 class BudgetAllocationController extends Controller
 {
 
@@ -42,14 +43,19 @@ class BudgetAllocationController extends Controller
         return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
     }
 
-    public function getBudgetAllocationUtilization(){
+    public function getBudgetAllocationUtilization(Request $req){
         $data =[];
         $settings = new GlobalSystemSettings;
-        if($settings->getYearSelectedByUser() != null){
-            $data["unit_budget_allocation"] = BudgetAllocationUtilization::groupBy('unit_id','year_id')
-                                                                        ->where('year_id',$settings->getYearSelectedByUser())
+        // dd($req->year - 0);
+        //  dd(BudgetAllocationAllYearPerProgram::all());
+        $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
+                                                                    // groupBy('unit_id','year_id')
+                                                                        ->where('t1_year_id',$req->year - 0)
                                                                         ->paginate($this->budget_allocation_pagination);
-        }
+        // $data["unit_budget_allocation"] = BudgetAllocationUtilization::groupBy('unit_id','year_id')
+        //                                                             ->wh ere('year',$req->year)
+        //                                                             ->paginate($this->budget_allocation_pagination);
+        // dd($data);
         return view('pages.transaction.budget_allocation.component.table_unit_budget_allocation',['data'=>$data]);
     }
 
@@ -83,6 +89,54 @@ class BudgetAllocationController extends Controller
 
         }else{
             abort(403);
+        }
+    }
+
+    public function updateBudgetPerBLIByUser(Request $req){
+
+        if($req->ajax()){
+            $edit_data = TableUnitBudgetAllocation::where('budget_line_item_id',$req->r_bli_id)
+                                                ->where('unit_id',$req->r_unit_id)
+                                                ->where('year_id',$req->r_year_id)
+                                                ->first();
+            if($edit_data){
+                //update new data
+                $edit_data->budget_line_item_id = $req->q_bli_id;
+                $edit_data->program_budget = $req->q_bli_amount;
+                $edit_data->save();
+                return 'success';
+            }else{
+                abort(403);
+            }
+        }else{
+            abort(403);
+        }
+
+    }
+
+    public function deleteBudgetPerBLIByUserPerBLI(Request $req){
+        if($req->ajax()){
+            $del_data = TableUnitBudgetAllocation::where('id',$req->delete_id)->delete();
+            if($del_data){
+                return 'success';
+            }else{
+                abort(403);
+            }
+        }else{
+            abort(403);
+        }
+    }
+
+    public function deleteBudgetPerBLIByUser(Request $req){
+        if($req->ajax()){
+            $del_allocation_all  =TableUnitBudgetAllocation::where('unit_id',$req->unit_id)
+                                                            ->where('year_id',$req->year_id)
+                                                            ->delete();
+            if($del_allocation_all)                                            {
+                return 'success';
+            }else{
+                abort(403);
+            }
         }
     }
 }

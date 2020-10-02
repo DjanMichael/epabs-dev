@@ -458,7 +458,9 @@ License: You must have a valid license purchased only from themeforest(the above
 
 								KTApp.unblock('#kt_body');
 								localStorage.removeItem('signup_validate');
-								window.location.href="{{ route('dashboard') }}";
+								setTimeout(() => {
+                                    window.location.href="{{ route('dashboard') }}";
+                                }, 1000);
 							}else if(data.message != null){
 								swal.fire({
 									text: "Sorry, " +data.message,

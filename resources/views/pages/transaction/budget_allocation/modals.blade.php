@@ -44,6 +44,8 @@
                     <div class="col-12">
                         {{-- <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button> --}}
                         <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_budget">Save Budget </button>
+                        <button type="button" class="btn btn-warning font-weight-bold" id="btn_update_budget" disabled="true">Update Budget </button>
+
                     </div>
                     <div class="col-12">
                         <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>

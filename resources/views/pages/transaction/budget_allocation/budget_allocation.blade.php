@@ -18,20 +18,24 @@
 
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
+    <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/sweetalert2.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
     {{-- <script src="{{ asset('dist/assets/js/pages/crud/ktdatatable/base/html-table.js?v=7.1.1') }}"></script> --}}
     <script>
+        var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
+        var current_page;
+
         $(document).ready(function() {
         $("#alert").hide();
+
         /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-
         getAllBudgetLineItem();
-        getBudgetUtilization();
+        getBudgetUtilization(settings.year);
 
         /*
         |--------------------------------------------------------------------------
@@ -44,6 +48,52 @@
 
             $("#btn_alert_close").on('click',function(){
                 $("#pi_alert").delay(0).fadeOut(600);
+            });
+
+            $("#btn_update_budget").on('click',function(){
+                var edit_bli = $("#bli_name").val();
+                var edit_amount =  $("#bli_amount").val();
+
+                var unit_id = $("#edit_bli_unit_id").val();
+                var user_id = $("#edit_bli_user_id").val();
+                var year_id = $("#edit_bli_year_id").val();
+                var bli_id = $("#edit_bli_id").val();
+
+                var _data = {
+                        q_bli_id : edit_bli,
+                        q_bli_amount : edit_amount,
+                        r_unit_id : unit_id,
+                        r_user_id : user_id,
+                        r_year_id : year_id,
+                        r_bli_id  : bli_id
+                    };
+
+                var _url = "{{ route('db_budget_update_allocation_per_user') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: _data,
+                    beforeSend:function(){
+                        $("#btn_update_budget").addClass('spinner spinner-white spinner-right');
+                        $("#btn_update_budget").html('Processing');
+                        $("#btn_update_budget").attr('disabled',true);
+                    },
+                    success:function(data){
+                        if(data =="success"){
+                            toastr.success("Budget Allocation Sucessfully Save", "Good Job");
+                            getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                            $("#bli_name").val("");
+                            $("#bli_amount").val("");
+                        }else{
+                            toastr.error("Something went wrong", "Opss");
+                        }
+                    },
+                    complete:function(){
+                        $("#btn_update_budget").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_update_budget").html('Update Budget');
+                        $("#btn_update_budget").attr('disabled',false);
+                    }
+                });
             });
 
             $("#btn_save_budget").on('click',function(e){
@@ -83,6 +133,7 @@
                             if (data == 'success'){
                                 getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val());
                                 toastr.success("Budget Allocation Sucessfully Save", "Good Job");
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
                             }else if (data == 'duplicate'){
                                 toastr.error("Budget Line Item Already Exist", "Opps");
                             }else{
@@ -112,6 +163,57 @@
 
             });
 
+ function deleteAllAllocation(unit_id1,year_id1){
+            Swal.fire({
+                title: "Are you sure, You want to delete all allocation?",
+                text: "You won\'t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    var _url = "{{ route('db_budget_delete_allocation_per_user') }}";
+                    var _data = {
+                        unit_id : unit_id1,
+                        year_id : year_id1
+                    };
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data: _data,
+                        success:function(data){
+                            if(data =="success"){
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Budget line Item Allocation has been deleted.",
+                                    "success"
+                                )
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                            }else{
+                                Swal.fire(
+                                    "Opss!",
+                                    "Something went wrong",
+                                    "error"
+                                )
+                            }
+                        },
+                    })
+
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Nothing Changes",
+                        "error"
+                    )
+                }
+            });
+
+        }
+
         /*
         |--------------------------------------------------------------------------
         | FUNCTIONS
@@ -124,11 +226,11 @@
                 var d = new Date();
                 var y =  year == null ? d.getFullYear() : year ;
                 var _url = "{{ route('d_budget_allocation_utilization') }}";
-
+                var _q =  $("#query_search").val();
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data:{ year: y},
+                    data:{ year: y , q:_q},
                     beforeSend:function(){
                         KTApp.block('#kt_body', {
                         overlayColor: '#000000',
@@ -142,7 +244,7 @@
                     complete:function(){
                         $("#pagination_budget_allocation .pagination a").on('click',function(e){
                             e.preventDefault();
-                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val())
+                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year)
                         });
                     }
                 });
@@ -161,14 +263,19 @@
                 })
             }
 
-            function fetch_budget_allocation(_page , _q){
 
+
+        });
+
+        function fetch_budget_allocation(_page , _q,year = null){
+                var d = new Date();
+                var y =  year == null ? d.getFullYear() : year ;
                 var _url = "{{ route('d_budget_allocation_utilization') }}";
-
+                current_page = _page;
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data:{ page: _page, q:_q },
+                    data:{ page: _page, q:_q ,year:y},
                     beforeSend:function(){
                         KTApp.block('#kt_body', {
                         overlayColor: '#000000',
@@ -182,17 +289,12 @@
                     complete:function(){
                         $("#pagination_budget_allocation .pagination a").on('click',function(e){
                             e.preventDefault();
-                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val())
+                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year)
                         });
                     }
                 });
                 KTApp.unblock('#kt_body');
             }
-
-
-
-
-        });
 
     </script>
 @endpush

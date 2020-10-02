@@ -1,5 +1,14 @@
-<div class="d-flex align-items-center mb-2 bg-light-secondary rounded p-5" >
 
+
+<input type="hidden" id="edit_bli_unit_id" value="" />
+<input type="hidden" id="edit_bli_user_id" value="" />
+<input type="hidden" id="edit_bli_year_id" value="" />
+<input type="hidden" id="edit_bli_id" value="" />
+
+<input type="hidden" id="edit_bli" value="" />
+<input type="hidden" id="edit_amount" value="" />
+
+<div class="d-flex align-items-center mb-2 bg-light-secondary rounded p-5" >
    <!--begin::Table-->
    <div class="table-responsive">
     <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
@@ -18,14 +27,15 @@
             @forelse ($data["unit_per_user_budget"] as $row)
 
             <?php
-            $total += $row["program_budget"];
+
+            $total += $row["program_budget"] ;
             ?>
             <tr>
                 <td class="pr-0 text-left">
-                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }})">
                         <i class="flaticon-edit"></i>
                     </button>
-                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" onClick="deleteBLIUser({{ $row["tuba_id"] }})">
                         <i class="flaticon2-trash"></i>
                     </button>
                 </td>
@@ -33,7 +43,7 @@
                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["budget_item"] }}</span>
                 </td>
                 <td class="pr-0 text-right">
-                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row["program_budget"],2) }}</span>
+                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg" id="">₱ {{ number_format($row["program_budget"],2) }}</span>
                 </td>
             </tr>
             <tr>

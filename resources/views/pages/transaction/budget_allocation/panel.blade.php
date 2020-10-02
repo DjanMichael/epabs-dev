@@ -25,6 +25,16 @@
                                         </span>
                                     </div>
                                 </div>
+                                <div class="col-md-4 my-2 my-md-0">
+                                    <div class="form-group">
+                                        <select name="" id="" class="form-control">
+                                            <option value=""></option>
+                                            <option value="">asd</option>
+                                            <option value="">asd</option>
+                                            <option value="">asd</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >
@@ -108,20 +118,77 @@
 </div>
 
 @push('scripts')
+
 <script>
+
         function showAddBudgetModal(unit_id,year_id,user_id){
-        $("#modal_budget_program").modal({
-            show:true,
-            backdrop:'static',
-            focus: true,
-            keyboard:false
-        });
+            $("#modal_budget_program").modal({
+                show:true,
+                backdrop:'static',
+                focus: true,
+                keyboard:false
+            });
             // console.log(unit_id,year_id);
             $("#bli_unit_id").val(unit_id);
             $("#bli_year_id").val(year_id);
             $("#bli_user_id").val(user_id);
 
+            //edit
+            $("#edit_bli").val("");
+            $("#edit_amount").val("");
+
             getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+        }
+
+        function deleteAllAllocation(unit_id1,year_id1){
+            Swal.fire({
+                title: "Are you sure, You want to delete all allocation?",
+                text: "You won\'t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    var _url = "{{ route('db_budget_delete_allocation_per_user') }}";
+                    var _data = {
+                        unit_id : unit_id1,
+                        year_id : year_id1
+                    };
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data: _data,
+                        success:function(data){
+                            if(data =="success"){
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Budget line Item Allocation has been deleted.",
+                                    "success"
+                                )
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                            }else{
+                                Swal.fire(
+                                    "Opss!",
+                                    "Something went wrong",
+                                    "error"
+                                )
+                            }
+                        },
+                    })
+
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Nothing Changes",
+                        "error"
+                    )
+                }
+            });
+
         }
 
         function getUnitYearlyBudgetPerBLI(_unit_id,_year_id,_user_id){
@@ -137,6 +204,77 @@
                     document.getElementById('unit_budget_allocated_list').innerHTML = data;
                 }
             });
+
+        }
+
+
+        function deleteBLIUser(tuba_id){
+
+            var unit_id = $("#bli_unit_id").val();
+            var user_id = $("#bli_user_id").val();
+            var year_id = $("#bli_year_id").val();
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won\'t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(function(result) {
+                var _url = "{{ route('db_budget_delete_allocation_per_bli') }}";
+                if (result.value) {
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data: { delete_id : tuba_id },
+                        success:function(data){
+                            if(data =="success"){
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Budget line Item Allocation has been deleted.",
+                                    "success"
+                                )
+                                getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                            }else{
+                                Swal.fire(
+                                    "Opss!",
+                                    "Something went wrong",
+                                    "error"
+                                )
+                            }
+                        },
+                    })
+
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Nothing Changes",
+                        "error"
+                    )
+                }
+            });
+
+        }
+
+        function editBLIUser(unit_id,year_id,user_id,bli_id,bli_budget){
+            console.log(unit_id,year_id,user_id,bli_id);
+            $("#edit_bli").val("");
+            $("#edit_amount").val("");
+
+            $("#edit_bli_unit_id").val(unit_id);
+            $("#edit_bli_user_id").val(user_id);
+            $("#edit_bli_year_id").val(year_id);
+            $("#edit_bli_id").val(bli_id);
+
+            $("#btn_save_budget").attr('disabled',true);
+            $("#btn_update_budget").attr('disabled',false);
+            //initialize ui value
+            $("#bli_name").val(bli_id);
+            $("#bli_amount").val(bli_budget);
 
         }
 </script>
