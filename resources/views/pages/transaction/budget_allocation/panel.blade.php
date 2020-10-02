@@ -133,6 +133,10 @@
             $("#bli_year_id").val(year_id);
             $("#bli_user_id").val(user_id);
 
+            //clear fields
+            $("#bli_name").val("");
+            $("#bli_amount").val("");
+
             //edit
             $("#edit_bli").val("");
             $("#edit_amount").val("");
