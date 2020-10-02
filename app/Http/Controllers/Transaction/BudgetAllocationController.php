@@ -25,7 +25,7 @@ class BudgetAllocationController extends Controller
         $this->middleware(function ($request, $next) {
             $this->auth_user_id = Auth::user()->id;
             $this->auth_user_unit_id = Auth::user()->getUnitId();
-            $this->budget_allocation_pagination = 5;
+            $this->budget_allocation_pagination = 10;
             return $next($request);
         });
     }
