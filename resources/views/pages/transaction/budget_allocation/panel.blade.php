@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >
-                            <button class="btn btn-light-primary px-6 font-weight-bold" id="btn_search">Search</button>
+                            <button class="btn btn-light-primary px-6 font-weight-bold" id="btn_search_query">Search</button>
                         </div>
                     </div>
                 </div>
@@ -285,6 +285,10 @@
             $("#bli_amount").val(bli_budget);
 
         }
+
+        $("#btn_search_query").on('click',function(){
+            console.log($("#query_search").val());
+        });
 </script>
 @endpush
 
