@@ -114,7 +114,7 @@
 
 @if(count($data["unit_budget_allocation"]) != 0)
 <div id="pagination_budget_allocation">
-{{ $data["unit_budget_allocation"]->links('components.global.pagination') }}
+{{-- {{ $data["unit_budget_allocation"]->links('components.global.pagination') }} --}}
 </div>
 @endif
 

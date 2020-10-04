@@ -48,13 +48,23 @@ class BudgetAllocationController extends Controller
         $settings = new GlobalSystemSettings;
         // dd($req->year - 0);
         //  dd(BudgetAllocationAllYearPerProgram::all());
-        $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
-                                                                    // groupBy('unit_id','year_id')
-                                                                        ->where('t1_year_id',$req->year - 0)
-                                                                        ->paginate($this->budget_allocation_pagination);
-        // $data["unit_budget_allocation"] = BudgetAllocationUtilization::groupBy('unit_id','year_id')
-        //                                                             ->wh ere('year',$req->year)
-        //                                                             ->paginate($this->budget_allocation_pagination);
+
+        if($req->q == null || $req->q == ''){
+            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
+                                                                                ->where('t1_year_id',$req->year - 0)
+                                                                                ->orderBy($req->sort != '' ? $req->sort : 't1_year_id' )
+                                                                                ->paginate($this->budget_allocation_pagination);
+        }else{
+            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
+                                                                                ->where('t1_year_id',$req->year - 0)
+                                                                                ->where(fn($q) =>
+                                                                                $q->orWhere('t1_division','LIKE','%' . $req->q . '%')
+                                                                                  ->orWhere('t1_section','LIKE','%' . $req->q . '%')
+                                                                                  ->orWhere('t1_name','LIKE','%' . $req->q . '%'))
+                                                                                ->orderBy($req->sort != '' ? $req->sort : 't1_year_id' )
+                                                                                ->paginate($this->budget_allocation_pagination);
+
+        }
         // dd($data);
         return view('pages.transaction.budget_allocation.component.table_unit_budget_allocation',['data'=>$data]);
     }
@@ -129,7 +139,7 @@ class BudgetAllocationController extends Controller
 
     public function deleteBudgetPerBLIByUser(Request $req){
         if($req->ajax()){
-            $del_allocation_all  =TableUnitBudgetAllocation::where('unit_id',$req->unit_id)
+            $del_allocation_all  = TableUnitBudgetAllocation::where('unit_id',$req->unit_id)
                                                             ->where('year_id',$req->year_id)
                                                             ->delete();
             if($del_allocation_all)                                            {

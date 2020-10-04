@@ -46,6 +46,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/update/bli','Transaction\BudgetAllocationController@updateBudgetPerBLIByUser')->name('db_budget_update_allocation_per_user');
     Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
+    Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');

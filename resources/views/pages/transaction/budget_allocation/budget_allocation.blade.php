@@ -132,7 +132,7 @@
                         success:function(data){
                             if (data == 'success'){
                                 getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val());
-                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
                                 $("#bli_name").val("");
                                 $("#bli_amount").val("");
                                 toastr.success("Budget Allocation Sucessfully Save", "Good Job");
@@ -192,7 +192,7 @@
                                     "Budget line Item Allocation has been deleted.",
                                     "success"
                                 )
-                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
                             }else{
                                 Swal.fire(
                                     "Opss!",
@@ -246,7 +246,7 @@
                     complete:function(){
                         $("#pagination_budget_allocation .pagination a").on('click',function(e){
                             e.preventDefault();
-                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year)
+                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year,$("#query_sort_by").val())
                         });
                     }
                 });
@@ -265,38 +265,42 @@
                 })
             }
 
-
-
         });
 
-        function fetch_budget_allocation(_page , _q,year = null){
-                var d = new Date();
-                var y =  year == null ? d.getFullYear() : year ;
-                var _url = "{{ route('d_budget_allocation_utilization') }}";
-                current_page = _page;
-                $.ajax({
-                    method:"GET",
-                    url:_url,
-                    data:{ page: _page, q:_q ,year:y},
-                    beforeSend:function(){
-                        KTApp.block('#kt_body', {
-                        overlayColor: '#000000',
-                        state: 'primary',
-                        message: 'Loading . . .'
-                    });
-                    },
-                    success:function(data){
-                        document.getElementById('table_unit_budget_allocation_content').innerHTML = data;
-                    },
-                    complete:function(){
-                        $("#pagination_budget_allocation .pagination a").on('click',function(e){
-                            e.preventDefault();
-                            fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year)
-                        });
-                    }
+        function fetch_budget_allocation(_page , _q,year = null,sortby){
+            var d = new Date();
+            var y =  year == null ? d.getFullYear() : year ;
+            var _url = "{{ route('d_budget_allocation_utilization') }}";
+            current_page = _page;
+            var _data = {
+                page: _page,
+                q:_q,
+                year:y,
+                sort:sortby
+            };
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: _data,
+                beforeSend:function(){
+                    KTApp.block('#kt_body', {
+                    overlayColor: '#000000',
+                    state: 'primary',
+                    message: 'Loading . . .'
                 });
-                KTApp.unblock('#kt_body');
-            }
+                },
+                success:function(data){
+                    document.getElementById('table_unit_budget_allocation_content').innerHTML = data;
+                },
+                complete:function(){
+                    $("#pagination_budget_allocation .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        fetch_budget_allocation($(this).attr('href').split('page=')[1], $("#query_search").val(),settings.year,$("#query_sort_by").val())
+                    });
+                }
+            });
+            KTApp.unblock('#kt_body');
+        }
 
     </script>
 @endpush
