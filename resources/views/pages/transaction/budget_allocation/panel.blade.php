@@ -19,19 +19,20 @@
                             <div class="row align-items-center">
                                 <div class="col-md-8 my-2 my-md-0">
                                     <div class="input-icon">
-                                        <input type="text" class="form-control" placeholder="Search..." id="query_search" />
+                                        <input type="text" class="form-control" placeholder="Search...Program Coordinator , Division, Section" id="query_search" />
                                         <span>
                                             <i class="flaticon2-search-1 text-muted"></i>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 my-2 my-md-0">
-                                    <div class="form-group">
-                                        <select name="" id="" class="form-control">
+                                <div class="col-md-4 my-2 my-md-0 pt-md-0 pt-xs-0 ">
+                                    <div class="form-group ">
+                                        <label for="">Sort by</label>
+                                        <select name="" id="query_sort_by" class="form-control">
                                             <option value=""></option>
-                                            <option value="">asd</option>
-                                            <option value="">asd</option>
-                                            <option value="">asd</option>
+                                            <option value="t1_division">DIVISION</option>
+                                            <option value="t1_section">SECTION</option>
+                                            <option value="t1_name">PROGRAM COORDINATOR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -175,7 +176,7 @@
                                     "Budget line Item Allocation has been deleted.",
                                     "success"
                                 )
-                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year)
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
                             }else{
                                 Swal.fire(
                                     "Opss!",
@@ -288,6 +289,7 @@
 
         $("#btn_search_query").on('click',function(){
             console.log($("#query_search").val());
+            fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
         });
 </script>
 @endpush
