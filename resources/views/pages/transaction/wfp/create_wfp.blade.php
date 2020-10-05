@@ -225,19 +225,12 @@
                         </div>
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
-                  <div class="row">
-                    <div class="col-12 mt-2 mb-2">
-                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
-                            <i class="flaticon2-add-1"></i> Add Performance Indicator
-                        </button>
-                    </div>
-                    <div class="col-12" id="peformance_indicator_table_content">
-                        <div class="col-12 p-20 w-100" style="height:150px; text-align:center;border:1px solid grey;">
-                            <i class="flaticon2-start-up icon-2x"></i>
-                            <p>No Indicator</p>
-                        </div>
-                      </div>
-                  </div>
+                <div class="col-12 mt-2 mb-2">
+                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
+                        <i class="flaticon2-add-1"></i> Add Performance Indicator
+                    </button>
+                </div>
+                  @include('pages.transaction.wfp.table.pi_table')
                </div>
            </div>
 
@@ -389,6 +382,9 @@
         </div>
     </div>
 </div>
+
+
+<input type="hidden" id="wfp_code" value="">
 @endsection
 
 @push('scripts')
@@ -397,6 +393,8 @@
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
+            var this_url = window.location.href;
+            $("#wfp_code").val(this_url.split('wfp_code=')[1]);
 
             /************************************************
              *
@@ -413,12 +411,13 @@
             $("#pi_alert").delay(0).hide(0);
 
              let pi_data = {
-                    budget_line_item_id :'',
-                    uacs_title_id:'',
-                    performance_indicator: '',
-                    ppmp_include:'',
-                    catering_include:'',
-                    cost:'',
+                budget_line_item_id :'',
+                uacs_title_id:'',
+                performance_indicator: '',
+                ppmp_include:'',
+                catering_include:'',
+                cost:'',
+                wfp_code:''
             };
 
 
@@ -556,9 +555,8 @@
             pi_data.ppmp_include = $("#c_ppmp").val();
             pi_data.catering_include = $("#c_catering").val() ;
             pi_data.cost = $("#pi_cost").val();
-            // pi_data.batches = $("#no_batchs").val();
+            pi_data.wfp_code =  $("#wfp_code").val();
 
-            // console.log(pi_data.catering_include)
 
             if (pi_data.catering_include == 'true'){
                 pi_rules.batches='required';
@@ -566,9 +564,6 @@
             }else{
                 delete pi_data.batches;
             }
-
-            // console.log(pi_data);
-
 
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
@@ -581,27 +576,29 @@
                 catering_include:'IsCatering',
                 cost:'Cost',
                 batches:'Batch',
+                wfp_code :'WFP Code'
             })
 
 
             if (pi_validation.passes()) {
                 console.log('passed');
                 var _url = "{{ route('db_pi_save') }}";
-                var _data = {
-                    data : pi_data
-                };
+
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: _data,
+                    data: pi_data,
                     success:function(data){
-
-                        toastr.success("Performance Indicator Sucessfully Save", "Good Job");
-                        $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
-                        $("#btn_save_pi").html('Save');
-                        $("#btn_save_pi").attr('disabled',false);
+                        if(data == 'success'){
+                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                        }else{
+                            toastr.error("Something went wrong", "Opss!");
+                        }
                     }
                 })
+                $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
+                $("#btn_save_pi").html('Save');
+                $("#btn_save_pi").attr('disabled',false);
 
             }else{
                 var msg = "";
