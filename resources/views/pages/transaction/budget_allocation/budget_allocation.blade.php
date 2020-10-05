@@ -91,7 +91,9 @@
                     complete:function(){
                         $("#btn_update_budget").removeClass('spinner spinner-white spinner-right');
                         $("#btn_update_budget").html('Update Budget');
-                        $("#btn_update_budget").attr('disabled',false);
+                        $("#btn_update_budget").attr('disabled',true);
+
+                        $("#btn_save_budget").attr('disabled',false);
                     }
                 });
             });
