@@ -108,7 +108,8 @@ License: You must have a valid license purchased only from themeforest(the above
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Email" name="email" id="email" autocomplete="off" />
 					</div>
 					<div class="form-group mb-5">
-						<select name="select_division" id="select_division" class="form-control h-auto form-control-solid py-4 px-8">
+                        <label for="" style="float:left;font-size:12px;">Division</label>
+						<select name="select_division" id="select_division" class="form-control h-auto form-control-solid py-4 px-8" >
 							<option value=""></option>
 							@forelse ($data["division"] as $row)
 								<option value="{{ $row["division"] }}">{{ $row["division"] }}</option>
@@ -118,10 +119,23 @@ License: You must have a valid license purchased only from themeforest(the above
 						</select>
 					</div>
 					<div class="form-group mb-5" id="loadiing_section">
-						<select name="select_section" id="select_section" class="form-control h-auto form-control-solid py-4 px-8">
+                        <label for="" style="float:left;font-size:12px;">Section</label>
+						<select name="select_section" id="select_section" class="form-control h-auto form-control-solid py-4 px-8" >
 							<option value=""></option>
 							@forelse ($data["section"] as $row)
 							<option value="{{ $row["section"] }}">{{ $row["section"] }}</option>
+							@empty
+								<option value="">NO DATA</option>
+							@endforelse
+						</select>
+						<input type="hidden" value="" id="unit_id"/>
+                    </div>
+                    <div class="form-group mb-5">
+                        <label for="" style="float:left;font-size:12px;">User Type</label>
+						<select name="select_role" id="select_role" class="form-control h-auto form-control-solid py-4 px-8" >
+							<option value=""></option>
+							@forelse ($data["roles"] as $row)
+							<option value="{{ $row["role_id"] }}">{{ $row["roles"] }}</option>
 							@empty
 								<option value="">NO DATA</option>
 							@endforelse
@@ -307,7 +321,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							$("#unit_id").val(data);
 							// document.getElementById('unit_id').innerHTML = data;
 							// alert($("#unit_id").val());
-							
+
 						}
 					});
 			}
@@ -333,9 +347,9 @@ License: You must have a valid license purchased only from themeforest(the above
 						if(data.access_token != null)
 						{
 							sessionStorage.setItem('token',`Bearer ` + data.access_token);
-						
+
 							KTApp.unblock('#kt_body');
-							
+
 							window.location.href="{{ route('dashboard') }}";
 						}else if(data.message =='Unauthorized'){
 							swal.fire({
@@ -416,9 +430,9 @@ License: You must have a valid license purchased only from themeforest(the above
 					}
 				});
 			});
-			
+
 			$("#kt_login_signup_submit").on('click',function(){
-				
+
 				var a = localStorage.getItem('signup_validate');
 				a = a ? JSON.parse(a) : {};
 				if(a['data'] == true){
@@ -431,7 +445,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					var _url ="{{ route('send_signup') }}";
 					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val();
 					// alert($("#unit_id").val());
-				
+
 					$.ajax({
 						method:"POST",
 						url: _url,
@@ -441,10 +455,12 @@ License: You must have a valid license purchased only from themeforest(the above
 							if(data.access_token != null)
 							{
 								sessionStorage.setItem('token',`Bearer ` + data.access_token);
-							
+
 								KTApp.unblock('#kt_body');
 								localStorage.removeItem('signup_validate');
-								window.location.href="{{ route('dashboard') }}";
+								setTimeout(() => {
+                                    window.location.href="{{ route('dashboard') }}";
+                                }, 1000);
 							}else if(data.message != null){
 								swal.fire({
 									text: "Sorry, " +data.message,
@@ -490,7 +506,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						}
 					});
 				}
-			
+
 			});
 
 			window.addEventListener('load', function() {
@@ -526,7 +542,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						toastr.error("No Internet Connection", "Error");
 					}
 
-				
+
 				}
 
 				window.addEventListener('online',  updateOnlineStatus);
@@ -535,7 +551,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 
 			</script>
-								
+
 			<script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
 
             </body>

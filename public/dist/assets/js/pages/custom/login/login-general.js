@@ -55,7 +55,7 @@ var KTLogin = function() {
             validation.validate().then(function(status) {
 		        if (status == 'Valid') {
 
-					
+
                     // swal.fire({
 		            //     text: "All is cool! Now you submit this form",
 		            //     icon: "success",
@@ -135,7 +135,14 @@ var KTLogin = function() {
 								message: 'Section is required'
 							}
 						}
-					},
+                    },
+                    select_role:{
+                        validators:{
+							notEmpty: {
+								message: 'User Type is required'
+							}
+						}
+                    },
 					username: {
                         validators: {
 							notEmpty: {
@@ -182,7 +189,7 @@ var KTLogin = function() {
             e.preventDefault();
 
             validation.validate().then(function(status) {
-				
+
 		        if (status == 'Valid') {
 					localStorage.setItem('signup_validate',JSON.stringify({ data:true }));
                     // swal.fire({
@@ -198,7 +205,7 @@ var KTLogin = function() {
 					// });
 				} else {
 					localStorage.setItem('signup_validate',JSON.stringify({ data:false }));
-					
+
 					// swal.fire({
 		            //     text: "Sorry, looks like there are some errors detected, please try again.",
 		            //     icon: "error",

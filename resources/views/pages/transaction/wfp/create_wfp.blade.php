@@ -5,10 +5,11 @@
     <a href="{{ route('r_wfp') }}" class="text-muted">WFP</a>
 </li>
 <li class="breadcrumb-item">
-    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create</a>
+    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create WFP</a>
 </li>
 @endsection
 @section('content')
+
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <h3 class="card-title">Create Work and Financial Plan</h3>
@@ -83,7 +84,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleSelect1">Responsible Person 
+                        <label for="exampleSelect1">Responsible Person
                         <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Responsible Person">
                     </div>
@@ -224,22 +225,15 @@
                         </div>
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
-                  <div class="row">
-                    <div class="col-12 mt-2 mb-2">
-                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
-                            <i class="flaticon2-add-1"></i> Add Performance Indicator
-                        </button>      
-                    </div>
-                    <div class="col-12" id="peformance_indicator_table_content">
-                        <div class="col-12 p-20 w-100" style="height:150px; text-align:center;border:1px solid grey;">
-                            <i class="flaticon2-start-up icon-2x"></i>
-                            <p>No Indicator</p>
-                        </div>
-                      </div>
-                  </div>
+                <div class="col-12 mt-2 mb-2">
+                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
+                        <i class="flaticon2-add-1"></i> Add Performance Indicator
+                    </button>
+                </div>
+                  @include('pages.transaction.wfp.table.pi_table')
                </div>
            </div>
-        
+
         </div>
         <div class="card-footer">
             <button type="reset" class="btn btn-primary mr-2">Submit</button>
@@ -331,7 +325,7 @@
                             <select class="form-control" id="uacs_title" disabled></select>
                         </div>
                 </div>
-            
+
                 <div class="alert alert-light" role="alert">
                     <div class="row">
                         <div class="col-12 col-md-4">CATEGORY : <b id="label_uacs_category">--------</b></div>
@@ -365,13 +359,20 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label>Cost</label>
                     <input type="text" class="form-control" placeholder="Cost" id="pi_cost">
+                </div> --}}
+                <div class="form-group">
+                    <label>Cost<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                        <input type="text" class="form-control" id="pi_cost" placeholder="99.9">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>No. of Batch/s</label>
-                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs">
+                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs" disabled="true">
                 </div>
             </div>
             <div class="modal-footer">
@@ -381,6 +382,9 @@
         </div>
     </div>
 </div>
+
+
+<input type="hidden" id="wfp_code" value="">
 @endsection
 
 @push('scripts')
@@ -389,28 +393,34 @@
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
-    
+            var this_url = window.location.href;
+            $("#wfp_code").val(this_url.split('wfp_code=')[1]);
+
             /************************************************
-             * 
-             *              INITIALIZATION 
-             * 
+             *
+             *              INITIALIZATION
+             *
              *************************************************/
+
+
+
+
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
             $("#pi_alert").delay(0).hide(0);
 
              let pi_data = {
-                    budget_line_item_id :'',
-                    uacs_title_id:'',
-                    performance_indicator: '',
-                    ppmp_include:'',
-                    catering_include:'',
-                    cost:'',
-                    batches:''
+                budget_line_item_id :'',
+                uacs_title_id:'',
+                performance_indicator: '',
+                ppmp_include:'',
+                catering_include:'',
+                cost:'',
+                wfp_code:''
             };
 
-            
+
             let pi_rules = {
                 budget_line_item_id :'required',
                 uacs_title_id:'required',
@@ -429,8 +439,8 @@
                 'required.batches' : ':attribute is Required'
             }
 
-        
-           
+
+
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
@@ -473,26 +483,26 @@
             $("#t_nov").on('click',function(){ switchChangeValue('t_nov') });
             $("#t_dec").on('click',function(){ switchChangeValue('t_dec') });
             $("#c_ppmp").on('click',function(){ switchChangeValue('c_ppmp') });
-            $("#c_ppmp").on('click',function(){ switchChangeValue('c_catering') });
-            $("#c_catering").on('click',function(){ 
-              
+            $("#c_catering").on('click',function(){
                 Promise.resolve(4)
                     .then(()=>{
-                        switchChangeValue('c_catering'); 
+                        switchChangeValue('c_catering');
                     })
                     .then(()=>{
                         if($("#c_catering").val() == 'false'){
+                            $("#no_batchs").val('');
                             $("#no_batchs").attr('disabled',true);
                         }else{
                             $("#no_batchs").attr('disabled',false);
                         }
+                        console.log($("#c_catering").val());
                     })
                     .then((err)=>{
                         return Promise.reject(err);
                 });
-                
+
             });
-          
+
 
             $("#uacs_category").change(function(){
                var a = $("#uacs_category").val();
@@ -518,7 +528,7 @@
                     getUacsCode($("#uacs_title option:selected").val());
                }
             });
-        
+
             $("#uacs_category").bind("change", function() {
                 $("#label_uacs_category").html($("#uacs_category option:selected").text());
             });
@@ -534,29 +544,30 @@
             });
 
             $("#btn_save_pi").on('click',function(){
-             console.log( $("#buget_line_item option:selected").val());
+            //  console.log( $("#buget_line_item option:selected").val());
+
+            $(this).addClass('spinner spinner-white spinner-right');
+            $(this).attr('disabled',true);
+            $(this).html('Processing . .');
             pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
             pi_data.uacs_title_id = $("#uacs_code").val();
             pi_data.performance_indicator = $("#peformance_indicator").val();
             pi_data.ppmp_include = $("#c_ppmp").val();
             pi_data.catering_include = $("#c_catering").val() ;
             pi_data.cost = $("#pi_cost").val();
-            pi_data.batches = $("#no_batchs").val();
+            pi_data.wfp_code =  $("#wfp_code").val();
 
-            console.log(pi_data.catering_include)
-                
+
             if (pi_data.catering_include == 'true'){
                 pi_rules.batches='required';
+                pi_data.batches = $("#no_batchs").val();
             }else{
-                delete pi_rules.batches;
+                delete pi_data.batches;
             }
-
-            console.log(pi_data);
-            
 
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
-           
+
             pi_validation.setAttributeNames({
                 budget_line_item_id:'Budget Line Item',
                 uacs_title_id:'UACS Title',
@@ -565,10 +576,29 @@
                 catering_include:'IsCatering',
                 cost:'Cost',
                 batches:'Batch',
+                wfp_code :'WFP Code'
             })
 
 
             if (pi_validation.passes()) {
+                console.log('passed');
+                var _url = "{{ route('db_pi_save') }}";
+
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: pi_data,
+                    success:function(data){
+                        if(data == 'success'){
+                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                        }else{
+                            toastr.error("Something went wrong", "Opss!");
+                        }
+                    }
+                })
+                $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
+                $("#btn_save_pi").html('Save');
+                $("#btn_save_pi").attr('disabled',false);
 
             }else{
                 var msg = "";
@@ -581,17 +611,18 @@
                 $("#wfp_performance_indicator").animate({ scrollTop:0 },700);
                 $("#pi_alert").addClass('fade show');
                 $("#pi_alert_text").html(msg);
-                
+
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
+                $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
+                $("#btn_save_pi").html('Save');
+                $("#btn_save_pi").attr('disabled',false);
 
-               
             }
-
 
             localStorage.setItem('pi_data',JSON.stringify(pi_data));
 
@@ -606,7 +637,7 @@
                 });
             });
 
-            
+
             $("#btn_pi_close").on('click',function(e){
                 $("#wfp_performance_indicator").modal('hide');
             });
@@ -616,11 +647,11 @@
             });
 
 
-      
+
 
             // end for $(document).ready()
         });
-        
+
 
         /*************************************************
                         REUSABLE FUNCTIONS
@@ -642,24 +673,31 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
-                    
-                },
+
+                }
+                ,
                 complete:function(){
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             });
         }
 
-        function fetch_output_function(page1){
+
+
+        var page ;
+        function fetch_output_function(page1,q1){
+            page =page1;
+            // alert(typeof(q1));
             var _url= "{{ route('d_output_function_by_page') }}";
+            var _q = q1 == '' ? '' : q1;
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : { page: page1},
+                data : { page: page1, q : _q },
                 beforeSend:function(){
                     KTApp.block('#output_function_table', {
                         overlayColor: '#000000',
@@ -675,11 +713,15 @@
                     $("#output_function_pagination .pagination a").on('click',function(e){
                         e.preventDefault();
                         // console.log($(this).attr('href').split('page=')[1]);
-                        fetch_output_function($(this).attr('href').split('page=')[1])
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
                     });
                 }
             })
         }
+
+
+
+
 
 
         // function populateOutputFunctionsAll(){
@@ -698,15 +740,16 @@
         //         success:function(data){
         //             KTApp.unblock('#output_function_table');
         //             document.getElementById('modal_content_output_functions').innerHTML= data;
-                
+
         //         }
         //     });
         // }
 
         function populateOutputFunctionsSearch(q){
-            var datastr = "q=" + q;
-            var _url = "{{ route('d_get_search_output_functions') }}"
-           
+            var _url = "{{ route('d_get_search_output_functions') }}";
+            var _q = q == '' ? '' : q;
+            var datastr = "q=" + _q;
+
             $.ajax({
                 method: "GET",
                 url: _url,
@@ -721,6 +764,13 @@
                 success:function(data){
                     KTApp.unblock('#output_function_table');
                     document.getElementById('modal_content_output_functions').innerHTML= data;
+                },
+                complete:function(){
+                    $("#output_function_pagination .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        // console.log($(this).attr('href').split('page=')[1]);
+                        fetch_output_function($(this).attr('href').split('page=')[1], $("#output_function_search").val())
+                    });
                 },
                 error:function(err){
                     if(err.status == 500){
@@ -862,7 +912,7 @@
 
         function switchDisabledValueSetFalse(ob){
             var el = document.getElementById(ob);
-           
+
             if (el.value == 'true') {
                     el.click();
                     el.value = 'false';
@@ -911,13 +961,13 @@
                     method:"GET",
                     url: _url,
                     success: function (data1) {
-                        document.getElementById('uacs_category').innerHTML = data1;                    
+                        document.getElementById('uacs_category').innerHTML = data1;
                     }
                 });
             }else{
                 $("#uacs_subcategory").attr('disabled',true);
             }
-          
+
         }
 
         function getUacsSubCategory(categ1){
@@ -942,7 +992,7 @@
             }else{
                 $("#uacs_title").attr('disabled',true);
             }
-         
+
         }
         function getUacsTitle(subcateg1){
             var _url ="{{ route('d_get_uacs_title') }}"
@@ -958,7 +1008,7 @@
                     document.getElementById('uacs_title').innerHTML =data;
                     $("#uacs_title_loading").removeClass('spinner spinner-primary spinner-left');
                     $("#uacs_title").removeAttr('disabled');
-                  
+
                 },
                 error:function(err){
                     console.log(err);
@@ -981,7 +1031,7 @@
             }else{
                 document.getElementById('label_uacs_code').innerHTML = "";
             }
-       
+
         }
 
         function getBudgetAllocation(bli_id1){
@@ -996,14 +1046,14 @@
                     url:_url,
                     data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
-                        console.log(data.length);
+                        // console.log(data.length);
                         if(data.length != 0){
                             document.getElementById('total_allocation').innerHTML =data[0].program_budget;
                         }
                     }
                 });
             }
-           
+
         }
 
 

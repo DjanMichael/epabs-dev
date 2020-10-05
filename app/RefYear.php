@@ -9,5 +9,5 @@ class RefYear extends Model
     //
     protected $table = 'ref_year';
 
-    protected $fillable = ['year'];
+    protected $fillable = ['id', 'year', 'status'];
 }

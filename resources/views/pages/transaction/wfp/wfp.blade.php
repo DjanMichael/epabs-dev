@@ -43,137 +43,7 @@
 </div>
 
 
-
-<div class="d-flex flex-column-fluid">
-    <!--begin::Container-->
-    <div class="container">
-        <!--begin::Row-->
-        <div class="row">
-            <div class="col-xl-6">
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right" onclick="wfp_drawer_open(1)" style="cursor:pointer;" id="wfp_card">
-                    <div class="ribbon-target" style="top: 12px;">
-                        <span class="ribbon-inner bg-warning"></span>Status
-                       </div>
-                    <!--begin::Body-->
-                    <div class="card-body">
-                        <!--begin::Section-->
-                        <div class="row">
-                            <div class="col-12 d-flex align-items-center">
-                                <div class="symbol-list d-flex flex-wrap">
-                                    <div class="symbol symbol-60 mr-3">
-                                        <span class="symbol-label font-size-h6">P</span>
-                                    </div>
-                                   
-                                </div>
-                                <!--end::Pic-->
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column mr-auto">
-                                    <!--begin: Title-->
-                                    <a href="#" class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">DJAN MICAHEL ANTHONY A. PENGSON</a>
-                                    <span class="text-muted font-weight-bold">PROGRAMMER</span>
-                                    <!--end::Title-->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="separator separator-dashed separator-border-2 separator-secondary mb-3 mt-6"></div>
-                        <!--end::Section-->
-                        {{-- <!--begin::Content-->
-                        <div class="d-flex flex-wrap mt-14">
-                            <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="d-block font-weight-bold mb-4">Start Date</span>
-                                <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">14 Jan, 16</span>
-                            </div>
-                            <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="d-block font-weight-bold mb-4">Due Date</span>
-                                <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">21 Nov, 18</span>
-                            </div>
-                            <!--begin::Progress-->
-                            <div class="flex-row-fluid mb-7">
-                                <span class="d-block font-weight-bold mb-4">Progress</span>
-                                <div class="d-flex align-items-center pt-2">
-                                    <div class="progress progress-xs mt-2 mb-2 w-100">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 78%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <span class="ml-3 font-weight-bolder">78%</span>
-                                </div>
-                            </div>
-                            <!--end::Progress-->
-                        </div>
-                        <!--end::Content--> --}}
-                       
-                        <!--begin::Blog-->
-                        <div class="d-flex flex-wrap">
-                            <!--begin: Item-->
-                            <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="font-weight-bolder mb-4">Cost</span>
-                                <span class="font-weight-bolder font-size-h5 pt-1">
-                                <span class="font-weight-bold text-dark-50">Php</span>1,249,500</span>
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Item-->
-                            <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="font-weight-bolder mb-4">Budget Source</span>
-                                <span class="font-weight-bolder font-size-h5 pt-1">
-                                <span class="font-weight-bold text-dark-50"></span>NEP</span>
-                            </div>
-                            <!--end::Item-->
-                               <!--begin::Item-->
-                               <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="font-weight-bolder mb-4">Budget Year</span>
-                                <span class="font-weight-bolder font-size-h5 pt-1">
-                                <span class="font-weight-bold text-dark-50"></span>2020</span>
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Item-->
-                            <div class="mr-12 d-flex flex-column mb-7">
-                                <span class="font-weight-bolder mb-4">No. of Activities</span>
-                                <span class="font-weight-bolder font-size-h5 pt-1">
-                                <span class="font-weight-bold text-dark-50"></span>17</span>
-                            </div>
-                            <!--end::Item-->
-                        </div>
-                  
-                        <!--end::Blog-->
-                    </div>
-                    <!--end::Body-->
-                    <!--begin::Footer-->
-                    <div class="card-footer d-flex align-items-center">
-                        <div class="d-flex">
-                            {{-- <div class="d-flex align-items-center mr-7">
-                                <span class="svg-icon svg-icon-gray-500">
-                                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Group-chat.svg-->
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24"></rect>
-                                            <path d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z" fill="#000000"></path>
-                                            <path d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z" fill="#000000" opacity="0.3"></path>
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span>
-                                <a href="#" class="font-weight-bolder text-primary ml-2">648 Comments</a>
-                            </div> --}}
-                            <div class="d-flex align-items-center mr-7">
-                                <span class="label label-primary label-inline font-weight-bolder mr-2" >MAIP</span>
-                            </div>
-                        </div>
-                         {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" onclick="wfp_drawer_open(1)">View</button> --}}
-                         
-                       
-                    </div>
-                    <!--end::Footer-->
-                </div>
-                <!--end::Card-->
-            </div>
-           
-          
-        </div>
-        <!--end::Row-->
-   
-    </div>
-    <!--end::Container-->
-</div>
+<div id="wfp_list"></div>
 
 
 
@@ -213,7 +83,6 @@
 {{-- {{ route('r_create_wfp') }} --}}
 <script>
     $(document).ready(function(){
-      
 
         $("#btn_create_wfp_year").on('click',function(){
             var redirectTo = "{{ route('r_create_wfp') }}";
@@ -224,7 +93,7 @@
                 year_id: a["year"]
             };
 
- 
+
             $.ajax({
                 method:"GET",
                 url: _url,
@@ -240,14 +109,14 @@
                 success:function(data){
                     $(this).removeClass('spinner spinner-white spinner-right');
                     KTApp.unblock('#modal_create_wfp');
-                    if(data == 'success'){
+                    if(data.message == 'success'){
                         KTApp.block('#modal_create_wfp', {
                             overlayColor: '#000000',
                             state: 'primary',
                             message: 'Redirecting. . .'
                         });
-                        window.location.href = redirectTo;
-                    }else if(data =='duplicate'){
+                        window.location.href = redirectTo + '?wfp_code=' + data.wfp_code;
+                    }else if(data.message =='duplicate'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"Already Created WFP for Year " + a["year_data"],
@@ -259,7 +128,7 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
-                    }else if (data == 'no budget'){
+                    }else if (data.message == 'no budget'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"No Budget Allocated on you for Year " + a["year_data"],

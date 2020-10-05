@@ -42,13 +42,13 @@ License: You must have a valid license purchased only from themeforest(the above
         @stack('styles')
         <style>
             #wfp_card{
-                transition: transform .5s; 
+                transition: transform .5s;
             }
             #wfp_card:hover
             {
                 transform: scale(1.1);
             }
-           
+
 
             .loader
             {
@@ -99,7 +99,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 overflow: hidden;
             }
         </style>
- 
+
     </head>
     <!--end::Head-->
 
@@ -1193,7 +1193,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </svg>
                                             <!--end::Svg Icon-->
                                             </span>
-                                            
+
                                             <span class="menu-text">te</span><i class="menu-arrow"></i>
                                         </a>
                                         <div class="menu-submenu menu-submenu-classic menu-submenu-right" >
@@ -1279,7 +1279,7 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 </li> --}}
 
-{{-- 
+{{--
 
 <li class="menu-item  menu-item-submenu menu-item-rel"  data-menu-toggle="click" aria-haspopup="true"><a  href="javascript:;" class="menu-link menu-toggle"><span class="menu-text">Crud</span><span class="menu-desc"></span><i class="menu-arrow"></i></a><div class="menu-submenu menu-submenu-classic menu-submenu-left" ><ul class="menu-subnav"><li class="menu-item  menu-item-submenu"  data-menu-toggle="hover" aria-haspopup="true"><a  href="javascript:;" class="menu-link menu-toggle"><span class="svg-icon menu-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Box2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -1441,7 +1441,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--begin::Page Heading-->
 			<div class="d-flex align-items-baseline flex-wrap mr-5">
 				<!--begin::Page Title-->
-	          
+
 				<!--end::Page Title-->
 
 	            			</div>
@@ -1548,21 +1548,21 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!--end::Page Heading-->
                     </div>
                     <!--end::Info-->
-                 
+
                 </div>
             </div>
-            
+
         </div>
     </div>
     <!--begin::Entry-->
 	<div class="d-flex flex-column-fluid">
         <!--begin::Container -->
-        
+
 		<div class="container">
-            
-            <!--begin::Content -->	
+
+            <!--begin::Content -->
             @yield('content')
-            
+
             <!--end::Content-->
         </div>
 		<!--end::Container-->
@@ -1641,7 +1641,7 @@ License: You must have a valid license purchased only from themeforest(the above
             @else
             <div class="symbol-list d-flex flex-wrap">
                 <div class="symbol symbol-120  mr-3">
-                <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
+                    <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
                 </div>
             </div>
             @endif
@@ -2323,7 +2323,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <select name="" id="GLOBAL_YEAR" class="form-control">
                                 </select>
                             </div>
-							
+
 						</div>
 						{{-- <div class="form-group mb-0 row align-items-center">
 							<label class="col-8 col-form-label">Enable Case Tracking:</label>
@@ -3109,7 +3109,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
-        
+
         <script>
             $.ajaxSetup({
                     headers: {
@@ -3117,7 +3117,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         'Content-Type': 'application/x-www-form-urlencoded',
                     }
             });
-        
+
 
             function getYear(){
                 var _url = "{{ route('get_year') }}"
@@ -3133,9 +3133,9 @@ License: You must have a valid license purchased only from themeforest(the above
 
         $(document).ready(function(){
             /***************************************************
-             * 
+             *
              *      INITIALIZE
-             * 
+             *
              * **************************************************/
             getYear();
 
@@ -3160,13 +3160,13 @@ License: You must have a valid license purchased only from themeforest(the above
 
 
             /***************************************************
-             * 
+             *
              *      EVENTS
-             * 
+             *
              * **************************************************/
 
             $("#global_settings_tab").on('click',function(){
-                
+
                 if(localStorage.hasOwnProperty('GLOBAL_SETTINGS'))
                 {
                     var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
@@ -3183,9 +3183,9 @@ License: You must have a valid license purchased only from themeforest(the above
 
 
               /***************************************************
-             * 
+             *
              *      FUNCTIONS / REUSABLE
-             * 
+             *
              * **************************************************/
 
             function updateUserGlobalSettingsYear(){
@@ -3204,16 +3204,26 @@ License: You must have a valid license purchased only from themeforest(the above
                                 if(data.type =='insert')
                                 {
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
                                 }else{
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
                                 }
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+
                             }else{
                                 toastr.error("Saving Failed", "Error");
                             }
-                            
+                        },
+                        complete:function(){
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Refreshing with new settings'
+                            });
+                            setTimeout(function(){
+                                window.location.reload(1);
+                            },2500);
                         }
                     });
                 }
@@ -3230,7 +3240,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         a = a ? JSON.parse(a) : {};
 
                         a['year'] = data.data.select_year;
-                        
+
                         localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
                         $("#GLOBAL_YEAR").val(data.data.select_year);
                     }
@@ -3238,7 +3248,7 @@ License: You must have a valid license purchased only from themeforest(the above
             }
 
 
-            
+
         });
 
         function wfp_drawer_close(){
@@ -3270,6 +3280,12 @@ License: You must have a valid license purchased only from themeforest(the above
 
         }
 
+        $("#output_function_pagination .pagination a").on('click',function(e){
+                e.preventDefault();
+                alert('click');
+                // console.log($(this).attr('href').split('page=')[1]);
+                fetch_output_function($(this).attr('href').split('page=')[1])
+            });
         </script>
 
         </body>

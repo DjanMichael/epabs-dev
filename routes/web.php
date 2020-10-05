@@ -11,12 +11,14 @@ use App\User;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+|   Route Names
+|   r = Redirect
+|   a = Add
+|   d = Display
 */
 
-
-
 Route::group(['middleware' => ['web', 'auth']], function () {
-    
+
     //Transaction/WFP
     Route::get('/users/wfp','Transaction\WfpController@index')->name('r_wfp');
     Route::get('/users/wfp/create','Transaction\WfpController@goToCreateWfp')->name('r_create_wfp');
@@ -32,6 +34,19 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/create/search/pagination/output_function','Transaction\WfpController@getOutputFunctionByPage')->name('d_output_function_by_page');
     Route::get('/users/wfp/view','Transaction\WfpController@getWfpByCode')->name('d_wfp_view');
     Route::get('/users/wfp/create/generate','Transaction\WfpController@generateWfpCode')->name('f_generate_code_wfp');
+    Route::get('/users/wfp/performance_indicator/save','Transaction\WfpController@savePerformaceIndicator')->name('db_pi_save');
+
+
+    //Transaction/Budget Allocation
+    Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
+    Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');
+    Route::get('/budget/allocation/utilization/byYear','Transaction\BudgetAllocationController@getBudgetAllocationUtilization')->name('d_budget_allocation_utilization');
+    Route::get('/budget/unit/perBLI/amount','Transaction\BudgetAllocationController@getBudgetAllocationPerBLIByUser')->name('d_budget_allocation_per_bli_by_user');
+    Route::get('/budget/allocation/save','Transaction\BudgetAllocationController@saveBudgetAllocationUnit')->name('db_bli_allocation_unit_save');
+    Route::get('/budget/allocation/update/bli','Transaction\BudgetAllocationController@updateBudgetPerBLIByUser')->name('db_budget_update_allocation_per_user');
+    Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
+    Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
+    Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
@@ -46,7 +61,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::get('/logout/session',function(){
-    
+
     Auth::logout();
     return redirect()->route('login');
 })->name('Logout');
@@ -62,4 +77,37 @@ Route::get('/authenticate','AuthController@index')->name('login');
 
 Route::get('/users','AuthController@getAllUser')->name('g_users');
 
+/*
+|--------------------------------------------------------------------------
+| References
+|--------------------------------------------------------------------------
+*/
+
+// Office Unit Routes
 Route::get('/system/reference/unit','Reference\UnitController@index')->name('r_unit');
+
+// Procurement Supplies Routes
+Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
+Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesSearch')->name('d_get_procurement_supplies_search');
+Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
+Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
+Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
+
+// Procurement Medicine Routes
+Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMedicineController@getProcurementMedicine')->name('d_get_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
+Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineSearch')->name('d_get_procurement_medicine_search');
+Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
+Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
+Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
+
+// Year Routes
+Route::get('/system/reference/year','YearsController@index')->name('r_year');
+Route::get('/system/reference/year/all','YearsController@getYear')->name('d_year');
+Route::get('/system/reference/year/pagination','YearsController@getYearByPage')->name('d_get_year_by_page');
+Route::get('/system/reference/year/search','YearsController@getYearSearch')->name('d_get_year_search');
+Route::get('/system/reference/year/add-form','YearsController@getAddForm')->name('d_add_year');
+Route::post('/system/reference/add-year','YearsController@store')->name('a_year');
