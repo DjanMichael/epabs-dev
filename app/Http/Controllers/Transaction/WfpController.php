@@ -15,9 +15,11 @@ use App\Views\WfpActivityInfo;
 use DB;
 use App\RefYear;
 use App\UserProfile;
+use App\GlobalSystemSettings;
+use App\Views\BudgetAllocationUtilization;
 class WfpController extends Controller
 {
-    // 
+    //
     public $auth_user_id;
     public $auth_user_unit_id;
 
@@ -55,7 +57,7 @@ class WfpController extends Controller
 
         $data["activity_category"] = $categ->getAll();
         $data["sof"] = $sof->getAll();
-  
+
 
         return view('pages.transaction.wfp.create_wfp',['data' => $data]);
     }
@@ -98,10 +100,10 @@ class WfpController extends Controller
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
     }
-    
+
     public function getBudgetLineItem(Request $req){
         $data= [];
-        
+
         $a = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
                                                                     ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
                                                                     ->where('unit_id',$this->auth_user_unit_id)
@@ -110,7 +112,7 @@ class WfpController extends Controller
                                                                     ->get()
                                                                     ->toArray();
 
-        $data['budget_allocation'] = count($a) > 0 ? $a : []; 
+        $data['budget_allocation'] = count($a) > 0 ? $a : [];
         // dd($data);
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
@@ -122,7 +124,7 @@ class WfpController extends Controller
                                     ->selectRaw('category')
                                     ->get()->toArray();
 
-       
+
         return view('pages.transaction.wfp.component.uacs_category',['data'=>$data]);
     }
 
@@ -161,7 +163,7 @@ class WfpController extends Controller
     public function getCalculateBudgetAllocationUtilization(Request $req){
         $a = new TableUnitBudgetAllocation();
         $result = $a->getSingleBudgetAllocationUtilization($req->unit_id,$req->year_id,$req->bli_id);
-        
+
         return $result;
     }
 
@@ -170,7 +172,7 @@ class WfpController extends Controller
         if($req->ajax()){
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
             $year =  count($a) == 0 ? null : $a[0]->year;
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year]);  
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year]);
         }
     }
 
@@ -195,7 +197,7 @@ class WfpController extends Controller
 
         if($unitHasBadget == null){
             return 'no budget';
-        
+
         }
         $wfp = new Wfp;
         $wfp->code = $code;
@@ -203,9 +205,25 @@ class WfpController extends Controller
         $wfp->unit_id = $unit_id;
         $wfp->year_id = $year_id;
         return $wfp->save() ? 'success' : 'not saved';
-    } 
+    }
 
     public function savePerformaceIndicator(Request $req){
         dd($req->all());
+    }
+
+    public function getAllUnitsWfpList(Request $req){
+
+        $user_id  = $this->auth_user_id;
+        $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
+        if($year_id){
+            $list = BudgetAllocationUtilization::where('year_id', $year_id->select_year)->get();
+            if(count($list) <> 0){
+                return view('pages.transaction.wfp.table.wfp_list');
+            }else{
+                return 'NO DATA FOUND';
+            }
+        }else{
+            return 'no year set';
+        }
     }
 }
