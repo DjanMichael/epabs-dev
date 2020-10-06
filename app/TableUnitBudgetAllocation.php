@@ -19,7 +19,7 @@ class TableUnitBudgetAllocation extends Model
     public function getSingleBudgetAllocationUtilization($unit_id, $year_id, $bli_id){
         $a = BudgetAllocationUtilization::where('unit_id',$unit_id)
                                         ->where('year_id',$year_id)
-                                        ->where('bli_id',$bli_id)
+                                        ->where('budget_line_item_id',$bli_id)
                                         ->get();
 
         return ($a) ? response()->json($a) : 0 ;

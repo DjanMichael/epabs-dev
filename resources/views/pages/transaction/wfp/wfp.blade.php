@@ -116,14 +116,14 @@
                 success:function(data){
                     $(this).removeClass('spinner spinner-white spinner-right');
                     KTApp.unblock('#modal_create_wfp');
-                    if(data == 'success'){
+                    if(data.message == 'success'){
                         KTApp.block('#modal_create_wfp', {
                             overlayColor: '#000000',
                             state: 'primary',
                             message: 'Redirecting. . .'
                         });
-                        window.location.href = redirectTo;
-                    }else if(data =='duplicate'){
+                        window.location.href = redirectTo + '?wfp_code=' + data.wfp_code;
+                    }else if(data.message =='duplicate'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"Already Created WFP for Year " + a["year_data"],
@@ -135,7 +135,7 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
-                    }else if (data == 'no budget'){
+                    }else if (data.message == 'no budget'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"No Budget Allocated on you for Year " + a["year_data"],

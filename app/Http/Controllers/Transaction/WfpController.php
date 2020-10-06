@@ -17,6 +17,9 @@ use App\RefYear;
 use App\UserProfile;
 use App\GlobalSystemSettings;
 use App\Views\BudgetAllocationUtilization;
+use Illuminate\Support\Facades\Crypt;
+use App\WfpPerformanceIndicator;
+
 class WfpController extends Controller
 {
     //
@@ -177,22 +180,16 @@ class WfpController extends Controller
     }
 
     public function generateWfpCode(Request $req){
-        // dd(Auth::user());
-        // dd( Auth::user()->getUnitId());
-        // dd((UserProfile::where('user_id',Auth::user()->id)->first()));
         $user_id = Auth::user()->id;
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = $req->year_id;
-        // DB::select('EXEC my_stored_procedure ?,?,?',['var1','var2','var3']);
 
         $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
         $code = $code[0]->wfp_code;
-        // dd(array($user_id,$unit_id,$year_id));
         $check = Wfp::where('user_id',$user_id)->where('unit_id',$unit_id)->where('year_id',$year_id)->first();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
-// dd([$unit_id,$year_id]);
         if($check){
-            return 'duplicate';
+            return ['message'=>'duplicate'];
         }
 
         if($unitHasBadget == null){
@@ -205,10 +202,52 @@ class WfpController extends Controller
         $wfp->unit_id = $unit_id;
         $wfp->year_id = $year_id;
         return $wfp->save() ? 'success' : 'not saved';
+
+            return ['message'=>'no budget'];
+
+        }
+
+        try {
+            DB::beginTransaction();
+            $wfp = new Wfp;
+            $wfp->code = $code;
+            $wfp->user_id = $user_id;
+            $wfp->unit_id = $unit_id;
+            $wfp->year_id = $year_id;
+            $stat = $wfp->save();
+
+
+            $wfp_act = new WfpActivity;
+            $wfp_act->wfp_code = $wfp->code;
+            $wfp_act->encoded_by =  $this->auth_user_id;
+            $wfp_act->save();
+
+            DB::commit();
+            //generate code decrypted
+            $wfp_code = Crypt::encryptString($wfp->code);
+            return  $stat ? ['wfp_code'=> $wfp_code ,'message' =>'success'] : ['wfp_code'=> Crypt::encryptString($wfp->code) ,'message' =>'not saved'];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+
     }
 
     public function savePerformaceIndicator(Request $req){
-        dd($req->all());
+        // dd($req->wfp_code);
+        // dd($req->uacs_title_id);
+        if($req->ajax()){
+            $wfp_indicator = new WfpPerformanceIndicator;
+            $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
+            $wfp_indicator->uacs_id = $req->uacs_title_id;
+            $wfp_indicator->bli_id = $req->budget_line_item_id;
+            $wfp_indicator->performance_indicator = $req->performance_indicator;
+            $wfp_indicator->cost = $req->cost;
+            $wfp_indicator->is_ppmp = $req->ppmp_include ? 'Y' : 'N';
+            $wfp_indicator->is_catering = $req->catering_include ? 'Y' : 'N';
+            $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
+            return $wfp_indicator->save() ? 'success' : 'failed';
+        }
     }
 
     public function getAllUnitsWfpList(Request $req){
