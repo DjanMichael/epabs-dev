@@ -35,7 +35,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/wfp/view','Transaction\WfpController@getWfpByCode')->name('d_wfp_view');
     Route::get('/users/wfp/create/generate','Transaction\WfpController@generateWfpCode')->name('f_generate_code_wfp');
     Route::get('/users/wfp/performance_indicator/save','Transaction\WfpController@savePerformaceIndicator')->name('db_pi_save');
-
+    Route::get('/wfp/units/byYear/list','Transaction\WfpController@getAllUnitsWfpList')->name('d_get_all_wfp_list');
 
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');

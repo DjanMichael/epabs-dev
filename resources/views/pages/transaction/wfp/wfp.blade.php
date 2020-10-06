@@ -84,6 +84,13 @@
 <script>
     $(document).ready(function(){
 
+
+        /*
+            INITIALIZED
+        */
+
+        fetch_wfp_list();
+
         $("#btn_create_wfp_year").on('click',function(){
             var redirectTo = "{{ route('r_create_wfp') }}";
             var _url ="{{ route('f_generate_code_wfp') }}";
@@ -168,6 +175,33 @@
                 keyboard:false
             });
         });
+
+
+
+        /*
+         FUNCTIONS
+        */
+        function fetch_wfp_list(){
+            var _url = "{{ route('d_get_all_wfp_list') }}";
+            $.ajax({
+                method:"GET",
+                url:_url,
+                beforeSend:function(){
+                    KTApp.block('#kt_body', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Retrieving WFP Data. . .'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_list').innerHTML = data;
+                },
+                complete(){
+                    KTApp.unblock('#kt_body');
+                }
+            })
+        }
+
     });
 </script>
 

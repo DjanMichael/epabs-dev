@@ -15,8 +15,11 @@ use App\Views\WfpActivityInfo;
 use DB;
 use App\RefYear;
 use App\UserProfile;
+use App\GlobalSystemSettings;
+use App\Views\BudgetAllocationUtilization;
 use Illuminate\Support\Facades\Crypt;
 use App\WfpPerformanceIndicator;
+
 class WfpController extends Controller
 {
     //
@@ -190,6 +193,16 @@ class WfpController extends Controller
         }
 
         if($unitHasBadget == null){
+            return 'no budget';
+
+        }
+        $wfp = new Wfp;
+        $wfp->code = $code;
+        $wfp->user_id = $user_id;
+        $wfp->unit_id = $unit_id;
+        $wfp->year_id = $year_id;
+        return $wfp->save() ? 'success' : 'not saved';
+
             return ['message'=>'no budget'];
 
         }
@@ -234,6 +247,22 @@ class WfpController extends Controller
             $wfp_indicator->is_catering = $req->catering_include ? 'Y' : 'N';
             $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
             return $wfp_indicator->save() ? 'success' : 'failed';
+        }
+    }
+
+    public function getAllUnitsWfpList(Request $req){
+
+        $user_id  = $this->auth_user_id;
+        $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
+        if($year_id){
+            $list = BudgetAllocationUtilization::where('year_id', $year_id->select_year)->get();
+            if(count($list) <> 0){
+                return view('pages.transaction.wfp.table.wfp_list');
+            }else{
+                return 'NO DATA FOUND';
+            }
+        }else{
+            return 'no year set';
         }
     }
 }
