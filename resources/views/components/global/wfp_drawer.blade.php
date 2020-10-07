@@ -5,7 +5,10 @@
 <div class="row">
     <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1></div>
         <div class="col-12 col-md-2 text-right">
-            <a type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto" href="{{ route('r_details_wfp') }}" style="z-index:1000;position: relative;bottom:0px;right:0px;">Comments</a>
+            <a type="button"
+                class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto"
+                style="z-index:1000;position: relative;bottom:0px;right:0px;"
+                onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">Comments</a>
             <button class="btn btn-primary" onclick="wfp_drawer_close()">Close</button>
         </div>
         <div class="col-12">

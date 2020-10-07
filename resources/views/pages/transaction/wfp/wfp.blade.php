@@ -16,7 +16,7 @@
             <div class="d-flex align-items-center " id="kt_subheader_search">
                 <form class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                        <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search...">
+                        <input type="text" class="form-control" id="query_search" placeholder="Search...">
                         <div class="input-group-append">
                             <span class="input-group-text">
                                 <span class="svg-icon">
@@ -38,6 +38,7 @@
             </div>
             <!--end::Search Form-->
         </div>
+        <button type="button" class="btn btn-default">Search</button>
         <button type="button"  id="btn_show_year_wfp" class="btn btn-primary btn-shadow font-weight-bold mr-2 col-12 col-md-2"><i class="icon-2x flaticon-add mr-3"></i>Create</button>
      </div>
 </div>
@@ -83,7 +84,7 @@
 {{-- {{ route('r_create_wfp') }} --}}
 <script>
     $(document).ready(function(){
-
+        var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
 
         /*
             INITIALIZED
@@ -164,6 +165,7 @@
 
         });
 
+
         $("#btn_show_year_wfp").on('click',function(){
             var a = localStorage.getItem('GLOBAL_SETTINGS');
             a = a ?  JSON.parse(a) : {} ;
@@ -177,29 +179,57 @@
         });
 
 
-
         /*
          FUNCTIONS
         */
-        function fetch_wfp_list(){
+
+
+
+        function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
             var _url = "{{ route('d_get_all_wfp_list') }}";
-            $.ajax({
-                method:"GET",
-                url:_url,
-                beforeSend:function(){
-                    KTApp.block('#kt_body', {
-                        overlayColor: '#000000',
-                        state: 'primary',
-                        message: 'Retrieving WFP Data. . .'
-                    });
-                },
-                success:function(data){
-                    document.getElementById('wfp_list').innerHTML = data;
-                },
-                complete(){
-                    KTApp.unblock('#kt_body');
-                }
-            })
+            var _data = {
+                page : _page,
+                query: _q,
+                year : settings.year,
+                sort : _sort_by
+            };
+            if(settings.year != null || settings.year != undefined)
+            {
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:_data,
+                    beforeSend:function(){
+                        KTApp.block('#kt_body', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Retrieving WFP Data. . .'
+                        });
+                    },
+                    success:function(data){
+                        document.getElementById('wfp_list').innerHTML = data;
+                    },
+                    complete(){
+                        KTApp.unblock('#kt_body');
+                        $("#paginate_wfp_links .pagination a").on('click',function(e){
+                            e.preventDefault();
+                            fetch_wfp_list($(this).attr('href').split('page=')[1], $("#query_search").val(),$("#query_sort_by").val())
+                        });
+                    }
+                });
+            }else{
+                swal.fire({
+                        title:"Warning",
+                        text:'Please setup your Year on Global Settings',
+                        icon: "warning",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn font-weight-bold btn-light-primary"
+                        }
+                });
+            }
+
         }
 
     });

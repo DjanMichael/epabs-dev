@@ -98,6 +98,9 @@ License: You must have a valid license purchased only from themeforest(the above
                 height:100%;
                 overflow: hidden;
             }
+            .modal{
+                background-color:rgba(0,0,0,0.4) !important;
+            }
         </style>
 
     </head>
@@ -3025,6 +3028,44 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 <!--end::Demo Panel-->
 
+<!-- Modal-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index: 100012 !important; background-color:rgba(0,0,0,0.4)">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write a comment </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form">
+                            <div class="form-group">
+                                <textarea id="wfp_comment_data" cols="30" rows="10" class="form-control" placeholder="Write your Comment. . . "></textarea>
+                            </div>
+                            <input type="hidden" id="wfp_ref" value="">
+                            <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_wfp_comment">Save Comment </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="float:left">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
         <!--begin::Global Config(global config for global JS scripts)-->
         <script>
@@ -3257,26 +3298,33 @@ License: You must have a valid license purchased only from themeforest(the above
         }
 
         function wfp_drawer_open(id){
-            $("#bg-drawer").addClass('bg-drawer');
-            $("#wfp_drawer").addClass('wrapper-drawer-on');
-
-            var _url ="{{ route('d_wfp_view') }}" ;
-            $.ajax({
-                method:"GET",
-                url:_url,
-                data: { wfp_code : id },
-                beforeSend:function(){
-                    KTApp.block('#wfp_drawer', {
-                        overlayColor: '#000000',
-                        state: 'primary',
-                        message: 'Loading. . .'
-                    });
-                },
-                success:function(data){
-                    document.getElementById('wfp_drawer').innerHTML = data;
-                    KTApp.unblock('#wfp_drawer');
-                }
-            })
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
 
         }
 
@@ -3286,6 +3334,39 @@ License: You must have a valid license purchased only from themeforest(the above
                 // console.log($(this).attr('href').split('page=')[1]);
                 fetch_output_function($(this).attr('href').split('page=')[1])
             });
+
+        function showModalComment(user_id,wfp_code){
+            $("#modal_wfp_comments").modal({
+                show:true,
+                backdrop:'static',
+                focus: true,
+                keyboard:false
+            });
+
+            $("#wfp_ref").val(wfp_code);
+            $("#wfp_comment_user_id_send_to").val(user_id);
+        }
+
+        $("#btn_save_wfp_comment").on('click',function(){
+            var _user_id = $("#wfp_comment_user_id_send_to").val();
+            var _wfp = $("#wfp_ref").val();
+            var _comment = $("#wfp_comment_data").val();
+            var _url = "{{ route('db_save_wfp_comment') }}";
+            var _data = {
+                user_id : _user_id,
+                wfp_code : _wfp,
+                comment : _comment
+            }
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data : _data,
+                success:function(data){
+                    console.log(data);
+                }
+            });
+        })
+
         </script>
 
         </body>
