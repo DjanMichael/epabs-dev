@@ -71,6 +71,10 @@
                 // $('#course-id').val(id);
                 // $('#edit-modal').modal('toggle');
             });
+
+            $("#btn_alert_close").on('click',function(){
+                $("#alert").delay(0).fadeOut(600);
+            });
             
             $("#btn_add").on('click',function(){
                 $.ajax({

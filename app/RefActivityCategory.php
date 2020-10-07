@@ -9,6 +9,8 @@ class RefActivityCategory extends Model
     //
     protected $table='ref_activity_category';
 
+    protected $fillable = ['id', 'category', 'status'];
+
     public function getAll()
     {
         $result = RefActivityCategory::all()->toArray();

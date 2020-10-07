@@ -3,7 +3,7 @@
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
-    </li> 
+    </li>
     <li class="breadcrumb-item">
         <a class="text-muted">System Year</a>
     </li>
@@ -11,25 +11,35 @@
 
 @section('content')
     @section('panel-title', 'Year')
-    @section('panel-icon', 'flaticon2-box-1') 
+    @section('panel-icon', 'flaticon2-calendar-1')
     @include('pages.reference.component.panel')
+
 @endsection
 
 @push('scripts')
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
-    {{-- <script src="{{ asset('dist/assets/js/pages/crud/ktdatatable/base/html-table.js?v=7.1.1') }}"></script> --}}
+
+    {{-- <script src="{{ asset('dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.1.2') }}"></script> --}}
+    {{-- <script src="{{ asset('dist/assets/js/pages/crud/datatables/basic/basic.js?v=7.1.2') }}"></script> --}}
+
     <script>
         $(document).ready(function() {
-          
-        /*
+            // $('#kt_datatable').DataTable( {
+            //     paging: false,
+            //     searching: false,
+            //     info: false,
+            //     responsive: true
+            // } );
+
+           /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
             populateTable("{{ route('d_year') }}", "{{ route('d_get_year_by_page') }}");
-           
+
             $("#alert").delay(0).hide(0);
 
             let data = { year :'' };
@@ -43,25 +53,41 @@
         | EVENTS
         |--------------------------------------------------------------------------
         */
+            $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
 
+            // Search button event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
                 populateTableBySearch("{{ route('d_get_year_search') }}", str);
             });
-            
-            $("#btn_add").on('click',function(){
+
+            $(document).on('click', '#btn_add, a[data-role=edit]', function(){
+                var id = $(this).data('id');
+                var year = $('#'+id).children('td[data-target=year]').text();
+                 var status = $('#'+id).find('span').text();
                 $.ajax({
                     url: "{{ route('d_add_year') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
+                    $('#year_id').val(id);
+                    $('#year').val(year);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
                     $('#modal_reference').modal('toggle');
                 });
             });
 
+            // Close alert event
+            $("#btn_alert_close").on('click',function(){
+                $("#alert").delay(0).fadeOut(600);
+            });
+
+            // Insert data event
             $("#kt_btn_1").on('click', function(e){
+                var id = $("#year_id").val();
+                var status = $("#chk_status").val();
                 data.year = $("#year").val();
-             
+
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
                     e.preventDefault();
@@ -70,7 +96,9 @@
                         url: "{{ route('a_year') }}",
                         method: 'POST',
                         data: {
-                            "year": data.year
+                            "year_id"   : id,
+                            "year"      : data.year,
+                            "status"    : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -79,7 +107,7 @@
                            setTimeout(function() {
                                 KTUtil.btnRelease(btn);
                             }, 1000);
-                            if (result['type'] == 'insert') {
+                            if (result['type'] == 'insert' || result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
                                 populateTable("{{ route('d_year') }}", "{{ route('d_get_year_by_page') }}");
                                 toastr.success(result['message']);
@@ -93,7 +121,7 @@
                             }, 1000);
                             Swal.fire("System Message", result['message'], "error");
                         }
-                    });  
+                    });
 
                 } else {
 
@@ -105,7 +133,7 @@
                     $("#modal_reference").animate({ scrollTop:0 },700);
                     $("#alert").addClass('fade show');
                     $("#alert_text").html(msg);
-                    
+
                 }
             });
 
@@ -115,10 +143,7 @@
         |--------------------------------------------------------------------------
         */
 
-            
-
-
         });
-      
+
     </script>
 @endpush

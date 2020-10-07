@@ -1,6 +1,6 @@
 <!-- Modal-->
 <div class="modal fade" id="modal_reference" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog @yield('modal-size')" role="document">
+    <div class="modal-dialog @yield('modal-size') modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">@yield('title')</h5>
@@ -22,11 +22,6 @@
                 </div>
 
                 <div id="dynamic_content"></div>
-                {{-- @if($data['form-type'] == 'Add Procurement Supplies')         
-                    @include('pages.reference.form.add_procurement_supplies')
-                @else
-                    NO MODAL AVAILABLE
-                @endif --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
