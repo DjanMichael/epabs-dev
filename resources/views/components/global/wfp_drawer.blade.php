@@ -3,13 +3,21 @@
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
 @if(count($activities) <> 0)
 <div class="row">
-    <div class="col-12 col-md-10"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1></div>
-        <div class="col-12 col-md-2 text-right">
-            <a type="button"
-                class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto"
-                style="z-index:1000;position: relative;bottom:0px;right:0px;"
-                onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">Comments</a>
-            <button class="btn btn-primary" onclick="wfp_drawer_close()">Close</button>
+    <div class="col-12 col-md-8"><h1>Work and Financial Plan <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1></div>
+        <div class="col-12 col-md-4 text-right">
+            <button type="button"
+                class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                style="z-index:1000;position: relative;bottom:0px;right:0;"
+                onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')"><i class="flaticon-comment"></i>
+            </button>
+            <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                    style="position: relative;right:0;bottom:0;"
+                    onclick="editWfp('{{ $wfp_code }}')">
+                <i class="flaticon-edit"></i>
+            </button>
+            <button class="btn btn-icon btn-light btn-hover-danger btn-sm" onclick="wfp_drawer_close()"
+                style="position: relative;right:0;bottom:0;"><i class="flaticon-close"></i>
+            </button>
         </div>
         <div class="col-12">
                 <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5" >

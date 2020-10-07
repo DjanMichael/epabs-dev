@@ -4,6 +4,7 @@
     <div class="container">
         <!--begin::Row-->
         <div class="row">
+            @isset($data["wfp_list"])
             @forelse ($data["wfp_list"] as $row)
             <div class="col-xl-4">
                 <!--begin::Card-->
@@ -20,7 +21,6 @@
                                     <div class="symbol symbol-60 mr-3">
                                         <span class="symbol-label font-size-h6">{{ strtoupper(Str::substr(Str::words($row["name"],2),0,1)) }}</span>
                                     </div>
-
                                 </div>
                                 <!--end::Pic-->
                                 <!--begin::Info-->
@@ -71,16 +71,24 @@
                 </div>
                 <!--end::Card-->
             </div>
-            @empty
-                NODATA
-            @endforelse
+            @endforeach
+            @else
+            <div class="col-xl-12 text-center p-10">
+                <div style="height: 300px;width:100%;">
+                    NO DATA
+                </div>
+            </div>
+            @endisset
+
         </div>
         <!--end::Row-->
     </div>
     <!--end::Container-->
 </div>
+@isset($data["wfp_list"])
 @if(count($data["wfp_list"]) != 0)
 <div id="paginate_wfp_links">
 {{ $data["wfp_list"]->links('components.global.pagination') }}
 </div>
 @endif
+@endisset
