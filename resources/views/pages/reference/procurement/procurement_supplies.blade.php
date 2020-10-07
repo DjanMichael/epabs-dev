@@ -3,7 +3,7 @@
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
-    </li> 
+    </li>
     <li class="breadcrumb-item">
         <a class="text-muted">Procurement Supplies</a>
     </li>
@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Procurement Supplies')
-    @section('panel-icon', 'flaticon2-box-1') 
+    @section('panel-icon', 'flaticon2-box-1')
     @include('pages.reference.component.panel')
 @endsection
 
@@ -22,14 +22,14 @@
     {{-- <script src="{{ asset('dist/assets/js/pages/crud/ktdatatable/base/html-table.js?v=7.1.1') }}"></script> --}}
     <script>
         $(document).ready(function() {
-          
+
         /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
             populateTable("{{ route('d_get_procurement_supplies') }}", "{{ route('d_get_procurement_supplies_by_page') }}");
-           
+
             $("#alert").delay(0).hide(0);
 
             let data = {
@@ -77,7 +77,7 @@
             //     });
             // }
 
-            
+
             $(document).on('click', 'a[data-role=price]', function(){
                 var id = $(this).data('id');
                 alert(id);
@@ -86,7 +86,20 @@
                 // $('#course-id').val(id);
                 // $('#edit-modal').modal('toggle');
             });
-            
+
+            $(document).on('click', 'a[data-role=edit]', function(){
+                var id = $(this).data('id');
+                alert('sa edit ni '+id);
+                // var course = $('#'+id).children('td[data-target=course]').text();
+                // $('#edit-course').val(course);
+                // $('#course-id').val(id);
+                // $('#edit-modal').modal('toggle');
+            });
+
+            $("#btn_alert_close").on('click',function(){
+                $("#alert").delay(0).fadeOut(600);
+            });
+
             $("#btn_add").on('click',function(){
                 $.ajax({
                     url: "{{ route('d_add_procurement_supplies') }}",
@@ -135,7 +148,7 @@
                             }, 1000);
                             Swal.fire("System Message", "Something went wrong!", "error");
                         }
-                    });  
+                    });
 
                 } else {
 
@@ -147,20 +160,37 @@
                     $("#modal_reference").animate({ scrollTop:0 },700);
                     $("#alert").addClass('fade show');
                     $("#alert_text").html(msg);
-                    
+
                 }
             });
 
+
+ $('#submitid').on('click', function() {
+
+    var vid = $( "#vid" ).val();
+       //var id=$(this).data('id');
+
+        $.ajax({
+              url: '/inquiryVendor',
+              type: "Get",
+              dataType: 'json',//this will expect a json response
+              data:{id:$("#vid").val()},
+               success: function(response){
+                    $("#inputfieldid1").val(response.id);
+
+        }
+            });
+    });
         /*
         |--------------------------------------------------------------------------
         | FUNCTIONS
         |--------------------------------------------------------------------------
         */
 
-            
+
 
 
         });
-      
+
     </script>
 @endpush

@@ -23,6 +23,9 @@ License: You must have a valid license purchased only from themeforest(the above
         <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        <!--end::Fonts-->
 
+
+		{{-- <link href="{{ asset('dist/assets/plugins/custom/datatables/datatables.bundle.css?v=7.1.2')}}" rel="stylesheet" type="text/css" /> --}}
+        {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css"> --}}
                     <!--begin::Page Vendors Styles(used by this page)-->
                             <link href="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css"/>
                         <!--end::Page Vendors Styles-->
@@ -1641,7 +1644,7 @@ License: You must have a valid license purchased only from themeforest(the above
             @else
             <div class="symbol-list d-flex flex-wrap">
                 <div class="symbol symbol-120  mr-3">
-                    <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
+                <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
                 </div>
             </div>
             @endif
@@ -3204,10 +3207,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                 if(data.type =='insert')
                                 {
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
                                 }else{
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
                                 }
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
