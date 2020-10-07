@@ -15,6 +15,9 @@
             <link href="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css"/>
         <!--end::Page Vendors Styles-->
 
+        <!--begin::Page Vendors Styles(used by this page)-->
+            <link href="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css"/>
+        <!--end::Page Vendors Styles-->
 
         <!--begin::Global Theme Styles(used by all pages)-->
             <link href="{{ asset('dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
@@ -346,7 +349,7 @@
             @else
             <div class="symbol-list d-flex flex-wrap">
                 <div class="symbol symbol-120  mr-3">
-                    <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
+                <span class="symbol-label font-size-h1">{{ Str::substr(Str::words(Auth::user()->name,2),0,1) }}</span>
                 </div>
             </div>
             @endif
@@ -1399,10 +1402,10 @@
                                 if(data.type =='insert')
                                 {
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
                                 }else{
                                     a['year'] = data.data.id;
-                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text().trim()
+                                    a['year_data'] = $("#GLOBAL_YEAR option:selected").text()
                                 }
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 

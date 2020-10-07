@@ -27,12 +27,12 @@
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
                </td>
                 <td>
-                    <a href="javacript;;" class="btn btn-sm btn-clean btn-icon" title="Edit Details"><i class="la la-edit"></i></a>
+                    <a class="btn btn-sm btn-clean btn-icon" data-role="edit" data-id="{{ $row["id"] }}" title="Edit Details"><i class="la la-edit"></i></a>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="12" class="text-center"> NO DATA AVAILABLE IN TABLE</td> 
+                <td colspan="12" class="text-center"> NO DATA AVAILABLE IN TABLE</td>
             </tr>
         @endforelse
     </tbody>

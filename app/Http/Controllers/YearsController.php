@@ -9,18 +9,18 @@ class YearsController extends Controller
 {
     //
     function get_year(){
-       
+
         $data = RefYear::where('status','ACTIVE')->get();
-        
+
         return view('components.global.system_set_up_year',['data' => $data]);
     }
 
     public function index(){
-        
-        return view('pages.reference.year.year');
- 
+        $data = RefYear::paginate(10);
+        return view('pages.reference.year.year',['year' => $data]);
+
     }
-    
+
     public function getYear()
     {
         $data = RefYear::paginate(10);
@@ -47,25 +47,35 @@ class YearsController extends Controller
             }
             return view('pages.reference.year.table.display_year',['year'=> $data]);
         }
-    }  
+    }
 
     public function getAddForm(){
-        return view('pages.reference.year.form.add_year');        
+        return view('pages.reference.year.form.add_year');
     }
 
     public function store(Request $request) {
-        
-        $check = RefYear::where('year', $request->all())->first();
+
+        $check = RefYear::find($request->year_id)
+                        ? RefYear::where('year', $request->year)->where('id', '<>', $request->year_id)->first()
+                        : RefYear::where('year', $request->year)->first();
+
         if ($check) {
             return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
         } else {
-            $refYear = RefYear::create($request->all());
-            if ($refYear) {
-                return response()->json(['message'=>'Successfully inserted data','type'=>'insert']);
-            } else {
+            $check = RefYear::find($request->year_id);
+            if ($check) {
+                $check->update(['year' => $request->year, 'status' => $request->status]);
+                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+            }
+            else if (empty($check)) {
+                $refYear = RefYear::create($request->all());
+                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+            }
+            else {
                 return response()->json(['message'=>'Something went wrong']);
             }
         }
-        
+
     }
+
 }

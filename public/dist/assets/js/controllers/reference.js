@@ -5,13 +5,9 @@
 */
 
 // Switch Checkbox Value
-function switchChangeValue(ob,type = null){
+function switchChangeValue(ob, firstValue, secondValue, type = null){
     var el = document.getElementById(ob);
-    if (type == 'default'){
-        el.value = 'N';
-    }else{
-        el.value = (el.value == 'Y') ? 'N' : 'Y';
-    }
+    el.value = ($('#'+el.id).prop('checked') == true) ? firstValue : secondValue;
 }
 
 // Populate Table
@@ -30,7 +26,7 @@ function populateTable(populate_url, per_page_url){
         success:function(data){
             KTApp.unblock('#table_populate');
             document.getElementById('table_content').innerHTML= data;
-            
+
         },
         complete:function(){
             $("#table_pagination .pagination a").on('click',function(e){
