@@ -206,15 +206,15 @@ class WfpController extends Controller
         }
 
 
-        $wfp_log = new ZWfpLogs;
-        $wfp_log->wfp_code = $code;
-        $wfp_log->status = 'WFP';
-        $wfp_log->remarks = 'NOT SUBMITTED';
-        $wfp_log->save();
-
-
         try {
             DB::beginTransaction();
+
+            $wfp_log = new ZWfpLogs;
+            $wfp_log->wfp_code = $code;
+            $wfp_log->status = 'WFP';
+            $wfp_log->remarks = 'NOT SUBMITTED';
+            $wfp_log->save();
+
             $wfp = new Wfp;
             $wfp->code = $code;
             $wfp->user_id = $user_id;
@@ -222,11 +222,14 @@ class WfpController extends Controller
             $wfp->year_id = $year_id;
             $stat = $wfp->save();
 
-
             $wfp_act = new WfpActivity;
-            $wfp_act->wfp_code = $wfp->code;
+            $wfp_act->wfp_code = $code;
             $wfp_act->encoded_by =  $this->auth_user_id;
             $wfp_act->save();
+
+            $wfp_act_indi = new WfpPerformanceIndicator;
+            $wfp_act_indi->wfp_code = $code;
+            $wfp_act_indi->save();
 
             DB::commit();
             //generate code decrypted
@@ -242,8 +245,10 @@ class WfpController extends Controller
     public function savePerformaceIndicator(Request $req){
         // dd($req->wfp_code);
         // dd($req->uacs_title_id);
+
         if($req->ajax()){
-            $wfp_indicator = new WfpPerformanceIndicator;
+
+            $wfp_indicator = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->first();
             $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
             $wfp_indicator->uacs_id = $req->uacs_title_id;
             $wfp_indicator->bli_id = $req->budget_line_item_id;
@@ -265,6 +270,7 @@ class WfpController extends Controller
             // where('unit_id',$unit_id)
             // ->where('year_id', $year_id->select_year)
             $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
+                                                        ->where('wfp_code','!=',null)
                                                         ->groupBy(['unit_id','year_id','user_id'])
                                                         ->paginate($this->wfp_list_paginate);
 
@@ -272,7 +278,7 @@ class WfpController extends Controller
 
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> $data]);
             }else{
-                return 'NO DATA FOUND';
+                return view('pages.transaction.wfp.table.wfp_list',['data'=> null]);
             }
         }else{
             return 'no year set';
@@ -288,5 +294,21 @@ class WfpController extends Controller
         }else{
             abort(403);
         }
+    }
+
+    function editWfp(Request $req){
+        // dd($req->all());
+        $data = [];
+        $categ = new RefActivityCategory;
+        $sof = new RefSourceOfFund;
+
+        $data["activity_category"] = $categ->getAll();
+        $data["sof"] = $sof->getAll();
+
+        $data["wfp"] = Wfp::where('code',$req->wfp_code)->first();
+        $data["wfp_act"] = WfpActivity::where('wfp_code',$req->wfp_code)->get();
+        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get();
+
+        return view('pages.transaction.wfp.edit_wfp',['data'=> $data]);
     }
 }
