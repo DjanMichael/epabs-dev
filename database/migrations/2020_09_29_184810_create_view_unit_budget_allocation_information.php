@@ -21,6 +21,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                     `up`.`designation` AS `designation`,
                     `ru`.`division` AS `division`,
                     `ru`.`section` AS `section`,
+                    `tuba`.`id` AS `tuba_id`,
                     `tuba`.`budget_line_item_id` AS `budget_line_item_id`,
                     `rbli`.`budget_item` AS `budget_item`,
                     `tuba`.`unit_id` AS `unit_id`,
@@ -36,6 +37,23 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         AND `tw`.`year_id` = `tuba`.`year_id`
                         AND `tw`.`unit_id` = `up`.`unit_id`
                     ) AS `wfp_code`,
+                    (
+                        SELECT
+                            (
+                                SELECT
+                                    count(0)
+                                FROM
+                                    `tbl_wfp_activity` `twa`
+                                WHERE
+                                    `twa`.`wfp_code` = `tw`.`code`
+                            )
+                        FROM
+                            `tbl_wfp` `tw`
+                        WHERE
+                            `tw`.`user_id` = `up`.`user_id`
+                        AND `tw`.`year_id` = `tuba`.`year_id`
+                        AND `tw`.`unit_id` = `up`.`unit_id`
+                    ) AS `wfp_activity_count`,
                     (
                         SELECT
                             sum(`tuba3`.`program_budget`)
@@ -58,18 +76,25 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                                         COALESCE (`tpi`.`jan`, 0) + COALESCE (`tpi`.`feb`, 0) + COALESCE (`tpi`.`mar`, 0) + COALESCE (`tpi`.`apr`, 0) + COALESCE (`tpi`.`may`, 0) + COALESCE (`tpi`.`june`, 0) + COALESCE (`tpi`.`july`, 0) + COALESCE (`tpi`.`aug`, 0) + COALESCE (`tpi`.`sept`, 0) + COALESCE (`tpi`.`oct`, 0) + COALESCE (`tpi`.`nov`, 0) + COALESCE (`tpi`.`dec`, 0)
                                                     ) * `tpi`.`price`
                                                 FROM
-                                                    `tbl_ppmp_items` `tpi`
+                                                    `tbl_ppmp_items` `tpi3`
                                                 WHERE
-                                                    `tpi`.`wfp_act_per_indicator_id` = `twapi`.`id`
+                                                    `tpi3`.`id` = `tpi`.`id`
                                             )
                                         ),
                                         0
                                     )
                                 FROM
-                                    `tbl_wfp_activity_per_indicator` `twapi`
+                                    `tbl_ppmp_items` `tpi`
                                 WHERE
-                                    `twapi`.`wfp_code` = `tw`.`code`
-                                AND `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                                    `tpi`.`wfp_act_per_indicator_id` IN (
+                                        SELECT
+                                            `twapi2`.`id`
+                                        FROM
+                                            `tbl_wfp_activity_per_indicator` `twapi2`
+                                        WHERE
+                                            `twapi2`.`wfp_code` = `tw`.`code`
+                                        AND `twapi2`.`bli_id` = `tuba`.`budget_line_item_id`
+                                    )
                             )
                         FROM
                             `tbl_wfp` `tw`
@@ -91,18 +116,25 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                                             COALESCE (`tpi`.`jan`, 0) + COALESCE (`tpi`.`feb`, 0) + COALESCE (`tpi`.`mar`, 0) + COALESCE (`tpi`.`apr`, 0) + COALESCE (`tpi`.`may`, 0) + COALESCE (`tpi`.`june`, 0) + COALESCE (`tpi`.`july`, 0) + COALESCE (`tpi`.`aug`, 0) + COALESCE (`tpi`.`sept`, 0) + COALESCE (`tpi`.`oct`, 0) + COALESCE (`tpi`.`nov`, 0) + COALESCE (`tpi`.`dec`, 0)
                                                         ) * `tpi`.`price`
                                                     FROM
-                                                        `tbl_ppmp_items` `tpi`
+                                                        `tbl_ppmp_items` `tpi3`
                                                     WHERE
-                                                        `tpi`.`wfp_act_per_indicator_id` = `twapi`.`id`
+                                                        `tpi3`.`id` = `tpi`.`id`
                                                 )
                                             ),
                                             0
                                         )
                                     FROM
-                                        `tbl_wfp_activity_per_indicator` `twapi`
+                                        `tbl_ppmp_items` `tpi`
                                     WHERE
-                                        `twapi`.`wfp_code` = `tw`.`code`
-                                    AND `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                                        `tpi`.`wfp_act_per_indicator_id` IN (
+                                            SELECT
+                                                `twapi2`.`id`
+                                            FROM
+                                                `tbl_wfp_activity_per_indicator` `twapi2`
+                                            WHERE
+                                                `twapi2`.`wfp_code` = `tw`.`code`
+                                            AND `twapi2`.`bli_id` = `tuba`.`budget_line_item_id`
+                                        )
                                 )
                             FROM
                                 `tbl_wfp` `tw`
@@ -110,8 +142,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                 `tw`.`user_id` = `up`.`user_id`
                             AND `tw`.`year_id` = `tuba`.`year_id`
                             AND `tw`.`unit_id` = `up`.`unit_id`
-                        ),
-                        0
+                        )
                     ) AS `balance`,
                     (
                         SELECT
@@ -134,17 +165,24 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                                         COALESCE (`tpi`.`jan`, 0) + COALESCE (`tpi`.`feb`, 0) + COALESCE (`tpi`.`mar`, 0) + COALESCE (`tpi`.`apr`, 0) + COALESCE (`tpi`.`may`, 0) + COALESCE (`tpi`.`june`, 0) + COALESCE (`tpi`.`july`, 0) + COALESCE (`tpi`.`aug`, 0) + COALESCE (`tpi`.`sept`, 0) + COALESCE (`tpi`.`oct`, 0) + COALESCE (`tpi`.`nov`, 0) + COALESCE (`tpi`.`dec`, 0)
                                                     ) * `tpi`.`price`
                                                 FROM
-                                                    `tbl_ppmp_items` `tpi`
+                                                    `tbl_ppmp_items` `tpi3`
                                                 WHERE
-                                                    `tpi`.`wfp_act_per_indicator_id` = `twapi`.`id`
+                                                    `tpi3`.`id` = `tpi`.`id`
                                             )
                                         ),
                                         0
                                     )
                                 FROM
-                                    `tbl_wfp_activity_per_indicator` `twapi`
+                                    `tbl_ppmp_items` `tpi`
                                 WHERE
-                                    `twapi`.`wfp_code` = `tw`.`code`
+                                    `tpi`.`wfp_act_per_indicator_id` IN (
+                                        SELECT
+                                            `twapi2`.`id`
+                                        FROM
+                                            `tbl_wfp_activity_per_indicator` `twapi2`
+                                        WHERE
+                                            `twapi2`.`wfp_code` = `tw`.`code`
+                                    )
                             )
                         FROM
                             `tbl_wfp` `tw`
@@ -159,21 +197,16 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                             (
                                 (
                                     (
-                                        (
-                                            `users_profile` `up`
-                                            JOIN `users` `u` ON (`u`.`id` = `up`.`user_id`)
-                                        )
-                                        JOIN `ref_units` `ru` ON (`ru`.`id` = `up`.`unit_id`)
+                                        `users_profile` `up`
+                                        JOIN `users` `u` ON (`u`.`id` = `up`.`user_id`)
                                     )
-                                    JOIN `tbl_unit_budget_allocation` `tuba` ON (
-                                        `tuba`.`unit_id` = `up`.`unit_id`
-                                    )
+                                    JOIN `ref_units` `ru` ON (`ru`.`id` = `up`.`unit_id`)
                                 )
-                                JOIN `ref_year` `ry` ON (`ry`.`id` = `tuba`.`year_id`)
+                                JOIN `tbl_unit_budget_allocation` `tuba` ON (
+                                    `tuba`.`unit_id` = `up`.`unit_id`
+                                )
                             )
-                            JOIN `tbl_wfp_activity_per_indicator` `twapi` ON (
-                                `twapi`.`wfp_code` = `twapi`.`wfp_code`
-                            )
+                            JOIN `ref_year` `ry` ON (`ry`.`id` = `tuba`.`year_id`)
                         )
                         JOIN `ref_budget_line_item` `rbli` ON (
                             `rbli`.`id` = `tuba`.`budget_line_item_id`
