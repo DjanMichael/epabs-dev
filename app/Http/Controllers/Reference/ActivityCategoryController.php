@@ -9,12 +9,7 @@ use App\RefActivityCategory;
 class ActivityCategoryController extends Controller
 {
     //
-    public function index(){
-
-        $data = RefActivityCategory::paginate(10);
-        return view('pages.reference.category.activity_category',['category' => $data]);
-
-    }
+    public function index(){ return view('pages.reference.category.activity_category'); }
 
     public function getActivityCategory()
     {

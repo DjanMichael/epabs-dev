@@ -9,12 +9,7 @@ use App\RefBudgetLineItem;
 class BudgetLineItemController extends Controller
 {
     //
-    public function index(){
-
-        $data = RefBudgetLineItem::paginate(10);
-        return view('pages.reference.budgetlineitem.budget_line_item',['budgetlineitem' => $data]);
-
-    }
+    public function index(){ return view('pages.reference.budgetlineitem.budget_line_item'); }
 
     public function getBudgetLineItem()
     {
