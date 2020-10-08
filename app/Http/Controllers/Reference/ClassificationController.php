@@ -11,8 +11,7 @@ class ClassificationController extends Controller
     //
     public function index(){
 
-        $data = RefClassification::paginate(10);
-        return view('pages.reference.classification.classification',['classification' => $data]);
+        return view('pages.reference.classification.classification');
 
     }
 

@@ -1,7 +1,7 @@
 <!--begin::Card-->
 <div class="row">
     <div class="col-md-12 col-12">
-        <div class="card card-custom gutter-b">
+        <div class="card card-custom gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
             <div class="card-header">
                 <div class="card-title">
                     <span class="card-icon"><i class="@yield('panel-icon') text-primary"></i></span>
@@ -23,7 +23,7 @@
                                 <!--end::Svg Icon-->
                             </span>		Export
                         </button>
-                    
+
                         <!--begin::Dropdown Menu-->
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                             <!--begin::Navigation-->
@@ -125,12 +125,12 @@
                             <div id="table_content">
                                 {{-- @include('pages.reference.table.display_supplies') --}}
                             </div>
-                            
+
                         </div>
-                        
+
                     </div>
                     <!--end::Body-->
-                </div> 
+                </div>
             </div>
         </div>
     </div>

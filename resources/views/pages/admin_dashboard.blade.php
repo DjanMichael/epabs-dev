@@ -60,7 +60,7 @@
             </div>
             <!--end::Body-->
         </div>
-        
+
     </div>
     <div class="col-md-4 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
@@ -129,7 +129,7 @@
             </div>
             <!--end::Body-->
         </div>
-        
+
     </div>
     <div class="col-md-4 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
@@ -254,7 +254,7 @@
                                             <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
                                             <span class="font-weight-bolder font-size-sm">Program Manager</span>
                                         </div>
-                                        
+
                                     </div>
                                 </td>
                                 <td class="pt-10">
@@ -281,7 +281,7 @@
                                             <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
                                             <span class="font-weight-bolder font-size-sm">Program Manager</span>
                                         </div>
-                                        
+
                                     </div>
                                 </td>
                                 <td class="pt-10">
@@ -308,7 +308,7 @@
                                             <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
                                             <span class="font-weight-bolder font-size-sm">Program Manager</span>
                                         </div>
-                                        
+
                                     </div>
                                 </td>
                                 <td class="pt-10">
@@ -352,7 +352,7 @@
                     <!--begin::Body-->
                     <div class="card-body pt-2 pb-0 mt-n3">
                         <div class="tab-content mt-5" id="myTabTables5">
-                     
+
                             <!--begin::Tap pane-->
                             <div class="tab-pane fade show active" id="kt_tab_pane_5_3" role="tabpanel" aria-labelledby="kt_tab_pane_5_3">
                                 <!--begin::Table-->
@@ -547,21 +547,21 @@
                         </div>
                     </div>
                     <!--end::Body-->
-                
+
 
                    <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="d-flex flex-wrap py-2 mr-3">
                         <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-double-arrow-back icon-xs"></i></a>
                         <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-arrow-back icon-xs"></i></a>
-                
+
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">23</a>
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary active mr-2 my-1">24</a>
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">25</a>
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">26</a>
-                     
+
                         <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                
+
                         <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a>
                         <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a>
                     </div>
@@ -570,7 +570,7 @@
                             <div class="mr-2 text-muted">Loading...</div>
                             <div class="spinner spinner-primary mr-10"></div>
                         </div> --}}
-                
+
                         <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -603,11 +603,11 @@
                             <!--begin::Icon-->
                             <div class="timeline-media bg-light-primary">
                                 <span class="svg-icon svg-icon-primary">
-                                
+
                                 </span>
                             </div>
                             <!--end::Icon-->
-                
+
                             <!--begin::Info-->
                             <div class="timeline-info h-100">
                                 <span class="font-weight-bold text-primary">09:30 AM</span>
@@ -618,17 +618,17 @@
                             <!--end::Info-->
                         </div>
                         <!--end::Item-->
-                
+
                         <!--begin::Item-->
                         <div class="timeline-item">
                             <!--begin::Icon-->
                             <div class="timeline-media bg-light-primary">
                                 <span class="svg-icon svg-icon-primary">
-                                
+
                                 </span>
                             </div>
                             <!--end::Icon-->
-                
+
                             <!--begin::Info-->
                             <div class="timeline-info">
                                 <span class="font-weight-bold text-primary">2:45 PM</span>
@@ -639,17 +639,17 @@
                             <!--end::Info-->
                         </div>
                         <!--end::Item-->
-                
+
                         <!--begin::Item-->
                         <div class="timeline-item">
                             <!--begin::Icon-->
                             <div class="timeline-media bg-light-primary">
                                 <span class="svg-icon svg-icon-primary">
-                                    
+
                                 </span>
                             </div>
                             <!--end::Icon-->
-                
+
                             <!--begin::Info-->
                             <div class="timeline-info">
                                 <span class="font-weight-bold text-primary">3:12 PM</span>
@@ -660,17 +660,17 @@
                             <!--end::Info-->
                         </div>
                         <!--end::Item-->
-                
+
                         <!--begin::Item-->
                         <div class="timeline-item">
                             <!--begin::Icon-->
                             <div class="timeline-media bg-light-primary">
                                 <span class="svg-icon svg-icon-primary">
-                                    
+
                                 </span>
                             </div>
                             <!--end::Icon-->
-                
+
                             <!--begin::Info-->
                             <div class="timeline-info">
                                 <span class="font-weight-bold text-primary">7:05 PM</span>
@@ -685,7 +685,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 </div>
 
@@ -776,7 +776,7 @@
 <script>
         $("#btn_search_user").on('click',function(e){
             e.preventDefault();
-            
+
             KTApp.block('#user_table_body', {
                 overlayColor: '#000000',
                 state: 'primary',
@@ -787,7 +787,7 @@
                 KTApp.unblock('#user_table_body');
             }, 2000);
         });
-        
+
 
 </script>
 @endpush
