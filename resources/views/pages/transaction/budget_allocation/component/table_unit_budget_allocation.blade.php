@@ -13,11 +13,13 @@
         @forelse ($data["unit_budget_allocation"] as $row)
 
         <?php
-        $hasBudget = $row["hasBudget"] != 0 ;
+        $hasBudget = $row["hasBudget"] != 0;
+        // $row["hasBudget"] != 0 ;
 
-        if ($hasBudget){
-            $total = $row["yearly_budget"]  ;
-            $used  = $row["yearly_utilized"] ;
+        $total = $row["yearly_budget"]  ;
+        $used  = $row["yearly_utilized"] ;
+
+        if ($hasBudget || ( $total != 0 && $used != 0)){
             $bal   =  number_format((($total - $used) / $total) * 100,2);
             $used = number_format(($used / $total) * 100,2);
         }else{

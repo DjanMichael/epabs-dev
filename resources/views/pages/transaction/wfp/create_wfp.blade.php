@@ -76,12 +76,20 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group col-12 col-md-6 mt-4">
+                            <label for="exampleSelect1">Responsible Person
+                            <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person">
+                        </div>
+                        <div class="form-group col-12 col-md-6 mt-4">
+                            <label>Activity Cost<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleSelect1">Responsible Person
-                        <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person">
-                    </div>
+
                     <div class="col-12 bg-secondary p-3">
                         <span>Target</span>
                     </div>
@@ -232,7 +240,7 @@
 
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
+            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save Data</button>
         </div>
     </form>
     <!--end::Form-->
@@ -443,7 +451,9 @@
                 t_q2: '',
                 t_q3: '',
                 t_q4: '',
-                act_timeframe:''
+                act_timeframe:'',
+                act_cost:'',
+                wfp_code: $("#wfp_code").val()
             };
 
 
@@ -453,11 +463,8 @@
                 source_of_fund: 'required',
                 activity_categ: 'required',
                 responsible_person : 'required',
-                t_q1: 'required',
-                t_q2: 'required',
-                t_q3: 'required',
-                t_q4: 'required',
-                act_timeframe:'required'
+                act_timeframe:'required',
+                act_cost:'required'
             }
 
             let wfp_options = {
@@ -466,7 +473,8 @@
                 'required.source_of_fund' : 'Source of Fund is Required',
                 'required.activity_categ' : 'Activity Category is Required',
                 'required.responsible_person' : 'Responsible Person is Required',
-                'required.act_timeframe' : 'Activity Timeframe  is Required'
+                'required.act_timeframe' : 'Activity Timeframe  is Required',
+                'required.act_cost' : 'Activity Cost is Required'
             }
 
 
@@ -481,64 +489,7 @@
 
 
             $("#btn_save_wfp").on('click',function(){
-                var _url = "";
-                var msg = "";
-
-                wfp_data.output_function =$("#selected_output_function_id").val();
-                wfp_data.activity_output =$("#txt_activities_output").val();
-                wfp_data.source_of_fund =$("#source_of_fund").val();
-                wfp_data.activity_categ =$("#activity_category").val();
-                wfp_data.responsible_person  =$("#txt_responsible_person").val();
-                wfp_data.t_q1 =$("#qtr_1").val();
-                wfp_data.t_q2 =$("#qtr_2").val();
-                wfp_data.t_q3 =$("#qtr_3").val();
-                wfp_data.t_q4 =$("#qtr_4").val();
-
-                var hold_timeframe = switchValueConvert($("#t_jan").val()) + ',' +
-                                    switchValueConvert($("#t_feb").val()) + ',' +
-                                    switchValueConvert($("#t_mar").val()) + ',' +
-                                    switchValueConvert($("#t_apr").val()) + ',' +
-                                    switchValueConvert($("#t_may").val()) + ',' +
-                                    switchValueConvert($("#t_june").val()) + ',' +
-                                    switchValueConvert($("#t_july").val()) + ',' +
-                                    switchValueConvert($("#t_aug").val()) + ',' +
-                                    switchValueConvert($("#t_sept").val()) + ',' +
-                                    switchValueConvert($("#t_oct").val()) + ',' +
-                                    switchValueConvert($("#t_nov").val()) + ',' +
-                                    switchValueConvert($("#t_dec").val());
-
-                wfp_data.act_timeframe = hold_timeframe;
-                let wfp_validation = new Validator(wfp_data, wfp_rules, wfp_options);
-
-                $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
-                $("#btn_save_wfp").html('Processing ..');
-                $("#btn_save_wfp").attr('disabled',true);
-
-                $("#wfp_create_body").scrollTop(0);
-                if(wfp_validation.passes()){
-
-                }else{
-                    $.each(wfp_validation.errors.all(),function(key,value){
-                    // console.log('key:' + key , 'value:' + value);
-                    msg += '<li>' + value + '</li>';
-                    });
-                    $("#wfp_alert").delay(400).fadeIn(600);
-                    $("#wfp_create_body").animate({ scrollTop:0 },700);
-                    $("#wfp_alert").addClass('fade show');
-                    $("#wfp_alert_text").html(msg);
-
-                    // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                    // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
-                    // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                    // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                    // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                    // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                    $("#btn_save_wfp").html('Save');
-                    $("#btn_save_wfp").attr('disabled',false);
-                }
-
-
+               saveWFP(wfp_data,wfp_rules,wfp_options);
             });
 
             $("#qtr_1").bind('keyup click',function(e){
@@ -750,6 +701,133 @@
         /*************************************************
                         REUSABLE FUNCTIONS
         *************************************************/
+
+        function saveWFP(wfp_data,wfp_rules,wfp_options){
+
+                var msg = "";
+
+                wfp_data.output_function =$("#selected_output_function_id").val();
+                wfp_data.activity_output =$("#txt_activities_output").val();
+                wfp_data.source_of_fund =$("#source_of_fund").val();
+                wfp_data.activity_categ =$("#activity_category").val();
+                wfp_data.responsible_person  =$("#txt_responsible_person").val();
+                wfp_data.act_cost = $("#wfp_act_cost").val();
+                var qtr1 = $("#qtr_1").val();
+                var qtr2 = $("#qtr_2").val();
+                var qtr3 = $("#qtr_3").val();
+                var qtr4 = $("#qtr_4").val();
+
+                if (qtr1 == '' && qtr2 == '' && qtr3 == '' && qtr4 == '' ){
+                    wfp_rules = {
+                        t_q1: 'required',
+                        t_q2: 'required',
+                        t_q3: 'required',
+                        t_q4: 'required'
+                    }
+                }else{
+                    delete wfp_rules.t_q1
+                    delete wfp_rules.t_q2
+                    delete wfp_rules.t_q3
+                    delete wfp_rules.t_q4
+                }
+
+                wfp_data.t_q1 =qtr1;
+                wfp_data.t_q2 =qtr2;
+                wfp_data.t_q3 =qtr3;
+                wfp_data.t_q4 =qtr4;
+
+                var hold_timeframe = switchValueConvert($("#t_jan").val()) + ',' +
+                                    switchValueConvert($("#t_feb").val()) + ',' +
+                                    switchValueConvert($("#t_mar").val()) + ',' +
+                                    switchValueConvert($("#t_apr").val()) + ',' +
+                                    switchValueConvert($("#t_may").val()) + ',' +
+                                    switchValueConvert($("#t_june").val()) + ',' +
+                                    switchValueConvert($("#t_july").val()) + ',' +
+                                    switchValueConvert($("#t_aug").val()) + ',' +
+                                    switchValueConvert($("#t_sept").val()) + ',' +
+                                    switchValueConvert($("#t_oct").val()) + ',' +
+                                    switchValueConvert($("#t_nov").val()) + ',' +
+                                    switchValueConvert($("#t_dec").val());
+
+                wfp_data.act_timeframe = hold_timeframe;
+
+                let wfp_validation = new Validator(wfp_data, wfp_rules, wfp_options);
+
+                $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
+                $("#btn_save_wfp").html('Processing ..');
+                $("#btn_save_wfp").attr('disabled',true);
+                $("#wfp_create_body").scrollTop(0);
+
+                if(wfp_validation.passes()){
+                    console.log(wfp_data);
+                    var _data = { wfp_code : $("#wfp_code").val()};
+                    var _url1 = "{{ route('db_check_if_wfp_wihtout_pi_on_save') }}";
+                    var _url = "{{ route('db_save_wfp_act') }}";
+                    $.ajax({
+                        method:"GET",
+                        url: _url1,
+                        data:_data,
+                        success:function(data){
+                            if(data.message =='found'){
+                                $.ajax({
+                                    method:"GET",
+                                    url : _url,
+                                    data : wfp_data,
+                                    success:function(data){
+                                        if (data.message == 'success'){
+                                            alert('save! 1 ')
+                                        }
+                                    }
+                                });
+                            }else{
+                                $.ajax({
+                                    method:"GET",
+                                    url : _url,
+                                    data : wfp_data,
+                                    success:function(data){
+                                        Swal.fire({
+                                            title: "Are you sure, You want to save without performance indicator?",
+                                            text: "You won\'t be able to revert this!",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Yes, delete it!",
+                                            cancelButtonText: "No, cancel!",
+                                            reverseButtons: true
+                                        }).then(function(result) {
+                                            if (result.value) {
+                                                if (data.message == 'success'){
+                                                    alert('save! 2 ')
+                                                }
+                                            }
+                                        });
+
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                    $("#btn_save_wfp").html('Save');
+                    $("#btn_save_wfp").attr('disabled',false);
+                }else{
+                    $.each(wfp_validation.errors.all(),function(key,value){
+                    // console.log('key:' + key , 'value:' + value);
+                    msg += '<li>' + value + '</li>';
+                    });
+                    $("#wfp_alert").delay(400).fadeIn(600);
+                    $("#wfp_create_body").animate({ scrollTop:0 },700);
+                    $("#wfp_alert").addClass('fade show');
+                    $("#wfp_alert_text").html(msg);
+
+                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                    $("#btn_save_wfp").html('Save');
+                    $("#btn_save_wfp").attr('disabled',false);
+                }
+
+
+        }
+
+
         function switchValueConvert(val)
         {
             return val =='true' ? 'Y':'N';
@@ -1133,7 +1211,7 @@
 
         function getBudgetAllocation(bli_id1){
             var _url = "{{ route('d_get_calculate_budget_alloc') }}";
-            var unit_id1 = "{{ Auth::user()->getUnitId() }}";
+            // var unit_id1 = "";
             var a = localStorage.getItem('GLOBAL_SETTINGS');
             a = a ? JSON.parse(a) : {};
             var year_id1 = a["year"];
@@ -1141,11 +1219,14 @@
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
+                    data: ({  year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
                         // console.log(data.length);
                         if(data.length != 0){
-                            document.getElementById('total_allocation').innerHTML =data[0].program_budget;
+                            var nf = new Intl.NumberFormat();
+                            document.getElementById('total_allocation').innerHTML = nf.format(data.program_budget);
+                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized);
+                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized);
                         }
                     }
                 });
