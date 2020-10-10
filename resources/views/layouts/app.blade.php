@@ -866,7 +866,7 @@
 </div>
 <!--end::Quick Panel-->
 
-<!-- Modal-->
+<!-- Modal modal_wfp_comments-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -889,6 +889,41 @@
                     </div>
                     <div class="col-12">
                         <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_wfp_comment">Save Comment </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="float:left">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal modal_wfp_comments-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_act_viewer_pi_ppmp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ACTIVITY INFORMATION VIEWER</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form">
+                            @include('pages.transaction.wfp.table.wfp_act_view_pi_ppmp')
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        {{-- <button type="button" class="btn btn-primary font-weight-bold">Save Comment </button> --}}
                     </div>
                     <div class="col-12">
                         <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
@@ -1509,6 +1544,15 @@
 
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
+        }
+
+        function showWfpActivityModal(){
+            $("#modal_wfp_act_viewer_pi_ppmp").modal({
+                show:true,
+                backdrop:'static',
+                focus: true,
+                keyboard:false
+            });
         }
 
         $("#btn_save_wfp_comment").on('click',function(){

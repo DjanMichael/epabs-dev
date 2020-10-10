@@ -396,6 +396,7 @@
             var this_url = window.location.href;
             $("#wfp_code").val(this_url.split('wfp_code=')[1]);
 
+            // alert($("#wfp_code").val());
             /************************************************
              *
              *              INITIALIZATION
@@ -648,6 +649,17 @@
 
 
 
+            $("#btn_pi_action_edit").on('click',function(e){
+                e.preventDefault();
+            });
+
+            $("#btn_pi_action_delete").on('click',function(e){
+                e.preventDefault();
+            });
+
+            $("#btn_pi_action_details").on('click',function(e){
+                e.preventDefault();
+            });
 
             // end for $(document).ready()
         });
