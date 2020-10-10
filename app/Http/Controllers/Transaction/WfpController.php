@@ -191,7 +191,7 @@ class WfpController extends Controller
             $year_id = $year_id->select_year;
             $year = RefYear::where('id',$year_id)->first();
 
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? $a[0]->code : null) ]);
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null) ]);
         }
     }
 
@@ -315,7 +315,11 @@ class WfpController extends Controller
         $data["wfp_act"] = WfpActivity::where('wfp_code',$req->wfp_code)->get();
         $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get();
 
-        return view('pages.transaction.wfp.edit_wfp',['data'=> $data]);
+        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))
+                                                    ->get()->toArray();
+
+        // 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null)
+        return view('pages.transaction.wfp.edit_wfp',['data'=> $data,'wfp_code'=>  Crypt::decryptString($req->wfp_code)]);
     }
     public function checkingWfpPiOnSave(Request $req){
         $check_pi = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->first();
