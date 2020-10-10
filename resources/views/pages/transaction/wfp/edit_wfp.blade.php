@@ -5,7 +5,7 @@
     <a href="{{ route('r_wfp') }}" class="text-muted">WFP</a>
 </li>
 <li class="breadcrumb-item">
-<span  class="text-muted">Edit WFP {{ $data["wfp"]->code }}</span>
+<span  class="text-muted">Edit WFP {{ $wfp_code  }}</span>
 </li>
 @endsection
 @section('content')
