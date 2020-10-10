@@ -1,5 +1,5 @@
 {{-- <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer"> --}}
+<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagationtrue" style="height: 768px;" id="wfp_drawer"> --}}
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
 @if(count($activities) <> 0)
 <div class="row">
@@ -7,7 +7,7 @@
         <div class="col-12 col-md-4 text-right">
             <button type="button"
                 class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                style="z-index:1000;position: relative;bottom:0px;right:0;"
+                style="position: relative;bottom:0px;right:0;"
                 onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')"><i class="flaticon-comment"></i>
             </button>
             <button class="btn btn-icon btn-light btn-hover-primary btn-sm"

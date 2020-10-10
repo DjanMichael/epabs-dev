@@ -202,7 +202,10 @@ class WfpController extends Controller
 
         $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
         $code = $code[0]->wfp_code;
-        $check = Wfp::where('user_id',$user_id)->where('unit_id',$unit_id)->where('year_id',$year_id)->first();
+        $check = Wfp::where('user_id',$user_id)
+                    ->where('unit_id',$unit_id)
+                    ->where('year_id',$year_id)
+                    ->first();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
         if($check){
             return ['message'=>'duplicate'];
@@ -251,12 +254,10 @@ class WfpController extends Controller
     }
 
     public function savePerformaceIndicator(Request $req){
-        // dd($req->wfp_code);
-        // dd($req->uacs_title_id);
 
         if($req->ajax()){
-
-            $wfp_indicator = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->first();
+            // ::where('wfp_code',Crypt::decryptString($req->wfp_code))->first();
+            $wfp_indicator = new WfpPerformanceIndicator;
             $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
             $wfp_indicator->uacs_id = $req->uacs_title_id;
             $wfp_indicator->bli_id = $req->budget_line_item_id;
@@ -274,16 +275,13 @@ class WfpController extends Controller
         $user_id  = $this->auth_user_id;
         // $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
+
         if($year_id){
-            // where('unit_id',$unit_id)
-            // ->where('year_id', $year_id->select_year)
             $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
                                                         ->where('wfp_code','!=',null)
                                                         ->groupBy(['unit_id','year_id','user_id'])
                                                         ->paginate($this->wfp_list_paginate);
-
             if(count($data["wfp_list"]) <> 0){
-
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> $data]);
             }else{
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> null]);
@@ -352,5 +350,12 @@ class WfpController extends Controller
 
         return ['message'=>'success'];
 
+    }
+
+    public function getPerformanceIndicatorByWfpCode(Request $req){
+        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))
+                                                    ->get()->toArray();
+        // dd($data);
+        return view('pages.transaction.wfp.table.pi_table',['data' => $data]);
     }
 }

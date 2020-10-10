@@ -20,10 +20,7 @@
     </div>
 </div>
 
-
-<div id="wfp_list"></div>
-
-
+<div id="wfp_list" style="z-index: 1000;"></div>
 
 <!-- Modal-->
 <div class="modal fade" id="modal_create_wfp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_functions_delivery_search" aria-hidden="true" style="z-index: 99999;">
@@ -61,6 +58,7 @@
 {{-- {{ route('r_create_wfp') }} --}}
 <script>
     $(document).ready(function(){
+
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
 
         /*
@@ -208,7 +206,6 @@
             }
 
         }
-
 
 
     });

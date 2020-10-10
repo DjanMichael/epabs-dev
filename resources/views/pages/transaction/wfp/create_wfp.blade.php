@@ -232,8 +232,7 @@
                         <i class="flaticon2-add-1"></i> Add Performance Indicator
                     </button>
                 </div>
-                <div class="col-12 mt-2 mb-2">
-                    @include('pages.transaction.wfp.table.pi_table')
+                <div class="col-12 mt-2 mb-2" id="pi_table">
                 </div>
                </div>
            </div>
@@ -370,7 +369,7 @@
                     <label>Cost<span class="text-danger">*</span></label>
                     <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                        <input type="text" class="form-control" id="pi_cost" placeholder="99.9">
+                        <input type="number" class="form-control" id="pi_cost" placeholder="99.9">
                     </div>
                 </div>
                 <div class="form-group">
@@ -407,6 +406,8 @@
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
+            fetchPerformanceIndicator();
+
             $("#pi_alert").delay(0).hide(0);
             $("#wfp_alert").delay(0).hide(0);
 
@@ -635,6 +636,7 @@
                     success:function(data){
                         if(data == 'success'){
                             toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            fetchPerformanceIndicator();
                         }else{
                             toastr.error("Something went wrong", "Opss!");
                         }
@@ -1232,9 +1234,22 @@
                 });
             }
 
+
+
         }
 
-
+        function fetchPerformanceIndicator(){
+            var wfp = $("#wfp_code").val();
+            var _url = "{{ route('d_get_pi_by_wfp') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data : {wfp_code: wfp},
+                success:function(data){
+                    document.getElementById('pi_table').innerHTML = data;
+                }
+            });
+        }
 
         $(document).ready(function(){
             $("#output_function_pagination .pagination a").on('click',function(e){
@@ -1242,5 +1257,8 @@
                 console.log($(this).attr('href'));
             });
         });
+
+
+
     </script>
 @endpush
