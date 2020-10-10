@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/edit','Transaction\WfpController@editWfp')->name('r_edit_wfp');
     Route::get('/wfp/unit/save','Transaction\WfpController@saveWfpAct')->name('db_save_wfp_act');
     Route::get('/wfp/unit/save/checking/pi','Transaction\WfpController@checkingWfpPiOnSave')->name('db_check_if_wfp_wihtout_pi_on_save');
+    Route::get('/wfp/unit/performanceIndicator','Transaction\WfpController@getPerformanceIndicatorByWfpCode')->name('d_get_pi_by_wfp');
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
     Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');

@@ -30,6 +30,9 @@
 
         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
+
+        {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
+
         @stack('styles')
         <style>
             #wfp_card{
@@ -41,69 +44,62 @@
             }
 
 
-            .loader
-            {
-                border: 0 solid transparent;
-                border-radius:50% ;
-                width: 150px;
-                height: 150px;
-                position: absolute;
-                top: calc(50vh - 75px);
-                left: calc(50vw - 75px);
-            }
-            .loader:before, .loader:after{
-                content:'';
-                border: 1em solid #ff5733;
-                border-radius: 50%;
-                width: inherit;
-                height: inherit;
-                position: absolute;
-                top:0;
-                left:0;
-                animation:loader 3s linear infinite;
-                opacity: 0;
+            .bg-drawer{
+                z-index:99 ;
             }
 
-            .loader:before{
-                    animation-delay: 0.5s;
-            }
-            @keyframes loader {
-                0% {
-                    transform: scale(0);
-                    opacity: 0;
-                }
-                50% {
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(1);
-                    opacity: 0;
-                }
-            }
-            .bg_loader
-            {
+
+            .page_loader{
+                z-index: 100000;
                 position: fixed;
-                z-index:99999;
-                background:#fff;
-                width: 100%;
-                height:100%;
-                overflow: hidden;
+                top:0;
+                background-color:white;
+                margin:0;
+                height: 100%;
+                width:100%;
+                padding: 200px 0;
+                text-align: center;
+                opacity: 1;
+                transition: opacity 1.3s ;
             }
-            .modal{
-                background-color:rgba(0,0,0,0.4) !important;
+
+            .hide_loader{
+                opacity:0 ;
+
             }
+            .display-none{
+                display:none;
+            }
+            .add_scroll{
+                overflow-y:scroll !important;
+            }
+
+            .hide_scroll{
+                overflow-y:hidden;
+
+            }
+            .modal-backdrop {
+                z-index: 1000;
+                }
         </style>
 
     </head>
     <!--end::Head-->
 
     <!--begin::Body-->
-    <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading " >
+    <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading hide_scroll" >
       {{-- {{ dd(Auth::user()->getUnitId()) }} --}}
     {{-- <div class="bg_loader">
         <div class="loader"></div>
     </div> --}}
-
+    <div class="page_loader">
+        <span>
+            <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"  style="position: relative;top:40px;left:0px;" alt="">
+        </span>
+        <h1 style="position: relative;top:0px;font-size:3rem;line-height:29px;"><b style="font-family:arial black;">e</b>PLANNING SYSTEM</h1>
+        <h5 style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;">DEPARTMENT OF HEALTH  CENTER FOR HEALTH DEVELOPMENT - CARAGA</h5>
+        <h5 style="font-size:1rem;position: relative;top:-23px;left:-20px;"> </h5>
+    </div>
 
     <!--begin::Main-->
 	<!--begin::Header Mobile-->
@@ -152,7 +148,6 @@
 					<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-35px"/>
 				</a>
 				<!--end::Logo-->
-
 			</div>
 			<!--end::Left-->
 
@@ -871,8 +866,45 @@
 </div>
 <!--end::Quick Panel-->
 
-                            <!--begin::Chat Panel-->
-<div class="modal modal-sticky modal-sticky-bottom-right" id="kt_chat_modal" role="dialog" data-backdrop="false">
+<!-- Modal-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write a comment </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form">
+                            <div class="form-group">
+                                <textarea id="wfp_comment_data" cols="30" rows="10" class="form-control" placeholder="Write your Comment. . . "></textarea>
+                            </div>
+                            <input type="hidden" id="wfp_ref" value="">
+                            <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_wfp_comment">Save Comment </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="float:left">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--begin::Chat Panel-->
+<div class="modal modal-sticky modal-sticky-bottom-right" id="kt_chat_modal" role="dialog" data-backdrop="false" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!--begin::Card-->
@@ -1185,42 +1217,7 @@
 	</ul>
 <!--end::Sticky Toolbar--> --}}
 
-<!-- Modal-->
-<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index: 100012 !important; background-color:rgba(0,0,0,0.4)">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Write a comment </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form">
-                            <div class="form-group">
-                                <textarea id="wfp_comment_data" cols="30" rows="10" class="form-control" placeholder="Write your Comment. . . "></textarea>
-                            </div>
-                            <input type="hidden" id="wfp_ref" value="">
-                            <input type="hidden" id="wfp_comment_user_id_send_to" value="">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_wfp_comment">Save Comment </button>
-                    </div>
-                    <div class="col-12">
-                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" style="float:left">
 
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
         <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
@@ -1296,7 +1293,7 @@
 
         <!--begin::Page Vendors(used by this page)-->
                 <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
-                <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
+                {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
                 <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
         <!--end::Page Vendors-->
 
@@ -1445,9 +1442,19 @@
                 });
             }
 
-
+            loader_page();
 
         });
+
+        function loader_page(){
+            $(".page_loader").addClass('hide_loader');
+
+            $("#kt_body").removeClass('hide_scroll');
+            $("#kt_body").addClass('add_scroll');
+            setTimeout(function(){
+                $(".page_loader").addClass('display-none');
+            },1300);
+        }
 
         function wfp_drawer_close(){
             $("#bg-drawer").removeClass('bg-drawer');
@@ -1550,6 +1557,7 @@
             // });
         }
         </script>
+
 
         </body>
     <!--end::Body-->
