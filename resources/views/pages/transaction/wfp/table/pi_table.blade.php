@@ -22,11 +22,14 @@
         <?php  $total+= $row["cost"]; ?>
         <tr>
             <td class="pr-0 text-center">
-                <button class="btn btn-icon btn-light btn-hover-primary btn-sm d-inline col-12" onClick="">
+                <button class="btn btn-icon btn-light btn-hover-primary btn-sm d-inline col-12" id="btn_pi_action_edit">
                     <i class="flaticon-edit"></i>
                 </button>
-                <button class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12" onClick="">
+                <button class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12" id="btn_pi_action_delete">
                     <i class="flaticon2-trash"></i>
+                </button>
+                <button class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12" id="btn_pi_action_details">
+                    <i class="flaticon2-shopping-cart-1"></i>
                 </button>
             </td>
             <td>
