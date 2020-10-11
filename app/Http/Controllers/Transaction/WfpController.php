@@ -258,17 +258,29 @@ class WfpController extends Controller
     public function savePerformaceIndicator(Request $req){
 
         if($req->ajax()){
+
+            $check_balance = BudgetAllocationUtilization::where('wfp_code',Crypt::decryptString($req->wfp_code))
+                                        ->where('budget_line_item_id',$req->budget_line_item_id)
+                                        // ->where('balance_plan','>',$req->cost)
+                                        ->groupBy('budget_line_item_id')
+                                        ->first();
+            //if true has budget
+            if($check_balance->balance_plan >= $req->cost){
+                $wfp_indicator = new WfpPerformanceIndicator;
+                $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
+                $wfp_indicator->uacs_id = $req->uacs_title_id;
+                $wfp_indicator->bli_id = $req->budget_line_item_id;
+                $wfp_indicator->performance_indicator = $req->performance_indicator;
+                $wfp_indicator->cost = $req->cost;
+                $wfp_indicator->is_ppmp = $req->ppmp_include == 'true' ? 'Y' : 'N';
+                $wfp_indicator->is_catering = $req->catering_include == 'true' ? 'Y' : 'N';
+                $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
+                return $wfp_indicator->save() ? 'success' : 'failed';
+            }else{
+                return 'no budget';
+            }
             // ::where('wfp_code',Crypt::decryptString($req->wfp_code))->first();
-            $wfp_indicator = new WfpPerformanceIndicator;
-            $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
-            $wfp_indicator->uacs_id = $req->uacs_title_id;
-            $wfp_indicator->bli_id = $req->budget_line_item_id;
-            $wfp_indicator->performance_indicator = $req->performance_indicator;
-            $wfp_indicator->cost = $req->cost;
-            $wfp_indicator->is_ppmp = $req->ppmp_include == 'true' ? 'Y' : 'N';
-            $wfp_indicator->is_catering = $req->catering_include == 'true' ? 'Y' : 'N';
-            $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
-            return $wfp_indicator->save() ? 'success' : 'failed';
+
         }
     }
 
@@ -385,7 +397,8 @@ class WfpController extends Controller
     }
 
     public function getPerformanceIndicatorByWfpCode(Request $req){
-        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))
+        $data["pi_data"] =  WfpPerformanceIndicator::join('ref_budget_line_item','ref_budget_line_item.id','tbl_wfp_activity_per_indicator.bli_id')
+                                                    ->where('wfp_code',Crypt::decryptString($req->wfp_code))
                                                     ->get()->toArray();
         // dd($data);
         return view('pages.transaction.wfp.table.pi_table',['data' => $data]);
@@ -446,6 +459,19 @@ class WfpController extends Controller
             $a->activity_cost =$req->wfp_act["act_cost"];
             $a->encoded_by = Auth::user()->id;
             return $a->save() ? 'success' : 'failed';
+        }else{
+            abort(403);
+        }
+    }
+
+    public function getPiPPMP(Request $req){
+        if($req->ajax()){
+            $data = [];
+            $code = Crypt::decryptString($req->wfp_code);
+            $data["pi"] = WfpPerformanceIndicator::join('ref_budget_line_item','ref_budget_line_item.id','tbl_wfp_activity_per_indicator.bli_id')
+                                            ->where('wfp_code',$code)->get()->toArray();
+
+            return view('pages.transaction.wfp.table.wfp_act_view_pi_ppmp',['data'=>$data]);
         }else{
             abort(403);
         }

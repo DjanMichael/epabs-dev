@@ -10,7 +10,7 @@
                 <th scope="col">PPMP</th>
                 <th scope="col">Catering</th>
                 <th scope="col">Batch</th>
-                <th scope="col">Budget Line Item #</th>
+                <th scope="col">Budget Line Item</th>
         </tr>
     </thead>
     <tbody>
@@ -51,8 +51,8 @@
             <td>
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["batch"] == '' ? '-' : $row["batch"]}}</span>
             </td>
-            <td>
-                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["bli_id"]}}</span>
+            <td style="width:200px">
+                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["budget_item"]}}</span>
             </td>
 
         </tr>

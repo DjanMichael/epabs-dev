@@ -639,11 +639,15 @@
                     url: _url,
                     data: pi_data,
                     success:function(data){
+                        alert(data);
                         if(data == 'success'){
                             toastr.success("Performance Indicator Sucessfully Save", "Good Job");
                             $("#wfp_performance_indicator").modal('hide');
                             $("#btn_pi_add_new").attr('disabled',false);
                             fetchPerformanceIndicator();
+                        }else if(data =='no budget'){
+
+                            toastr.error("Not Enough Budget", "Opss!");
                         }else{
                             toastr.error("Something went wrong", "Opss!");
                         }
@@ -1286,9 +1290,6 @@
                     }
                 });
             }
-
-
-
         }
 
         function fetchPerformanceIndicator(){

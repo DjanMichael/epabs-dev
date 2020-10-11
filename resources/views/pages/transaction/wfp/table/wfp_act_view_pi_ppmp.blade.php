@@ -14,16 +14,23 @@
             <td scope="col">Batch</td>
             <td scope="col">Budget Line Item #</td>
         </tr>
-        <tr>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-            <td>TEST DATA</td>
-        </tr>
+        @forelse ($data["pi"] as $row)
+            <tr>
+                <td class="p-2">{{ $row["id"] }}</td>
+                <td class="p-2">{{ $row["uacs_id"] }}</td>
+                <td class="p-2">{{ $row["performance_indicator"] }}</td>
+                <td class="p-2">{{ number_format($row["cost"],2) }}</td>
+                <td class="p-2">{{ $row["is_ppmp"] }}</td>
+                <td class="p-2">{{ $row["is_catering"] }}</td>
+                <td class="p-2">{{ $row["batch"] != '' ? $row["batch"] : '-' }}</td>
+                <td class="p-2">{{ $row["budget_item"] }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="8">NO DATA</td>
+            </tr>
+        @endforelse
+
         <tr>
             <td colspan="8" class="bg-gray-900 text-light">PPMP</td>
         </tr>

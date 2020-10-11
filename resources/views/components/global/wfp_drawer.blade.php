@@ -41,7 +41,7 @@
                         ?>
                         @forelse ($activities as $row)
                             <tr class="wfp_table_row">
-                                <td scope="row text-center">
+                                <td scope="row text-center" style="width:130px;">
                                     <button type="button"
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
@@ -55,7 +55,7 @@
                                     </button>
                                     <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
-                                        onclick="showWfpActivityModal()">
+                                        onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}')">
                                     <i class="flaticon-medical"></i>
                                     </button>
                                 </td>
