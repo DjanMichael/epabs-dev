@@ -4,23 +4,25 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
 use App\TableUnitBudgetAllocation;
 use App\Wfp;
 use App\WfpActivity;
+use App\WfpPerformanceIndicator;
 use App\Views\WfpActivityInfo;
-use DB;
+use App\WfpComments;
+use App\ZWfpLogs;
 use App\RefYear;
 use App\UserProfile;
 use App\GlobalSystemSettings;
 use App\Views\BudgetAllocationUtilization;
 use Illuminate\Support\Facades\Crypt;
-use App\WfpPerformanceIndicator;
-use App\WfpComments;
-use App\ZWfpLogs;
+use DB;
+use Auth;
+
+
 use App\Views\BudgetAllocationAllYearPerProgram;
 
 class WfpController extends Controller
@@ -48,7 +50,7 @@ class WfpController extends Controller
             $this->pi_table_paginate = 3;
 
             //wfp list table settings
-            $this->wfp_list_paginate = 6;
+            $this->wfp_list_paginate = 9;
 
             return $next($request);
         });
@@ -263,8 +265,8 @@ class WfpController extends Controller
             $wfp_indicator->bli_id = $req->budget_line_item_id;
             $wfp_indicator->performance_indicator = $req->performance_indicator;
             $wfp_indicator->cost = $req->cost;
-            $wfp_indicator->is_ppmp = $req->ppmp_include ? 'Y' : 'N';
-            $wfp_indicator->is_catering = $req->catering_include ? 'Y' : 'N';
+            $wfp_indicator->is_ppmp = $req->ppmp_include == 'true' ? 'Y' : 'N';
+            $wfp_indicator->is_catering = $req->catering_include == 'true' ? 'Y' : 'N';
             $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
             return $wfp_indicator->save() ? 'success' : 'failed';
         }
@@ -277,10 +279,24 @@ class WfpController extends Controller
         $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
 
         if($year_id){
-            $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
-                                                        ->where('wfp_code','!=',null)
-                                                        ->groupBy(['unit_id','year_id','user_id'])
-                                                        ->paginate($this->wfp_list_paginate);
+
+            if($req->q != null){
+                $qry = $req->q;
+                $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
+                ->where('wfp_code','!=',null)
+                ->where(fn($q) =>
+                    $q->where('name','LIKE', '%' . $qry .'%')
+                      ->orWhere('division','LIKE','%' . $qry .'%')
+                      ->orWhere('section','LIKE','%' . $qry .'%'))
+                ->groupBy(['unit_id','year_id','user_id'])
+                ->paginate($this->wfp_list_paginate);
+            }else{
+                $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
+                ->where('wfp_code','!=',null)
+                ->groupBy(['unit_id','year_id','user_id'])
+                ->paginate($this->wfp_list_paginate);
+            }
+
             if(count($data["wfp_list"]) <> 0){
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> $data]);
             }else{
@@ -322,7 +338,7 @@ class WfpController extends Controller
         return view('pages.transaction.wfp.edit_wfp',['data'=> $data,'wfp_code'=>  Crypt::decryptString($req->wfp_code)]);
     }
     public function checkingWfpPiOnSave(Request $req){
-        $check_pi = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->first();
+        $check_pi = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->first();
         if(!$check_pi){
             return ['message'=>'not found'];
         }else{
@@ -347,7 +363,7 @@ class WfpController extends Controller
         $wfp_act->target_q2 =$req->t_q2;
         $wfp_act->target_q3 =$req->t_q3;
         $wfp_act->target_q4 =$req->t_q4;
-        $wfp_act->activity_cost =$req->output_function;
+        $wfp_act->activity_cost =$req->act_cost;
         $wfp_act->save();
 
         // dd(Crypt::decryptString($req->wfp_code));
@@ -361,5 +377,41 @@ class WfpController extends Controller
                                                     ->get()->toArray();
         // dd($data);
         return view('pages.transaction.wfp.table.pi_table',['data' => $data]);
+    }
+
+    public function deletePerformanceIndicatorByWfpCode(Request $req){
+        if($req->ajax()){
+            // dd($req->all());
+            $a = WfpPerformanceIndicator::where('id',$req->id)->delete();
+            return $a ? ['message'=>'success'] : ['message'=>'failed'];
+        }else{
+            abort(403);
+        }
+    }
+    public function editPerformanceIndicatorByWfpCode(Request $req){
+        if($req->ajax()){
+            $a = WfpPerformanceIndicator::join('ref_uacs','ref_uacs.code','tbl_wfp_activity_per_indicator.uacs_id')
+                                        ->where('tbl_wfp_activity_per_indicator.id',$req->id)->first();
+            return $a ? $a : null;
+        }else{
+            abort(403);
+        }
+    }
+
+    public function updatePerformanceIndicatorById(Request $req){
+        if($req->ajax()){
+            $wfp_indicator = WfpPerformanceIndicator::where('id',$req->id)->first();
+            $wfp_indicator->wfp_code = Crypt::decryptString($req->pi["wfp_code"]);
+            $wfp_indicator->uacs_id = $req->pi["uacs_title_id"];
+            $wfp_indicator->bli_id = $req->pi["budget_line_item_id"];
+            $wfp_indicator->performance_indicator = $req->pi["performance_indicator"];
+            $wfp_indicator->cost = $req->pi["cost"];
+            $wfp_indicator->is_ppmp = $req->pi["ppmp_include"] == 'true' ? 'Y' : 'N';
+            $wfp_indicator->is_catering = $req->pi["catering_include"] == 'true' ? 'Y' : 'N';
+            $wfp_indicator->batch = $req->has('batches') ? $req->pi["batches"] : '';
+            return $wfp_indicator->save() ? 'success' : 'failed';
+        }else{
+            abort(403);
+        }
     }
 }

@@ -22,14 +22,11 @@
         <?php  $total+= $row["cost"]; ?>
         <tr>
             <td class="pr-0 text-center">
-                <button class="btn btn-icon btn-light btn-hover-primary btn-sm d-inline col-12" id="btn_pi_action_edit">
+                <button type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm d-inline col-12" onclick="piActionEdit({{ $row['id'] }})">
                     <i class="flaticon-edit"></i>
                 </button>
-                <button class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12" id="btn_pi_action_delete">
+                <button type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12"  onclick="piActionDelete({{ $row['id'] }})">
                     <i class="flaticon2-trash"></i>
-                </button>
-                <button class="btn btn-icon btn-light btn-hover-primary btn-sm mt-1 d-inline col-12" id="btn_pi_action_details">
-                    <i class="flaticon2-shopping-cart-1"></i>
                 </button>
             </td>
             <td>
@@ -52,7 +49,7 @@
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["is_catering"]}}</span>
             </td>
             <td>
-                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["batch"]}}</span>
+                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["batch"] == '' ? '-' : $row["batch"]}}</span>
             </td>
             <td>
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$row["bli_id"]}}</span>
