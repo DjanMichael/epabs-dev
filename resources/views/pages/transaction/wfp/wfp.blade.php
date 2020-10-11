@@ -10,7 +10,8 @@
     </div>
     <div class="col-12 col-md-4"></div>
     <div class="col-12 col-md-4 text-right">
-        <button type="button" class="mb-1 btn btn-primary btn-shadow font-weight-bold mr-1 col-12 col-md-5">
+        <button type="button"  id="btn_search_wfp"
+        class="mb-1 btn btn-primary btn-shadow font-weight-bold mr-1 col-12 col-md-5">
         <i class="icon-2x flaticon2-search mr-3"></i>Search
         </button>
         <button type="button"  id="btn_show_year_wfp"
@@ -60,7 +61,7 @@
     $(document).ready(function(){
 
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
-
+        var page_wfp;
         /*
             INITIALIZED
         */
@@ -153,18 +154,23 @@
             });
         });
 
+        $("#btn_search_wfp").on('click',function(e){
+            e.preventDefault();
+            fetch_wfp_list(null,$("#query_search").val(),null);
+        });
+
 
         /*
          FUNCTIONS
         */
 
 
-
         function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
             var _url = "{{ route('d_get_all_wfp_list') }}";
+
             var _data = {
                 page : _page,
-                query: _q,
+                q: _q,
                 year : settings.year,
                 sort : _sort_by
             };
@@ -186,9 +192,10 @@
                     },
                     complete(){
                         KTApp.unblock('#kt_body');
-                        $("#paginate_wfp_links .pagination a").on('click',function(e){
+                        $("#pagination_wfp_list .pagination a").on('click',function(e){
                             e.preventDefault();
-                            fetch_wfp_list($(this).attr('href').split('page=')[1], $("#query_search").val(),$("#query_sort_by").val())
+                            page_wfp = $(this).attr('href').split('page=')[1]
+                            fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
                         });
                     }
                 });
@@ -209,6 +216,9 @@
 
 
     });
+
+
+
 </script>
 
 @endpush

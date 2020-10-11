@@ -58,6 +58,8 @@
                 height: 100%;
                 width:100%;
                 padding: 200px 0;
+                padding-left:20px;
+                padding-right:20px;
                 text-align: center;
                 opacity: 1;
                 transition: opacity 1.3s ;
@@ -94,11 +96,23 @@
     </div> --}}
     <div class="page_loader">
         <span>
-            <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"  style="position: relative;top:40px;left:0px;" alt="">
+            <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
+            {{-- style="position: relative;top:40px;left:0px;" --}}
+            style="position: absolute;top:25%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
+            alt="">
         </span>
-        <h1 style="position: relative;top:0px;font-size:3rem;line-height:29px;"><b style="font-family:arial black;">e</b>PLANNING SYSTEM</h1>
-        <h5 style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;">DEPARTMENT OF HEALTH  CENTER FOR HEALTH DEVELOPMENT - CARAGA</h5>
-        <h5 style="font-size:1rem;position: relative;top:-23px;left:-20px;"> </h5>
+        <h1
+            style="position: relative;top:140px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
+            ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
+        </h1>
+        <h5
+            {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
+            style="position: relative;top:140px;font-size:1rem;line-height:10px;"
+        >{{ env('APP_CLIENT_NAME') }}</h5>
+        <h5
+            style="font-size:1rem;position: relative;top:-23px;left:-20px;"
+        > </h5>
     </div>
 
     <!--begin::Main-->

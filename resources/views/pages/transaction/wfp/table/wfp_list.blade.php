@@ -86,8 +86,8 @@
 </div>
 @isset($data["wfp_list"])
 @if(count($data["wfp_list"]) != 0)
-<div id="paginate_wfp_links">
-{{ $data["wfp_list"]->links('components.global.pagination') }}
+<div id="pagination_wfp_list">
+    {{ $data["wfp_list"]->links('components.global.pagination') }}
 </div>
 @endif
 @endisset

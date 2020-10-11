@@ -228,7 +228,7 @@
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
                 <div class="col-12 mt-2 mb-2">
-                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
+                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
                         <i class="flaticon2-add-1"></i> Add Performance Indicator
                     </button>
                 </div>
@@ -239,7 +239,7 @@
 
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save Data</button>
+            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
         </div>
     </form>
     <!--end::Form-->
@@ -378,7 +378,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_pi">Save</button>
+                <button type="button" class="btn btn-primary font-weight-bold display-none" id="btn_save_pi">Save</button>
+                <button type="button" class="btn btn-warning font-weight-bold display-none" id="btn_update_pi">Update</button>
                 <button type="button" class="btn btn-light-primary font-weight-bold" id="btn_pi_close">Close</button>
             </div>
         </div>
@@ -386,6 +387,7 @@
 </div>
 
 
+<input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
 @endsection
 
@@ -396,6 +398,8 @@
     <script>
         $(document).ready(function(){
             var this_url = window.location.href;
+            $("#btn_pi_add_new").attr('disabled',true);
+
             $("#wfp_code").val(this_url.split('wfp_code=')[1]);
 
             /************************************************
@@ -607,9 +611,10 @@
                 pi_rules.batches='required';
                 pi_data.batches = $("#no_batchs").val();
             }else{
-                delete pi_data.batches;
+                pi_data.catering_include ='false';
+                pi_data.batches = '';
             }
-
+            console.log(pi_data);
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
 
@@ -636,6 +641,8 @@
                     success:function(data){
                         if(data == 'success'){
                             toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            $("#wfp_performance_indicator").modal('hide');
+                            $("#btn_pi_add_new").attr('disabled',false);
                             fetchPerformanceIndicator();
                         }else{
                             toastr.error("Something went wrong", "Opss!");
@@ -658,12 +665,6 @@
                 $("#pi_alert").addClass('fade show');
                 $("#pi_alert_text").html(msg);
 
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
                 $("#btn_save_pi").html('Save');
                 $("#btn_save_pi").attr('disabled',false);
@@ -675,6 +676,8 @@
             });
 
             $("#btn_pi_add_new").on('click',function(e){
+                $("#btn_save_pi").removeClass('display-none');
+                $("#btn_update_pi").addClass('display-none');
                 $("#wfp_performance_indicator").modal({
                     show:true,
                     backdrop:'static',
@@ -695,6 +698,82 @@
             $("#btn_wfp_alert_close").on('click',function(){
                 $("#wfp_alert").delay(0).fadeOut(600);
             });
+
+            $("#btn_update_pi").on('click',function(e){
+                e.preventDefault();
+                var pi_id = $("#pi_id").val();
+                var _url = "{{ route('db_wfp_pi_update') }}";
+                var msg = "";
+
+                $("#btn_update_pi").addClass('spinner spinner-white spinner-right');
+                $("#btn_update_pi").html('Processing...');
+                $("#btn_update_pi").attr('disabled',true);
+
+
+                pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
+                pi_data.uacs_title_id = $("#uacs_code").val();
+                pi_data.performance_indicator = $("#peformance_indicator").val();
+                pi_data.ppmp_include = $("#c_ppmp").val();
+                pi_data.catering_include = $("#c_catering").val() ;
+                pi_data.cost = $("#pi_cost").val();
+                pi_data.wfp_code =  $("#wfp_code").val();
+
+
+                if (pi_data.catering_include == 'true'){
+                    pi_rules.batches='required';
+                    pi_data.batches = $("#no_batchs").val();
+                }else{
+                    pi_data.catering_include ='false';
+                    pi_data.batches = '';
+                }
+                console.log(pi_data);
+
+                let pi_validation = new Validator(pi_data, pi_rules, options);
+
+                pi_validation.setAttributeNames({
+                    budget_line_item_id:'Budget Line Item',
+                    uacs_title_id:'UACS Title',
+                    performance_indicator: 'Performance Indicator',
+                    ppmp_include:'IsPPMP',
+                    catering_include:'IsCatering',
+                    cost:'Cost',
+                    batches:'Batch',
+                    wfp_code :'WFP Code'
+                })
+
+                if(pi_validation.passes()){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: {id : pi_id, pi : pi_data},
+                        success:function(data){
+                            if(data =='success'){
+                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
+                                $("#wfp_performance_indicator").modal('hide');
+                                fetchPerformanceIndicator();
+                            }else{
+                                toastr.error("Something Went Wrong!", "Opss");
+                            }
+                        }
+                    })
+                }else{
+                    $.each(pi_validation.errors.all(),function(key,value){
+                            // console.log('key:' + key , 'value:' + value);
+                            msg += '<li>' + value + '</li>';
+                        });
+                        $("#pi_alert").delay(400).fadeIn(600);
+                        $("#wfp_performance_indicator").animate({ scrollTop:0 },700);
+                        $("#pi_alert").addClass('fade show');
+                        $("#pi_alert_text").html(msg);
+
+
+                        $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_update_pi").html('Update');
+                        $("#btn_update_pi").attr('disabled',false);
+                    }
+
+            });
+
 
             // end for $(document).ready()
         });
@@ -758,7 +837,7 @@
                 $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
                 $("#btn_save_wfp").html('Processing ..');
                 $("#btn_save_wfp").attr('disabled',true);
-                $("#wfp_create_body").scrollTop(0);
+                $("#kt_body").scrollTop(0);
 
                 if(wfp_validation.passes()){
                     console.log(wfp_data);
@@ -777,32 +856,16 @@
                                     data : wfp_data,
                                     success:function(data){
                                         if (data.message == 'success'){
-                                            alert('save! 1 ')
+                                            var r = "{{ route('r_wfp') }}";
+                                            KTApp.block('#kt_body', {
+                                                overlayColor: '#000000',
+                                                state: 'primary',
+                                                message: 'Redirecting . .'
+                                            });
+                                            setTimeout(() => {
+                                                window.location.href=r;
+                                            }, 1500);
                                         }
-                                    }
-                                });
-                            }else{
-                                $.ajax({
-                                    method:"GET",
-                                    url : _url,
-                                    data : wfp_data,
-                                    success:function(data){
-                                        Swal.fire({
-                                            title: "Are you sure, You want to save without performance indicator?",
-                                            text: "You won\'t be able to revert this!",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonText: "Yes, delete it!",
-                                            cancelButtonText: "No, cancel!",
-                                            reverseButtons: true
-                                        }).then(function(result) {
-                                            if (result.value) {
-                                                if (data.message == 'success'){
-                                                    alert('save! 2 ')
-                                                }
-                                            }
-                                        });
-
                                     }
                                 });
                             }
@@ -817,7 +880,7 @@
                     msg += '<li>' + value + '</li>';
                     });
                     $("#wfp_alert").delay(400).fadeIn(600);
-                    $("#wfp_create_body").animate({ scrollTop:0 },700);
+                    $("#kt_body").animate({ scrollTop:0 },700);
                     $("#wfp_alert").addClass('fade show');
                     $("#wfp_alert_text").html(msg);
 
@@ -1258,7 +1321,124 @@
             });
         });
 
+        function piActionDelete(_id){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    var del_url = "{{ route('db_del_pi_wfp') }}";
+                    if (result.value) {
+                        $.ajax({
+                            method:"GET",
+                            url: del_url,
+                            data : {  id: _id},
+                            success:function(data){
+                                if(data.message == 'success'){
+                                    Swal.fire(
+                                        "Deleted!",
+                                        "Performance Indicator has been deleted.",
+                                        "success"
+                                    )
+                                    fetchPerformanceIndicator();
+                                }else{
+                                    Swal.fire(
+                                        "Opps!",
+                                        "Something went wrong.",
+                                        "error"
+                                    )
+                                }
+
+                            }
+                        })
+                    }
+                });
+            }
+
+            function piActionEdit(_id){
+
+                //set to false default
+                if($("#c_ppmp").val() == 'true'){
+                    $("#c_ppmp").click();
+                }
+                //set to false default
+                if($("#c_catering").val() == 'true'){
+                    $("#c_catering").click();
+                }
 
 
+                $("#wfp_performance_indicator").modal({
+                    show:true,
+                    backdrop:'static',
+                    focus: true,
+                    keyboard:false
+                });
+                $("#btn_save_pi").addClass('display-none');
+                $("#btn_update_pi").removeClass('display-none');
+                $("#pi_id").val(_id);
+
+                var _url = "{{ route('db_edit_pi_wfp') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{id:_id},
+                    success:function(data){
+                        if(data != null){
+                            console.log(data);
+                            $("#buget_line_item").val(data.bli_id);
+                            getBudgetAllocation(data.bli_id);
+
+                            $("#uacs_category").val(data.category);
+                            Promise.resolve(4)
+                                .then(()=>{
+                                    getUacsSubCategory(data.category);
+                                })
+                                .then(()=>{
+                                    getUacsTitle(data.subcategory);
+                                })
+                                .then(() => {
+                                    setTimeout(() => {
+                                        $("#uacs_subcategory").val(data.subcategory);
+                                        $("#uacs_subcategory").attr('disable',false);
+
+                                        $("#uacs_title").val(data.title);
+                                        $("#uacs_title").attr('disable',false);
+                                    }, 500);
+                                })
+                                .then((err)=>{
+                                    return Promise.reject(err);
+                            });
+
+
+                            $("#peformance_indicator").val(data.performance_indicator);
+                            // $("#c_ppmp").val(data.is_ppmp != 'Y' ? "true" : "false");
+                            // $("#c_catering").val(data.is_catering != 'Y' ? "true" : "false");
+
+                            if(data.is_ppmp == 'Y'){
+                                $("#c_ppmp").click();
+                            }
+
+                            if(data.is_catering  == 'Y'){
+                                $("#c_catering").click();
+                                $("#no_batchs").attr('disable',false);
+                            }else{
+                                $("#no_batchs").attr('disable',true );
+                            }
+
+                            $("#pi_cost").val(data.cost);
+                            $("#no_batchs").val(data.batch);
+                            $("#uacs_code").val(data.uacs_id);
+
+                            $("#label_uacs_category").html(data.category);
+                            $("#label_uacs_subcategory").html(data.subcategory);
+                            $("#label_uacs_title").html(data.title);
+                            $("#label_uacs_code").html(data.uacs_id);
+
+                        }
+                    }
+                });
+            }
     </script>
 @endpush
