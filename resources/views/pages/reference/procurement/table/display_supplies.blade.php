@@ -27,12 +27,14 @@
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
                </td>
                 <td>
-                    <a href="javacript;;" class="btn btn-sm btn-clean btn-icon" title="Edit Details"><i class="la la-edit"></i></a>
+                    <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
+                        <i class="flaticon-edit-1"></i>
+                    </a>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="12" class="text-center"> NO DATA AVAILABLE IN TABLE</td> 
+                <td colspan="12" class="text-center"> NO DATA AVAILABLE IN TABLE</td>
             </tr>
         @endforelse
     </tbody>
@@ -40,6 +42,5 @@
 <hr>
 
 <div id="table_pagination">
-    {{-- {{ $procurement_supplies->links('vendor.pagination.bootstrap-4') }} --}}
     {{ $procurement_supplies->links('components.global.pagination') }}
 </div>

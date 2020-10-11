@@ -8,4 +8,6 @@ class RefBudgetLineItem extends Model
 {
     //
     protected $table = "ref_budget_line_item";
+
+    protected $fillable = ['id', 'budget_item', 'status'];
 }

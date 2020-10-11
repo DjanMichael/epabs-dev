@@ -15,13 +15,13 @@ class CreateTableTblWfpActivityPerIndicator extends Migration
     {
         Schema::create('tbl_wfp_activity_per_indicator', function (Blueprint $table) {
             $table->id();
-            $table->string('uacs_id',20);
-            $table->integer('bli_id');
-            $table->string('performance_indicator');
-            $table->decimal('cost',20,2);
-            $table->enum('is_ppmp',['Y','N']);
-            $table->enum('is_catering',['Y','N']);
-            $table->string('batch');
+            $table->string('uacs_id',20)->nullable();
+            $table->integer('bli_id')->nullable();
+            $table->string('performance_indicator')->nullable();
+            $table->decimal('cost',20,2)->nullable();
+            $table->enum('is_ppmp',['Y','N'])->nullable();
+            $table->enum('is_catering',['Y','N'])->nullable();
+            $table->string('batch')->nullable();
             $table->timestamps();
         });
     }

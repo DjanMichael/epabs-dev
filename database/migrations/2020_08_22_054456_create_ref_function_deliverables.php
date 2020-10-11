@@ -17,6 +17,7 @@ class CreateRefFunctionDeliverables extends Migration
             $table->id();
             $table->string('class_sequence');
             $table->string('function_class');
+            $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
     }

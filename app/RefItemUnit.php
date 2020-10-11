@@ -8,4 +8,6 @@ class RefItemUnit extends Model
 {
     //
     protected $table = "ref_item_unit";
+
+    protected $fillable = ['id', 'unit_of_measure', 'unit_name', 'status'];
 }

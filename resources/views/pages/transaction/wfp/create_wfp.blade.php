@@ -10,31 +10,25 @@
 @endsection
 @section('content')
 
-<div class="card card-custom gutter-b">
+<div class="card card-custom gutter-b" id="wfp_create_body">
     <div class="card-header">
         <h3 class="card-title">Create Work and Financial Plan</h3>
     </div>
     <!--begin::Form-->
     <form>
         <div class="card-body">
-            {{-- <div class="form-group mb-8">
-                <div class="alert alert-custom alert-default" role="alert">
-                    <div class="alert-icon">
-                        <span class="svg-icon svg-icon-primary svg-icon-xl">
-                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Tools/Compass.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24"></rect>
-                                    <path d="M7.07744993,12.3040451 C7.72444571,13.0716094 8.54044565,13.6920474 9.46808594,14.1079953 L5,23 L4.5,18 L7.07744993,12.3040451 Z M14.5865511,14.2597864 C15.5319561,13.9019016 16.375416,13.3366121 17.0614026,12.6194459 L19.5,18 L19,23 L14.5865511,14.2597864 Z M12,3.55271368e-14 C12.8284271,3.53749572e-14 13.5,0.671572875 13.5,1.5 L13.5,4 L10.5,4 L10.5,1.5 C10.5,0.671572875 11.1715729,3.56793164e-14 12,3.55271368e-14 Z" fill="#000000" opacity="0.3"></path>
-                                    <path d="M12,10 C13.1045695,10 14,9.1045695 14,8 C14,6.8954305 13.1045695,6 12,6 C10.8954305,6 10,6.8954305 10,8 C10,9.1045695 10.8954305,10 12,10 Z M12,13 C9.23857625,13 7,10.7614237 7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 C17,10.7614237 14.7614237,13 12,13 Z" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <!--end::Svg Icon-->
-                        </span>
-                    </div>
-                    <div class="alert-text">The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.</div>
+            <div id="wfp_alert" class="alert alert-custom alert-notice alert-light-danger" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                <div class="alert-text" >
+                    <ul id="wfp_alert_text">
+                    </ul>
                 </div>
-            </div> --}}
+                <div class="alert-close">
+                    <button type="button" class="close" id="btn_wfp_alert_close">
+                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                    </button>
+                </div>
+            </div>
            <div class="row">
                <div class="col-12 col-md-12">
                     <div class="form-group">
@@ -57,7 +51,7 @@
                         <label for="exampleInputPassword1">Activities for Outputs
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output">
+                        <input type="text" class="form-control" maxlength="255" placeholder="Activities for Outputs" id="txt_activities_output">
                     </div>
                     <div class="form-group row">
                         <div class="col-6">
@@ -82,12 +76,20 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group col-12 col-md-6 mt-4">
+                            <label for="exampleSelect1">Responsible Person
+                            <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person">
+                        </div>
+                        <div class="form-group col-12 col-md-6 mt-4">
+                            <label>Activity Cost<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleSelect1">Responsible Person
-                        <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Responsible Person">
-                    </div>
+
                     <div class="col-12 bg-secondary p-3">
                         <span>Target</span>
                     </div>
@@ -225,19 +227,19 @@
                         </div>
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
-                <div class="col-12 mt-2 mb-2">
-                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new">
-                        <i class="flaticon2-add-1"></i> Add Performance Indicator
-                    </button>
-                </div>
-                  @include('pages.transaction.wfp.table.pi_table')
+                    <div class="col-12 mt-2 mb-2">
+                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
+                            <i class="flaticon2-add-1"></i> Add Performance Indicator
+                        </button>
+                    </div>
+                    <div class="col-12 mt-2 mb-2" id="pi_table">
+                    </div>
                </div>
            </div>
 
         </div>
         <div class="card-footer">
-            <button type="reset" class="btn btn-primary mr-2">Submit</button>
-            <button type="reset" class="btn btn-secondary">Cancel</button>
+            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
         </div>
     </form>
     <!--end::Form-->
@@ -367,7 +369,7 @@
                     <label>Cost<span class="text-danger">*</span></label>
                     <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                        <input type="text" class="form-control" id="pi_cost" placeholder="99.9">
+                        <input type="number" class="form-control" id="pi_cost" placeholder="99.9">
                     </div>
                 </div>
                 <div class="form-group">
@@ -376,7 +378,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_pi">Save</button>
+                <button type="button" class="btn btn-primary font-weight-bold display-none" id="btn_save_pi">Save</button>
+                <button type="button" class="btn btn-warning font-weight-bold display-none" id="btn_update_pi">Update</button>
                 <button type="button" class="btn btn-light-primary font-weight-bold" id="btn_pi_close">Close</button>
             </div>
         </div>
@@ -384,6 +387,7 @@
 </div>
 
 
+<input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
 @endsection
 
@@ -394,6 +398,8 @@
     <script>
         $(document).ready(function(){
             var this_url = window.location.href;
+            $("#btn_pi_add_new").attr('disabled',true);
+
             $("#wfp_code").val(this_url.split('wfp_code=')[1]);
 
             /************************************************
@@ -401,14 +407,13 @@
              *              INITIALIZATION
              *
              *************************************************/
-
-
-
-
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
+            fetchPerformanceIndicator();
+
             $("#pi_alert").delay(0).hide(0);
+            $("#wfp_alert").delay(0).hide(0);
 
              let pi_data = {
                 budget_line_item_id :'',
@@ -441,12 +446,56 @@
 
 
 
+            let wfp_data = {
+                output_function: '',
+                activity_output: '',
+                source_of_fund: '',
+                activity_categ: '',
+                responsible_person : '',
+                t_q1: '',
+                t_q2: '',
+                t_q3: '',
+                t_q4: '',
+                act_timeframe:'',
+                act_cost:'',
+                wfp_code: $("#wfp_code").val()
+            };
+
+
+            let wfp_rules = {
+                output_function: 'required',
+                activity_output: 'required',
+                source_of_fund: 'required',
+                activity_categ: 'required',
+                responsible_person : 'required',
+                act_timeframe:'required',
+                act_cost:'required'
+            }
+
+            let wfp_options = {
+                'required.output_function' : 'Output Function is Required',
+                'required.activity_output' : 'Acitivity Output is Required',
+                'required.source_of_fund' : 'Source of Fund is Required',
+                'required.activity_categ' : 'Activity Category is Required',
+                'required.responsible_person' : 'Responsible Person is Required',
+                'required.act_timeframe' : 'Activity Timeframe  is Required',
+                'required.act_cost' : 'Activity Cost is Required'
+            }
+
+
+
+
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
             // $("#search_output_function").on('click',function(){
             //     populateOutputFunctionsAll();
             // });
+
+
+            $("#btn_save_wfp").on('click',function(){
+               saveWFP(wfp_data,wfp_rules,wfp_options);
+            });
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
@@ -562,9 +611,10 @@
                 pi_rules.batches='required';
                 pi_data.batches = $("#no_batchs").val();
             }else{
-                delete pi_data.batches;
+                pi_data.catering_include ='false';
+                pi_data.batches = '';
             }
-
+            console.log(pi_data);
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
 
@@ -591,6 +641,9 @@
                     success:function(data){
                         if(data == 'success'){
                             toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            $("#wfp_performance_indicator").modal('hide');
+                            $("#btn_pi_add_new").attr('disabled',false);
+                            fetchPerformanceIndicator();
                         }else{
                             toastr.error("Something went wrong", "Opss!");
                         }
@@ -612,12 +665,6 @@
                 $("#pi_alert").addClass('fade show');
                 $("#pi_alert_text").html(msg);
 
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
                 $("#btn_save_pi").html('Save');
                 $("#btn_save_pi").attr('disabled',false);
@@ -629,6 +676,8 @@
             });
 
             $("#btn_pi_add_new").on('click',function(e){
+                $("#btn_save_pi").removeClass('display-none');
+                $("#btn_update_pi").addClass('display-none');
                 $("#wfp_performance_indicator").modal({
                     show:true,
                     backdrop:'static',
@@ -646,7 +695,84 @@
                 $("#pi_alert").delay(0).fadeOut(600);
             });
 
+            $("#btn_wfp_alert_close").on('click',function(){
+                $("#wfp_alert").delay(0).fadeOut(600);
+            });
 
+            $("#btn_update_pi").on('click',function(e){
+                e.preventDefault();
+                var pi_id = $("#pi_id").val();
+                var _url = "{{ route('db_wfp_pi_update') }}";
+                var msg = "";
+
+                $("#btn_update_pi").addClass('spinner spinner-white spinner-right');
+                $("#btn_update_pi").html('Processing...');
+                $("#btn_update_pi").attr('disabled',true);
+
+
+                pi_data.budget_line_item_id = $("#buget_line_item option:selected").val();
+                pi_data.uacs_title_id = $("#uacs_code").val();
+                pi_data.performance_indicator = $("#peformance_indicator").val();
+                pi_data.ppmp_include = $("#c_ppmp").val();
+                pi_data.catering_include = $("#c_catering").val() ;
+                pi_data.cost = $("#pi_cost").val();
+                pi_data.wfp_code =  $("#wfp_code").val();
+
+
+                if (pi_data.catering_include == 'true'){
+                    pi_rules.batches='required';
+                    pi_data.batches = $("#no_batchs").val();
+                }else{
+                    pi_data.catering_include ='false';
+                    pi_data.batches = '';
+                }
+                console.log(pi_data);
+
+                let pi_validation = new Validator(pi_data, pi_rules, options);
+
+                pi_validation.setAttributeNames({
+                    budget_line_item_id:'Budget Line Item',
+                    uacs_title_id:'UACS Title',
+                    performance_indicator: 'Performance Indicator',
+                    ppmp_include:'IsPPMP',
+                    catering_include:'IsCatering',
+                    cost:'Cost',
+                    batches:'Batch',
+                    wfp_code :'WFP Code'
+                })
+
+                if(pi_validation.passes()){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: {id : pi_id, pi : pi_data},
+                        success:function(data){
+                            if(data =='success'){
+                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
+                                $("#wfp_performance_indicator").modal('hide');
+                                fetchPerformanceIndicator();
+                            }else{
+                                toastr.error("Something Went Wrong!", "Opss");
+                            }
+                        }
+                    })
+                }else{
+                    $.each(pi_validation.errors.all(),function(key,value){
+                            // console.log('key:' + key , 'value:' + value);
+                            msg += '<li>' + value + '</li>';
+                        });
+                        $("#pi_alert").delay(400).fadeIn(600);
+                        $("#wfp_performance_indicator").animate({ scrollTop:0 },700);
+                        $("#pi_alert").addClass('fade show');
+                        $("#pi_alert_text").html(msg);
+
+
+                        $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_update_pi").html('Update');
+                        $("#btn_update_pi").attr('disabled',false);
+                    }
+
+            });
 
 
             // end for $(document).ready()
@@ -657,6 +783,110 @@
                         REUSABLE FUNCTIONS
         *************************************************/
 
+        function saveWFP(wfp_data,wfp_rules,wfp_options){
+
+                var msg = "";
+
+                wfp_data.output_function =$("#selected_output_function_id").val();
+                wfp_data.activity_output =$("#txt_activities_output").val();
+                wfp_data.source_of_fund =$("#source_of_fund").val();
+                wfp_data.activity_categ =$("#activity_category").val();
+                wfp_data.responsible_person  =$("#txt_responsible_person").val();
+                wfp_data.act_cost = $("#wfp_act_cost").val();
+                var qtr1 = $("#qtr_1").val();
+                var qtr2 = $("#qtr_2").val();
+                var qtr3 = $("#qtr_3").val();
+                var qtr4 = $("#qtr_4").val();
+
+                if (qtr1 == '' && qtr2 == '' && qtr3 == '' && qtr4 == '' ){
+                    wfp_rules = {
+                        t_q1: 'required',
+                        t_q2: 'required',
+                        t_q3: 'required',
+                        t_q4: 'required'
+                    }
+                }else{
+                    delete wfp_rules.t_q1
+                    delete wfp_rules.t_q2
+                    delete wfp_rules.t_q3
+                    delete wfp_rules.t_q4
+                }
+
+                wfp_data.t_q1 =qtr1;
+                wfp_data.t_q2 =qtr2;
+                wfp_data.t_q3 =qtr3;
+                wfp_data.t_q4 =qtr4;
+
+                var hold_timeframe = switchValueConvert($("#t_jan").val()) + ',' +
+                                    switchValueConvert($("#t_feb").val()) + ',' +
+                                    switchValueConvert($("#t_mar").val()) + ',' +
+                                    switchValueConvert($("#t_apr").val()) + ',' +
+                                    switchValueConvert($("#t_may").val()) + ',' +
+                                    switchValueConvert($("#t_june").val()) + ',' +
+                                    switchValueConvert($("#t_july").val()) + ',' +
+                                    switchValueConvert($("#t_aug").val()) + ',' +
+                                    switchValueConvert($("#t_sept").val()) + ',' +
+                                    switchValueConvert($("#t_oct").val()) + ',' +
+                                    switchValueConvert($("#t_nov").val()) + ',' +
+                                    switchValueConvert($("#t_dec").val());
+
+                wfp_data.act_timeframe = hold_timeframe;
+
+                let wfp_validation = new Validator(wfp_data, wfp_rules, wfp_options);
+
+                $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
+                $("#btn_save_wfp").html('Processing ..');
+                $("#btn_save_wfp").attr('disabled',true);
+                $("#kt_body").scrollTop(0);
+
+                if(wfp_validation.passes()){
+                    console.log(wfp_data);
+                    var _data = { wfp_code : $("#wfp_code").val() };
+                    var _url = "{{ route('db_save_wfp_act') }}";
+
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data : wfp_data,
+                        success:function(data){
+                            if (data.message == 'success'){
+                                Swal.fire(
+                                    "Succfully Save WFP Activity",
+                                    "You may save Performance Indicator",
+                                    "success"
+                                )
+                                $("#btn_pi_add_new").attr('disabled',false);
+                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                                $("#btn_save_wfp").html('Save');
+                                $("#btn_save_wfp").attr('disabled',true);
+                            }
+                        }
+                    });
+
+                }else{
+                    $("#kt_scrolltop").click();
+                    $.each(wfp_validation.errors.all(),function(key,value){
+                    // console.log('key:' + key , 'value:' + value);
+                    msg += '<li>' + value + '</li>';
+                    });
+                    $("#wfp_alert").delay(400).fadeIn(600);
+                    $("#kt_body").animate({ scrollTop:0 },700);
+                    $("#wfp_alert").addClass('fade show');
+                    $("#wfp_alert_text").html(msg);
+
+                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                    $("#btn_save_wfp").html('Save');
+                    $("#btn_save_wfp").attr('disabled',false);
+                }
+
+
+        }
+
+
+        function switchValueConvert(val)
+        {
+            return val =='true' ? 'Y':'N';
+        }
 
         function populateOutputFunctionsAll(){
             var _url = "{{ route('d_get_output_functions') }}";
@@ -1036,7 +1266,7 @@
 
         function getBudgetAllocation(bli_id1){
             var _url = "{{ route('d_get_calculate_budget_alloc') }}";
-            var unit_id1 = "{{ Auth::user()->getUnitId() }}";
+            // var unit_id1 = "";
             var a = localStorage.getItem('GLOBAL_SETTINGS');
             a = a ? JSON.parse(a) : {};
             var year_id1 = a["year"];
@@ -1044,19 +1274,35 @@
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
+                    data: ({  year_id : year_id1, bli_id : bli_id1}),
                     success:function(data){
                         // console.log(data.length);
                         if(data.length != 0){
-                            document.getElementById('total_allocation').innerHTML =data[0].program_budget;
+                            var nf = new Intl.NumberFormat();
+                            document.getElementById('total_allocation').innerHTML = nf.format(data.program_budget);
+                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized);
+                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized);
                         }
                     }
                 });
             }
 
+
+
         }
 
-
+        function fetchPerformanceIndicator(){
+            var wfp = $("#wfp_code").val();
+            var _url = "{{ route('d_get_pi_by_wfp') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data : {wfp_code: wfp},
+                success:function(data){
+                    document.getElementById('pi_table').innerHTML = data;
+                }
+            });
+        }
 
         $(document).ready(function(){
             $("#output_function_pagination .pagination a").on('click',function(e){
@@ -1064,5 +1310,125 @@
                 console.log($(this).attr('href'));
             });
         });
+
+        function piActionDelete(_id){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    var del_url = "{{ route('db_del_pi_wfp') }}";
+                    if (result.value) {
+                        $.ajax({
+                            method:"GET",
+                            url: del_url,
+                            data : {  id: _id},
+                            success:function(data){
+                                if(data.message == 'success'){
+                                    Swal.fire(
+                                        "Deleted!",
+                                        "Performance Indicator has been deleted.",
+                                        "success"
+                                    )
+                                    fetchPerformanceIndicator();
+                                }else{
+                                    Swal.fire(
+                                        "Opps!",
+                                        "Something went wrong.",
+                                        "error"
+                                    )
+                                }
+
+                            }
+                        })
+                    }
+                });
+            }
+
+            function piActionEdit(_id){
+
+                //set to false default
+                if($("#c_ppmp").val() == 'true'){
+                    $("#c_ppmp").click();
+                }
+                //set to false default
+                if($("#c_catering").val() == 'true'){
+                    $("#c_catering").click();
+                }
+
+
+                $("#wfp_performance_indicator").modal({
+                    show:true,
+                    backdrop:'static',
+                    focus: true,
+                    keyboard:false
+                });
+                $("#btn_save_pi").addClass('display-none');
+                $("#btn_update_pi").removeClass('display-none');
+                $("#pi_id").val(_id);
+
+                var _url = "{{ route('db_edit_pi_wfp') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{id:_id},
+                    success:function(data){
+                        if(data != null){
+                            console.log(data);
+                            $("#buget_line_item").val(data.bli_id);
+                            getBudgetAllocation(data.bli_id);
+
+                            $("#uacs_category").val(data.category);
+                            Promise.resolve(4)
+                                .then(()=>{
+                                    getUacsSubCategory(data.category);
+                                })
+                                .then(()=>{
+                                    getUacsTitle(data.subcategory);
+                                })
+                                .then(() => {
+                                    setTimeout(() => {
+                                        $("#uacs_subcategory").val(data.subcategory);
+                                        $("#uacs_subcategory").attr('disable',false);
+
+                                        $("#uacs_title").val(data.title);
+                                        $("#uacs_title").attr('disable',false);
+                                    }, 500);
+                                })
+                                .then((err)=>{
+                                    return Promise.reject(err);
+                            });
+
+
+                            $("#peformance_indicator").val(data.performance_indicator);
+                            // $("#c_ppmp").val(data.is_ppmp != 'Y' ? "true" : "false");
+                            // $("#c_catering").val(data.is_catering != 'Y' ? "true" : "false");
+
+                            if(data.is_ppmp == 'Y'){
+                                $("#c_ppmp").click();
+                            }
+
+                            if(data.is_catering  == 'Y'){
+                                $("#c_catering").click();
+                                $("#no_batchs").attr('disable',false);
+                            }else{
+                                $("#no_batchs").attr('disable',true );
+                            }
+
+                            $("#pi_cost").val(data.cost);
+                            $("#no_batchs").val(data.batch);
+                            $("#uacs_code").val(data.uacs_id);
+
+                            $("#label_uacs_category").html(data.category);
+                            $("#label_uacs_subcategory").html(data.subcategory);
+                            $("#label_uacs_title").html(data.title);
+                            $("#label_uacs_code").html(data.uacs_id);
+
+                        }
+                    }
+                });
+            }
     </script>
 @endpush
