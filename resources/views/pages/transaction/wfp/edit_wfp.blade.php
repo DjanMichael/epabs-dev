@@ -634,10 +634,12 @@
                     data: pi_data,
                     success:function(data){
                         if(data == 'success'){
-                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
-                            $("#wfp_performance_indicator").modal('hide');
-                            fetchPerformanceIndicator();
-
+                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                                $("#wfp_performance_indicator").modal('hide');
+                                $("#btn_pi_add_new").attr('disabled',false);
+                                fetchPerformanceIndicator();
+                        }else if(data =='no budget'){
+                            toastr.error("Not Enough Budget", "Opss!");
                         }else{
                             toastr.error("Something went wrong", "Opss!");
                         }
@@ -682,6 +684,7 @@
                     focus: true,
                     keyboard:false
                 });
+                $("#btn_save_pi").removeClass('display-none');
             });
 
 
@@ -759,13 +762,18 @@
                         url: _url,
                         data: {id : pi_id, pi : pi_data},
                         success:function(data){
-                            if(data =='success'){
-                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
+
+                            if(data == 'success'){
+                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
                                 $("#wfp_performance_indicator").modal('hide');
+                                $("#btn_pi_add_new").attr('disabled',false);
                                 fetchPerformanceIndicator();
+                            }else if(data =='no budget'){
+                                toastr.error("Not Enough Budget", "Opss!");
                             }else{
-                                toastr.error("Something Went Wrong!", "Opss");
+                                toastr.error("Something went wrong", "Opss!");
                             }
+
                         }
                     })
                 }else{
@@ -802,8 +810,6 @@
         function updateWFP(wfp_data,wfp_rules,wfp_options){
 
             var msg = "";
-            // console.log(arguments)
-
 
             wfp_data.output_function =$("#selected_output_function_id").val();
             wfp_data.activity_output =$("#txt_activities_output").val();
@@ -858,7 +864,6 @@
 
 
             if(wfp_validation.passes()){
-                // console.log(wfp_data);
                 var _data = { wfp_code : $("#wfp_code").val() };
                 var _url = "{{ route('db_update_wfp_activity') }}";
                 var _wfp_act_id  ="{{ $data['wfp']->id }}";
@@ -1262,27 +1267,6 @@
 
         }
 
-        // function getBudgetAllocation(bli_id1){
-        //     var _url = "{{ route('d_get_calculate_budget_alloc') }}";
-        //     var unit_id1 = "{{ Auth::user()->getUnitId() }}";
-        //     var a = localStorage.getItem('GLOBAL_SETTINGS');
-        //     a = a ? JSON.parse(a) : {};
-        //     var year_id1 = a["year"];
-        //     if(a["year"] != null){
-        //         $.ajax({
-        //             method:"GET",
-        //             url:_url,
-        //             data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
-        //             success:function(data){
-        //                 // console.log(data.length);
-        //                 if(data.length != 0){
-        //                     document.getElementById('total_allocation').innerHTML =data[0].program_budget;
-        //                 }
-        //             }
-        //         });
-        //     }
-
-        // }
         function getBudgetAllocation(bli_id1){
             var _url = "{{ route('d_get_calculate_budget_alloc') }}";
             // var unit_id1 = "";
@@ -1308,18 +1292,7 @@
         }
 
         $(document).ready(function(){
-            // $("#t_jan").attr('disabled', false);
-            // $("#t_feb").attr('disabled', false);
-            // $("#t_mar").attr('disabled', false);
-            // $("#t_apr").attr('disabled', false);
-            // $("#t_may").attr('disabled', false);
-            // $("#t_june").attr('disabled', false);
-            // $("#t_july").attr('disabled', false);
-            // $("#t_aug").attr('disabled', false);
-            // $("#t_sept").attr('disabled', false);
-            // $("#t_oct").attr('disabled', false);
-            // $("#t_nov").attr('disabled', false);
-            // $("#t_dec").attr('disabled', false);
+
             '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_jan").attr('disabled', false) : '' ;
             '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["mar"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_mar").attr('disabled', false): '' ;
@@ -1332,7 +1305,6 @@
             '{{ $data["activity_timeframe"]["oct"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_oct").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["nov"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_nov").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["dec"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_dec").attr('disabled', false): '' ;
-
 
             '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ?  $("#t_jan").click() : '' ;
             '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").click(): '' ;

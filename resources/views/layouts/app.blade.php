@@ -933,7 +933,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form">
-                            @include('pages.transaction.wfp.table.wfp_act_view_pi_ppmp')
+                            {{-- @include('pages.transaction.wfp.table.wfp_act_view_pi_ppmp') --}}
+                            <div id="ppmp_table"></div>
                         </div>
                     </div>
                     <div class="col-12">
@@ -1560,13 +1561,15 @@
             $("#wfp_comment_user_id_send_to").val(user_id);
         }
 
-        function showWfpActivityModal(){
+        function showWfpActivityModal(user_id,wfp_code){
             $("#modal_wfp_act_viewer_pi_ppmp").modal({
                 show:true,
                 backdrop:'static',
                 focus: true,
                 keyboard:false
             });
+            // alert(user_id + '<br>' + wfp_code);
+            fetchPPMPAndPiViewerData(user_id,wfp_code);
         }
 
         $("#btn_save_wfp_comment").on('click',function(){
@@ -1585,6 +1588,7 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
+
                 }
             });
         })
@@ -1599,24 +1603,24 @@
             setTimeout(function(){
                 window.location.href= _url;
             }),1500;
-            // var _redirecTo = "";
-            // $.ajax({
-            //     method:"GET",
-            //     url: _url,
-            //     success:function(data){
-            //         console.log(data);
-            //         // KTApp.block('#kt_body', {
-            //         //     overlayColor: '#000000',
-            //         //     state: 'primary',
-            //         //     message: 'Redirecting. . .'
-            //         // });
+        }
 
-            //     }
-            // });
+        function fetchPPMPAndPiViewerData(_user_id,_wfp_code){
+            var _url = "{{ route('d_pi_ppmp_viewer') }}";
+            var _data = {
+                user_id : _user_id,
+                wfp_code: _wfp_code
+            };
+            $.ajax({
+                method: "GET",
+                url: _url,
+                data: _data,
+                success:function(data){
+                    document.getElementById('ppmp_table').innerHTML = data;
+                }
+            });
         }
         </script>
-
-
         </body>
     <!--end::Body-->
 </html>

@@ -103,6 +103,24 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         AND `tw`.`year_id` = `tuba`.`year_id`
                         AND `tw`.`unit_id` = `up`.`unit_id`
                     ) AS `utilized`,
+                    (
+                        SELECT
+                            sum(`twapi`.`cost`)
+                        FROM
+                            `tbl_wfp_activity_per_indicator` `twapi`
+                        WHERE
+                            `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                        AND `twapi`.`wfp_code` = `twapi`.`wfp_code`
+                    ) AS `utilized_plan`,
+                    `tuba`.`program_budget` - (
+                        SELECT
+                            sum(`twapi`.`cost`)
+                        FROM
+                            `tbl_wfp_activity_per_indicator` `twapi`
+                        WHERE
+                            `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                        AND `twapi`.`wfp_code` = `twapi`.`wfp_code`
+                    ) AS `balance_plan`,
                     COALESCE (
                         `tuba`.`program_budget` - (
                             SELECT
