@@ -240,9 +240,9 @@ class WfpController extends Controller
             $wfp_act->encoded_by =  $this->auth_user_id;
             $wfp_act->save();
 
-            $wfp_act_indi = new WfpPerformanceIndicator;
-            $wfp_act_indi->wfp_code = $code;
-            $wfp_act_indi->save();
+            // $wfp_act_indi = new WfpPerformanceIndicator;
+            // $wfp_act_indi->wfp_code = $code;
+            // $wfp_act_indi->save();
 
             DB::commit();
             //generate code decrypted
@@ -321,31 +321,43 @@ class WfpController extends Controller
     function editWfp(Request $req){
         // dd($req->all());
         $data = [];
+        $code = Crypt::decryptString($req->wfp_code);
         $categ = new RefActivityCategory;
         $sof = new RefSourceOfFund;
 
         $data["activity_category"] = $categ->getAll();
         $data["sof"] = $sof->getAll();
 
-        $data["wfp"] = Wfp::where('code',$req->wfp_code)->first();
-        $data["wfp_act"] = WfpActivity::where('wfp_code',$req->wfp_code)->get();
-        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get();
+        $data["wfp"] = Wfp::where('code',$code)->first();
+        $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                                ->where('tbl_wfp_activity.wfp_code',$code)->get();
 
-        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))
-                                                    ->get()->toArray();
 
+        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_code',$code)->get();
+
+        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',$code)->get()->toArray();
+        // dd($data["wfp_act"][0]->activity_timeframe);
+
+        $month_str = $data["wfp_act"][0]->activity_timeframe;
+        $data["activity_timeframe"] = [
+            'jan' => $this->getConvertActivityTimeframeVal($month_str,1),
+            'feb' => $this->getConvertActivityTimeframeVal($month_str,2),
+            'mar' => $this->getConvertActivityTimeframeVal($month_str,3),
+            'apr' => $this->getConvertActivityTimeframeVal($month_str,4),
+            'may' => $this->getConvertActivityTimeframeVal($month_str,5),
+            'june' => $this->getConvertActivityTimeframeVal($month_str,6),
+            'july' => $this->getConvertActivityTimeframeVal($month_str,7),
+            'aug' => $this->getConvertActivityTimeframeVal($month_str,8),
+            'sept' => $this->getConvertActivityTimeframeVal($month_str,9),
+            'oct' => $this->getConvertActivityTimeframeVal($month_str,10),
+            'nov' => $this->getConvertActivityTimeframeVal($month_str,11),
+            'dec' => $this->getConvertActivityTimeframeVal($month_str,12),
+        ];
+        // dd($data);
         // 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null)
         return view('pages.transaction.wfp.edit_wfp',['data'=> $data,'wfp_code'=>  Crypt::decryptString($req->wfp_code)]);
     }
-    public function checkingWfpPiOnSave(Request $req){
-        $check_pi = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->first();
-        if(!$check_pi){
-            return ['message'=>'not found'];
-        }else{
-            return ['message'=>'found'];
-        }
-    }
-
+    //TECHNICAL UPDATE WFP  name not save since update db is executed
     public function saveWfpAct(Request $req){
         $data = [];
         $wfp_code = Crypt::decryptString($req->wfp_code);
@@ -400,6 +412,7 @@ class WfpController extends Controller
 
     public function updatePerformanceIndicatorById(Request $req){
         if($req->ajax()){
+
             $wfp_indicator = WfpPerformanceIndicator::where('id',$req->id)->first();
             $wfp_indicator->wfp_code = Crypt::decryptString($req->pi["wfp_code"]);
             $wfp_indicator->uacs_id = $req->pi["uacs_title_id"];
@@ -412,6 +425,37 @@ class WfpController extends Controller
             return $wfp_indicator->save() ? 'success' : 'failed';
         }else{
             abort(403);
+        }
+    }
+
+    public function updateWfpActivity(Request $req){
+        if($req->ajax()){
+            // dd($req->wfp_act);
+            $code = Crypt::decryptString($req->wfp_act["wfp_code"]);
+            $a = WfpActivity::where('wfp_code',$code)->first();
+            $a->out_function =$req->wfp_act["output_function"];
+            $a->out_activity =$req->wfp_act["activity_output"];
+            $a->activity_source_of_fund =$req->wfp_act["source_of_fund"];
+            $a->activity_category_id =$req->wfp_act["activity_categ"];
+            $a->responsible_person =$req->wfp_act["responsible_person"];
+            $a->activity_timeframe =$req->wfp_act["act_timeframe"];
+            $a->target_q1 =$req->wfp_act["t_q1"] != null ? $req->wfp_act["t_q1"] : null;
+            $a->target_q2 =$req->wfp_act["t_q2"] != null ? $req->wfp_act["t_q2"] : null;
+            $a->target_q3 =$req->wfp_act["t_q3"] != null ? $req->wfp_act["t_q3"] : null;
+            $a->target_q4 =$req->wfp_act["t_q4"] != null ? $req->wfp_act["t_q4"] : null;
+            $a->activity_cost =$req->wfp_act["act_cost"];
+            $a->encoded_by = Auth::user()->id;
+            return $a->save() ? 'success' : 'failed';
+        }else{
+            abort(403);
+        }
+    }
+
+    public function getConvertActivityTimeframeVal($str,$req_str = null){
+        $arr = explode(',',$str);
+
+        if($req_str != null){
+            return $arr[$req_str-1];
         }
     }
 }
