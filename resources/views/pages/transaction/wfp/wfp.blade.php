@@ -5,7 +5,7 @@
 <div class="row p-5">
     <div class="col-12 col-md-4">
         <div class="form-group">
-            <input class="form-control"  type="text" placeholder="Search Here.." id="query_search" >
+            <input class="form-control"  type="text" placeholder="Search Division, Section Program Manager Here.." id="query_search" >
         </div>
     </div>
     <div class="col-12 col-md-4"></div>

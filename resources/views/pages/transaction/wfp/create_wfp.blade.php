@@ -51,7 +51,7 @@
                         <label for="exampleInputPassword1">Activities for Outputs
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output">
+                        <input type="text" class="form-control" maxlength="255" placeholder="Activities for Outputs" id="txt_activities_output">
                     </div>
                     <div class="form-group row">
                         <div class="col-6">
@@ -227,13 +227,13 @@
                         </div>
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
-                <div class="col-12 mt-2 mb-2">
-                    <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
-                        <i class="flaticon2-add-1"></i> Add Performance Indicator
-                    </button>
-                </div>
-                <div class="col-12 mt-2 mb-2" id="pi_table">
-                </div>
+                    <div class="col-12 mt-2 mb-2">
+                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
+                            <i class="flaticon2-add-1"></i> Add Performance Indicator
+                        </button>
+                    </div>
+                    <div class="col-12 mt-2 mb-2" id="pi_table">
+                    </div>
                </div>
            </div>
 
@@ -841,40 +841,30 @@
 
                 if(wfp_validation.passes()){
                     console.log(wfp_data);
-                    var _data = { wfp_code : $("#wfp_code").val()};
-                    var _url1 = "{{ route('db_check_if_wfp_wihtout_pi_on_save') }}";
+                    var _data = { wfp_code : $("#wfp_code").val() };
                     var _url = "{{ route('db_save_wfp_act') }}";
+
                     $.ajax({
                         method:"GET",
-                        url: _url1,
-                        data:_data,
+                        url : _url,
+                        data : wfp_data,
                         success:function(data){
-                            if(data.message =='found'){
-                                $.ajax({
-                                    method:"GET",
-                                    url : _url,
-                                    data : wfp_data,
-                                    success:function(data){
-                                        if (data.message == 'success'){
-                                            var r = "{{ route('r_wfp') }}";
-                                            KTApp.block('#kt_body', {
-                                                overlayColor: '#000000',
-                                                state: 'primary',
-                                                message: 'Redirecting . .'
-                                            });
-                                            setTimeout(() => {
-                                                window.location.href=r;
-                                            }, 1500);
-                                        }
-                                    }
-                                });
+                            if (data.message == 'success'){
+                                Swal.fire(
+                                    "Succfully Save WFP Activity",
+                                    "You may save Performance Indicator",
+                                    "success"
+                                )
+                                $("#btn_pi_add_new").attr('disabled',false);
+                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                                $("#btn_save_wfp").html('Save');
+                                $("#btn_save_wfp").attr('disabled',true);
                             }
                         }
-                    })
-                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                    $("#btn_save_wfp").html('Save');
-                    $("#btn_save_wfp").attr('disabled',false);
+                    });
+
                 }else{
+                    $("#kt_scrolltop").click();
                     $.each(wfp_validation.errors.all(),function(key,value){
                     // console.log('key:' + key , 'value:' + value);
                     msg += '<li>' + value + '</li>';
