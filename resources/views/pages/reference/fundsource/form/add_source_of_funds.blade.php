@@ -15,7 +15,7 @@
             <div class="col-12 col-md-3">
                 <span class="switch switch-icon">
                     <label>
-                        <input type="checkbox" name="select" id="chk_status" value="ACTIVE">
+                        <input type="checkbox" name="select" id="chk_status">
                         <span></span>
                     </label>
                 </span>

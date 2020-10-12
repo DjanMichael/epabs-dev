@@ -24,13 +24,17 @@ class CreateViewProcurementMedicineInformation extends Migration
                     riu.unit_of_measure,
                     tpm.classification_id,
                     rc.classification,
-                    FORMAT(tpm.price, 2) as price,
+                    rp.price as price,
+                    rp.effective_date as effective_date,
                     tpm.fix_price,
                     tpm.`status`
                 FROM
                     `tbl_procurement_medicine` tpm
                     JOIN ref_item_unit riu ON riu.id = tpm.unit_id
                     JOIN ref_classification rc ON rc.id = tpm.classification_id
+                    JOIN ref_price rp ON rp.procurement_item_id = tpm.id
+                GROUP BY tpm.id
+                ORDER BY rp.effective_date DESC
             )
         ');
     }

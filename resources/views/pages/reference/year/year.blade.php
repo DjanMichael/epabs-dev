@@ -72,7 +72,7 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     $('#year_id').val(id);
                     $('#year').val(year);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });

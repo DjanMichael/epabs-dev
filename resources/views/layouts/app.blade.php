@@ -120,7 +120,7 @@
 <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed " >
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
-		<a href="index.html" class="mr-7">
+		<a href="{{ route('dashboard') }}" class="mr-7">
 			<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-30px"/>
 		</a>
 		<!--end::Logo-->

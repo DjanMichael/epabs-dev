@@ -65,7 +65,7 @@
                     $('#item_unit_id').val(id);
                     $('#measure').val(measure);
                     $('#name').val(name);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });

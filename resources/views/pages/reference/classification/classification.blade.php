@@ -63,7 +63,7 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     $('#classification_id').val(id);
                     $('#classification').val(classification);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });

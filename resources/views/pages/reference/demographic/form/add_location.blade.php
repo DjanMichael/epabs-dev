@@ -31,7 +31,7 @@
             <div class="col-12 col-md-3">
                 <span class="switch switch-icon">
                     <label>
-                        <input type="checkbox" name="select" id="chk_outside" value="N">
+                        <input type="checkbox" name="select" id="chk_outside">
                         <span></span>
                     </label>
                 </span>
@@ -40,7 +40,7 @@
             <div class="col-12 col-md-3">
                 <span class="switch switch-icon">
                     <label>
-                        <input type="checkbox" name="select" id="chk_status" value="INACTIVE">
+                        <input type="checkbox" name="select" id="chk_status">
                         <span></span>
                     </label>
                 </span>

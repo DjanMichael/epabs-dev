@@ -62,7 +62,7 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     $('#sof_id').val(id);
                     $('#sof').val(sof);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });

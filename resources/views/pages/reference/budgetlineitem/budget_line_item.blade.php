@@ -63,7 +63,7 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     $('#budget_item_id').val(id);
                     $('#budget_item').val(budget_item);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });
