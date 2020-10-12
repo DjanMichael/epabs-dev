@@ -50,12 +50,12 @@
                                     </button>
                                     <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                             style="position: relative;right:0;bottom:0;"
-                                            onclick="editWfp('{{ $wfp_code }}')">
+                                            onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
                                         <i class="flaticon-edit"></i>
                                     </button>
                                     <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
-                                        onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}')">
+                                        onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
                                     <i class="flaticon-medical"></i>
                                     </button>
                                 </td>
@@ -82,6 +82,8 @@
                                     <img style="position: absolute;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-40%);height:10rem;width:10rem" src="{{ asset('dist/assets/media/svg/icons/Code/Warning-2.svg') }}"/>
                                     <h1 style="position: absolute;top:40%;width:100%;">No Activity Encoded</h1>
                                     <div style="position: absolute;top:50%;width:100%;">
+
+                                        <button class="btn btn-primary" onclick="editWfp('{{ $wfp_code }}','null')">Edit</button>
                                         <button class="btn btn-secondary" onclick="wfp_drawer_close()">Close</button>
                                     </div>
                                 </div>

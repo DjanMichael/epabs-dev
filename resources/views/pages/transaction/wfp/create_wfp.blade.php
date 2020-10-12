@@ -386,7 +386,7 @@
     </div>
 </div>
 
-
+<input type="hidden" id="act_id_saved" value="">
 <input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
 @endsection
@@ -637,7 +637,7 @@
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: pi_data,
+                    data: {data : pi_data , id: $("#act_id_saved").val() },
                     success:function(data){
                         alert(data);
                         if(data == 'success'){
@@ -645,10 +645,17 @@
                             $("#wfp_performance_indicator").modal('hide');
                             $("#btn_pi_add_new").attr('disabled',false);
                             fetchPerformanceIndicator();
-                        }else if(data =='no budget'){
-
+                        }
+                        else if(data =='no budget')
+                        {
                             toastr.error("Not Enough Budget", "Opss!");
-                        }else{
+                        }
+                        else if(data == 'exceeds act budget')
+                        {
+                            toastr.error("Activity Budget Exceeded", "Opss!");
+                        }
+                        else
+                        {
                             toastr.error("Something went wrong", "Opss!");
                         }
                     }
@@ -844,7 +851,7 @@
                 $("#kt_body").scrollTop(0);
 
                 if(wfp_validation.passes()){
-                    console.log(wfp_data);
+
                     var _data = { wfp_code : $("#wfp_code").val() };
                     var _url = "{{ route('db_save_wfp_act') }}";
 
@@ -854,9 +861,10 @@
                         data : wfp_data,
                         success:function(data){
                             if (data.message == 'success'){
+                                $("#act_id_saved").val(data.id);
                                 Swal.fire(
                                     "Succfully Save WFP Activity",
-                                    "You may save Performance Indicator",
+                                    "You may start adding Performance Indicator",
                                     "success"
                                 )
                                 $("#btn_pi_add_new").attr('disabled',false);

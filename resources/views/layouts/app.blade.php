@@ -1561,7 +1561,7 @@
             $("#wfp_comment_user_id_send_to").val(user_id);
         }
 
-        function showWfpActivityModal(user_id,wfp_code){
+        function showWfpActivityModal(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_act_viewer_pi_ppmp").modal({
                 show:true,
                 backdrop:'static',
@@ -1569,7 +1569,7 @@
                 keyboard:false
             });
             // alert(user_id + '<br>' + wfp_code);
-            fetchPPMPAndPiViewerData(user_id,wfp_code);
+            fetchPPMPAndPiViewerData(user_id,wfp_code,wfp_act_id);
         }
 
         $("#btn_save_wfp_comment").on('click',function(){
@@ -1593,8 +1593,8 @@
             });
         })
 
-        function editWfp(_wfp_code){
-            var _url = "{{ route('r_edit_wfp') }}?wfp_code=" + _wfp_code;
+        function editWfp(_wfp_code, _wfp_act_id){
+            var _url = "{{ route('r_edit_wfp') }}?wfp_id=" + _wfp_act_id + '&wfp_code=' + _wfp_code ;
             KTApp.block('#kt_body', {
                 overlayColor: '#000000',
                 state: 'primary',
@@ -1605,11 +1605,12 @@
             }),1500;
         }
 
-        function fetchPPMPAndPiViewerData(_user_id,_wfp_code){
+        function fetchPPMPAndPiViewerData(_user_id,_wfp_code,_wfp_act_id){
             var _url = "{{ route('d_pi_ppmp_viewer') }}";
             var _data = {
                 user_id : _user_id,
-                wfp_code: _wfp_code
+                wfp_code: _wfp_code,
+                wfp_act_id : _wfp_act_id
             };
             $.ajax({
                 method: "GET",
