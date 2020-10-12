@@ -1434,59 +1434,6 @@
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
-            function wfpApprove(wfp_code){
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won\'t be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Approved WFP",
-                            "success"
-                        )
-                    }
-                });
-            }
-
-            function wfpRevise(wfp_code){
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won\'t be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Revised WFP",
-                            "success"
-                        )
-                    }
-                });
-            }
-
-            function wfpSubmit(wfp_code){
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won\'t be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Submitted WFP",
-                            "success"
-                        )
-                    }
-                });
-            }
 
 
 
@@ -1679,6 +1626,61 @@
                 }
             });
         }
+
+        function wfpApprove(wfp_code){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    if (result.value) {
+                        Swal.fire(
+                            "Good Job!",
+                            "Successfully Approved WFP",
+                            "success"
+                        )
+                    }
+                });
+            }
+
+            function wfpRevise(wfp_code){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    if (result.value) {
+                        Swal.fire(
+                            "Good Job!",
+                            "Successfully Revised WFP",
+                            "success"
+                        )
+                    }
+                });
+            }
+
+            function wfpSubmit(wfp_code){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    if (result.value) {
+                        Swal.fire(
+                            "Good Job!",
+                            "Successfully Submitted WFP",
+                            "success"
+                        )
+                    }
+                });
+            }
+
         </script>
         </body>
     <!--end::Body-->

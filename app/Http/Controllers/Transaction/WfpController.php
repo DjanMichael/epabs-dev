@@ -223,11 +223,19 @@ class WfpController extends Controller
         try {
             DB::beginTransaction();
 
-            $wfp_log = new ZWfpLogs;
-            $wfp_log->wfp_code = $code;
-            $wfp_log->status = 'WFP';
-            $wfp_log->remarks = 'NOT SUBMITTED';
-            $wfp_log->save();
+            $check_log_exist = ZWfpLogs::where('wfp_code',$code)->first();
+            if($check_log_exist){
+                $check_log_exist->wfp_code = $code;
+                $check_log_exist->status = 'WFP';
+                $check_log_exist->remarks = 'NOT SUBMITTED';
+                $check_log_exist->save();
+            }else{
+                $wfp_log = new ZWfpLogs;
+                $wfp_log->wfp_code = $code;
+                $wfp_log->status = 'WFP';
+                $wfp_log->remarks = 'NOT SUBMITTED';
+                $wfp_log->save();
+            }
 
             $wfp = new Wfp;
             $wfp->code = $code;
