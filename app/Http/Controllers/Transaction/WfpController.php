@@ -266,7 +266,6 @@ class WfpController extends Controller
                                         ->first();
             $wfp_act = WfpActivity::where('id',$req->id)->first();
 
-
             $act_cost_budget_balance = $wfp_act->activity_cost - 0;
 
             if ($req->data["cost"] >= $act_cost_budget_balance){
@@ -274,7 +273,7 @@ class WfpController extends Controller
             }
 
             //if true has budget
-            if($check_balance->balance_plan >= $req->data["cost"]){
+            if(($check_balance->balance_plan != null ? $check_balance->balance_plan : $check_balance->balance - 0) >= $req->data["cost"]){
                 $wfp_indicator = new WfpPerformanceIndicator;
                 $wfp_indicator->wfp_act_id = $req->id;
                 $wfp_indicator->wfp_code = Crypt::decryptString($req->data["wfp_code"]);
