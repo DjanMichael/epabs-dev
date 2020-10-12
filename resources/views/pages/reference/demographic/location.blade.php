@@ -75,8 +75,8 @@
                     $('#region').val(region);
                     $('#province').val(province);
                     $('#city').val(city);
-                    $('#chk_outside').prop('checked', outside == 'Yes' ? true : false);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_outside').prop('checked', outside == 'Yes' ? false : true).trigger('click');
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });

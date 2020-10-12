@@ -65,7 +65,7 @@
                     $('#office_unit_id').val(id);
                     $('#division').val(division);
                     $('#section').val(section);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? true : false);
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });
