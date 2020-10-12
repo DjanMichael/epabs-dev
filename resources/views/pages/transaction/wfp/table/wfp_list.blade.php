@@ -7,7 +7,10 @@
             @forelse ($data["wfp_list"] as $row)
             <div class="col-xl-4 col-md-6">
                 <!--begin::Card-->
-                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-5" style="height:250px;cursor:pointer;" onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')" style="cursor:pointer;" id="wfp_card">
+                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-5" style="height:250px;cursor:pointer;"
+                    onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')"
+                    style="cursor:pointer;"
+                    id="wfp_card">
                     {{-- <div class="ribbon-target" style="top: 12px;">
                         <span class="ribbon-inner bg-warning"></span>Status
                        </div> --}}
