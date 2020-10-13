@@ -223,19 +223,11 @@ class WfpController extends Controller
         try {
             DB::beginTransaction();
 
-            $check_log_exist = ZWfpLogs::where('wfp_code',$code)->first();
-            if($check_log_exist){
-                $check_log_exist->wfp_code = $code;
-                $check_log_exist->status = 'WFP';
-                $check_log_exist->remarks = 'NOT SUBMITTED';
-                $check_log_exist->save();
-            }else{
-                $wfp_log = new ZWfpLogs;
-                $wfp_log->wfp_code = $code;
-                $wfp_log->status = 'WFP';
-                $wfp_log->remarks = 'NOT SUBMITTED';
-                $wfp_log->save();
-            }
+            $wfp_log = new ZWfpLogs;
+            $wfp_log->wfp_code = $code;
+            $wfp_log->status = 'WFP';
+            $wfp_log->remarks = 'NOT SUBMITTED';
+            $wfp_log->save();
 
             $wfp = new Wfp;
             $wfp->code = $code;
@@ -525,5 +517,42 @@ class WfpController extends Controller
         if($req_str != null){
             return $arr[$req_str-1];
         }
+    }
+
+    public function updateWfpApprove(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'APPROVED';
+        $a->save();
+    }
+
+
+    public function updateWfpSubmit(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'SUBMITTED';
+        $a->save();
+    }
+
+
+    public function updateWfpRevise(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'FOR REVISION';
+        $a->save();
+    }
+
+    public function printUnitWFP(Request $req){
+        $code = Crypt::decryptString($req->wfp_code);
+        $data = [];
+        $data["wfp"] =  WfpActivityInfo::where('code',$code)->get();
+
+        return view('components.global.reports.print_unit_wfp',['data'=>$data]);
     }
 }

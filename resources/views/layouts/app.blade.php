@@ -1375,6 +1375,8 @@
                 });
             }
 
+        var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
+        var page_wfp;
 
         $(document).ready(function(){
             /***************************************************
@@ -1383,6 +1385,8 @@
              *
              * **************************************************/
             getYear();
+
+
 
             toastr.options = {
             "closeButton": false,
@@ -1627,7 +1631,12 @@
             });
         }
 
-        function wfpApprove(wfp_code){
+        function wfpApprove(_wfp_code){
+
+            var _url = "{{ route('wfp_status_approve') }}";
+            var _data = {
+                wfp_code : _wfp_code
+            };
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won\'t be able to revert this!",
@@ -1636,55 +1645,143 @@
                     confirmButtonText: "Yes, approve it!"
                 }).then(function(result) {
                     if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Approved WFP",
-                            "success"
-                        )
-                        wfp_drawer_close();
+                        $.ajax({
+                            method: "GET",
+                            url : _url,
+                            data : _data,
+                            success:function(data){
+                                Swal.fire(
+                                    "Good Job!",
+                                    "Successfully Approved WFP",
+                                    "success"
+                                )
+                                wfp_drawer_close();
+                                fetch_wfp_list();
+                            }
+                        });
+
                     }
                 });
 
             }
 
-            function wfpRevise(wfp_code){
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won\'t be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, revise it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Revised WFP",
-                            "success"
-                        )
-                        wfp_drawer_close();
-                    }
-                });
+            function wfpRevise(_wfp_code){
+                var _url = "{{ route('wfp_status_revise') }}";
+                var _data = {
+                    wfp_code : _wfp_code
+                };
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won\'t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, approve it!"
+                    }).then(function(result) {
+                        if (result.value) {
+                            $.ajax({
+                                method: "GET",
+                                url : _url,
+                                data : _data,
+                                success:function(data){
+                                    Swal.fire(
+                                        "Good Job!",
+                                        "Successfully Revise WFP",
+                                        "success"
+                                    )
+                                    wfp_drawer_close();
+                                    fetch_wfp_list();
+                                }
+                            });
+
+                        }
+                    });
             }
 
-            function wfpSubmit(wfp_code){
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won\'t be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, submit it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Good Job!",
-                            "Successfully Submitted WFP",
-                            "success"
-                        )
-                        wfp_drawer_close();
-                    }
-                });
+            function wfpSubmit(_wfp_code){
+                var _url = "{{ route('wfp_status_submit') }}";
+                var _data = {
+                    wfp_code : _wfp_code
+                };
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won\'t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, approve it!"
+                    }).then(function(result) {
+                        if (result.value) {
+                            $.ajax({
+                                method: "GET",
+                                url : _url,
+                                data : _data,
+                                success:function(data){
+                                    Swal.fire(
+                                        "Good Job!",
+                                        "Successfully Submit WFP",
+                                        "success"
+                                    )
+                                    wfp_drawer_close();
+                                    fetch_wfp_list();
+                                }
+                            });
+
+                        }
+                    });
             }
 
+            function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
+                var _url = "{{ route('d_get_all_wfp_list') }}";
+
+                var _data = {
+                    page : _page,
+                    q: _q,
+                    year : settings.year,
+                    sort : _sort_by
+                };
+                if(settings.year != null || settings.year != undefined)
+                {
+                    $.ajax({
+                        method:"GET",
+                        url:_url,
+                        data:_data,
+                        beforeSend:function(){
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Retrieving WFP Data. . .'
+                            });
+                        },
+                        success:function(data){
+                            document.getElementById('wfp_list').innerHTML = data;
+                        },
+                        complete(){
+                            KTApp.unblock('#kt_body');
+                            $("#pagination_wfp_list .pagination a").on('click',function(e){
+                                e.preventDefault();
+                                page_wfp = $(this).attr('href').split('page=')[1]
+                                fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
+                            });
+                        }
+                    });
+                }else{
+                    swal.fire({
+                            title:"Warning",
+                            text:'Please setup your Year on Global Settings',
+                            icon: "warning",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                    });
+                }
+
+            }
+
+            function printWfp(){
+                var _url ="{{ route('wfp_unit_print') }}";
+                window.open(_url,)
+            }
         </script>
         </body>
     <!--end::Body-->

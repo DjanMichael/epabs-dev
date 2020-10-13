@@ -46,6 +46,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/pi/update','Transaction\WfpController@updatePerformanceIndicatorById')->name('db_wfp_pi_update');
     Route::get('/wfp/unit/wfpactivity/update','Transaction\WfpController@updateWfpActivity')->name('db_update_wfp_activity');
     Route::get('/wfp/unit/viewer/ppmp/pi','Transaction\WfpController@getPiPPMP')->name('d_pi_ppmp_viewer');
+    Route::get('/wfp/status/update/approve','Transaction\WfpController@updateWfpApprove')->name('wfp_status_approve');
+    Route::get('/wfp/status/update/revise','Transaction\WfpController@updateWfpRevise')->name('wfp_status_revise');
+    Route::get('/wfp/status/update/submit','Transaction\WfpController@updateWfpSubmit')->name('wfp_status_submit');
+    Route::get('/wfp/unit/print','Transaction\WfpController@printUnitWFP')->name('wfp_unit_print');
+
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
     Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');
