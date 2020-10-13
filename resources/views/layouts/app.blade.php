@@ -1778,9 +1778,9 @@
 
             }
 
-            function printWfp(){
-                var _url ="{{ route('wfp_unit_print') }}";
-                window.open(_url,)
+            function printWfp(_wfp_code){
+                var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_blank');
             }
         </script>
         </body>

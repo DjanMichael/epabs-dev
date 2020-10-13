@@ -21,7 +21,7 @@ use App\Views\BudgetAllocationUtilization;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Auth;
-
+use PDF;
 
 use App\Views\BudgetAllocationAllYearPerProgram;
 
@@ -551,8 +551,19 @@ class WfpController extends Controller
     public function printUnitWFP(Request $req){
         $code = Crypt::decryptString($req->wfp_code);
         $data = [];
+
         $data["wfp"] =  WfpActivityInfo::where('code',$code)->get();
 
-        return view('components.global.reports.print_unit_wfp',['data'=>$data]);
+        $config = [
+            'utf-8',    // mode - default ''
+            'Lettter-L',  // format - A4, for example, default ''
+            'margin_top' => 31.5,
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'mirrorMargins' => true,
+            'orientation' => 'L'
+        ];
+        $pdf = PDF::loadView('components.global.reports.print_unit_wfp', ['data' => $data] , [],$config);
+        return $pdf->stream('document.pdf');
     }
 }
