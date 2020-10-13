@@ -1633,7 +1633,7 @@
                     text: "You won\'t be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, approve it!"
                 }).then(function(result) {
                     if (result.value) {
                         Swal.fire(
@@ -1641,8 +1641,10 @@
                             "Successfully Approved WFP",
                             "success"
                         )
+                        wfp_drawer_close();
                     }
                 });
+
             }
 
             function wfpRevise(wfp_code){
@@ -1651,7 +1653,7 @@
                     text: "You won\'t be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, revise it!"
                 }).then(function(result) {
                     if (result.value) {
                         Swal.fire(
@@ -1659,6 +1661,7 @@
                             "Successfully Revised WFP",
                             "success"
                         )
+                        wfp_drawer_close();
                     }
                 });
             }
@@ -1669,7 +1672,7 @@
                     text: "You won\'t be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, submit it!"
                 }).then(function(result) {
                     if (result.value) {
                         Swal.fire(
@@ -1677,6 +1680,7 @@
                             "Successfully Submitted WFP",
                             "success"
                         )
+                        wfp_drawer_close();
                     }
                 });
             }
