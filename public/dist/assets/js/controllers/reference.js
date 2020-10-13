@@ -5,40 +5,39 @@
 */
 
 // Switch Checkbox Value
-function switchChangeValue(ob, firstValue, secondValue, type = null){
+function switchChangeValue(ob, firstValue, secondValue){
     var el = document.getElementById(ob);
     el.value = ($('#'+el.id).prop('checked') == true) ? firstValue : secondValue;
 }
 
 // Populate Table
-function populateTable(populate_url, per_page_url){
+function populateTable(populate_url, per_page_url, table, content, pagination){
     var _url = populate_url;
     $.ajax({
         method:"GET",
         url: _url,
         beforeSend:function(){
-            KTApp.block('#table_populate', {
+            KTApp.block('#'+table, {
                 overlayColor: '#000000',
                 state: 'primary',
                 message: 'Loading. . .'
             });
         },
         success:function(data){
-            KTApp.unblock('#table_populate');
-            document.getElementById('table_content').innerHTML= data;
-
+            KTApp.unblock('#'+table);
+            document.getElementById(content).innerHTML= data;
         },
         complete:function(){
-            $("#table_pagination .pagination a").on('click',function(e){
+            $("#" + pagination + " .pagination a").on('click',function(e){
                 e.preventDefault();
-                populateTablePerPage(per_page_url, $(this).attr('href').split('page=')[1])
+                populateTablePerPage(per_page_url, $(this).attr('href').split('page=')[1], $("#query_search").val(), table, content, pagination)
             });
         }
     });
 }
 
 // Populate Table with Pagination
-function populateTablePerPage(url, page, q1){
+function populateTablePerPage(url, page, q1, table, content, pagination){
     var _url = url;
     var _q = q1 == '' ? '' : q1;
     $.ajax({
@@ -46,27 +45,27 @@ function populateTablePerPage(url, page, q1){
         url: _url,
         data : { page: page, q : _q },
         beforeSend:function(){
-            KTApp.block('#table_populate', {
+            KTApp.block('#'+table, {
                 overlayColor: '#000000',
                 state: 'primary',
                 message: 'Loading. . .'
             });
         },
         success:function(data){
-            KTApp.unblock('#table_populate');
-            document.getElementById('table_content').innerHTML= data;
+            KTApp.unblock('#'+table);
+            document.getElementById(content).innerHTML= data;
         },
         complete:function(){
-            $("#table_pagination .pagination a").on('click',function(e){
+            $("#" + pagination + " .pagination a").on('click',function(e){
                 e.preventDefault();
-                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val())
+                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val(), table, content, pagination)
             });
         }
     })
 }
 
 // Populate Table thru search
-function populateTableBySearch(url, query){
+function populateTableBySearch(url, query, table, content, pagination){
     var _url = url;
     var _q = query == '' ? '' : query;
     var datastr = "q=" + _q;
@@ -76,20 +75,20 @@ function populateTableBySearch(url, query){
         url: _url,
         data: datastr,
         beforeSend:function(){
-            KTApp.block('#populate_table', {
+            KTApp.block('#'+table, {
                 overlayColor: '#000000',
                 state: 'primary',
                 message: 'Loading. . .'
             });
         },
         success:function(data){
-            KTApp.unblock('#populate_table');
-            document.getElementById('table_content').innerHTML= data;
+            KTApp.unblock('#'+table);
+            document.getElementById(content).innerHTML= data;
         },
         complete:function(){
-            $("#table_pagination .pagination a").on('click',function(e){
+            $("#" + pagination + " .pagination a").on('click',function(e){
                 e.preventDefault();
-                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val())
+                populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val(), table, content, pagination)
             });
         }
     });

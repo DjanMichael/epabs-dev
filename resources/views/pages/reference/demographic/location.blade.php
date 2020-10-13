@@ -29,21 +29,17 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_location') }}", "{{ route('d_get_location_by_page') }}");
+            populateTable("{{ route('d_location') }}", "{{ route('d_get_location_by_page') }}",
+                            'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { region : '',
-                         province : '',
-                         city : ''
-                        };
+            let data = { region : '', province : '', city : '' };
 
-            let rules = { region : 'required',
-                          province : 'required',
-                          city : 'required'
-                        };
+            let rules = { region : 'required', province : 'required', city : 'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
+            var btn_search = KTUtil.getById("btn_search");
 
         /*
         |--------------------------------------------------------------------------
@@ -56,7 +52,9 @@
             // Search button event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
-                populateTableBySearch("{{ route('d_get_location_search') }}", str);
+                KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
+                populateTableBySearch("{{ route('d_get_location_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
@@ -118,11 +116,23 @@
                            setTimeout(function() {
                                 KTUtil.btnRelease(btn);
                             }, 1000);
-                            if (result['type'] == 'insert' || result['type'] == 'update') {
+                            if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_location') }}", "{{ route('d_get_location_by_page') }}");
+                                populateTable("{{ route('d_location') }}", "{{ route('d_get_location_by_page') }}",
+                                                'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
-                            } else {
+                            }
+                            else if (result['type'] == 'update') {
+                                outside = outside == 'Y' ? 'Yes' : 'No';
+                                $('#modal_reference').modal('toggle');
+                                $('#'+id).children('td[data-target=region]').html(data.region);
+                                $('#'+id).children('td[data-target=province]').html(data.province);
+                                $('#'+id).children('td[data-target=city]').html(data.city);
+                                $('#'+id).children('td[data-target=outside]').html('<span class="label label-inline label-rounded label-light-'+ (outside == "Yes" ? "primary" : "warning") +' font-weight-bold">'+outside+'</span>');
+                                $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
+                                toastr.success(result['message']);
+                            }
+                            else {
                                 Swal.fire("System Message", result['message'], "error");
                             }
                         },

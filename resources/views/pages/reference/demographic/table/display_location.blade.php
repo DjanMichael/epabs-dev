@@ -19,10 +19,10 @@
                 <td data-target="province">{{ $row["province"] }}</td>
                 <td data-target="city">{{ $row["city"] }}</td>
                 <td data-target="outside">
-                    <span class="label label-inline label-rounded {{ $row["outside"] == 'Y' ? 'label-light-primary' : 'label-light-warning' }}  font-weight-bold">{{ $row["outside"] == 'Y' ? 'Yes' : 'No' }}</span>
+                    <span class="label label-inline label-rounded {{ $row["outside"] == 'Y' ? 'label-light-primary' : 'label-light-warning' }} font-weight-bold">{{ $row["outside"] == 'Y' ? 'Yes' : 'No' }}</span>
                 </td>
                 <td data-target="status">
-                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
+                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
                 </td>
                 <td>
                     <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">

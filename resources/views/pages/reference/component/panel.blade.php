@@ -1,7 +1,7 @@
 <!--begin::Card-->
 <div class="row">
     <div class="col-md-12 col-12">
-        <div class="card card-custom gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
+        <div class="card card-custom gutter-b" style="background-position: right top; background-size: 40% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
             <div class="card-header">
                 <div class="card-title">
                     <span class="card-icon"><i class="@yield('panel-icon') text-primary"></i></span>
@@ -81,8 +81,13 @@
                     </button>
                     <!--end::Button-->
                     @section('modal-size', 'modal-lg')
-                    {{-- @section('modal-title', 'Add Procurement Supply') --}}
                     @include('pages.reference.component.modal')
+
+                    @section('modal-secondary-size', 'modal-lg')
+                    @include('pages.reference.component.secondary_modal')
+
+                    @section('modal-inner-size', '')
+                    @include('pages.reference.component.inner_modal')
                 </div>
             </div>
             <div class="card-body" id="user_table_body">
@@ -122,10 +127,11 @@
                     <!--begin::Body-->
                     <div class="card-body pt-2 pb-0 mt-n3">
                         <div class="table-responsive" id="table_populate">
-                            <div id="table_content">
-                                {{-- @include('pages.reference.table.display_supplies') --}}
-                            </div>
+                            <div id="table_content"></div>
+                        </div>
 
+                        <div class="table-responsive" id="inner_table_populate">
+                            <div id="inner_table_content"></div>
                         </div>
 
                     </div>

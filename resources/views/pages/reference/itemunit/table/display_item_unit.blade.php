@@ -3,8 +3,8 @@
     <thead class="bg-dark text-light">
         <tr>
             <th scope="col" class="text-center">#</th>
-            <th scope="col" class="text-center">Unit of Measure</th>
             <th scope="col" class="text-center">Unit Name</th>
+            <th scope="col" class="text-center">Unit of Measure</th>
             <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Action</th>
         </tr>
@@ -13,10 +13,10 @@
         @forelse ($itemunit as $row)
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
-                <td data-target="measure">{{ $row["unit_of_measure"] }}</td>
                 <td data-target="name">{{ $row["unit_name"] }}</td>
+                <td data-target="measure">{{ $row["unit_of_measure"] }}</td>
                 <td data-target="status">
-                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
+                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
                 </td>
                 <td>
                     <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">

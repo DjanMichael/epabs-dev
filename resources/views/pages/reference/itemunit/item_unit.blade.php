@@ -29,7 +29,8 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}");
+            populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}",
+                                'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
@@ -38,6 +39,7 @@
             let rules = { unit_of_measure : 'required', unit_name : 'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
+            var btn_search = KTUtil.getById("btn_search");
 
         /*
         |--------------------------------------------------------------------------
@@ -49,7 +51,9 @@
             // Search button event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
-                populateTableBySearch("{{ route('d_get_item_unit_search') }}", str);
+                KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
+                populateTableBySearch("{{ route('d_get_item_unit_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
@@ -104,11 +108,18 @@
                            setTimeout(function() {
                                 KTUtil.btnRelease(btn);
                             }, 1000);
-                            if (result['type'] == 'insert' || result['type'] == 'update') {
+                            if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}");
+                                populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}", 'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
-                            } else {
+                            } else if (result['type'] == 'update') {
+                                $('#modal_reference').modal('toggle');
+                                $('#'+id).children('td[data-target=name]').html(data.unit_name);
+                                $('#'+id).children('td[data-target=measure]').html(data.unit_of_measure);
+                                $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
+                                toastr.success(result['message']);
+                            }
+                            else {
                                 Swal.fire("System Message", result['message'], "error");
                             }
                         },
