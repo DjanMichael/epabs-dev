@@ -4,7 +4,7 @@
 @if(count($activities) <> 0)
 <div class="row">
     <div class="bg-dark text-light row p-15"
-    style="padding:10px;position:relative;top:0;margin:0px;height:auto;width:100%;z-index:1040;
+    style="padding:10px;position:relative;top:-10px;margin:0px;height:auto;width:100%;z-index:1040;
      background-position: 0 calc(30% + 0.5rem); background-size: 100% auto; background-image: url({{ asset('dist/assets/media/svg/patterns/rhone.svg') }})">
         <div class="" style="width:91.5%">
             <div class="row">
@@ -23,9 +23,9 @@
             <div class="col-12 col-md-8">
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <button type="button" onclick="wfpApprove()" class="btn btn-transparent-success font-weight-bold  btn-block"><i class="flaticon-like icon-md"></i>APPROVED WFP</button>
-                        <button type="button" onclick="wfpSubmit()" class="btn btn-transparent-primary font-weight-bold  btn-block"><i class="flaticon2-send-1 icon-md"></i>SUBMIT WFP</button>
-                        <button type="button" onclick="wfpRevise()" class="btn btn-transparent-danger font-weight-bold  btn-block" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
+                        <button type="button" onclick="wfpApprove('1')" class="btn btn-transparent-success font-weight-bold  btn-block"><i class="flaticon-like icon-md"></i>APPROVED WFP</button>
+                        <button type="button" onclick="wfpSubmit('1')" class="btn btn-transparent-primary font-weight-bold  btn-block"><i class="flaticon2-send-1 icon-md"></i>SUBMIT WFP</button>
+                        <button type="button" onclick="wfpRevise('1')" class="btn btn-transparent-danger font-weight-bold  btn-block" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
                     </div>
                     <div class="col-12 col-md-4">
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block"><i class="flaticon2-printer"></i>Print</button>

@@ -11,9 +11,16 @@
                     onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')"
                     style="cursor:pointer;"
                     id="wfp_card">
-                    {{-- <div class="ribbon-target" style="top: 12px;">
-                        <span class="ribbon-inner bg-warning"></span>Status
-                       </div> --}}
+                    <div class="ribbon-target" style="top: 12px;">
+                        <span class="ribbon-inner bg-warning"></span>
+                        <?php
+
+                        $stat = App\ZWfpLogs::where('wfp_code',$row['wfp_code'])->first();
+
+                        echo $stat->remarks;
+                        ?>
+
+                       </div>
                     <!--begin::Body-->
                     <div class="card-body">
                         <!--begin::Section-->
