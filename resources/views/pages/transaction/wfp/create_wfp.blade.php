@@ -386,7 +386,7 @@
     </div>
 </div>
 
-<input type="hidden" id="act_id_saved" value="">
+<input type="hidden" id="wfp_act_id" value="">
 <input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
 @endsection
@@ -397,10 +397,16 @@
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
-            var this_url = window.location.href;
+            // var this_url = window.location.href;
             $("#btn_pi_add_new").attr('disabled',true);
+            // $("#wfp_code").val(this_url.split('wfp_code=')[1]);
 
-            $("#wfp_code").val(this_url.split('wfp_code=')[1]);
+            var this_url = window.location.href;
+            var wfp = this_url.split('wfp_code=')[1];
+            var act_id = this_url.replace("&wfp_code=" + wfp ,"");
+            act_id = act_id.split("wfp_act_id=")[1];
+            $("#wfp_code").val(wfp);
+            $("#wfp_act_id").val(act_id);
 
             /************************************************
              *
@@ -637,9 +643,8 @@
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: {data : pi_data , id: $("#act_id_saved").val() },
+                    data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val() },
                     success:function(data){
-                        alert(data);
                         if(data == 'success'){
                             toastr.success("Performance Indicator Sucessfully Save", "Good Job");
                             $("#wfp_performance_indicator").modal('hide');
@@ -756,7 +761,7 @@
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data: {id : pi_id, pi : pi_data},
+                        data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val()},
                         success:function(data){
                             if(data =='success'){
                                 toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
@@ -858,10 +863,10 @@
                     $.ajax({
                         method:"GET",
                         url : _url,
-                        data : wfp_data,
+                        data : { data : wfp_data , id: $("#wfp_act_id").val() },
                         success:function(data){
                             if (data.message == 'success'){
-                                $("#act_id_saved").val(data.id);
+                                $("#wfp_act_id").val(data.id);
                                 Swal.fire(
                                     "Succfully Save WFP Activity",
                                     "You may start adding Performance Indicator",
@@ -872,6 +877,10 @@
                                 $("#btn_save_wfp").html('Save');
                                 $("#btn_save_wfp").attr('disabled',true);
                             }
+                        },complete:function(){
+                            $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_save_wfp").html('Save');
+                            $("#btn_save_wfp").attr('disabled',true);
                         }
                     });
 
@@ -1306,7 +1315,7 @@
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : {wfp_code: wfp},
+                data : {wfp_code: wfp, wfp_act_id : $("#wfp_act_id").val() },
                 success:function(data){
                     document.getElementById('pi_table').innerHTML = data;
                 }

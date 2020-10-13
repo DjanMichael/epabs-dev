@@ -407,7 +407,7 @@
             act_id = act_id.split("wfp_id=")[1];
             $("#wfp_code").val(wfp);
             $("#wfp_act_id").val(act_id);
-
+            $("#btn_pi_add_new").attr('disabled',false);
 
             // alert($("#wfp_code").val());
             /************************************************
@@ -635,7 +635,7 @@
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: {data : pi_data , id: $("#wfp_act_id").val()},
+                    data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val()},
                     success:function(data){
                         if(data == 'success'){
                                 toastr.success("Performance Indicator Sucessfully Save", "Good Job");
@@ -694,6 +694,7 @@
                     keyboard:false
                 });
                 $("#btn_save_pi").removeClass('display-none');
+                $("#btn_update_pi").addClass('display-none');
             });
 
 
@@ -769,9 +770,8 @@
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data: {id : pi_id, pi : pi_data},
+                        data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val() },
                         success:function(data){
-
                             if(data == 'success'){
                                 toastr.success("Performance Indicator Sucessfully Save", "Good Job");
                                 $("#wfp_performance_indicator").modal('hide');
@@ -779,12 +779,19 @@
                                 fetchPerformanceIndicator();
                             }else if(data =='no budget'){
                                 toastr.error("Not Enough Budget", "Opss!");
+                            }else if(data =='exceeds budget'){
+                                toastr.error("Exceeds Activity Budget", "Opss!");
                             }else{
                                 toastr.error("Something went wrong", "Opss!");
                             }
 
+                        },complete:function(){
+                            $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_update_pi").html('Update');
+                            $("#btn_update_pi").attr('disabled',false);
                         }
                     })
+
                 }else{
                     $.each(pi_validation.errors.all(),function(key,value){
                             // console.log('key:' + key , 'value:' + value);
@@ -888,6 +895,7 @@
                                 "Succfully Updated WFP Activity",
                                 "success"
                             )
+                            $("#btn_pi_add_new").attr('disabled',false);
                             $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
                             $("#btn_update_wfp").html('Update');
                             $("#btn_update_wfp").attr('disabled',false);
@@ -918,7 +926,7 @@
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : {wfp_code: wfp},
+                data : {wfp_code: wfp , wfp_act_id: $("#wfp_act_id").val() },
                 success:function(data){
                     document.getElementById('pi_table').innerHTML = data;
                 }
@@ -1409,7 +1417,7 @@
 
                                     $("#uacs_title").val(data.title);
                                     $("#uacs_title").attr('disable',false);
-                                }, 500);
+                                }, 1000);
                             })
                             .then((err)=>{
                                 return Promise.reject(err);
