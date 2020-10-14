@@ -219,7 +219,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                     `tuba`.`year_id`,
                     `up`.`unit_id`,
                     `tuba`.`budget_line_item_id`
-        ');
+        )');
     }
 
     /**

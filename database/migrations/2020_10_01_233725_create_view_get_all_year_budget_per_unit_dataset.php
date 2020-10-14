@@ -37,7 +37,7 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                         `dataset2`.`wfp_code` AS `wfp_code`,
                         `dataset2`.`program_budget` AS `program_budget`,
                         `dataset2`.`utilized` AS `utilized`,
-                        `dataset2.utilized_plan` as `utilized_plan`,
+                        `dataset2`.`utilized_plan` as `utilized_plan`,
                         `dataset2`.`yearly_budget` - `dataset2`.`yearly_utilized` AS `yearly_balance`,
                         `dataset2`.`yearly_budget` AS `yearly_budget`,
                         `dataset2`.`yearly_utilized` AS `yearly_utilized`
