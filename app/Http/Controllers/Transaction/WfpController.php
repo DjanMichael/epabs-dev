@@ -264,9 +264,17 @@ class WfpController extends Controller
                                                         ->where('bli_id',$req->bli_id)
                                                         ->get();
             $wfp_act = WfpActivity::where('id',$req->id)->first();
-            foreach ($other_act_pi_cost as $r){
-                $sum_used_budget_bli += $r["cost"];
+
+            if(count($other_act_pi_cost) != 0){
+                foreach ($other_act_pi_cost as $r){
+                    $sum_used_budget_bli += $r["cost"];
+                }
             }
+
+            if($wfp_act->activity_cost == null){
+                return 'save activity first';
+            }
+
             //if requested cost is  greater than the activity plan cost
             if(( $sum_used_budget_bli + $req->data["cost"])  > $wfp_act->activity_cost){
                 return 'exceeds act budget';
@@ -540,7 +548,9 @@ class WfpController extends Controller
             $data = [];
             $code = Crypt::decryptString($req->wfp_code);
             $data["pi"] = WfpPerformanceIndicator::join('ref_budget_line_item','ref_budget_line_item.id','tbl_wfp_activity_per_indicator.bli_id')
-                                            ->where('wfp_code',$code)->get()->toArray();
+                                            ->where('wfp_code',$code)
+                                            ->where('wfp_act_id',$req->wfp_act_id)
+                                            ->get()->toArray();
 
             return view('pages.transaction.wfp.table.wfp_act_view_pi_ppmp',['data'=>$data]);
         }else{
@@ -575,7 +585,6 @@ class WfpController extends Controller
         $a->save();
     }
 
-
     public function updateWfpRevise(Request $req){
         // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
         $a = new ZWfpLogs;
@@ -583,23 +592,6 @@ class WfpController extends Controller
         $a->status = 'WFP';
         $a->remarks = 'FOR REVISION';
         $a->save();
-    }
-
-    public function printUnitWFP(Request $req){
-        $code = Crypt::decryptString($req->wfp_code);
-        $data = [];
-
-        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->get();
-        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->get();
-        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->get();
-
-        // dd($data);
-
-        return PDF::loadView('components.global.reports.print_unit_wfp',['data' => $data])
-            ->setPaper('a4', 'landscape')
-            ->stream('WFPPRINT.pdf');
-        // $pdf = PDF::loadView('components.global.reports.print_unit_wfp', ['data' => $data] , [],$config);
-        // return $pdf->stream('document.pdf');
     }
 
     public function newWfpActivity(Request $req){
