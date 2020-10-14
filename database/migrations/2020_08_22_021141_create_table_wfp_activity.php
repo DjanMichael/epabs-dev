@@ -15,18 +15,18 @@ class CreateTableWfpActivity extends Migration
     {
         Schema::create('tbl_wfp_activity', function (Blueprint $table) {
             $table->id();
-            $table->integer('out_function')->isNullable(true);
+            $table->integer('out_function')->isNullable(false);
             //$table->foreign('out_function')->references('id')->on('tbl_activity_output_function');
-            $table->string('out_activity')->isNullable();
-            $table->integer('activity_source_of_fund')->isNullable();
+            $table->string('out_activity')->isNullable(false);
+            $table->integer('activity_source_of_fund')->isNullable(false);
             // $table->foreign('activity_source_of_fund')->reference('id')->on('ref_source_of_fund');
-            $table->string('responsible_person')->isNullable();
-            $table->string('activity_timeframe')->isNullable();
-            $table->string('target_q1')->isNullable();
-            $table->string('target_q2')->isNullable();
-            $table->string('target_q3')->isNullable();
-            $table->string('target_q4')->isNullable();
-            $table->decimal('activity_cost',20,2)->isNullable();
+            $table->string('responsible_person')->isNullable(false);
+            $table->string('activity_timeframe')->isNullable(false);
+            $table->string('target_q1')->isNullable(false);
+            $table->string('target_q2')->isNullable(false);
+            $table->string('target_q3')->isNullable(false);
+            $table->string('target_q4')->isNullable(false);
+            $table->decimal('activity_cost',20,2)->isNullable(false);
             // $table->integer('status');
             // $table->foreign('status')->reference('id')->on('tbl_program_activity_status');
             $table->integer('encoded_by');
