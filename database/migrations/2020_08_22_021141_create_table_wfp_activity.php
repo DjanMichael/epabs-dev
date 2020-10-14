@@ -15,7 +15,7 @@ class CreateTableWfpActivity extends Migration
     {
         Schema::create('tbl_wfp_activity', function (Blueprint $table) {
             $table->id();
-            $table->integer('out_function')->isNullable();
+            $table->integer('out_function')->isNullable(true);
             //$table->foreign('out_function')->references('id')->on('tbl_activity_output_function');
             $table->string('out_activity')->isNullable();
             $table->integer('activity_source_of_fund')->isNullable();
