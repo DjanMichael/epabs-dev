@@ -44,6 +44,7 @@
                 padding-bottom:2px;
                 color:#181b2b;
                 font-size: 10px;
+                font-weight: bold;
                 position: relative;
                 border:1px solid #181b2b;
         }
@@ -118,8 +119,8 @@
     <div style="width:100%;">
         <div style="position: absolute;top:50px;left:5;">DEPARTMENT OF HEALTH</div>
         <div style="position: absolute;top:60px;left:5;">CENTER FOR HEALTH DEVELOPMENT - CARAGA</div>
-        <div style="position: absolute;top:80px;left:5;">PROGRAM: TEST  LOCATION: TEST</div>
-        <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: 2019</div>
+        <div style="position: absolute;top:80px;left:5;">PROGRAM: TEST  LOCATION: {{ $data["wfp_unit"]->division .' / '. $data["wfp_unit"]->section }}</div>
+    <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: {{ $data["wfp_year"]->year }}</div>
     </div>
 
 
@@ -136,6 +137,7 @@
 
     <?php
         $instance_wfp_info = new App\Views\WfpActivityInfo;
+        $a = new App\Http\Controllers\PDFController;
     ?>
 
     <main>
@@ -169,7 +171,7 @@
                         {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
                         <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
                         <td class="t-d">{{ $row["out_activity"] }}</td>
-                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
@@ -190,7 +192,7 @@
                         {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
                         <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
                         <td class="t-d">{{ $row["out_activity"] }}</td>
-                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
@@ -211,7 +213,7 @@
                         {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
                         <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
                         <td class="t-d">{{ $row["out_activity"] }}</td>
-                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>

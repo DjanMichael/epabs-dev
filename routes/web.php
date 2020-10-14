@@ -49,7 +49,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/status/update/approve','Transaction\WfpController@updateWfpApprove')->name('wfp_status_approve');
     Route::get('/wfp/status/update/revise','Transaction\WfpController@updateWfpRevise')->name('wfp_status_revise');
     Route::get('/wfp/status/update/submit','Transaction\WfpController@updateWfpSubmit')->name('wfp_status_submit');
-    Route::get('/wfp/unit/print','Transaction\WfpController@printUnitWFP')->name('wfp_unit_print');
+    Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/new/activity/encode','Transaction\WfpController@newWfpActivity')->name('wfp_add_new_activity');
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');

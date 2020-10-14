@@ -53,7 +53,6 @@
                 z-index: 100000;
                 position: fixed;
                 top:0;
-                background-color:white;
                 margin:0;
                 height: 100%;
                 width:100%;
@@ -94,25 +93,27 @@
     {{-- <div class="bg_loader">
         <div class="loader"></div>
     </div> --}}
-    <div class="page_loader">
+
+    <div class="page_loader" style="background-image: url({{ asset("dist/assets/media/bg/bg-3.jpg") }});">
         <span>
             <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
             {{-- style="position: relative;top:40px;left:0px;" --}}
-            style="position: absolute;top:25%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
+            style="position: absolute;top:30%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
             alt="">
         </span>
         <h1
-            style="position: relative;top:140px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            style="position: relative;top:180px;font-size:3rem;line-height:29px;margin-bottom:0px;"
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
             ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
-            style="position: relative;top:140px;font-size:1rem;line-height:10px;"
+            style="position: relative;top:185px;font-size:1rem;line-height:10px;"
         >{{ env('APP_CLIENT_NAME') }}</h5>
         <h5
             style="font-size:1rem;position: relative;top:-23px;left:-20px;"
         > </h5>
+
     </div>
 
     <!--begin::Main-->

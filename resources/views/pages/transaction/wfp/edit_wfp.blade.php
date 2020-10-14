@@ -649,6 +649,8 @@
                         else if(data == 'exceeds act budget')
                         {
                             toastr.error("Activity Budget Exceeded", "Opss!");
+                        }else if (data == 'save activity first'){
+                            toastr.error("Save the activity first", "Opss!");
                         }
                         else{
                             toastr.error("Something went wrong", "Opss!");
