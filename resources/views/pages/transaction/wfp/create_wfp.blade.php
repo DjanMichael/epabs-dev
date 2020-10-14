@@ -240,6 +240,7 @@
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
+            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">Done</button>
         </div>
     </form>
     <!--end::Form-->

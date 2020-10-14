@@ -1,40 +1,36 @@
 @extends('layouts.app')
-@section('title','EDIT WFP')
+@section('title','NEW ACTIVITY WFP')
 @section('breadcrumb')
 <li class="breadcrumb-item">
     <a href="{{ route('r_wfp') }}" class="text-muted">WFP</a>
 </li>
 <li class="breadcrumb-item">
-<span  class="text-muted">Edit WFP {{ $wfp_code  }}</span>
+    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create WFP</a>
 </li>
 @endsection
 @section('content')
-{{-- {{ dd($data) }} --}}
-<div class="card card-custom gutter-b">
+
+<div class="card card-custom gutter-b" id="wfp_create_body">
     <div class="card-header">
-        <h3 class="card-title">Edit Work and Financial Plan</h3>
+        <h3 class="card-title">Create Work and Financial Plan</h3>
     </div>
+
+    {{-- {{ dd($data) }} --}}
     <!--begin::Form-->
     <form>
         <div class="card-body">
-            {{-- <div class="form-group mb-8">
-                <div class="alert alert-custom alert-default" role="alert">
-                    <div class="alert-icon">
-                        <span class="svg-icon svg-icon-primary svg-icon-xl">
-                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Tools/Compass.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24"></rect>
-                                    <path d="M7.07744993,12.3040451 C7.72444571,13.0716094 8.54044565,13.6920474 9.46808594,14.1079953 L5,23 L4.5,18 L7.07744993,12.3040451 Z M14.5865511,14.2597864 C15.5319561,13.9019016 16.375416,13.3366121 17.0614026,12.6194459 L19.5,18 L19,23 L14.5865511,14.2597864 Z M12,3.55271368e-14 C12.8284271,3.53749572e-14 13.5,0.671572875 13.5,1.5 L13.5,4 L10.5,4 L10.5,1.5 C10.5,0.671572875 11.1715729,3.56793164e-14 12,3.55271368e-14 Z" fill="#000000" opacity="0.3"></path>
-                                    <path d="M12,10 C13.1045695,10 14,9.1045695 14,8 C14,6.8954305 13.1045695,6 12,6 C10.8954305,6 10,6.8954305 10,8 C10,9.1045695 10.8954305,10 12,10 Z M12,13 C9.23857625,13 7,10.7614237 7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 C17,10.7614237 14.7614237,13 12,13 Z" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <!--end::Svg Icon-->
-                        </span>
-                    </div>
-                    <div class="alert-text">The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.</div>
+            <div id="wfp_alert" class="alert alert-custom alert-notice alert-light-danger" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                <div class="alert-text" >
+                    <ul id="wfp_alert_text">
+                    </ul>
                 </div>
-            </div> --}}
+                <div class="alert-close">
+                    <button type="button" class="close" id="btn_wfp_alert_close">
+                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                    </button>
+                </div>
+            </div>
            <div class="row">
                <div class="col-12 col-md-12">
                     <div class="form-group">
@@ -43,8 +39,8 @@
                         </label>
                         <div class="row">
                             <div class="col-9 col-md-11">
-                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->function_description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
-                            <input type="hidden" id="selected_output_function_id" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->out_function : '' }}" >
+                                <input type="text" id="selected_output_function" value="" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                                <input type="hidden" id="selected_output_function_id" value="" >
                             </div>
                             <div class="col-3 col-md-1 text-right">
                                 <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
@@ -57,7 +53,7 @@
                         <label for="exampleInputPassword1">Activities for Outputs
                             <span class="text-danger">*</span>
                         </label>
-                    <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->out_activity : '' }}"  maxlength="255">
+                        <input type="text" class="form-control" maxlength="255" placeholder="Activities for Outputs" id="txt_activities_output">
                     </div>
                     <div class="form-group row">
                         <div class="col-6">
@@ -67,34 +63,35 @@
                             <select class="form-control" id="source_of_fund">
                                 <option value=""></option>
                                 @foreach($data["sof"] as $row)
-                                    <option value="{{ $row["id"] }}" {{ $row["id"] == ($data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_source_of_fund :'') ? 'selected' : '' }}>{{ $row["sof_classification"] }}</option>
+                                    <option value="{{ $row["id"] }}">{{ $row["sof_classification"] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-6">
                             <label for="exampleInputPassword1">Activity Category
                                 <span class="text-danger">*</span>
-                           </label>   {{-- {{ dd($data["activity_category"]["id"]) }} --}}
+                           </label>
                             <select class="form-control" id="activity_category">
                                 <option value=""></option>
                                 @foreach($data["activity_category"] as $row)
-                                    <option value="{{ $row["id"] }}" {{ $row["id"] == ($data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_category_id : '') ? 'selected' : '' }}>{{ $row["category"] }}</option>
+                                    <option value="{{ $row["id"] }}">{{ $row["category"] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-6 mt-4">
                             <label for="exampleSelect1">Responsible Person
                             <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->responsible_person : '' }}">
+                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person">
                         </div>
                         <div class="form-group col-12 col-md-6 mt-4">
                             <label>Activity Cost<span class="text-danger">*</span></label>
                             <div class="input-group">
                             <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_cost : '' }}">
+                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9">
                             </div>
                         </div>
                     </div>
+
                     <div class="col-12 bg-secondary p-3">
                         <span>Target</span>
                     </div>
@@ -102,27 +99,26 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_1" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q1 != null ?  $data["wfp_act"][0]->target_q1 : '') : ''}}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_1">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_2" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q2 != null ? $data["wfp_act"][0]->target_q2 : '') : '' }}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_2" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_3" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q3 != null ? $data["wfp_act"][0]->target_q3 : '') : '' }}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_3" >
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_4" value="{{ $data["wfp_act"][0] !=null ? ($data["wfp_act"][0]->target_q4 != null ? $data["wfp_act"][0]->target_q4 : '') : ''}}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_4" >
                         </div>
                     </div>
                     <div class="col-12 bg-secondary p-3">Timeframe</div>
                     <div class="form-group row p-5">
-                        {{-- {{ dd($data["activity_timeframe"]) }} --}}
                         <label class="col-6 col-md-1 col-form-label">January</label>
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
@@ -136,7 +132,7 @@
                         <div class="col-6 col-md-2">
                             <span class="switch switch-primary">
                                 <label>
-                                    <input type="checkbox" name="select" id="t_feb" value="false}" disabled>
+                                    <input type="checkbox" name="select" id="t_feb" value="false" disabled>
                                     <span></span>
                                 </label>
                             </span>
@@ -234,17 +230,18 @@
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
                     <div class="col-12 mt-2 mb-2">
-                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new" >
+                        <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
                             <i class="flaticon2-add-1"></i> Add Performance Indicator
                         </button>
                     </div>
                     <div class="col-12 mt-2 mb-2" id="pi_table">
                     </div>
+               </div>
            </div>
 
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-warning mr-2" id="btn_update_wfp">Update</button>
+            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
             <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">Done</button>
         </div>
     </form>
@@ -380,7 +377,7 @@
                 </div>
                 <div class="form-group">
                     <label>No. of Batch/s</label>
-                    <input type="number" class="form-control" placeholder="No. of Batch/s" id="no_batchs" disabled="true">
+                    <input type="text" class="form-control" placeholder="No. of Batch/s" id="no_batchs" disabled="true">
                 </div>
             </div>
             <div class="modal-footer">
@@ -391,9 +388,10 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="wfp_act_id" value="{{ $wfp_act_id }}">
 <input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
-<input type="hidden" id="wfp_act_id" value="">
 @endsection
 
 @push('scripts')
@@ -402,29 +400,27 @@
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script>
         $(document).ready(function(){
+            // var this_url = window.location.href;
+            $("#btn_pi_add_new").attr('disabled',true);
+            // $("#wfp_code").val(this_url.split('wfp_code=')[1]);
+
             var this_url = window.location.href;
             var wfp = this_url.split('wfp_code=')[1];
-            var act_id = this_url.replace("&wfp_code=" + wfp ,"");
-            act_id = act_id.split("wfp_id=")[1];
+alert($("#wfp_act_id").val());
             $("#wfp_code").val(wfp);
-            $("#wfp_act_id").val(act_id);
-            $("#btn_pi_add_new").attr('disabled',false);
 
-            // alert($("#wfp_code").val());
             /************************************************
              *
              *              INITIALIZATION
              *
              *************************************************/
-
-
-
-
             getUserBudgetLineAllocation();
             getUacsCategory();
             populateOutputFunctionsAll();
             fetchPerformanceIndicator();
+
             $("#pi_alert").delay(0).hide(0);
+            $("#wfp_alert").delay(0).hide(0);
 
              let pi_data = {
                 budget_line_item_id :'',
@@ -454,6 +450,8 @@
                 'required.cost' : ':attribute is Required',
                 'required.batches' : ':attribute is Required'
             }
+
+
 
             let wfp_data = {
                 output_function: '',
@@ -491,12 +489,20 @@
                 'required.act_cost' : 'Activity Cost is Required'
             }
 
+
+
+
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
             // $("#search_output_function").on('click',function(){
             //     populateOutputFunctionsAll();
             // });
+
+
+            $("#btn_save_wfp").on('click',function(){
+               saveWFP(wfp_data,wfp_rules,wfp_options);
+            });
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
@@ -545,7 +551,7 @@
                         }else{
                             $("#no_batchs").attr('disabled',false);
                         }
-                        // console.log($("#c_catering").val());
+                        console.log($("#c_catering").val());
                     })
                     .then((err)=>{
                         return Promise.reject(err);
@@ -612,9 +618,10 @@
                 pi_rules.batches='required';
                 pi_data.batches = $("#no_batchs").val();
             }else{
-                delete pi_data.batches;
+                pi_data.catering_include ='false';
+                pi_data.batches = '';
             }
-
+            console.log(pi_data);
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
 
@@ -631,26 +638,30 @@
 
 
             if (pi_validation.passes()) {
+                console.log('passed');
                 var _url = "{{ route('db_pi_save') }}";
 
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val()},
+                    data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val() },
                     success:function(data){
                         if(data == 'success'){
-                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
-                                $("#wfp_performance_indicator").modal('hide');
-                                $("#btn_pi_add_new").attr('disabled',false);
-                                fetchPerformanceIndicator();
-                        }else if(data =='no budget'){
+                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            $("#wfp_performance_indicator").modal('hide');
+                            $("#btn_pi_add_new").attr('disabled',false);
+                            fetchPerformanceIndicator();
+                        }
+                        else if(data =='no budget')
+                        {
                             toastr.error("Not Enough Budget", "Opss!");
                         }
                         else if(data == 'exceeds act budget')
                         {
                             toastr.error("Activity Budget Exceeded", "Opss!");
                         }
-                        else{
+                        else
+                        {
                             toastr.error("Something went wrong", "Opss!");
                         }
                     }
@@ -671,12 +682,6 @@
                 $("#pi_alert").addClass('fade show');
                 $("#pi_alert_text").html(msg);
 
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('UACS Category')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
-                // msg += (pi_validation.errors.has('Budget Line Item')) ? 'Budget Item is Required</br>' : '';
                 $("#btn_save_pi").removeClass('spinner spinner-white spinner-right');
                 $("#btn_save_pi").html('Save');
                 $("#btn_save_pi").attr('disabled',false);
@@ -688,14 +693,14 @@
             });
 
             $("#btn_pi_add_new").on('click',function(e){
+                $("#btn_save_pi").removeClass('display-none');
+                $("#btn_update_pi").addClass('display-none');
                 $("#wfp_performance_indicator").modal({
                     show:true,
                     backdrop:'static',
                     focus: true,
                     keyboard:false
                 });
-                $("#btn_save_pi").removeClass('display-none');
-                $("#btn_update_pi").addClass('display-none');
             });
 
 
@@ -707,22 +712,8 @@
                 $("#pi_alert").delay(0).fadeOut(600);
             });
 
-
-
-            $("#btn_pi_action_edit").on('click',function(e){
-                e.preventDefault();
-            });
-
-            $("#btn_pi_action_delete").on('click',function(e){
-                e.preventDefault();
-            });
-
-            $("#btn_pi_action_details").on('click',function(e){
-                e.preventDefault();
-            });
-
-            $("#btn_update_wfp").on('click',function(e){
-                updateWFP(wfp_data,wfp_rules,wfp_options);
+            $("#btn_wfp_alert_close").on('click',function(){
+                $("#wfp_alert").delay(0).fadeOut(600);
             });
 
             $("#btn_update_pi").on('click',function(e){
@@ -752,7 +743,7 @@
                     pi_data.catering_include ='false';
                     pi_data.batches = '';
                 }
-
+                console.log(pi_data);
 
                 let pi_validation = new Validator(pi_data, pi_rules, options);
 
@@ -771,28 +762,17 @@
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val() },
+                        data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val()},
                         success:function(data){
-                            if(data == 'success'){
-                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            if(data =='success'){
+                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
                                 $("#wfp_performance_indicator").modal('hide');
-                                $("#btn_pi_add_new").attr('disabled',false);
                                 fetchPerformanceIndicator();
-                            }else if(data =='no budget'){
-                                toastr.error("Not Enough Budget", "Opss!");
-                            }else if(data =='exceeds budget'){
-                                toastr.error("Exceeds Activity Budget", "Opss!");
                             }else{
-                                toastr.error("Something went wrong", "Opss!");
+                                toastr.error("Something Went Wrong!", "Opss");
                             }
-
-                        },complete:function(){
-                            $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_update_pi").html('Update');
-                            $("#btn_update_pi").attr('disabled',false);
                         }
                     })
-
                 }else{
                     $.each(pi_validation.errors.all(),function(key,value){
                             // console.log('key:' + key , 'value:' + value);
@@ -811,6 +791,7 @@
 
             });
 
+
             // end for $(document).ready()
         });
 
@@ -819,119 +800,114 @@
                         REUSABLE FUNCTIONS
         *************************************************/
 
+        function saveWFP(wfp_data,wfp_rules,wfp_options){
+
+                var msg = "";
+
+                wfp_data.output_function =$("#selected_output_function_id").val();
+                wfp_data.activity_output =$("#txt_activities_output").val();
+                wfp_data.source_of_fund =$("#source_of_fund").val();
+                wfp_data.activity_categ =$("#activity_category").val();
+                wfp_data.responsible_person  =$("#txt_responsible_person").val();
+                wfp_data.act_cost = $("#wfp_act_cost").val();
+                var qtr1 = $("#qtr_1").val();
+                var qtr2 = $("#qtr_2").val();
+                var qtr3 = $("#qtr_3").val();
+                var qtr4 = $("#qtr_4").val();
+
+                if (qtr1 == '' && qtr2 == '' && qtr3 == '' && qtr4 == '' ){
+                    wfp_rules = {
+                        t_q1: 'required',
+                        t_q2: 'required',
+                        t_q3: 'required',
+                        t_q4: 'required'
+                    }
+                }else{
+                    delete wfp_rules.t_q1
+                    delete wfp_rules.t_q2
+                    delete wfp_rules.t_q3
+                    delete wfp_rules.t_q4
+                }
+
+                wfp_data.t_q1 =qtr1;
+                wfp_data.t_q2 =qtr2;
+                wfp_data.t_q3 =qtr3;
+                wfp_data.t_q4 =qtr4;
+
+                var hold_timeframe = switchValueConvert($("#t_jan").val()) + ',' +
+                                    switchValueConvert($("#t_feb").val()) + ',' +
+                                    switchValueConvert($("#t_mar").val()) + ',' +
+                                    switchValueConvert($("#t_apr").val()) + ',' +
+                                    switchValueConvert($("#t_may").val()) + ',' +
+                                    switchValueConvert($("#t_june").val()) + ',' +
+                                    switchValueConvert($("#t_july").val()) + ',' +
+                                    switchValueConvert($("#t_aug").val()) + ',' +
+                                    switchValueConvert($("#t_sept").val()) + ',' +
+                                    switchValueConvert($("#t_oct").val()) + ',' +
+                                    switchValueConvert($("#t_nov").val()) + ',' +
+                                    switchValueConvert($("#t_dec").val());
+
+                wfp_data.act_timeframe = hold_timeframe;
+
+                let wfp_validation = new Validator(wfp_data, wfp_rules, wfp_options);
+
+                $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
+                $("#btn_save_wfp").html('Processing ..');
+                $("#btn_save_wfp").attr('disabled',true);
+                $("#kt_body").scrollTop(0);
+
+                if(wfp_validation.passes()){
+
+                    var _data = { wfp_code : $("#wfp_code").val() };
+                    var _url = "{{ route('db_save_wfp_act') }}";
+
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data : { data : wfp_data , id: $("#wfp_act_id").val() },
+                        success:function(data){
+                            if (data.message == 'success'){
+                                $("#wfp_act_id").val(data.id);
+                                Swal.fire(
+                                    "Succfully Save WFP Activity",
+                                    "You may start adding Performance Indicator",
+                                    "success"
+                                )
+                                $("#btn_pi_add_new").attr('disabled',false);
+                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                                $("#btn_save_wfp").html('Save');
+                                $("#btn_save_wfp").attr('disabled',true);
+                            }
+                        },complete:function(){
+                            $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_save_wfp").html('Save');
+                            $("#btn_save_wfp").attr('disabled',true);
+                        }
+                    });
+
+                }else{
+                    $("#kt_scrolltop").click();
+                    $.each(wfp_validation.errors.all(),function(key,value){
+                    // console.log('key:' + key , 'value:' + value);
+                    msg += '<li>' + value + '</li>';
+                    });
+                    $("#wfp_alert").delay(400).fadeIn(600);
+                    $("#kt_body").animate({ scrollTop:0 },700);
+                    $("#wfp_alert").addClass('fade show');
+                    $("#wfp_alert_text").html(msg);
+
+                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                    $("#btn_save_wfp").html('Save');
+                    $("#btn_save_wfp").attr('disabled',false);
+                }
+
+
+        }
+
+
         function switchValueConvert(val)
         {
             return val =='true' ? 'Y':'N';
-        }
-
-        function updateWFP(wfp_data,wfp_rules,wfp_options){
-
-            var msg = "";
-
-            wfp_data.output_function =$("#selected_output_function_id").val();
-            wfp_data.activity_output =$("#txt_activities_output").val();
-            wfp_data.source_of_fund =$("#source_of_fund").val();
-            wfp_data.activity_categ =$("#activity_category").val();
-            wfp_data.responsible_person  =$("#txt_responsible_person").val();
-            wfp_data.act_cost = $("#wfp_act_cost").val();
-            var qtr1 = $("#qtr_1").val();
-            var qtr2 = $("#qtr_2").val();
-            var qtr3 = $("#qtr_3").val();
-            var qtr4 = $("#qtr_4").val();
-
-            if (qtr1 == '' && qtr2 == '' && qtr3 == '' && qtr4 == '' ){
-                wfp_rules = {
-                    t_q1: 'required',
-                    t_q2: 'required',
-                    t_q3: 'required',
-                    t_q4: 'required'
-                }
-            }else{
-                delete wfp_rules.t_q1
-                delete wfp_rules.t_q2
-                delete wfp_rules.t_q3
-                delete wfp_rules.t_q4
-            }
-
-            wfp_data.t_q1 =qtr1;
-            wfp_data.t_q2 =qtr2;
-            wfp_data.t_q3 =qtr3;
-            wfp_data.t_q4 =qtr4;
-
-            var hold_timeframe = switchValueConvert($("#t_jan").val()) + ',' +
-                                switchValueConvert($("#t_feb").val()) + ',' +
-                                switchValueConvert($("#t_mar").val()) + ',' +
-                                switchValueConvert($("#t_apr").val()) + ',' +
-                                switchValueConvert($("#t_may").val()) + ',' +
-                                switchValueConvert($("#t_june").val()) + ',' +
-                                switchValueConvert($("#t_july").val()) + ',' +
-                                switchValueConvert($("#t_aug").val()) + ',' +
-                                switchValueConvert($("#t_sept").val()) + ',' +
-                                switchValueConvert($("#t_oct").val()) + ',' +
-                                switchValueConvert($("#t_nov").val()) + ',' +
-                                switchValueConvert($("#t_dec").val());
-
-            wfp_data.act_timeframe = hold_timeframe;
-
-            let wfp_validation = new Validator(wfp_data, wfp_rules, wfp_options);
-
-            $("#btn_update_wfp").addClass('spinner spinner-white spinner-right');
-            $("#btn_update_wfp").html('Processing ..');
-            $("#btn_update_wfp").attr('disabled',true);
-
-
-            if(wfp_validation.passes()){
-                var _data = { wfp_code : $("#wfp_code").val() };
-                var _url = "{{ route('db_update_wfp_activity') }}";
-
-
-                $.ajax({
-                    method:"GET",
-                    url : _url,
-                    data : {wfp_act : wfp_data, wfp_act_id : $("#wfp_act_id").val()},
-                    success:function(data){
-                        if (data == 'success'){
-                            Swal.fire(
-                                "Good Job!",
-                                "Succfully Updated WFP Activity",
-                                "success"
-                            )
-                            $("#btn_pi_add_new").attr('disabled',false);
-                            $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_update_wfp").html('Update');
-                            $("#btn_update_wfp").attr('disabled',false);
-                        }
-                    }
-                });
-
-            }else{
-                // console.log('failed validation');
-                $.each(wfp_validation.errors.all(),function(key,value){
-                // console.log('key:' + key , 'value:' + value);
-                msg += '<li>' + value + '</li>';
-                });
-                $("#wfp_alert").delay(400).fadeIn(600);
-                $("#kt_body").animate({ scrollTop:0 },700);
-                $("#wfp_alert").addClass('fade show');
-                $("#wfp_alert_text").html(msg);
-
-                $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
-                $("#btn_update_wfp").html('Update');
-                $("#btn_update_wfp").attr('disabled',false);
-            }
-        }
-
-        function fetchPerformanceIndicator(){
-            var wfp = $("#wfp_code").val();
-            var _url = "{{ route('d_get_pi_by_wfp') }}";
-            $.ajax({
-                method:"GET",
-                url: _url,
-                data : {wfp_code: wfp , wfp_act_id: $("#wfp_act_id").val() },
-                success:function(data){
-                    document.getElementById('pi_table').innerHTML = data;
-                }
-            });
         }
 
         function populateOutputFunctionsAll(){
@@ -996,6 +972,30 @@
         }
 
 
+
+
+
+
+        // function populateOutputFunctionsAll(){
+        //     console.log('1');
+        //     var _url = "{{ route('d_get_output_functions') }}";
+        //     $.ajax({
+        //         method:"GET",
+        //         url: _url,
+        //         beforeSend:function(){
+        //             KTApp.block('#output_function_table', {
+        //                 overlayColor: '#000000',
+        //                 state: 'primary',
+        //                 message: 'Loading. . .'
+        //             });
+        //         },
+        //         success:function(data){
+        //             KTApp.unblock('#output_function_table');
+        //             document.getElementById('modal_content_output_functions').innerHTML= data;
+
+        //         }
+        //     });
+        // }
 
         function populateOutputFunctionsSearch(q){
             var _url = "{{ route('d_get_search_output_functions') }}";
@@ -1310,148 +1310,144 @@
             }
         }
 
-        $(document).ready(function(){
-
-            '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_jan").attr('disabled', false) : '' ;
-            '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["mar"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_mar").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["apr"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_apr").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["may"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_may").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["june"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_june").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["july"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_july").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["aug"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_aug").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["sept"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_sept").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["oct"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_oct").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["nov"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_nov").attr('disabled', false): '' ;
-            '{{ $data["activity_timeframe"]["dec"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_dec").attr('disabled', false): '' ;
-
-            '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ?  $("#t_jan").click() : '' ;
-            '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").click(): '' ;
-            '{{ $data["activity_timeframe"]["mar"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_mar").click(): '' ;
-            '{{ $data["activity_timeframe"]["apr"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_apr").click(): '' ;
-            '{{ $data["activity_timeframe"]["may"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_may").click(): '' ;
-            '{{ $data["activity_timeframe"]["june"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_june").click(): '' ;
-            '{{ $data["activity_timeframe"]["july"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_july").click(): '' ;
-            '{{ $data["activity_timeframe"]["aug"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_aug").click(): '' ;
-            '{{ $data["activity_timeframe"]["sept"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_sept").click(): '' ;
-            '{{ $data["activity_timeframe"]["oct"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_oct").click(): '' ;
-            '{{ $data["activity_timeframe"]["nov"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_nov").click(): '' ;
-            '{{ $data["activity_timeframe"]["dec"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_dec").click(): '' ;
-        });
-
-        function piActionDelete(_id){
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won\'t be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then(function(result) {
-                var del_url = "{{ route('db_del_pi_wfp') }}";
-                if (result.value) {
-                    $.ajax({
-                        method:"GET",
-                        url: del_url,
-                        data : {  id: _id},
-                        success:function(data){
-                            if(data.message == 'success'){
-                                Swal.fire(
-                                    "Deleted!",
-                                    "Performance Indicator has been deleted.",
-                                    "success"
-                                )
-                                fetchPerformanceIndicator();
-                            }else{
-                                Swal.fire(
-                                    "Opps!",
-                                    "Something went wrong.",
-                                    "error"
-                                )
-                            }
-
-                        }
-                    })
+        function fetchPerformanceIndicator(){
+            var wfp = $("#wfp_code").val();
+            var _url = "{{ route('d_get_pi_by_wfp') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data : {wfp_code: wfp, wfp_act_id : $("#wfp_act_id").val() },
+                success:function(data){
+                    document.getElementById('pi_table').innerHTML = data;
                 }
             });
         }
-        function piActionEdit(_id){
-            //set to false default
-            if($("#c_ppmp").val() == 'true'){
-                $("#c_ppmp").click();
-            }
-            //set to false default
-            if($("#c_catering").val() == 'true'){
-                $("#c_catering").click();
-            }
-            $("#wfp_performance_indicator").modal({
-                show:true,
-                backdrop:'static',
-                focus: true,
-                keyboard:false
+
+        $(document).ready(function(){
+            $("#output_function_pagination .pagination a").on('click',function(e){
+                e.preventDefault();
+                console.log($(this).attr('href'));
             });
-            $("#btn_save_pi").addClass('display-none');
-            $("#btn_update_pi").removeClass('display-none');
-            $("#pi_id").val(_id);
+        });
 
-            var _url = "{{ route('db_edit_pi_wfp') }}";
-            $.ajax({
-                method:"GET",
-                url:_url,
-                data:{id:_id},
-                success:function(data){
-                    if(data != null){
-                        $("#buget_line_item").val(data.bli_id);
-                        getBudgetAllocation(data.bli_id);
+        function piActionDelete(_id){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    var del_url = "{{ route('db_del_pi_wfp') }}";
+                    if (result.value) {
+                        $.ajax({
+                            method:"GET",
+                            url: del_url,
+                            data : {  id: _id},
+                            success:function(data){
+                                if(data.message == 'success'){
+                                    Swal.fire(
+                                        "Deleted!",
+                                        "Performance Indicator has been deleted.",
+                                        "success"
+                                    )
+                                    fetchPerformanceIndicator();
+                                }else{
+                                    Swal.fire(
+                                        "Opps!",
+                                        "Something went wrong.",
+                                        "error"
+                                    )
+                                }
 
-                        $("#uacs_category").val(data.category);
-                        Promise.resolve(4)
-                            .then(()=>{
-                                getUacsSubCategory(data.category);
-                            })
-                            .then(()=>{
-                                getUacsTitle(data.subcategory);
-                            })
-                            .then(() => {
-                                setTimeout(() => {
-                                    $("#uacs_subcategory").val(data.subcategory);
-                                    $("#uacs_subcategory").attr('disable',false);
-
-                                    $("#uacs_title").val(data.title);
-                                    $("#uacs_title").attr('disable',false);
-                                }, 1000);
-                            })
-                            .then((err)=>{
-                                return Promise.reject(err);
-                        });
-
-
-                        $("#peformance_indicator").val(data.performance_indicator);
-                        // $("#c_ppmp").val(data.is_ppmp != 'Y' ? "true" : "false");
-                        // $("#c_catering").val(data.is_catering != 'Y' ? "true" : "false");
-
-                        if(data.is_ppmp == 'Y'){
-                            $("#c_ppmp").click();
-                        }
-
-                        if(data.is_catering  == 'Y'){
-                            $("#c_catering").click();
-                            $("#no_batchs").attr('disable',false);
-                        }else{
-                            $("#no_batchs").attr('disable',true );
-                        }
-
-                        $("#pi_cost").val(data.cost);
-                        $("#no_batchs").val(data.batch);
-                        $("#uacs_code").val(data.uacs_id);
-
-                        $("#label_uacs_category").html(data.category);
-                        $("#label_uacs_subcategory").html(data.subcategory);
-                        $("#label_uacs_title").html(data.title);
-                        $("#label_uacs_code").html(data.uacs_id);
-
+                            }
+                        })
                     }
+                });
+            }
+
+            function piActionEdit(_id){
+
+                //set to false default
+                if($("#c_ppmp").val() == 'true'){
+                    $("#c_ppmp").click();
                 }
-            });
+                //set to false default
+                if($("#c_catering").val() == 'true'){
+                    $("#c_catering").click();
+                }
+
+
+                $("#wfp_performance_indicator").modal({
+                    show:true,
+                    backdrop:'static',
+                    focus: true,
+                    keyboard:false
+                });
+                $("#btn_save_pi").addClass('display-none');
+                $("#btn_update_pi").removeClass('display-none');
+                $("#pi_id").val(_id);
+
+                var _url = "{{ route('db_edit_pi_wfp') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{id:_id},
+                    success:function(data){
+                        if(data != null){
+                            console.log(data);
+                            $("#buget_line_item").val(data.bli_id);
+                            getBudgetAllocation(data.bli_id);
+
+                            $("#uacs_category").val(data.category);
+                            Promise.resolve(4)
+                                .then(()=>{
+                                    getUacsSubCategory(data.category);
+                                })
+                                .then(()=>{
+                                    getUacsTitle(data.subcategory);
+                                })
+                                .then(() => {
+                                    setTimeout(() => {
+                                        $("#uacs_subcategory").val(data.subcategory);
+                                        $("#uacs_subcategory").attr('disable',false);
+
+                                        $("#uacs_title").val(data.title);
+                                        $("#uacs_title").attr('disable',false);
+                                    }, 500);
+                                })
+                                .then((err)=>{
+                                    return Promise.reject(err);
+                            });
+
+
+                            $("#peformance_indicator").val(data.performance_indicator);
+                            // $("#c_ppmp").val(data.is_ppmp != 'Y' ? "true" : "false");
+                            // $("#c_catering").val(data.is_catering != 'Y' ? "true" : "false");
+
+                            if(data.is_ppmp == 'Y'){
+                                $("#c_ppmp").click();
+                            }
+
+                            if(data.is_catering  == 'Y'){
+                                $("#c_catering").click();
+                                $("#no_batchs").attr('disable',false);
+                            }else{
+                                $("#no_batchs").attr('disable',true );
+                            }
+
+                            $("#pi_cost").val(data.cost);
+                            $("#no_batchs").val(data.batch);
+                            $("#uacs_code").val(data.uacs_id);
+
+                            $("#label_uacs_category").html(data.category);
+                            $("#label_uacs_subcategory").html(data.subcategory);
+                            $("#label_uacs_title").html(data.title);
+                            $("#label_uacs_code").html(data.uacs_id);
+
+                        }
+                    }
+                });
             }
     </script>
 @endpush

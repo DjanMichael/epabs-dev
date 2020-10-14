@@ -3,8 +3,8 @@
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
 @if(count($activities) <> 0)
 <div class="row">
-    <div class="bg-dark text-light row p-15"
-    style="padding:10px;position:fixed;top:-10px;margin:0px;height:auto;width:100%;z-index:1040;
+    <div class="bg-dark text-light col-12 p-15"
+    style="padding:10px;position:fixed;top:-10px;margin:0 auto;height:auto;width:100%;z-index:1040;
      background-position: 0 calc(30% + 0.5rem); background-size: 100% auto; background-image: url({{ asset('dist/assets/media/svg/patterns/rhone.svg') }})">
         <div class="" style="width:91.5%">
             <div class="row">
@@ -30,6 +30,7 @@
                     <div class="col-12 col-md-4">
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>Print</button>
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block"><i class="flaticon-file icon-md"></i>Export PDF</button>
+                        <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="addNewActivity('{{ $wfp_code }}')"><i class="flaticon-time-3 icon-md"></i>New Acitivity</button>
                     </div>
                     <div class="col-12 col-md-4">
                     </div>
@@ -42,8 +43,10 @@
         </div>
     </div>
 
-
-        <div class="col-12 " style="margin-top:250px">
+        <div class="col-12 col-md-4" style="height:120px;"></div>
+        <div class="col-12 col-md-4" style="height:120px;"></div>
+        <div class="col-12 col-md-4 mb-md-40" style="height:120px;"></div>
+        <div class="col-12 " style="position: relative;>
                 <div class="offcanvas-content pr-5 mr-n5" id="wfp_drawer_title">
                     <div class="table-responsive-*">
                         <table class="table table-sm table-bordered table-hover" class="wfp_table">

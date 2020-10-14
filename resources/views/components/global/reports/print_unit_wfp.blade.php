@@ -133,6 +133,11 @@
     <div class="footer">
         FOOTER
     </div>
+
+    <?php
+        $instance_wfp_info = new App\Views\WfpActivityInfo;
+    ?>
+
     <main>
         <table style="width:100%">
             <tr>
@@ -158,13 +163,66 @@
             <tr>
                 <td class="t-h-d" colspan="10">A. STRATEGIC FUNCTION</td>
             </tr>
+            @forelse ($data["wfp_a"] as $row)
+                    <tr class="t-row">
+                        {{-- <td class="t-d txt-center">{{ $row["wfp_activity_id"] }}</td> --}}
+                        {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
+                        <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d">{{ $row["out_activity"] }}</td>
+                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
+                        <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
+                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
+                        <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
+                    </tr>
+            @empty
 
+            @endforelse
             <tr>
                 <td class="t-h-d" colspan="10">B. CORE FUNCTION</td>
             </tr>
+            @forelse ($data["wfp_b"] as $row)
+                    <tr class="t-row">
+                        {{-- <td class="t-d txt-center">{{ $row["wfp_activity_id"] }}</td> --}}
+                        {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
+                        <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d">{{ $row["out_activity"] }}</td>
+                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
+                        <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
+                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
+                        <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
+                    </tr>
+            @empty
+
+            @endforelse
             <tr>
                 <td class="t-h-d" colspan="10">C. SUPPORT FUNCTION</td>
             </tr>
+            @forelse ($data["wfp_c"] as $row)
+                    <tr class="t-row">
+                        {{-- <td class="t-d txt-center">{{ $row["wfp_activity_id"] }}</td> --}}
+                        {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
+                        <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d">{{ $row["out_activity"] }}</td>
+                        <td class="t-d">{{ $row["activity_timeframe"] }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
+                        <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
+                        <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
+                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
+                        <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
+                    </tr>
+            @empty
+
+            @endforelse
             {{-- <tr>
                 <th class="t-h-d">Act Code</th>
                 <th class="t-h-d">Function</th>
@@ -179,27 +237,8 @@
                 <th class="t-h-d">Responsible Person</th>
                 <th class="t-h-d">Encoded by</th>
             </tr> --}}
-            <?php
-                $instance_wfp_info = new App\Views\WfpActivityInfo;
-            ?>
-        @forelse ($data["wfp"] as $row)
-                {{-- <tr class="t-row">
-                    <td class="t-d txt-center">{{ $row["wfp_activity_id"] }}</td>
-                    <td class="t-d txt-center">{{ $row["function_class"] }}</td>
-                    <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
-                    <td class="t-d">{{ $row["out_activity"] }}</td>
-                    <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
-                    <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
-                    <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
-                    <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                    <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
-                    <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
-                    <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
-                    <td class="t-d txt-center">{{ $row["name"] }}</td>
-                </tr> --}}
-        @empty
 
-        @endforelse
+
         </table>
     </main>
 </body>
