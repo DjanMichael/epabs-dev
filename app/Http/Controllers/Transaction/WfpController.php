@@ -593,12 +593,80 @@ class WfpController extends Controller
         $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->get();
         $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->get();
 
-        dd($data);
+        // dd($data);
 
         return PDF::loadView('components.global.reports.print_unit_wfp',['data' => $data])
             ->setPaper('a4', 'landscape')
             ->stream('WFPPRINT.pdf');
         // $pdf = PDF::loadView('components.global.reports.print_unit_wfp', ['data' => $data] , [],$config);
         // return $pdf->stream('document.pdf');
+    }
+
+    public function newWfpActivity(Request $req){
+
+        $a = new WfpActivity;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->encoded_by = Auth::user()->id;
+        $a->save();
+
+
+        $data = [];
+        $code = Crypt::decryptString($req->wfp_code);
+        $categ = new RefActivityCategory;
+        $sof = new RefSourceOfFund;
+
+        $data["activity_category"] = $categ->getAll();
+        $data["sof"] = $sof->getAll();
+
+        $data["wfp"] = Wfp::where('code',$code)->first();
+
+        // dd($req->wfp_id);
+        if($req->wfp_id !='null'){
+            $check = WfpActivity::where('id',$a->id)->first();
+
+            if($check->out_function != null){
+                $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                ->where('tbl_wfp_activity.id','=',$a->id)->get();
+
+                $month_str = $data["wfp_act"][0]->activity_timeframe;
+                $data["activity_timeframe"] = [
+                    'jan' => $this->getConvertActivityTimeframeVal($month_str,1),
+                    'feb' => $this->getConvertActivityTimeframeVal($month_str,2),
+                    'mar' => $this->getConvertActivityTimeframeVal($month_str,3),
+                    'apr' => $this->getConvertActivityTimeframeVal($month_str,4),
+                    'may' => $this->getConvertActivityTimeframeVal($month_str,5),
+                    'june' => $this->getConvertActivityTimeframeVal($month_str,6),
+                    'july' => $this->getConvertActivityTimeframeVal($month_str,7),
+                    'aug' => $this->getConvertActivityTimeframeVal($month_str,8),
+                    'sept' => $this->getConvertActivityTimeframeVal($month_str,9),
+                    'oct' => $this->getConvertActivityTimeframeVal($month_str,10),
+                    'nov' => $this->getConvertActivityTimeframeVal($month_str,11),
+                    'dec' => $this->getConvertActivityTimeframeVal($month_str,12),
+                ];
+
+            }else{
+                $data["wfp_act"] = $check;
+                $data["activity_timeframe"] = [
+                    'jan' => 'N',
+                    'feb' => 'N',
+                    'mar' => 'N',
+                    'apr' => 'N',
+                    'may' => 'N',
+                    'june' => 'N',
+                    'july' => 'N',
+                    'aug' => 'N',
+                    'sept' => 'N',
+                    'oct' => 'N',
+                    'nov' => 'N',
+                    'dec' => 'N'
+                ];
+            }
+
+        }
+
+        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get();
+        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get()->toArray();
+
+        return view('pages.transaction.wfp.create_wfp_new_activity',['data' => $data,'wfp_act_id'=>$a->id]);
     }
 }

@@ -1782,6 +1782,18 @@
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
                 window.open(_url,'_blank');
             }
+
+            function addNewActivity(_wfp_code){
+                var _url ="{{ route('wfp_add_new_activity') }}";
+                KTApp.block('#kt_body', {
+                    overlayColor: '#000000',
+                    state: 'primary',
+                    message: 'Redirecting. . '
+                });
+                setTimeout(function(){
+                    window.location.href = _url + '?wfp_code=' + _wfp_code;
+                },1000)
+            }
         </script>
         </body>
     <!--end::Body-->
