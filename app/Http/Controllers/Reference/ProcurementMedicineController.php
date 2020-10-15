@@ -16,14 +16,14 @@ class ProcurementMedicineController extends Controller
 
     public function getProcurementMedicine(){
         $data = ProcurementMedicine::paginate(10);
-        return view('pages.reference.procurement.table.display_medicine',['procurement_medicine'=> $data]);
+        return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
     }
 
     public function getProcurementMedicineByPage(Request $request){
         if($request->ajax())
         {
             $data = ProcurementMedicine::paginate(10);
-            return view('pages.reference.procurement.table.display_medicine',['procurement_medicine'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         }
     }
 
@@ -38,22 +38,33 @@ class ProcurementMedicineController extends Controller
             }else{
                 $data = ProcurementMedicine::paginate(10);
             }
-            return view('pages.reference.procurement.table.display_medicine',['procurement_medicine'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         }
     }
 
     public function getProcurementMedicinePrice(Request $request){
         $data = RefPrice::where('procurement_item_id', $request->id)
                             ->where('procurement_type', 'MED')
-                            ->paginate(10);
-        return view('pages.reference.procurement.table.display_medicine_price',
-                        ['procurement_medicine_price'=> $data, 'procurement_item_id'=> $request->id]);
+                            ->orderBy('effective_date', 'DESC')
+                            ->paginate(5);
+        return view('pages.reference.procurement.table.display_price',
+                        ['procurement_item_price'=> $data, 'procurement_item_id'=> $request->id]);
+    }
+
+    public function getProcurementMedicinePriceByPage(Request $request){
+        if($request->ajax())
+        {
+            $data = RefPrice::where('procurement_item_id', $request->id)
+                            ->where('procurement_type', 'MED')
+                            ->paginate(5);
+            return view('pages.reference.procurement.table.display_price',['procurement_item_price'=> $data]);
+        }
     }
 
     public function getAddForm(){
         $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         $data['classification'] = RefClassification::where('status','ACTIVE')->get();
-        return view('pages.reference.procurement.form.add_procurement_medicine', ['data'=> $data]);
+        return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data]);
     }
 
     public function getChangePriceForm(){
@@ -106,33 +117,43 @@ class ProcurementMedicineController extends Controller
 
     public function storePrice(Request $request) {
 
-        // $check = TableProcurementMedicine::find($request->id)
-        //             ? TableProcurementMedicine::where('description', $request->description)->where('id', '<>', $request->id)->first()
-        //             : TableProcurementMedicine::where('description', $request->description)->first();
+        $check = RefPrice::find($request->id)
+                    ? RefPrice::where([
+                                    ['procurement_item_id', $request->procurement_item_id],
+                                    ['procurement_type', 'MED'],
+                                    ['effective_date', $request->effective_date],
+                                    ['id', '<>', $request->id]
+                                    ])->first()
+                    : RefPrice::where([
+                                    ['procurement_item_id', $request->procurement_item_id],
+                                    ['procurement_type', 'MED'],
+                                    ['effective_date', $request->effective_date]
+                                    ])->first();
 
-        // if ($check) {
-        //     return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
-        // } else { }
-        $check = RefPrice::find($request->id);
         if ($check) {
-            $check->update(['price' => (float)$request->price, 'effective_date' => $request->effective_date]);
-            return response()->json(['message'=>'Successfully updated data','type'=>'update']);
-        }
-        else if (empty($check)) {
-            $price = [
-                'procurement_item_id' => $request->procurement_item_id,
-                'procurement_type' => "MED",
-                'price' => $request->price,
-                'effective_date' => $request->effective_date
-            ];
-
-            RefPrice::create($price);
-            return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
         }
         else {
-            return response()->json(['message'=>'Something went wrong']);
-        }
+            $check = RefPrice::find($request->id);
+            if ($check) {
+                $check->update(['price' => (float)$request->price, 'effective_date' => $request->effective_date]);
+                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+            }
+            else if (empty($check)) {
+                $price = [
+                    'procurement_item_id' => $request->procurement_item_id,
+                    'procurement_type' => "MED",
+                    'price' => $request->price,
+                    'effective_date' => $request->effective_date
+                ];
 
+                RefPrice::create($price);
+                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+            }
+            else {
+                return response()->json(['message'=>'Something went wrong']);
+            }
+        }
 
     }
 

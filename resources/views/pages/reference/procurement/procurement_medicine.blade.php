@@ -19,7 +19,7 @@
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
-    {{-- <script src="{{ asset('dist/assets/js/pages/crud/ktdatatable/base/html-table.js?v=7.1.1') }}"></script> --}}
+
     <script>
         $(document).ready(function() {
 
@@ -31,8 +31,7 @@
             populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
-            $("#alert").delay(0).hide(0);
-            $("#alert_inner").delay(0).hide(0);
+            $("#alert, #alert_inner").delay(0).hide(0);
 
             let data = {
                 description :'',
@@ -49,6 +48,9 @@
                 price: 'required',
                 effective_date: 'required'
             };
+
+            let price_data = { price: '', effective_date: '' }
+            let price_rules = { price: 'required', effective_date: 'required' }
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn2 = KTUtil.getById("kt_btn_2");
@@ -69,24 +71,15 @@
                 }
             });
 
+            // Search event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
+                KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
                 populateTableBySearch("{{ route('d_get_procurement_medicine_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
-            $(document).on('click', 'a[data-role=price]', function(){
-                var id = $(this).data('id');
-                $.ajax({
-                    url: "{{ route('d_get_procurement_medicine_price') }}",
-                    data : { "id" : id },
-                    method: 'GET'
-                }).done(function(data) {
-                    document.getElementById('second_modal_content').innerHTML= data;
-                    $('#secondary_modal_reference').modal('toggle');
-                });
-            });
-
-            // Edit medicine event
+            // Display add or edit medicine form event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var description = $('#'+id).children('td[data-target=description]').text();
@@ -102,7 +95,7 @@
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
                     if (id) {
-                        $('#procurement_medicine_id').val(id);
+                        $('#procurement_id').val(id);
                         $('#item_description').val(description);
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
@@ -119,12 +112,14 @@
                 });
             });
 
-            $("#btn_alert_close").on('click',function(){
-                $("#alert").delay(0).fadeOut(600);
+            // Close alert event
+            $("#btn_alert_close, #btn_alert_inner_close").on('click',function(){
+                $("#alert, #alert_inner").delay(0).fadeOut(600);
             });
 
+            // Insert or update medicine event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#procurement_medicine_id").val();
+                var id = $("#procurement_id").val();
                 var status = $("#chk_status").val();
                 var fix_price = $("#chk_fix_price").val();
                 data.description = $("#item_description").val();
@@ -201,9 +196,17 @@
 
         /*
         |--------------------------------------------------------------------------
-        | PRICE
+        | PRICE EVENTS
         |--------------------------------------------------------------------------
         */
+
+            // Show price table event
+            $(document).on('click', 'a[data-role=price]', function(){
+                var id = $(this).data('id');
+                populateTableWithCondition("{{ route('d_get_procurement_medicine_price') }}", id,
+                                    'inner_table_populate', 'inner_table_content', 'inner_table_pagination');
+                $('#secondary_modal_reference').modal('toggle');
+            });
 
             // Show price form event (Add or Update)
             $(document).on('click', '#btn_add_price, a[data-role=edit-price]', function(){
@@ -215,60 +218,78 @@
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('inner_modal_content').innerHTML= data;
-                    $('#procurement_medicine_price_id').val(id);
+                    $('#procurement_item_price_id').val(id);
                     $('#change_item_price').val(price);
                     $('#change_effective_date').val(effective_date);
                     $('#inner_modal_reference').modal('toggle');
                 });
             });
 
+            // Insert or update price event
             $("#kt_btn_2").on('click', function(e){
-                var id = $("#procurement_medicine_price_id").val();
-                var item_id = $("#procurement_medicine_id").val();
-                var price = $("#change_item_price").val();
-                var effective_date = $("#change_effective_date").val();
+                var id = $("#procurement_item_price_id").val();
+                var item_id = $("#procurement_item_id").val();
+                price_data.price = $("#change_item_price").val();
+                price_data.effective_date = $("#change_effective_date").val();
 
-                e.preventDefault();
-                $("#alert_inner").delay(300).fadeOut(600);
-                $.ajax({
-                    url: "{{ route('a_procurement_medicine_price') }}",
-                    method: 'POST',
-                    data: {
-                        "id": id,
-                        "procurement_item_id": item_id,
-                        "price": price,
-                        "effective_date": effective_date
-                    },
-                    beforeSend:function(){
-                        KTUtil.btnWait(btn2, "spinner spinner-right spinner-white pr-15", "Processing...");
-                    },
-                    success: function(result) {
-                        setTimeout(function() {
-                            KTUtil.btnRelease(btn2);
-                        }, 1000);
-                        if (result['type'] == 'insert') {
-                            $('#inner_modal_reference').modal('toggle');
-                            // populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}");
-                            toastr.success(result['message']);
-                        }
-                        else if (result['type'] == 'update') {
-                            $('#inner_modal_reference').modal('toggle');
-                            $('#'+id).children('td[data-target=price]').html(price);
-                            $('#'+id).children('td[data-target=effective_date]').html(effective_date);
-                            toastr.success(result['message']);
-                        }
-                        else {
+                let validation = new Validator(price_data, price_rules);
+                if (validation.passes()) {
+                    e.preventDefault();
+                    $("#alert_inner").delay(300).fadeOut(600);
+                    $.ajax({
+                        url: "{{ route('a_procurement_medicine_price') }}",
+                        method: 'POST',
+                        data: {
+                            "id": id,
+                            "procurement_item_id": item_id,
+                            "price": price_data.price,
+                            "effective_date": price_data.effective_date
+                        },
+                        beforeSend:function(){
+                            KTUtil.btnWait(btn2, "spinner spinner-right spinner-white pr-15", "Processing...");
+                        },
+                        success: function(result) {
+                            setTimeout(function() {
+                                KTUtil.btnRelease(btn2);
+                            }, 1000);
+                            if (result['type'] == 'insert') {
+                                $('#inner_modal_reference').modal('toggle');
+                                populateTableWithCondition("{{ route('d_get_procurement_medicine_price') }}", item_id,
+                                        'inner_table_populate', 'inner_table_content', 'inner_table_pagination');
+                                toastr.success(result['message']);
+                            }
+                            else if (result['type'] == 'update') {
+                                $('#inner_modal_reference').modal('toggle');
+                                $('#'+id).children('td[data-target=price]').html(price_data.price);
+                                $('#'+id).children('td[data-target=effective_date]').html(price_data.effective_date);
+                                toastr.success(result['message']);
+                            }
+                            else {
+                                Swal.fire("System Message", result['message'], "error");
+                            }
+                            populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}",
+                                'table_populate', 'table_content', 'table_pagination');
+                        },
+                        error: function(result) {
+                            setTimeout(function() {
+                                KTUtil.btnRelease(btn2);
+                            }, 1000);
                             Swal.fire("System Message", result['message'], "error");
                         }
-                    },
-                    error: function(result) {
-                        setTimeout(function() {
-                            KTUtil.btnRelease(btn2);
-                        }, 1000);
-                        Swal.fire("System Message", result['message'], "error");
-                    }
-                });
+                    });
+                }
+                else {
 
+                    var msg = "";
+                    $.each(validation.errors.all(),function(key,value){
+                        msg += '<li>' + value + '</li>';
+                    });
+                    $("#alert_inner").delay(400).fadeIn(600);
+                    $("#inner_modal_reference").animate({ scrollTop:0 },700);
+                    $("#alert_inner").addClass('fade show');
+                    $("#alert_text_inner").html(msg);
+
+                }
 
             });
 
@@ -277,9 +298,6 @@
         | FUNCTIONS
         |--------------------------------------------------------------------------
         */
-
-
-
 
         });
 

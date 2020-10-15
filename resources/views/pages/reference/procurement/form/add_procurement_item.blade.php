@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="form-group">
             <label>Description<span class="text-danger">*</span></label>
-            <input type="hidden" class="form-control" id="procurement_supplies_id"/>
+            <input type="hidden" class="form-control" id="procurement_id"/>
             <input type="text" class="form-control" id="item_description" placeholder="Enter item description"/>
         </div>
 

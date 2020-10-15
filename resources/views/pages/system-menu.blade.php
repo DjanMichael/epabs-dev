@@ -431,7 +431,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                    <button onclick="window.location.href='{{ route('r_office_unit') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                    <button onclick="window.location.href='{{ route('r_uacs') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                         <!--begin::Symbol-->
                         <div class="symbol symbol-40 symbol-light-primary mr-5">
                             <span class="symbol-label">
@@ -450,14 +450,14 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_procurement_medicine') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Unified Accounts Code Structure</a>
+                            <a href="{{ route('r_uacs') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Unified Accounts Code Structure</a>
                             <span class="text-muted">Manage your UACS</span>
                         </div>
                         <!--end::Text-->
                    </button>
                 </div>
             </div>
-            {{-- <div class="col-12 col-md-4">
+            <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                     <button onclick="window.location.href='{{ route('r_office_unit') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                         <!--begin::Symbol-->
@@ -467,9 +467,10 @@
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
                                     <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-08-03-114926/theme/html/demo12/dist/../src/media/svg/icons/Shopping/Price1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <polygon points="0 0 24 0 24 24 0 24"/>
-                                            <path d="M3.52270623,14.028695 C2.82576459,13.3275941 2.82576459,12.19529 3.52270623,11.4941891 L11.6127629,3.54050571 C11.9489429,3.20999263 12.401513,3.0247814 12.8729533,3.0247814 L19.3274172,3.0247814 C20.3201611,3.0247814 21.124939,3.82955935 21.124939,4.82230326 L21.124939,11.2583059 C21.124939,11.7406659 20.9310733,12.2027862 20.5869271,12.5407722 L12.5103155,20.4728108 C12.1731575,20.8103442 11.7156477,21 11.2385688,21 C10.7614899,21 10.3039801,20.8103442 9.9668221,20.4728108 L3.52270623,14.028695 Z M16.9307214,9.01652093 C17.9234653,9.01652093 18.7282432,8.21174298 18.7282432,7.21899907 C18.7282432,6.22625516 17.9234653,5.42147721 16.9307214,5.42147721 C15.9379775,5.42147721 15.1331995,6.22625516 15.1331995,7.21899907 C15.1331995,8.21174298 15.9379775,9.01652093 16.9307214,9.01652093 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                                        </g>
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <path d="M5.5,2 L18.5,2 C19.3284271,2 20,2.67157288 20,3.5 L20,6.5 C20,7.32842712 19.3284271,8 18.5,8 L5.5,8 C4.67157288,8 4,7.32842712 4,6.5 L4,3.5 C4,2.67157288 4.67157288,2 5.5,2 Z M11,4 C10.4477153,4 10,4.44771525 10,5 C10,5.55228475 10.4477153,6 11,6 L13,6 C13.5522847,6 14,5.55228475 14,5 C14,4.44771525 13.5522847,4 13,4 L11,4 Z" fill="#000000" opacity="0.3"/>
+                                            <path d="M5.5,9 L18.5,9 C19.3284271,9 20,9.67157288 20,10.5 L20,13.5 C20,14.3284271 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,14.3284271 4,13.5 L4,10.5 C4,9.67157288 4.67157288,9 5.5,9 Z M11,11 C10.4477153,11 10,11.4477153 10,12 C10,12.5522847 10.4477153,13 11,13 L13,13 C13.5522847,13 14,12.5522847 14,12 C14,11.4477153 13.5522847,11 13,11 L11,11 Z M5.5,16 L18.5,16 C19.3284271,16 20,16.6715729 20,17.5 L20,20.5 C20,21.3284271 19.3284271,22 18.5,22 L5.5,22 C4.67157288,22 4,21.3284271 4,20.5 L4,17.5 C4,16.6715729 4.67157288,16 5.5,16 Z M11,18 C10.4477153,18 10,18.4477153 10,19 C10,19.5522847 10.4477153,20 11,20 L13,20 C13.5522847,20 14,19.5522847 14,19 C14,18.4477153 13.5522847,18 13,18 L11,18 Z" fill="#000000"/>
+                                           </g>
                                     </svg><!--end::Svg Icon--></span>
                                 </span>
                             </span>
@@ -477,13 +478,13 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_procurement_medicine') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Pricing Standard</a>
-                            <span class="text-muted">Build your standard price</span>
+                            <a href="{{ route('r_procurement_medicine') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Program Units</a>
+                            <span class="text-muted">Build your programs</span>
                         </div>
                         <!--end::Text-->
                    </button>
                 </div>
-            </div> --}}
+            </div>
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                     <button onclick="window.location.href='{{ route('r_budget_line_item') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
@@ -537,8 +538,8 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_procurement_medicine') }}" class="text-dark text-hover-primary mb-1 font-size-lg">WFP Indicator customization</a>
-                            <span class="text-muted">Build your WFP Indicators</span>
+                            <a href="{{ route('r_procurement_medicine') }}" class="text-dark text-hover-primary mb-1 font-size-lg">WFP Output and Deliverables</a>
+                            <span class="text-muted">Build your WFP Output Function</span>
                         </div>
                         <!--end::Text-->
                    </button>
