@@ -14,18 +14,16 @@
     <thead class="bg-dark text-light">
         <tr>
             <th scope="col" class="text-center">#</th>
-            {{-- <th scope="col" class="text-center" style="display: none;">Item ID</th> --}}
             <th scope="col" class="text-center">Price</th>
             <th scope="col" class="text-center">Effective Date</th>
             <th scope="col" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
-        <input type="text" id="procurement_medicine_id" value="{{ $procurement_item_id }}">
-        @forelse ($procurement_medicine_price as $row)
+        <input type="hidden" id="procurement_item_id" value="{{ $procurement_item_id }}">
+        @forelse ($procurement_item_price as $row)
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
-                {{-- <td style="display: none;" data-target="item-id">{{ $row["procurement_item_id"] }}</td> --}}
                 <td data-target="price">{{ number_format($row["price"], 2) }}</td>
                 <td data-target="effective_date">{{ $row["effective_date"] }}</td>
                 <td>
@@ -43,6 +41,6 @@
 </table>
 <hr>
 
-<div id="table_pagination">
-    {{ $procurement_medicine_price->links('components.global.pagination') }}
+<div id="inner_table_pagination">
+    {{ $procurement_item_price->links('components.global.pagination') }}
 </div>

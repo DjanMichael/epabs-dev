@@ -12,7 +12,7 @@ class ref_units extends Seeder
      */
     public function run()
     {
-        RefUnits::create(["id"=>"1", "division"=>"Administrator", "section"=>"Administrator", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"1", "division"=>"Admin", "section"=>"Admin", "status"=>"ACTIVE"]);
         RefUnits::create(["id"=>"2", "division"=>"RD/ARD", "section"=>"RD", "status"=>"ACTIVE"]);
         RefUnits::create(["id"=>"3", "division"=>"RD/ARD", "section"=>"ARD", "status"=>"ACTIVE"]);
         RefUnits::create(["id"=>"4", "division"=>"RD/ARD", "section"=>"PLANNING", "status"=>"ACTIVE"]);

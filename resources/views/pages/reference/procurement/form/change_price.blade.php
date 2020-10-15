@@ -5,7 +5,7 @@
                 <label>Price<span class="text-danger">*</span></label>
                 <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text" >₱</span></div>
-                    <input type="text" class="form-control" id="procurement_medicine_price_id"/>
+                    <input type="hidden" class="form-control" id="procurement_item_price_id"/>
                     <input type="text" class="form-control number" id="change_item_price" placeholder="99.9" required/>
                 </div>
             </div>

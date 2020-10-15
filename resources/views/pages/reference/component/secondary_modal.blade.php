@@ -22,6 +22,9 @@
                 </div> --}}
 
                 <div id="second_modal_content"></div>
+                <div class="table-responsive" id="inner_table_populate">
+                    <div id="inner_table_content"></div>
+                </div>
             </div>
         </div>
     </div>

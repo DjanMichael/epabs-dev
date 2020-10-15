@@ -14,22 +14,20 @@ class ProcurementSuppliesController extends Controller
 {
     public function index(){ return view('pages.reference.procurement.procurement_supplies'); }
 
-    public function getProcurementSupplies()
-    {
+    public function getProcurementSupplies() {
         $data = ProcurementSupplies::paginate(10);
-        return view('pages.reference.procurement.table.display_supplies',['procurement_supplies'=> $data]);
+        return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
     }
 
     public function getProcurementSuppliesByPage(Request $request){
         if($request->ajax())
         {
             $data = ProcurementSupplies::paginate(10);
-            return view('pages.reference.procurement.table.display_supplies',['procurement_supplies'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         }
     }
 
-    public function getProcurementSuppliesSearch(Request $request)
-    {
+    public function getProcurementSuppliesSearch(Request $request) {
         if($request->ajax())
         {
             $query = $request->q;
@@ -40,27 +38,36 @@ class ProcurementSuppliesController extends Controller
             }else{
                 $data = ProcurementSupplies::paginate(10);
             }
-            return view('pages.reference.procurement.table.display_supplies',['procurement_supplies'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
+        }
+    }
+
+    public function getProcurementSuppliesPrice(Request $request){
+        $data = RefPrice::where('procurement_item_id', $request->id)
+                            ->where('procurement_type', 'SUP')
+                            ->orderBy('effective_date', 'DESC')
+                            ->paginate(5);
+        return view('pages.reference.procurement.table.display_price',
+                        ['procurement_item_price'=> $data, 'procurement_item_id'=> $request->id]);
+    }
+
+    public function getProcurementSuppliesPriceByPage(Request $request){
+        if($request->ajax())
+        {
+            $data = RefPrice::where('procurement_item_id', $request->id)
+                            ->where('procurement_type', 'SUP')
+                            ->paginate(5);
+            return view('pages.reference.procurement.table.display_price',['procurement_item_price'=> $data]);
         }
     }
 
     public function getAddForm(){
         $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         $data['classification'] = RefClassification::where('status','ACTIVE')->get();
-        return view('pages.reference.procurement.form.add_procurement_supplies', ['data'=> $data]);
-    }
-
-    public function getProcurementSuppliesPrice(Request $request)
-    {
-        $data = RefPrice::where('procurement_item_id', $request->id)
-                            ->where('procurement_type', 'SUP')
-                            ->paginate(10);
-        return view('pages.reference.procurement.table.display_supplies_price',['procurement_supplies_price'=> $data]);
+        return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data]);
     }
 
     public function getChangePriceForm(){
-        // $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
-        // $data['classification'] = RefClassification::where('status','ACTIVE')->get();
         return view('pages.reference.procurement.form.change_price');
     }
 
@@ -93,6 +100,48 @@ class ProcurementSuppliesController extends Controller
 
                 $price = [
                     'procurement_item_id' => $latest_record,
+                    'procurement_type' => "SUP",
+                    'price' => $request->price,
+                    'effective_date' => $request->effective_date
+                ];
+
+                RefPrice::create($price);
+                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+            }
+            else {
+                return response()->json(['message'=>'Something went wrong']);
+            }
+        }
+
+    }
+
+    public function storePrice(Request $request) {
+
+        $check = RefPrice::find($request->id)
+                    ? RefPrice::where([
+                                    ['procurement_item_id', $request->procurement_item_id],
+                                    ['procurement_type', 'SUP'],
+                                    ['effective_date', $request->effective_date],
+                                    ['id', '<>', $request->id]
+                                    ])->first()
+                    : RefPrice::where([
+                                    ['procurement_item_id', $request->procurement_item_id],
+                                    ['procurement_type', 'SUP'],
+                                    ['effective_date', $request->effective_date]
+                                    ])->first();
+
+        if ($check) {
+            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+        }
+        else {
+            $check = RefPrice::find($request->id);
+            if ($check) {
+                $check->update(['price' => (float)$request->price, 'effective_date' => $request->effective_date]);
+                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+            }
+            else if (empty($check)) {
+                $price = [
+                    'procurement_item_id' => $request->procurement_item_id,
                     'procurement_type' => "SUP",
                     'price' => $request->price,
                     'effective_date' => $request->effective_date

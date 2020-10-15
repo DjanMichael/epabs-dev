@@ -130,10 +130,6 @@
                             <div id="table_content"></div>
                         </div>
 
-                        <div class="table-responsive" id="inner_table_populate">
-                            <div id="inner_table_content"></div>
-                        </div>
-
                     </div>
                     <!--end::Body-->
                 </div>

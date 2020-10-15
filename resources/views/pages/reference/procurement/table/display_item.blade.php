@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($procurement_supplies as $row)
+        @forelse ($procurement_item as $row)
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
                 <td data-target="description">{{ $row["description"] }}</td>
@@ -27,7 +27,7 @@
                 </td>
                 <td data-target="status">
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }}  font-weight-bold">{{ $row["status"] }}</span>
-               </td>
+            </td>
                 <td>
                     <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
                         <i class="flaticon-edit-1"></i>
@@ -44,5 +44,5 @@
 <hr>
 
 <div id="table_pagination">
-    {{ $procurement_supplies->links('components.global.pagination') }}
+    {{ $procurement_item->links('components.global.pagination') }}
 </div>

@@ -19,6 +19,7 @@ class CreateRefProgram extends Migration
             $table->integer('user_id');
             $table->integer('unit_id');
             $table->integer('budget_line_item_id');
+            $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
     }

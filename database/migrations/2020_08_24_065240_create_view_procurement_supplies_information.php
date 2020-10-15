@@ -24,17 +24,22 @@ class CreateViewProcurementSuppliesInformation extends Migration
                     riu.unit_of_measure,
                     tps.classification_id,
                     rc.classification,
-                    rp.price as price,
-                    rp.effective_date as effective_date,
+                    rp2.procurement_type,
+                    rp.price,
+                    rp.effective_date,
                     tps.fix_price,
                     tps.`status`
                 FROM
-                    `tbl_procurement_supplies` tps
+                    ( SELECT MAX( effective_date ) AS effective_date, procurement_item_id, procurement_type FROM ref_price WHERE procurement_type = "SUP" GROUP BY procurement_item_id ) rp2
+                    JOIN ref_price rp USING ( procurement_item_id )
+                    JOIN tbl_procurement_supplies tps ON tps.id = rp.procurement_item_id
                     JOIN ref_item_unit riu ON riu.id = tps.unit_id
                     JOIN ref_classification rc ON rc.id = tps.classification_id
-                    JOIN ref_price rp ON rp.procurement_item_id = tps.id
-                GROUP BY tps.id
-                ORDER BY rp.effective_date DESC
+                    AND rp.procurement_type = "SUP"
+                WHERE
+                    rp.effective_date = rp2.effective_date
+                GROUP BY
+                    rp.procurement_item_id
             )
         ');
     }

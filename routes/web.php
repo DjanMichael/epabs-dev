@@ -103,9 +103,10 @@ Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSu
 Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
 Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesSearch')->name('d_get_procurement_supplies_search');
 Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
-Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
 Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
 Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
+Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
+Route::post('/system/reference/add-procurement-supplies-price','Reference\ProcurementSuppliesController@storePrice')->name('a_procurement_supplies_price');
 
 // Procurement Medicine Routes
 Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
@@ -117,6 +118,14 @@ Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementM
 Route::get('/system/reference/procurement-medicine-price/all','Reference\ProcurementMedicineController@getProcurementMedicinePrice')->name('d_get_procurement_medicine_price');
 Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
 Route::post('/system/reference/add-procurement-medicine-price','Reference\ProcurementMedicineController@storePrice')->name('a_procurement_medicine_price');
+
+// Unified Accounts Code Structure Routes
+Route::get('/system/reference/unified-accounts-code-structure','Reference\UacsController@index')->name('r_uacs');
+Route::get('/system/reference/unified-accounts-code-structure/all','Reference\UacsController@getUacs')->name('d_uacs');
+Route::get('/system/reference/unified-accounts-code-structure/pagination','Reference\UacsController@getUacsByPage')->name('d_get_uacs_by_page');
+Route::get('/system/reference/unified-accounts-code-structure/search','Reference\UacsController@getUacsSearch')->name('d_get_uacs_search');
+Route::get('/system/reference/unified-accounts-code-structure/add-form','Reference\UacsController@getAddForm')->name('d_add_uacs');
+Route::post('/system/reference/add-unified-accounts-code-structure','Reference\UacsController@store')->name('a_uacs');
 
 // Budget Line Item Routes
 Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
