@@ -128,6 +128,14 @@ Route::get('/system/reference/unified-accounts-code-structure/search','Reference
 Route::get('/system/reference/unified-accounts-code-structure/add-form','Reference\UacsController@getAddForm')->name('d_add_uacs');
 Route::post('/system/reference/add-unified-accounts-code-structure','Reference\UacsController@store')->name('a_uacs');
 
+// Program  Routes
+Route::get('/system/reference/program','Reference\ProgramController@index')->name('r_program');
+Route::get('/system/reference/program/all','Reference\ProgramController@getProgram')->name('d_program');
+Route::get('/system/reference/program/pagination','Reference\ProgramController@getProgramByPage')->name('d_get_program_by_page');
+Route::get('/system/reference/program/search','Reference\ProgramController@getProgramSearch')->name('d_get_program_search');
+Route::get('/system/reference/program/add-form','Reference\ProgramController@getAddForm')->name('d_add_program');
+Route::post('/system/reference/add-program','Reference\ProgramController@store')->name('a_program');
+
 // Budget Line Item Routes
 Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
 Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
