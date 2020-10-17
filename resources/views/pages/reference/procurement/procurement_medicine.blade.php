@@ -83,7 +83,9 @@
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var description = $('#'+id).children('td[data-target=description]').text();
+                alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
+                alert(unit_name);
                 var classification = $('#'+id).children('td[data-target=classification]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
                 var effective_date = $('#'+id).children('td[data-target=effective_date]').text();
