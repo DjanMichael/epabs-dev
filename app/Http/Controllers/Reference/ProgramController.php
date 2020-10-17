@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers\Reference;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\RefProgram;
+use App\TableUnitProgram;
+use App\Views\UnitProgram;
+use Auth;
+
+class ProgramController extends Controller
+{
+    //
+    public function index(){ return view('pages.reference.program.program'); }
+
+    public function getProgram()
+    {
+        $data = UnitProgram::paginate(10);
+        return view('pages.reference.program.table.display_program',['program'=> $data]);
+    }
+
+    public function getProgramByPage(Request $request){
+        if($request->ajax())
+        {
+            $data = UnitProgram::paginate(10);
+            return view('pages.reference.program.table.display_program',['program'=> $data]);
+        }
+    }
+
+    public function getProgramSearch(Request $request)
+    {
+        if($request->ajax())
+        {
+            $query = $request->q;
+            if($query != ''){
+                $data = UnitProgram::where('program_name' ,'LIKE', '%'. $query .'%')->paginate(10);
+            }else{
+                $data = UnitProgram::paginate(10);
+            }
+            return view('pages.reference.program.table.display_program',['program'=> $data]);
+        }
+    }
+
+    public function getAddForm(){
+        return view('pages.reference.program.form.add_program');
+    }
+
+    public function store(Request $request) {
+
+        $check = RefProgram::find($request->id)
+                        ? RefProgram::where('program_name', $request->program_name)->where('id', '<>', $request->id)->first()
+                        : RefProgram::where('program_name', $request->program_name)->first();
+
+        if ($check) {
+            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+        } else {
+            $check = RefProgram::find($request->id);
+            if ($check) {
+                $check->update(['program_name' => $request->program_name, 'status' => $request->status]);
+                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+            }
+            else if (empty($check)) {
+                $program = [
+                    'program_name' => $request->program_name,
+                    'status' => $request->status
+                ];
+
+                $latest_record = RefProgram::create($program)->id;
+
+                $unit_program = [
+                    'program_id' => $latest_record,
+                    'unit_id' => Auth::user()->getUnitId(),
+                    'user_id' => Auth::user()->id
+                ];
+
+                TableUnitProgram::create($unit_program);
+                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+            }
+            else {
+                return response()->json(['message'=>'Something went wrong']);
+            }
+        }
+
+    }
+}

@@ -39,6 +39,7 @@ class CreateViewWfpInformation extends Migration
                         `rfd`.`id` = `twa`.`out_function`
                 ) AS `function_class`,
                 lpad(`twa`.`id`, 5, 0) AS `wfp_activity_id`,
+                `twa`.`id` AS `twa_id`,
                 `twa`.`out_activity` AS `out_activity`,
                 `twa`.`out_function` AS `out_function`,
                 (
@@ -77,9 +78,7 @@ class CreateViewWfpInformation extends Migration
                                     `twa`.`wfp_code` = `tw`.`code`
                                 )
                             )
-                            JOIN `tbl_wfp_activity_per_indicator` `twapi` ON (
-                                `twapi`.`wfp_code` = `tw`.`code`
-                            )
+
                         )
                         JOIN `ref_units` `ru` ON (`ru`.`id` = `tw`.`unit_id`)
                     )
@@ -88,10 +87,8 @@ class CreateViewWfpInformation extends Migration
                     )
                 )
             GROUP BY
-                `tw`.`unit_id`,
-                `tw`.`year_id`
-            )
-       ');
+                `twa`.`id`
+       )');
     }
 
     /**

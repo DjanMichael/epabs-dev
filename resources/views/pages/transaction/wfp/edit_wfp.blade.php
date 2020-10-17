@@ -11,8 +11,8 @@
 @section('content')
 {{-- {{ dd($data) }} --}}
 <div class="card card-custom gutter-b">
-    <div class="card-header">
-        <h3 class="card-title">Edit Work and Financial Plan</h3>
+    <div class="card-header  bg-dark">
+        <h3 class="card-title text-light">Edit Work and Financial Plan</h3>
     </div>
     <!--begin::Form-->
     <form>
@@ -43,8 +43,8 @@
                         </label>
                         <div class="row">
                             <div class="col-9 col-md-11">
-                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0]->function_description }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
-                            <input type="hidden" id="selected_output_function_id" value="{{ $data["wfp_act"][0]->out_function }}" >
+                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->function_description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                            <input type="hidden" id="selected_output_function_id" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->out_function : '' }}" >
                             </div>
                             <div class="col-3 col-md-1 text-right">
                                 <a href="" id="search_output_function" data-toggle="modal" data-target="#modal_functions_delivery_search" class="btn btn-md btn-outline-primary">
@@ -57,7 +57,7 @@
                         <label for="exampleInputPassword1">Activities for Outputs
                             <span class="text-danger">*</span>
                         </label>
-                    <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output" value="{{ $data["wfp_act"][0]->out_activity }}"  maxlength="255">
+                    <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->out_activity : '' }}"  maxlength="255">
                     </div>
                     <div class="form-group row">
                         <div class="col-6">
@@ -67,7 +67,7 @@
                             <select class="form-control" id="source_of_fund">
                                 <option value=""></option>
                                 @foreach($data["sof"] as $row)
-                                    <option value="{{ $row["id"] }}" {{ $row["id"] == $data["wfp_act"][0]->activity_source_of_fund ? 'selected' : '' }}>{{ $row["sof_classification"] }}</option>
+                                    <option value="{{ $row["id"] }}" {{ $row["id"] == ($data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_source_of_fund :'') ? 'selected' : '' }}>{{ $row["sof_classification"] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -78,20 +78,20 @@
                             <select class="form-control" id="activity_category">
                                 <option value=""></option>
                                 @foreach($data["activity_category"] as $row)
-                                    <option value="{{ $row["id"] }}" {{ $row["id"] == $data["wfp_act"][0]->activity_category_id ? 'selected' : '' }}>{{ $row["category"] }}</option>
+                                    <option value="{{ $row["id"] }}" {{ $row["id"] == ($data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_category_id : '') ? 'selected' : '' }}>{{ $row["category"] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-6 mt-4">
                             <label for="exampleSelect1">Responsible Person
                             <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person" value="{{ $data["wfp_act"][0]->responsible_person }}">
+                            <input type="text" class="form-control" placeholder="Responsible Person" id="txt_responsible_person" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->responsible_person : '' }}">
                         </div>
                         <div class="form-group col-12 col-md-6 mt-4">
                             <label>Activity Cost<span class="text-danger">*</span></label>
                             <div class="input-group">
                             <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9" value="{{ $data["wfp_act"][0]->activity_cost }}">
+                                <input type="number" class="form-control" id="wfp_act_cost" placeholder="99.9" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->activity_cost : '' }}">
                             </div>
                         </div>
                     </div>
@@ -102,22 +102,22 @@
                         <div class="col-12 col-md-3">
                             <label>1st Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_1" value="{{ $data["wfp_act"][0]->target_q1 != null ?  $data["wfp_act"][0]->target_q1 : ''}}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_1" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q1 != null ?  $data["wfp_act"][0]->target_q1 : '') : ''}}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>2nd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_2" value="{{ $data["wfp_act"][0]->target_q2 != null ? $data["wfp_act"][0]->target_q2 : '' }}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_2" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q2 != null ? $data["wfp_act"][0]->target_q2 : '') : '' }}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>3rd Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_3" value="{{ $data["wfp_act"][0]->target_q3 != null ? $data["wfp_act"][0]->target_q3 : '' }}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_3" value="{{ $data["wfp_act"][0] != null ? ($data["wfp_act"][0]->target_q3 != null ? $data["wfp_act"][0]->target_q3 : '') : '' }}">
                         </div>
                         <div class="col-12 col-md-3">
                             <label>4th Quarter
                             </label>
-                            <input type="text" class="form-control" placeholder="" id="qtr_4" value="{{ $data["wfp_act"][0]->target_q4 != null ? $data["wfp_act"][0]->target_q4 : '' }}">
+                            <input type="text" class="form-control" placeholder="" id="qtr_4" value="{{ $data["wfp_act"][0] !=null ? ($data["wfp_act"][0]->target_q4 != null ? $data["wfp_act"][0]->target_q4 : '') : ''}}">
                         </div>
                     </div>
                     <div class="col-12 bg-secondary p-3">Timeframe</div>
@@ -243,8 +243,17 @@
            </div>
 
         </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-warning mr-2" id="btn_update_wfp">Update</button>
+        <div class="card-footer bg-dark">
+            <button type="button" class="btn btn-transparent-warning mr-2" id="btn_update_wfp">
+                <i class="flaticon2-refresh icon-md"></i>Update
+            </button>
+            <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
+                <i class="flaticon-time-3 icon-md"></i>Add New Activity
+            </button>
+            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'"
+                    class="btn btn-transparent-success font-weight-bold">
+                <i class="flaticon2-check-mark icon-md"></i>Done
+            </button>
         </div>
     </form>
     <!--end::Form-->
@@ -390,9 +399,9 @@
         </div>
     </div>
 </div>
-
 <input type="hidden" id="pi_id" value="">
 <input type="hidden" id="wfp_code" value="">
+<input type="hidden" id="wfp_act_id" value="">
 @endsection
 
 @push('scripts')
@@ -402,7 +411,12 @@
     <script>
         $(document).ready(function(){
             var this_url = window.location.href;
-            $("#wfp_code").val(this_url.split('wfp_code=')[1]);
+            var wfp = this_url.split('wfp_code=')[1];
+            var act_id = this_url.replace("&wfp_code=" + wfp ,"");
+            act_id = act_id.split("wfp_id=")[1];
+            $("#wfp_code").val(wfp);
+            $("#wfp_act_id").val(act_id);
+            $("#btn_pi_add_new").attr('disabled',false);
 
             // alert($("#wfp_code").val());
             /************************************************
@@ -451,6 +465,7 @@
 
             let wfp_data = {
                 output_function: '',
+                output_function_id: '',
                 activity_output: '',
                 source_of_fund: '',
                 activity_categ: '',
@@ -491,6 +506,16 @@
             // $("#search_output_function").on('click',function(){
             //     populateOutputFunctionsAll();
             // });
+            $("#btn_add_new_act").on('click',function(){
+                var code = $("#wfp_code").val();
+                var _url ="{{ route('wfp_add_new_activity') }}";
+                $(this).attr('disabled',true);
+                $(this).addClass('spinner spinner-white spinner-right');
+                $(this).html('Redirecting . . ');
+                setTimeout(function(){
+                    window.location.href = _url + '?wfp_code=' + code;
+                },1000)
+            });
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
@@ -625,20 +650,28 @@
 
 
             if (pi_validation.passes()) {
-                // console.log('passed');
                 var _url = "{{ route('db_pi_save') }}";
 
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data: pi_data,
+                    data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val()},
                     success:function(data){
                         if(data == 'success'){
-                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
-                            $("#wfp_performance_indicator").modal('hide');
-                            fetchPerformanceIndicator();
-
-                        }else{
+                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                                $("#wfp_performance_indicator").modal('hide');
+                                $("#btn_pi_add_new").attr('disabled',false);
+                                fetchPerformanceIndicator();
+                        }else if(data =='no budget'){
+                            toastr.error("Not Enough Budget", "Opss!");
+                        }
+                        else if(data == 'exceeds act budget')
+                        {
+                            toastr.error("Activity Budget Exceeded", "Opss!");
+                        }else if (data == 'save activity first'){
+                            toastr.error("Save the activity first", "Opss!");
+                        }
+                        else{
                             toastr.error("Something went wrong", "Opss!");
                         }
                     }
@@ -682,6 +715,8 @@
                     focus: true,
                     keyboard:false
                 });
+                $("#btn_save_pi").removeClass('display-none');
+                $("#btn_update_pi").addClass('display-none');
             });
 
 
@@ -757,17 +792,28 @@
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data: {id : pi_id, pi : pi_data},
+                        data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val() },
                         success:function(data){
-                            if(data =='success'){
-                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
+                            if(data == 'success'){
+                                toastr.success("Performance Indicator Sucessfully Save", "Good Job");
                                 $("#wfp_performance_indicator").modal('hide');
+                                $("#btn_pi_add_new").attr('disabled',false);
                                 fetchPerformanceIndicator();
+                            }else if(data =='no budget'){
+                                toastr.error("Not Enough Budget", "Opss!");
+                            }else if(data =='exceeds budget'){
+                                toastr.error("Exceeds Activity Budget", "Opss!");
                             }else{
-                                toastr.error("Something Went Wrong!", "Opss");
+                                toastr.error("Something went wrong", "Opss!");
                             }
+
+                        },complete:function(){
+                            $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_update_pi").html('Update');
+                            $("#btn_update_pi").attr('disabled',false);
                         }
                     })
+
                 }else{
                     $.each(pi_validation.errors.all(),function(key,value){
                             // console.log('key:' + key , 'value:' + value);
@@ -794,6 +840,14 @@
                         REUSABLE FUNCTIONS
         *************************************************/
 
+
+        function select_output_functions(id,output_desc){
+
+            $("#selected_output_function").val(output_desc);
+            $("#selected_output_function_id").val(id);
+            $("#modal_functions_delivery_search").modal('toggle');
+        }
+
         function switchValueConvert(val)
         {
             return val =='true' ? 'Y':'N';
@@ -802,8 +856,6 @@
         function updateWFP(wfp_data,wfp_rules,wfp_options){
 
             var msg = "";
-            // console.log(arguments)
-
 
             wfp_data.output_function =$("#selected_output_function_id").val();
             wfp_data.activity_output =$("#txt_activities_output").val();
@@ -858,25 +910,33 @@
 
 
             if(wfp_validation.passes()){
-                // console.log(wfp_data);
                 var _data = { wfp_code : $("#wfp_code").val() };
                 var _url = "{{ route('db_update_wfp_activity') }}";
-                var _wfp_act_id  ="{{ $data['wfp']->id }}";
+
+
                 $.ajax({
                     method:"GET",
                     url : _url,
-                    data : {wfp_act : wfp_data, wfp_act_id : _wfp_act_id},
+                    data : {wfp_act : wfp_data, wfp_act_id : $("#wfp_act_id").val()},
                     success:function(data){
-                        if (data == 'success'){
+                        if(data =='not enough budget'){
+                            Swal.fire(
+                                "Opss!",
+                                "Not Enough Budget",
+                                "error"
+                            )
+                        }
+                        else if (data == 'success'){
                             Swal.fire(
                                 "Good Job!",
-                                "Succfully Updated WFP Activity",
+                                "Successfully Updated WFP Activity",
                                 "success"
                             )
-                            $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_update_wfp").html('Update');
-                            $("#btn_update_wfp").attr('disabled',true);
                         }
+                        $("#btn_pi_add_new").attr('disabled',false);
+                        $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_update_wfp").html('<i class="flaticon2-refresh icon-md"/>Update');
+                        $("#btn_update_wfp").attr('disabled',false);
                     }
                 });
 
@@ -903,7 +963,7 @@
             $.ajax({
                 method:"GET",
                 url: _url,
-                data : {wfp_code: wfp},
+                data : {wfp_code: wfp , wfp_act_id: $("#wfp_act_id").val() },
                 success:function(data){
                     document.getElementById('pi_table').innerHTML = data;
                 }
@@ -1262,27 +1322,6 @@
 
         }
 
-        // function getBudgetAllocation(bli_id1){
-        //     var _url = "{{ route('d_get_calculate_budget_alloc') }}";
-        //     var unit_id1 = "{{ Auth::user()->getUnitId() }}";
-        //     var a = localStorage.getItem('GLOBAL_SETTINGS');
-        //     a = a ? JSON.parse(a) : {};
-        //     var year_id1 = a["year"];
-        //     if(a["year"] != null){
-        //         $.ajax({
-        //             method:"GET",
-        //             url:_url,
-        //             data: ({ unit_id : unit_id1 , year_id : year_id1, bli_id : bli_id1}),
-        //             success:function(data){
-        //                 // console.log(data.length);
-        //                 if(data.length != 0){
-        //                     document.getElementById('total_allocation').innerHTML =data[0].program_budget;
-        //                 }
-        //             }
-        //         });
-        //     }
-
-        // }
         function getBudgetAllocation(bli_id1){
             var _url = "{{ route('d_get_calculate_budget_alloc') }}";
             // var unit_id1 = "";
@@ -1308,18 +1347,7 @@
         }
 
         $(document).ready(function(){
-            // $("#t_jan").attr('disabled', false);
-            // $("#t_feb").attr('disabled', false);
-            // $("#t_mar").attr('disabled', false);
-            // $("#t_apr").attr('disabled', false);
-            // $("#t_may").attr('disabled', false);
-            // $("#t_june").attr('disabled', false);
-            // $("#t_july").attr('disabled', false);
-            // $("#t_aug").attr('disabled', false);
-            // $("#t_sept").attr('disabled', false);
-            // $("#t_oct").attr('disabled', false);
-            // $("#t_nov").attr('disabled', false);
-            // $("#t_dec").attr('disabled', false);
+
             '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_jan").attr('disabled', false) : '' ;
             '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["mar"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_mar").attr('disabled', false): '' ;
@@ -1332,7 +1360,6 @@
             '{{ $data["activity_timeframe"]["oct"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_oct").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["nov"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_nov").attr('disabled', false): '' ;
             '{{ $data["activity_timeframe"]["dec"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_dec").attr('disabled', false): '' ;
-
 
             '{{ $data["activity_timeframe"]["jan"] == 'Y' ? 'true' : 'false' }}' == 'true' ?  $("#t_jan").click() : '' ;
             '{{ $data["activity_timeframe"]["feb"] == 'Y' ? 'true' : 'false' }}' == 'true' ? $("#t_feb").click(): '' ;
@@ -1427,7 +1454,7 @@
 
                                     $("#uacs_title").val(data.title);
                                     $("#uacs_title").attr('disable',false);
-                                }, 500);
+                                }, 1000);
                             })
                             .then((err)=>{
                                 return Promise.reject(err);

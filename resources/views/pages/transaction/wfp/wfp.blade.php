@@ -99,7 +99,7 @@
                             state: 'primary',
                             message: 'Redirecting. . .'
                         });
-                        window.location.href = redirectTo + '?wfp_code=' + data.wfp_code;
+                        window.location.href = redirectTo + '?wfp_act_id=' + data.wfp_act_id + '&wfp_code=' + data.wfp_code;
                     }else if(data.message =='duplicate'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({

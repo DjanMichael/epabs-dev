@@ -15,6 +15,7 @@ class CreateTableTblWfpActivityPerIndicator extends Migration
     {
         Schema::create('tbl_wfp_activity_per_indicator', function (Blueprint $table) {
             $table->id();
+            $table->string('wfp_act_id',20)->nullable();
             $table->string('uacs_id',20)->nullable();
             $table->integer('bli_id')->nullable();
             $table->string('performance_indicator')->nullable();

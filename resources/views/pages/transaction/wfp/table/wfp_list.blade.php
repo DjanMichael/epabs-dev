@@ -7,10 +7,20 @@
             @forelse ($data["wfp_list"] as $row)
             <div class="col-xl-4 col-md-6">
                 <!--begin::Card-->
-                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-5" style="height:250px;cursor:pointer;" onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')" style="cursor:pointer;" id="wfp_card">
-                    {{-- <div class="ribbon-target" style="top: 12px;">
-                        <span class="ribbon-inner bg-warning"></span>Status
-                       </div> --}}
+                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-5" style="height:250px;cursor:pointer;"
+                    onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')"
+                    style="cursor:pointer;"
+                    id="wfp_card">
+                    <div class="ribbon-target" style="top: 12px;">
+                        <span class="ribbon-inner bg-warning"></span>
+                        <?php
+
+                        $stat = App\ZWfpLogs::where('wfp_code',$row['wfp_code'])->orderBy('created_at','DESC')->first();
+
+                        echo $stat->remarks;
+                        ?>
+
+                       </div>
                     <!--begin::Body-->
                     <div class="card-body">
                         <!--begin::Section-->
@@ -40,7 +50,7 @@
                                 <span class="font-weight-bolder mb-1 mt-5">Utilized</span>
                                 <span class="font-weight-bolder font-size-h6 pt-1">
                                     <span class="font-weight-bold text-dark-50">₱</span>
-                                    {{ $row["utilized"] != null ? number_format($row["utilized"],2) : '0.00' }}
+                                    {{ $row["yearly_utilized"] != null ? number_format($row["yearly_utilized"],2) : '0.00' }}
                                 </span>
                             </div>
                             <!--end::Item-->
@@ -49,7 +59,7 @@
                                 <span class="font-weight-bolder mb-1 mt-5">Balance</span>
                                 <span class="font-weight-bolder font-size-h6 pt-1">
                                     <span class="font-weight-bold text-dark-50">₱</span>
-                                    {{ number_format($row["balance"],2) }}
+                                    {{ number_format($row["yearly_budget"] - $row["yearly_utilized"],2) }}
                                 </span>
                             </div>
                             <!--end::Item-->

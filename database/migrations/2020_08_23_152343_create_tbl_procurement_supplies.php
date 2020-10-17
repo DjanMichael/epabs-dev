@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefUacsTable extends Migration
+class CreateTblProcurementSupplies extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateRefUacsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ref_uacs', function (Blueprint $table) {
+        Schema::create('tbl_procurement_supplies', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('subcategory');
-            $table->string('title');
-            $table->string('code');
+            $table->string('description');
+            $table->integer('unit_id');
+            $table->integer('classification_id');
+            $table->enum('fix_price',['Y','N']);
             $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateRefUacsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ref_uacs');
+        Schema::dropIfExists('tbl_procurement_supplies');
     }
 }

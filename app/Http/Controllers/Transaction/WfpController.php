@@ -21,7 +21,7 @@ use App\Views\BudgetAllocationUtilization;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Auth;
-
+use PDF;
 
 use App\Views\BudgetAllocationAllYearPerProgram;
 
@@ -188,11 +188,12 @@ class WfpController extends Controller
     public function getWfpByCode(Request $req)
     {
         if($req->ajax()){
+
             $a = WfpActivityInfo::where('code',$req->wfp_code)->get();
             $year_id = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
             $year_id = $year_id->select_year;
             $year = RefYear::where('id',$year_id)->first();
-
+            // dd($a);
             return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null) ]);
         }
     }
@@ -247,7 +248,7 @@ class WfpController extends Controller
             DB::commit();
             //generate code decrypted
             $wfp_code = Crypt::encryptString($wfp->code);
-            return  $stat ? ['wfp_code'=> $wfp_code ,'message' =>'success'] : ['wfp_code'=> Crypt::encryptString($wfp->code) ,'message' =>'not saved'];
+            return  $stat ? ['wfp_code'=> $wfp_code ,'message' =>'success','wfp_act_id'=>  $wfp_act->id] : ['wfp_code'=> Crypt::encryptString($wfp->code) ,'message' =>'not saved'];
         } catch (\Exception $e) {
             DB::rollBack();
             return $e->getMessage();
@@ -258,16 +259,38 @@ class WfpController extends Controller
     public function savePerformaceIndicator(Request $req){
 
         if($req->ajax()){
-            // ::where('wfp_code',Crypt::decryptString($req->wfp_code))->first();
+            $sum_used_budget_bli  =0;
+            $other_act_pi_cost = WfpPerformanceIndicator::where('wfp_act_id',$req->id)
+                                                        ->where('bli_id',$req->bli_id)
+                                                        ->get();
+            $wfp_act = WfpActivity::where('id',$req->id)->first();
+
+            if(count($other_act_pi_cost) != 0){
+                foreach ($other_act_pi_cost as $r){
+                    $sum_used_budget_bli += $r["cost"];
+                }
+            }
+
+            if($wfp_act->activity_cost == null){
+                return 'save activity first';
+            }
+            // dd($wfp_act->activity_cost);
+            // dd(( $sum_used_budget_bli + $req->data["cost"]));
+            //if requested cost is  greater than the activity plan cost
+            if(( $sum_used_budget_bli + $req->data["cost"])  > ($wfp_act->activity_cost - 0 )){
+                return 'exceeds act budget';
+            }
+
             $wfp_indicator = new WfpPerformanceIndicator;
-            $wfp_indicator->wfp_code = Crypt::decryptString($req->wfp_code);
-            $wfp_indicator->uacs_id = $req->uacs_title_id;
-            $wfp_indicator->bli_id = $req->budget_line_item_id;
-            $wfp_indicator->performance_indicator = $req->performance_indicator;
-            $wfp_indicator->cost = $req->cost;
-            $wfp_indicator->is_ppmp = $req->ppmp_include == 'true' ? 'Y' : 'N';
-            $wfp_indicator->is_catering = $req->catering_include == 'true' ? 'Y' : 'N';
-            $wfp_indicator->batch = $req->has('batches') ? $req->batches : '';
+            $wfp_indicator->wfp_act_id = $req->id;
+            $wfp_indicator->wfp_code = Crypt::decryptString($req->data["wfp_code"]);
+            $wfp_indicator->uacs_id = $req->data["uacs_title_id"];
+            $wfp_indicator->bli_id = $req->data["budget_line_item_id"];
+            $wfp_indicator->performance_indicator = $req->data["performance_indicator"];
+            $wfp_indicator->cost = $req->data["cost"];
+            $wfp_indicator->is_ppmp = $req->data["ppmp_include"] == 'true' ? 'Y' : 'N';
+            $wfp_indicator->is_catering = $req->data["catering_include"] == 'true' ? 'Y' : 'N';
+            $wfp_indicator->batch = $req->has('batches') ? $req->data["batches"] : '';
             return $wfp_indicator->save() ? 'success' : 'failed';
         }
     }
@@ -275,7 +298,6 @@ class WfpController extends Controller
     public function getAllUnitsWfpList(Request $req){
         $data = [];
         $user_id  = $this->auth_user_id;
-        // $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
 
         if($year_id){
@@ -283,20 +305,19 @@ class WfpController extends Controller
             if($req->q != null){
                 $qry = $req->q;
                 $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
-                ->where('wfp_code','!=',null)
-                ->where(fn($q) =>
-                    $q->where('name','LIKE', '%' . $qry .'%')
-                      ->orWhere('division','LIKE','%' . $qry .'%')
-                      ->orWhere('section','LIKE','%' . $qry .'%'))
-                ->groupBy(['unit_id','year_id','user_id'])
-                ->paginate($this->wfp_list_paginate);
+                                    ->where('wfp_code','!=',null)
+                                    ->where(fn($q) =>
+                                        $q->where('name','LIKE', '%' . $qry .'%')
+                                        ->orWhere('division','LIKE','%' . $qry .'%')
+                                        ->orWhere('section','LIKE','%' . $qry .'%'))
+                                    ->groupBy(['unit_id','year_id','user_id'])
+                                    ->paginate($this->wfp_list_paginate);
             }else{
                 $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
-                ->where('wfp_code','!=',null)
-                ->groupBy(['unit_id','year_id','user_id'])
-                ->paginate($this->wfp_list_paginate);
+                                    ->where('wfp_code','!=',null)
+                                    ->groupBy(['unit_id','year_id','user_id'])
+                                    ->paginate($this->wfp_list_paginate);
             }
-
             if(count($data["wfp_list"]) <> 0){
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> $data]);
             }else{
@@ -329,63 +350,106 @@ class WfpController extends Controller
         $data["sof"] = $sof->getAll();
 
         $data["wfp"] = Wfp::where('code',$code)->first();
-        $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
-                                ->where('tbl_wfp_activity.wfp_code',$code)->get();
+
+        // dd($req->wfp_id);
+        if($req->wfp_id !='null'){
+            $check = WfpActivity::where('id',$req->wfp_id)->first();
+
+            if($check->out_function != null){
+                $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                ->where('tbl_wfp_activity.id','=',$req->wfp_id)->get();
+
+                $month_str = $data["wfp_act"][0]->activity_timeframe;
+                $data["activity_timeframe"] = [
+                    'jan' => $this->getConvertActivityTimeframeVal($month_str,1),
+                    'feb' => $this->getConvertActivityTimeframeVal($month_str,2),
+                    'mar' => $this->getConvertActivityTimeframeVal($month_str,3),
+                    'apr' => $this->getConvertActivityTimeframeVal($month_str,4),
+                    'may' => $this->getConvertActivityTimeframeVal($month_str,5),
+                    'june' => $this->getConvertActivityTimeframeVal($month_str,6),
+                    'july' => $this->getConvertActivityTimeframeVal($month_str,7),
+                    'aug' => $this->getConvertActivityTimeframeVal($month_str,8),
+                    'sept' => $this->getConvertActivityTimeframeVal($month_str,9),
+                    'oct' => $this->getConvertActivityTimeframeVal($month_str,10),
+                    'nov' => $this->getConvertActivityTimeframeVal($month_str,11),
+                    'dec' => $this->getConvertActivityTimeframeVal($month_str,12),
+                ];
+
+            }else{
+                $data["wfp_act"] = $check;
+                $data["activity_timeframe"] = [
+                    'jan' => 'N',
+                    'feb' => 'N',
+                    'mar' => 'N',
+                    'apr' => 'N',
+                    'may' => 'N',
+                    'june' => 'N',
+                    'july' => 'N',
+                    'aug' => 'N',
+                    'sept' => 'N',
+                    'oct' => 'N',
+                    'nov' => 'N',
+                    'dec' => 'N'
+                ];
+            }
 
 
-        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_code',$code)->get();
+            $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_act_id',$req->wfp_id)->get();
 
-        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',$code)->get()->toArray();
-        // dd($data["wfp_act"][0]->activity_timeframe);
+            $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_act_id',$req->wfp_id)->get()->toArray();
 
-        $month_str = $data["wfp_act"][0]->activity_timeframe;
-        $data["activity_timeframe"] = [
-            'jan' => $this->getConvertActivityTimeframeVal($month_str,1),
-            'feb' => $this->getConvertActivityTimeframeVal($month_str,2),
-            'mar' => $this->getConvertActivityTimeframeVal($month_str,3),
-            'apr' => $this->getConvertActivityTimeframeVal($month_str,4),
-            'may' => $this->getConvertActivityTimeframeVal($month_str,5),
-            'june' => $this->getConvertActivityTimeframeVal($month_str,6),
-            'july' => $this->getConvertActivityTimeframeVal($month_str,7),
-            'aug' => $this->getConvertActivityTimeframeVal($month_str,8),
-            'sept' => $this->getConvertActivityTimeframeVal($month_str,9),
-            'oct' => $this->getConvertActivityTimeframeVal($month_str,10),
-            'nov' => $this->getConvertActivityTimeframeVal($month_str,11),
-            'dec' => $this->getConvertActivityTimeframeVal($month_str,12),
-        ];
-        // dd($data);
+
+        }
+
         // 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null)
         return view('pages.transaction.wfp.edit_wfp',['data'=> $data,'wfp_code'=>  Crypt::decryptString($req->wfp_code)]);
     }
-    //TECHNICAL UPDATE WFP  name not save since update db is executed
+
     public function saveWfpAct(Request $req){
         $data = [];
-        $wfp_code = Crypt::decryptString($req->wfp_code);
+        $wfp_code = Crypt::decryptString($req->data["wfp_code"]);
+        // dd($req->data["output_function"]);
         // dd($req->all());
-        $wfp_act = WfpActivity::where('wfp_code',$wfp_code)->first();
+        $total_balance_act_plan = 0;
+        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
 
+        if($budget_allocation){
+            $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);
+        }
+
+        if( $total_balance_act_plan < $req->data["act_cost"])
+        {
+            return ['message'=> 'not enough budget'];
+        }
+
+        $wfp_act = WfpActivity::where('id',$req->id)->first();
         // dd($wfp_act);
-        $wfp_act->out_function =$req->output_function;
-        $wfp_act->out_activity =$req->activity_output;
-        $wfp_act->activity_category_id =$req->activity_categ;
-        $wfp_act->activity_source_of_fund =$req->source_of_fund;
-        $wfp_act->activity_timeframe =$req->act_timeframe;
-        $wfp_act->responsible_person =$req->responsible_person;
-        $wfp_act->target_q1 =$req->t_q1;
-        $wfp_act->target_q2 =$req->t_q2;
-        $wfp_act->target_q3 =$req->t_q3;
-        $wfp_act->target_q4 =$req->t_q4;
-        $wfp_act->activity_cost =$req->act_cost;
+        $wfp_act->wfp_code = $wfp_code;
+        $wfp_act->out_function =$req->data["output_function"];
+        $wfp_act->out_activity =$req->data["activity_output"];
+        $wfp_act->activity_category_id =$req->data["activity_categ"];
+        $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
+        $wfp_act->activity_timeframe =$req->data["act_timeframe"];
+        $wfp_act->responsible_person =$req->data["responsible_person"];
+        $wfp_act->target_q1 =$req->data["t_q1"];
+        $wfp_act->target_q2 =$req->data["t_q2"];
+        $wfp_act->target_q3 =$req->data["t_q3"];
+        $wfp_act->target_q4 =$req->data["t_q4"];
+        $wfp_act->activity_cost =$req->data["act_cost"];
+        $wfp_act->encoded_by = Auth::user()->id;
         $wfp_act->save();
 
         // dd(Crypt::decryptString($req->wfp_code));
 
-        return ['message'=>'success'];
+        return ['message'=>'success','id'=>$wfp_act->id];
 
     }
 
     public function getPerformanceIndicatorByWfpCode(Request $req){
-        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))
+        $data["pi_data"] =  WfpPerformanceIndicator::join('ref_budget_line_item','ref_budget_line_item.id','tbl_wfp_activity_per_indicator.bli_id')
+                                                    ->where('wfp_code',Crypt::decryptString($req->wfp_code))
+                                                    ->where('wfp_act_id',$req->wfp_act_id)
+                                                    ->select(['*','tbl_wfp_activity_per_indicator.id'])
                                                     ->get()->toArray();
         // dd($data);
         return view('pages.transaction.wfp.table.pi_table',['data' => $data]);
@@ -412,17 +476,58 @@ class WfpController extends Controller
 
     public function updatePerformanceIndicatorById(Request $req){
         if($req->ajax()){
+            // $code = Crypt::descrytString($req->pi["wfp_code"]);
+            // $bli_id =$req->bli_id;
 
-            $wfp_indicator = WfpPerformanceIndicator::where('id',$req->id)->first();
-            $wfp_indicator->wfp_code = Crypt::decryptString($req->pi["wfp_code"]);
-            $wfp_indicator->uacs_id = $req->pi["uacs_title_id"];
-            $wfp_indicator->bli_id = $req->pi["budget_line_item_id"];
-            $wfp_indicator->performance_indicator = $req->pi["performance_indicator"];
-            $wfp_indicator->cost = $req->pi["cost"];
-            $wfp_indicator->is_ppmp = $req->pi["ppmp_include"] == 'true' ? 'Y' : 'N';
-            $wfp_indicator->is_catering = $req->pi["catering_include"] == 'true' ? 'Y' : 'N';
-            $wfp_indicator->batch = $req->has('batches') ? $req->pi["batches"] : '';
-            return $wfp_indicator->save() ? 'success' : 'failed';
+
+            // $pi_id = WfpPerformanceIndicator::where('id',$req->id)->first();
+            // $act_id = $pi_id->wfp_act_id;
+            // $sum_used_budget_bli  =0;
+
+            // $other_act_pi_cost = WfpPerformanceIndicator::where('id','!=',$req->id)
+            //                                             ->where('wfp_act_id',$act_id)
+            //                                             ->where('bli_id',$req->bli_id)
+            //                                             ->get();
+
+
+
+            // $wfp_act = WfpActivity::where('id',$act_id)->first();
+
+            // if(count($other_act_pi_cost) <> 0){
+            //     foreach ($other_act_pi_cost as $r){
+            //         $sum_used_budget_bli += $r["cost"];
+            //     }
+            // }
+            // dd( $other_act_pi_cost);
+
+            // //if requested cost is  greater than the activity plan cost
+            // if(( $sum_used_budget_bli + $req->pi["cost"])  > $wfp_act->activity_cost){
+            //     return 'exceeds budget';
+            // }
+            $check_balance = BudgetAllocationUtilization::where('wfp_code',Crypt::decryptString($req->pi["wfp_code"]))
+                                                        ->where('budget_line_item_id',$req->pi["budget_line_item_id"])
+                                                        // ->where('balance_plan','>',$req->cost)
+                                                        ->groupBy('budget_line_item_id')
+                                                        ->first();
+
+            $bal = $check_balance->program_budget - $check_balance->utilized;
+            //if true has budget
+            if($bal >= $req->pi["cost"])
+            {
+                $wfp_indicator = WfpPerformanceIndicator::where('id',$req->id)->first();
+                $wfp_indicator->wfp_code = Crypt::decryptString($req->pi["wfp_code"]);
+                $wfp_indicator->uacs_id = $req->pi["uacs_title_id"];
+                $wfp_indicator->bli_id = $req->pi["budget_line_item_id"];
+                $wfp_indicator->performance_indicator = $req->pi["performance_indicator"];
+                $wfp_indicator->cost = $req->pi["cost"];
+                $wfp_indicator->is_ppmp = $req->pi["ppmp_include"] == 'true' ? 'Y' : 'N';
+                $wfp_indicator->is_catering = $req->pi["catering_include"] == 'true' ? 'Y' : 'N';
+                $wfp_indicator->batch = $req->has('batches') ? $req->pi["batches"] : '';
+                return $wfp_indicator->save() ? 'success' : 'failed';
+            }else{
+                return 'no budget';
+            }
+
         }else{
             abort(403);
         }
@@ -430,9 +535,27 @@ class WfpController extends Controller
 
     public function updateWfpActivity(Request $req){
         if($req->ajax()){
+
+            $wfp_code = Crypt::decryptString($req->wfp_act["wfp_code"]);
+            $total_balance_act_plan = 0;
+            $total_balance_act_plan = 0;
+            $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->get()->toArray();
+
+            if(count($budget_allocation) != 0){
+                foreach($budget_allocation as $r){
+                    $total_balance_act_plan += $r["balance_act_plan"];
+                }
+
+            }
+
+            if( $total_balance_act_plan < $req->wfp_act["act_cost"])
+            {
+                return 'not enough budget';
+            }
+
             // dd($req->wfp_act);
-            $code = Crypt::decryptString($req->wfp_act["wfp_code"]);
-            $a = WfpActivity::where('wfp_code',$code)->first();
+
+            $a = WfpActivity::where('id',$req->wfp_act_id)->first();
             $a->out_function =$req->wfp_act["output_function"];
             $a->out_activity =$req->wfp_act["activity_output"];
             $a->activity_source_of_fund =$req->wfp_act["source_of_fund"];
@@ -451,11 +574,151 @@ class WfpController extends Controller
         }
     }
 
+    public function getPiPPMP(Request $req){
+        if($req->ajax()){
+            $data = [];
+            $code = Crypt::decryptString($req->wfp_code);
+            $data["pi"] = WfpPerformanceIndicator::join('ref_budget_line_item','ref_budget_line_item.id','tbl_wfp_activity_per_indicator.bli_id')
+                                            ->where('wfp_code',$code)
+                                            ->where('wfp_act_id',$req->wfp_act_id)
+                                            ->get()->toArray();
+
+            return view('pages.transaction.wfp.table.wfp_act_view_pi_ppmp',['data'=>$data]);
+        }else{
+            abort(403);
+        }
+    }
+
     public function getConvertActivityTimeframeVal($str,$req_str = null){
         $arr = explode(',',$str);
 
         if($req_str != null){
             return $arr[$req_str-1];
+        }
+    }
+
+    public function updateWfpApprove(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'APPROVED';
+        $a->save();
+    }
+
+
+    public function updateWfpSubmit(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'SUBMITTED';
+        $a->save();
+    }
+
+    public function updateWfpRevise(Request $req){
+        // $a = ZWfpLogs::where('code',Crypt::decryptString($req->wfp_code))->first();
+        $a = new ZWfpLogs;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->status = 'WFP';
+        $a->remarks = 'FOR REVISION';
+        $a->save();
+    }
+
+    public function newWfpActivity(Request $req){
+
+        $wfp_code = Crypt::decryptString($req->wfp_code);
+
+        $total_balance_act_plan = 0;
+        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+
+        if($budget_allocation){
+            $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);
+        }
+        if( $total_balance_act_plan <= 0)
+        {
+            return ['message'=> 'No budget'];
+        }else if ( $total_balance_act_plan < 1000){
+            return ['message'=> 'less1000'];
+        }
+
+        $a = new WfpActivity;
+        $a->wfp_code = Crypt::decryptString($req->wfp_code);
+        $a->encoded_by = Auth::user()->id;
+        $a->save();
+
+
+        $data = [];
+        $code = Crypt::decryptString($req->wfp_code);
+        $categ = new RefActivityCategory;
+        $sof = new RefSourceOfFund;
+
+        $data["activity_category"] = $categ->getAll();
+        $data["sof"] = $sof->getAll();
+
+        $data["wfp"] = Wfp::where('code',$code)->first();
+
+        // dd($req->wfp_id);
+        if($req->wfp_id !='null'){
+            $check = WfpActivity::where('id',$a->id)->first();
+
+            if($check->out_function != null){
+                $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                ->where('tbl_wfp_activity.id','=',$a->id)->get();
+
+                $month_str = $data["wfp_act"][0]->activity_timeframe;
+                $data["activity_timeframe"] = [
+                    'jan' => $this->getConvertActivityTimeframeVal($month_str,1),
+                    'feb' => $this->getConvertActivityTimeframeVal($month_str,2),
+                    'mar' => $this->getConvertActivityTimeframeVal($month_str,3),
+                    'apr' => $this->getConvertActivityTimeframeVal($month_str,4),
+                    'may' => $this->getConvertActivityTimeframeVal($month_str,5),
+                    'june' => $this->getConvertActivityTimeframeVal($month_str,6),
+                    'july' => $this->getConvertActivityTimeframeVal($month_str,7),
+                    'aug' => $this->getConvertActivityTimeframeVal($month_str,8),
+                    'sept' => $this->getConvertActivityTimeframeVal($month_str,9),
+                    'oct' => $this->getConvertActivityTimeframeVal($month_str,10),
+                    'nov' => $this->getConvertActivityTimeframeVal($month_str,11),
+                    'dec' => $this->getConvertActivityTimeframeVal($month_str,12),
+                ];
+
+            }else{
+                $data["wfp_act"] = $check;
+                $data["activity_timeframe"] = [
+                    'jan' => 'N',
+                    'feb' => 'N',
+                    'mar' => 'N',
+                    'apr' => 'N',
+                    'may' => 'N',
+                    'june' => 'N',
+                    'july' => 'N',
+                    'aug' => 'N',
+                    'sept' => 'N',
+                    'oct' => 'N',
+                    'nov' => 'N',
+                    'dec' => 'N'
+                ];
+            }
+
+        }
+
+        $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get();
+        $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get()->toArray();
+
+        return view('pages.transaction.wfp.create_wfp_new_activity',['data' => $data,'wfp_act_id'=>$a->id]);
+    }
+
+    public function deleteUnitAcitivityById(Request $req){
+        if($req->ajax()){
+            $found = WfpActivity::where('id',$req->wfp_act_id)->first();
+            if($found){
+                $pi_delete = WfpPerformanceIndicator::where('wfp_act_id',$req->wfp_act_id)->delete();
+                $wfp_act_delete = WfpActivity::where('id',$req->wfp_act_id)->delete();
+                return  $wfp_act_delete ? ['message'=>'success','code'=>$found->wfp_code] : ['message'=>'failed'];
+            }
+
+        }else{
+            abort(403);
         }
     }
 }

@@ -53,7 +53,6 @@
                 z-index: 100000;
                 position: fixed;
                 top:0;
-                background-color:white;
                 margin:0;
                 height: 100%;
                 width:100%;
@@ -94,25 +93,27 @@
     {{-- <div class="bg_loader">
         <div class="loader"></div>
     </div> --}}
-    <div class="page_loader">
+
+    <div class="page_loader" style="background-image: url({{ asset("dist/assets/media/bg/bg-3.jpg") }});">
         <span>
             <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
             {{-- style="position: relative;top:40px;left:0px;" --}}
-            style="position: absolute;top:25%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
+            style="position: absolute;top:30%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
             alt="">
         </span>
         <h1
-            style="position: relative;top:140px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            style="position: relative;top:200px;font-size:3rem;line-height:29px;margin-bottom:0px;"
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
             ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
-            style="position: relative;top:140px;font-size:1rem;line-height:10px;"
+            style="position: relative;top:205px;font-size:1rem;line-height:10px;"
         >{{ env('APP_CLIENT_NAME') }}</h5>
         <h5
             style="font-size:1rem;position: relative;top:-23px;left:-20px;"
         > </h5>
+
     </div>
 
     <!--begin::Main-->
@@ -120,7 +121,7 @@
 <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed " >
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
-		<a href="index.html" class="mr-7">
+		<a href="{{ route('dashboard') }}" class="mr-7">
 			<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-30px"/>
 		</a>
 		<!--end::Logo-->
@@ -212,7 +213,7 @@
 				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default " >
 					<!--begin::Header Nav-->
 					<ul class="menu-nav ">
-                        <li class="menu-item "  aria-haspopup="true"> <a  href="#" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
+                        <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
 </ul>
 					<!--end::Header Nav-->
@@ -324,7 +325,7 @@
 <!-- begin:wfp_drawer -->
 
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer">
+<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 100%;" id="wfp_drawer">
 </div>
 </div>
 
@@ -933,7 +934,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form">
-                            @include('pages.transaction.wfp.table.wfp_act_view_pi_ppmp')
+                            {{-- @include('pages.transaction.wfp.table.wfp_act_view_pi_ppmp') --}}
+                            <div id="ppmp_table"></div>
                         </div>
                     </div>
                     <div class="col-12">
@@ -1374,6 +1376,8 @@
                 });
             }
 
+        var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
+        var page_wfp;
 
         $(document).ready(function(){
             /***************************************************
@@ -1382,6 +1386,8 @@
              *
              * **************************************************/
             getYear();
+
+
 
             toastr.options = {
             "closeButton": false,
@@ -1426,11 +1432,16 @@
             });
 
 
+
+
               /***************************************************
              *
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+
+
+
 
             function updateUserGlobalSettingsYear(){
                 var _url = "{{ route('u_global_user_year') }}";
@@ -1560,13 +1571,15 @@
             $("#wfp_comment_user_id_send_to").val(user_id);
         }
 
-        function showWfpActivityModal(){
+        function showWfpActivityModal(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_act_viewer_pi_ppmp").modal({
                 show:true,
                 backdrop:'static',
                 focus: true,
                 keyboard:false
             });
+            // alert(user_id + '<br>' + wfp_code);
+            fetchPPMPAndPiViewerData(user_id,wfp_code,wfp_act_id);
         }
 
         $("#btn_save_wfp_comment").on('click',function(){
@@ -1585,12 +1598,13 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
+
                 }
             });
         })
 
-        function editWfp(_wfp_code){
-            var _url = "{{ route('r_edit_wfp') }}?wfp_code=" + _wfp_code;
+        function editWfp(_wfp_code, _wfp_act_id){
+            var _url = "{{ route('r_edit_wfp') }}?wfp_id=" + _wfp_act_id + '&wfp_code=' + _wfp_code ;
             KTApp.block('#kt_body', {
                 overlayColor: '#000000',
                 state: 'primary',
@@ -1599,24 +1613,279 @@
             setTimeout(function(){
                 window.location.href= _url;
             }),1500;
-            // var _redirecTo = "";
-            // $.ajax({
-            //     method:"GET",
-            //     url: _url,
-            //     success:function(data){
-            //         console.log(data);
-            //         // KTApp.block('#kt_body', {
-            //         //     overlayColor: '#000000',
-            //         //     state: 'primary',
-            //         //     message: 'Redirecting. . .'
-            //         // });
-
-            //     }
-            // });
         }
+
+        function deleteWfp(_wfp_act_id){
+            console.log(_wfp_act_id);
+            var _url = "{{ route('r_del_wfp_act') }}";
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You may not revert this change.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: { wfp_act_id : _wfp_act_id},
+                        success:function(data){
+                            if(data.message =='success'){
+                                wfp_drawer_open(data.code);
+                                fetch_wfp_list();
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Your Wfp Activity has been deleted.",
+                                    "success"
+                                )
+                            }
+                        },error:function(){
+                            Swal.fire(
+                                    "Something went wrong!",
+                                    "",
+                                    "error"
+                                )
+                        }
+                    });
+
+                }
+            })
+        }
+
+        function fetchPPMPAndPiViewerData(_user_id,_wfp_code,_wfp_act_id){
+            var _url = "{{ route('d_pi_ppmp_viewer') }}";
+            var _data = {
+                user_id : _user_id,
+                wfp_code: _wfp_code,
+                wfp_act_id : _wfp_act_id
+            };
+            $.ajax({
+                method: "GET",
+                url: _url,
+                data: _data,
+                success:function(data){
+                    document.getElementById('ppmp_table').innerHTML = data;
+                }
+            });
+        }
+
+        function wfpApprove(_wfp_code){
+
+            var _url = "{{ route('wfp_status_approve') }}";
+            var _data = {
+                wfp_code : _wfp_code
+            };
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won\'t be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, approve it!"
+                }).then(function(result) {
+                    if (result.value) {
+                        $.ajax({
+                            method: "GET",
+                            url : _url,
+                            data : _data,
+                            success:function(data){
+                                Swal.fire(
+                                    "Good Job!",
+                                    "Successfully Approved WFP",
+                                    "success"
+                                )
+                                wfp_drawer_close();
+                                fetch_wfp_list();
+                            }
+                        });
+
+                    }
+                });
+
+            }
+
+            function wfpRevise(_wfp_code){
+                var _url = "{{ route('wfp_status_revise') }}";
+                var _data = {
+                    wfp_code : _wfp_code
+                };
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won\'t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, approve it!"
+                    }).then(function(result) {
+                        if (result.value) {
+                            $.ajax({
+                                method: "GET",
+                                url : _url,
+                                data : _data,
+                                success:function(data){
+                                    Swal.fire(
+                                        "Good Job!",
+                                        "Successfully Revise WFP",
+                                        "success"
+                                    )
+                                    wfp_drawer_close();
+                                    fetch_wfp_list();
+                                }
+                            });
+
+                        }
+                    });
+            }
+
+            function wfpSubmit(_wfp_code){
+                var _url = "{{ route('wfp_status_submit') }}";
+                var _data = {
+                    wfp_code : _wfp_code
+                };
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won\'t be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes, approve it!"
+                    }).then(function(result) {
+                        if (result.value) {
+                            $.ajax({
+                                method: "GET",
+                                url : _url,
+                                data : _data,
+                                success:function(data){
+                                    Swal.fire(
+                                        "Good Job!",
+                                        "Successfully Submit WFP",
+                                        "success"
+                                    )
+                                    wfp_drawer_close();
+                                    fetch_wfp_list();
+                                }
+                            });
+
+                        }
+                    });
+            }
+
+            function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
+                var _url = "{{ route('d_get_all_wfp_list') }}";
+
+                var _data = {
+                    page : _page,
+                    q: _q,
+                    year : settings.year,
+                    sort : _sort_by
+                };
+                if(settings.year != null || settings.year != undefined)
+                {
+                    $.ajax({
+                        method:"GET",
+                        url:_url,
+                        data:_data,
+                        beforeSend:function(){
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Retrieving WFP Data. . .'
+                            });
+                        },
+                        success:function(data){
+                            document.getElementById('wfp_list').innerHTML = data;
+                        },
+                        complete(){
+                            KTApp.unblock('#kt_body');
+                            $("#pagination_wfp_list .pagination a").on('click',function(e){
+                                e.preventDefault();
+                                page_wfp = $(this).attr('href').split('page=')[1]
+                                fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
+                            });
+                        }
+                    });
+                }else{
+                    swal.fire({
+                            title:"Warning",
+                            text:'Please setup your Year on Global Settings',
+                            icon: "warning",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                    });
+                }
+
+            }
+
+
+            function downloadPdfWfp(_wfp_code){
+                var _url ="{{ route('wfp_unit_download') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_self');
+            }
+
+
+            function printWfp(_wfp_code){
+                var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_blank','menubar=0,titlebar=0');
+            }
+
+            function addNewActivity(_wfp_code){
+                var _url ="{{ route('wfp_add_new_activity') }}";
+
+
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data :  { wfp_code : _wfp_code  },
+                    success:function(data){
+
+                        if(data.message =='No budget'){
+                            swal.fire({
+                                    title:"Error",
+                                    text:'Your balance is 0.00',
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                            });
+                        }else if(data.message =='less1000') {
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "Your Balance is Less than 1000",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes, Create Activity it!"
+                            }).then(function(result) {
+                                if (result.value) {
+                                    KTApp.block('#kt_body', {
+                                        overlayColor: '#000000',
+                                        state: 'primary',
+                                        message: 'Redirecting. . '
+                                    });
+                                    setTimeout(function(){
+                                        window.location.href = _url + '?wfp_code=' + _wfp_code;
+                                    },1000)
+                                }
+                            });
+                        }else{
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Redirecting. . '
+                            });
+                            setTimeout(function(){
+                                window.location.href = _url + '?wfp_code=' + _wfp_code;
+                            },1000)
+                        }
+
+                    }
+                })
+
+
+            }
         </script>
-
-
         </body>
     <!--end::Body-->
 </html>

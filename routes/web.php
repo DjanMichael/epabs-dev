@@ -45,7 +45,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/pi/edit','Transaction\WfpController@editPerformanceIndicatorByWfpCode')->name('db_edit_pi_wfp');
     Route::get('/wfp/unit/pi/update','Transaction\WfpController@updatePerformanceIndicatorById')->name('db_wfp_pi_update');
     Route::get('/wfp/unit/wfpactivity/update','Transaction\WfpController@updateWfpActivity')->name('db_update_wfp_activity');
+    Route::get('/wfp/unit/viewer/ppmp/pi','Transaction\WfpController@getPiPPMP')->name('d_pi_ppmp_viewer');
+    Route::get('/wfp/status/update/approve','Transaction\WfpController@updateWfpApprove')->name('wfp_status_approve');
+    Route::get('/wfp/status/update/revise','Transaction\WfpController@updateWfpRevise')->name('wfp_status_revise');
+    Route::get('/wfp/status/update/submit','Transaction\WfpController@updateWfpSubmit')->name('wfp_status_submit');
 
+    Route::get('/wfp/unit/new/activity/encode','Transaction\WfpController@newWfpActivity')->name('wfp_add_new_activity');
+    Route::get('/wfp/unit/activity/delete','Transaction\WfpController@deleteUnitAcitivityById')->name('r_del_wfp_act');
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
     Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');
@@ -56,6 +62,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
+
+    //PRINTING
+    Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
+    Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
@@ -98,8 +108,10 @@ Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSu
 Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
 Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesSearch')->name('d_get_procurement_supplies_search');
 Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
-Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
 Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
+Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
+Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
+Route::post('/system/reference/add-procurement-supplies-price','Reference\ProcurementSuppliesController@storePrice')->name('a_procurement_supplies_price');
 
 // Procurement Medicine Routes
 Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
@@ -107,8 +119,26 @@ Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMe
 Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
 Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineSearch')->name('d_get_procurement_medicine_search');
 Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
-Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
 Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
+Route::get('/system/reference/procurement-medicine-price/all','Reference\ProcurementMedicineController@getProcurementMedicinePrice')->name('d_get_procurement_medicine_price');
+Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
+Route::post('/system/reference/add-procurement-medicine-price','Reference\ProcurementMedicineController@storePrice')->name('a_procurement_medicine_price');
+
+// Unified Accounts Code Structure Routes
+Route::get('/system/reference/unified-accounts-code-structure','Reference\UacsController@index')->name('r_uacs');
+Route::get('/system/reference/unified-accounts-code-structure/all','Reference\UacsController@getUacs')->name('d_uacs');
+Route::get('/system/reference/unified-accounts-code-structure/pagination','Reference\UacsController@getUacsByPage')->name('d_get_uacs_by_page');
+Route::get('/system/reference/unified-accounts-code-structure/search','Reference\UacsController@getUacsSearch')->name('d_get_uacs_search');
+Route::get('/system/reference/unified-accounts-code-structure/add-form','Reference\UacsController@getAddForm')->name('d_add_uacs');
+Route::post('/system/reference/add-unified-accounts-code-structure','Reference\UacsController@store')->name('a_uacs');
+
+// Program  Routes
+Route::get('/system/reference/program','Reference\ProgramController@index')->name('r_program');
+Route::get('/system/reference/program/all','Reference\ProgramController@getProgram')->name('d_program');
+Route::get('/system/reference/program/pagination','Reference\ProgramController@getProgramByPage')->name('d_get_program_by_page');
+Route::get('/system/reference/program/search','Reference\ProgramController@getProgramSearch')->name('d_get_program_search');
+Route::get('/system/reference/program/add-form','Reference\ProgramController@getAddForm')->name('d_add_program');
+Route::post('/system/reference/add-program','Reference\ProgramController@store')->name('a_program');
 
 // Budget Line Item Routes
 Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
