@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefProgram extends Migration
+class CreateTblUnitProgram extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateRefProgram extends Migration
      */
     public function up()
     {
-        Schema::create('ref_program', function (Blueprint $table) {
+        Schema::create('tbl_unit_program', function (Blueprint $table) {
             $table->id();
-            $table->string('program_name');
-            $table->enum('status',['ACTIVE','INACTIVE']);
+            $table->integer('program_id');
+            $table->integer('unit_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateRefProgram extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ref_program');
+        Schema::dropIfExists('tbl_unit_program');
     }
 }

@@ -43,6 +43,7 @@ class ItemUnitController extends Controller
     }
 
     public function getAddForm(){
+        $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         return view('pages.reference.itemunit.form.add_item_unit');
     }
 
