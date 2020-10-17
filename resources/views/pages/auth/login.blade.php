@@ -140,7 +140,6 @@ License: You must have a valid license purchased only from themeforest(the above
 								<option value="">NO DATA</option>
 							@endforelse
 						</select>
-						<input type="hidden" value="" id="unit_id"/>
 					</div>
 					<div class="form-group mb-5">
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" id="reg_username" autocomplete="off" />
@@ -454,9 +453,13 @@ License: You must have a valid license purchased only from themeforest(the above
 						success:function(data){
 							if(data.access_token != null)
 							{
+                                KTApp.block('#kt_body', {
+                                    overlayColor: '#000000',
+                                    state: 'primary',
+                                    message: 'Signing In. . .'
+                                });
 								sessionStorage.setItem('token',`Bearer ` + data.access_token);
 
-								KTApp.unblock('#kt_body');
 								localStorage.removeItem('signup_validate');
 								setTimeout(() => {
                                     window.location.href="{{ route('dashboard') }}";
