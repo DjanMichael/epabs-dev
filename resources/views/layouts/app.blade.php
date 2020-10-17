@@ -102,13 +102,13 @@
             alt="">
         </span>
         <h1
-            style="position: relative;top:180px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            style="position: relative;top:200px;font-size:3rem;line-height:29px;margin-bottom:0px;"
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
             ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
-            style="position: relative;top:185px;font-size:1rem;line-height:10px;"
+            style="position: relative;top:205px;font-size:1rem;line-height:10px;"
         >{{ env('APP_CLIENT_NAME') }}</h5>
         <h5
             style="font-size:1rem;position: relative;top:-23px;left:-20px;"
@@ -325,7 +325,7 @@
 <!-- begin:wfp_drawer -->
 
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;" id="wfp_drawer">
+<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 100%;" id="wfp_drawer">
 </div>
 </div>
 
@@ -1613,6 +1613,44 @@
             setTimeout(function(){
                 window.location.href= _url;
             }),1500;
+        }
+
+        function deleteWfp(_wfp_act_id){
+            console.log(_wfp_act_id);
+            var _url = "{{ route('r_del_wfp_act') }}";
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You may not revert this change.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: { wfp_act_id : _wfp_act_id},
+                        success:function(data){
+                            if(data.message =='success'){
+                                wfp_drawer_open(data.code);
+                                fetch_wfp_list();
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Your Wfp Activity has been deleted.",
+                                    "success"
+                                )
+                            }
+                        },error:function(){
+                            Swal.fire(
+                                    "Something went wrong!",
+                                    "",
+                                    "error"
+                                )
+                        }
+                    });
+
+                }
+            })
         }
 
         function fetchPPMPAndPiViewerData(_user_id,_wfp_code,_wfp_act_id){

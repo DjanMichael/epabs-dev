@@ -47,7 +47,7 @@ class PDFController extends Controller
             if($i == 11){
                 $str .= ($r == 'Y' ? $month[$i] : '');
             }else{
-                $str .= ($r == 'Y' ? $month[$i] . ',' : '');
+                $str .= ($r == 'Y' ? $month[$i] . ', ' : '');
             }
             $i++;
         }

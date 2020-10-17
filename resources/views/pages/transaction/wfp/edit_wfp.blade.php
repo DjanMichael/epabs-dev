@@ -11,8 +11,8 @@
 @section('content')
 {{-- {{ dd($data) }} --}}
 <div class="card card-custom gutter-b">
-    <div class="card-header">
-        <h3 class="card-title">Edit Work and Financial Plan</h3>
+    <div class="card-header  bg-dark">
+        <h3 class="card-title text-light">Edit Work and Financial Plan</h3>
     </div>
     <!--begin::Form-->
     <form>
@@ -243,9 +243,17 @@
            </div>
 
         </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-warning mr-2" id="btn_update_wfp">Update</button>
-            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">Done</button>
+        <div class="card-footer bg-dark">
+            <button type="button" class="btn btn-transparent-warning mr-2" id="btn_update_wfp">
+                <i class="flaticon2-refresh icon-md"></i>Update
+            </button>
+            <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
+                <i class="flaticon-time-3 icon-md"></i>Add New Activity
+            </button>
+            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'"
+                    class="btn btn-transparent-success font-weight-bold">
+                <i class="flaticon2-check-mark icon-md"></i>Done
+            </button>
         </div>
     </form>
     <!--end::Form-->
@@ -457,6 +465,7 @@
 
             let wfp_data = {
                 output_function: '',
+                output_function_id: '',
                 activity_output: '',
                 source_of_fund: '',
                 activity_categ: '',
@@ -497,6 +506,16 @@
             // $("#search_output_function").on('click',function(){
             //     populateOutputFunctionsAll();
             // });
+            $("#btn_add_new_act").on('click',function(){
+                var code = $("#wfp_code").val();
+                var _url ="{{ route('wfp_add_new_activity') }}";
+                $(this).attr('disabled',true);
+                $(this).addClass('spinner spinner-white spinner-right');
+                $(this).html('Redirecting . . ');
+                setTimeout(function(){
+                    window.location.href = _url + '?wfp_code=' + code;
+                },1000)
+            });
 
             $("#qtr_1").bind('keyup click',function(e){
                 e.preventDefault();
@@ -821,6 +840,14 @@
                         REUSABLE FUNCTIONS
         *************************************************/
 
+
+        function select_output_functions(id,output_desc){
+
+            $("#selected_output_function").val(output_desc);
+            $("#selected_output_function_id").val(id);
+            $("#modal_functions_delivery_search").modal('toggle');
+        }
+
         function switchValueConvert(val)
         {
             return val =='true' ? 'Y':'N';
@@ -892,17 +919,24 @@
                     url : _url,
                     data : {wfp_act : wfp_data, wfp_act_id : $("#wfp_act_id").val()},
                     success:function(data){
-                        if (data == 'success'){
+                        if(data =='not enough budget'){
+                            Swal.fire(
+                                "Opss!",
+                                "Not Enough Budget",
+                                "error"
+                            )
+                        }
+                        else if (data == 'success'){
                             Swal.fire(
                                 "Good Job!",
-                                "Succfully Updated WFP Activity",
+                                "Successfully Updated WFP Activity",
                                 "success"
                             )
-                            $("#btn_pi_add_new").attr('disabled',false);
-                            $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_update_wfp").html('Update');
-                            $("#btn_update_wfp").attr('disabled',false);
                         }
+                        $("#btn_pi_add_new").attr('disabled',false);
+                        $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_update_wfp").html('<i class="flaticon2-refresh icon-md"/>Update');
+                        $("#btn_update_wfp").attr('disabled',false);
                     }
                 });
 

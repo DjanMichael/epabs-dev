@@ -5,14 +5,14 @@
     <a href="{{ route('r_wfp') }}" class="text-muted">WFP</a>
 </li>
 <li class="breadcrumb-item">
-    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create WFP</a>
+    <a href="{{ route('r_create_wfp') }}" class="text-muted">Create Activity</a>
 </li>
 @endsection
 @section('content')
 
 <div class="card card-custom gutter-b" id="wfp_create_body">
-    <div class="card-header">
-        <h3 class="card-title">Create Work and Financial Plan</h3>
+    <div class="card-header bg-dark">
+        <h3 class="card-title text-light">Create Work and Financial Plan Activity</h3>
     </div>
 
     {{-- {{ dd($data) }} --}}
@@ -240,9 +240,17 @@
            </div>
 
         </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-primary mr-2" id="btn_save_wfp">Save</button>
-            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">Done</button>
+        <div class="card-footer bg-dark">
+            <button type="button" class="btn btn-transparent-primary mr-2" id="btn_save_wfp">
+                <i class="flaticon-file-1 icon-md"></i>Save
+            </button>
+            <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
+                <i class="flaticon-time-3 icon-md"></i>Add New Activity
+            </button>
+            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'"
+                 class="btn btn-transparent-success font-weight-bold">
+                <i class="flaticon2-check-mark icon-md"></i>Done
+            </button>
         </div>
     </form>
     <!--end::Form-->
@@ -406,7 +414,7 @@
 
             var this_url = window.location.href;
             var wfp = this_url.split('wfp_code=')[1];
-alert($("#wfp_act_id").val());
+            // alert($("#wfp_act_id").val());
             $("#wfp_code").val(wfp);
 
             /************************************************
@@ -498,6 +506,16 @@ alert($("#wfp_act_id").val());
             // $("#search_output_function").on('click',function(){
             //     populateOutputFunctionsAll();
             // });
+            $("#btn_add_new_act").on('click',function(){
+                var code = $("#wfp_code").val();
+                var _url ="{{ route('wfp_add_new_activity') }}";
+                $(this).attr('disabled',true);
+                $(this).addClass('spinner spinner-white spinner-right');
+                $(this).html('Redirecting . . ');
+                setTimeout(function(){
+                    window.location.href = _url + '?wfp_code=' + code;
+                },1000)
+            });
 
 
             $("#btn_save_wfp").on('click',function(){
@@ -800,6 +818,11 @@ alert($("#wfp_act_id").val());
                         REUSABLE FUNCTIONS
         *************************************************/
 
+        function select_output_functions(id,output_desc){
+            $("#selected_output_function").val(output_desc);
+            $("#selected_output_function_id").val(id);
+            $("#modal_functions_delivery_search").modal('toggle');
+        }
         function saveWFP(wfp_data,wfp_rules,wfp_options){
 
                 var msg = "";
@@ -866,18 +889,27 @@ alert($("#wfp_act_id").val());
                         url : _url,
                         data : { data : wfp_data , id: $("#wfp_act_id").val() },
                         success:function(data){
-                            if (data.message == 'success'){
+                            if(data.message =='not enough budget'){
+                                Swal.fire(
+                                        "Opps!",
+                                        "Not enough budget.",
+                                        "error"
+                                    )
+                                $("#btn_save_wfp").attr('disabled',false);
+                            }
+                            else if (data.message == 'success'){
                                 $("#wfp_act_id").val(data.id);
                                 Swal.fire(
-                                    "Succfully Save WFP Activity",
+                                    "Successfully Save WFP Activity",
                                     "You may start adding Performance Indicator",
                                     "success"
                                 )
                                 $("#btn_pi_add_new").attr('disabled',false);
-                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                                $("#btn_save_wfp").html('Save');
                                 $("#btn_save_wfp").attr('disabled',true);
                             }
+                            $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
+
                         },complete:function(){
                             $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                             $("#btn_save_wfp").html('Save');

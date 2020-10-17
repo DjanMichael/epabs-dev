@@ -27,9 +27,7 @@
             $used =0;
             $bal =0;
         }
-
         ?>
-
         <tr>
             <td class="pl-0" style="float:left;width:100%">
                 <div class="row">
