@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-12 col-md-4">
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>Print</button>
-                        <button type="button" class="btn btn-transparent-white font-weight-bold btn-block"><i class="flaticon-file icon-md"></i>Export PDF</button>
+                        <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>Export PDF</button>
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="addNewActivity('{{ $wfp_code }}')"><i class="flaticon-time-3 icon-md"></i>New Acitivity</button>
                     </div>
                     <div class="col-12 col-md-4">

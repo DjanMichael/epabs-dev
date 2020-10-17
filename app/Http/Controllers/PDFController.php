@@ -38,6 +38,30 @@ class PDFController extends Controller
         // return $pdf->stream('document.pdf');
     }
 
+    public function downloadUnitWFP(Request $req){
+
+
+        $code = Crypt::decryptString($req->wfp_code);
+        $data = [];
+
+        $data["wfp"] = Wfp::where('code',$code)->first();
+
+        $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
+        $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
+        $data["wfp_manager"] = UserProfile::where('user_id',$data["wfp"]->user_id)->first();
+        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->get();
+        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->get();
+        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->get();
+
+        // dd($data);
+        return PDF::loadView('components.global.reports.print_unit_wfp',['data' => $data])
+            ->setPaper('a4', 'landscape')
+            ->download('WFP_' . $code .'.pdf');
+        // $pdf = PDF::loadView('components.global.reports.print_unit_wfp', ['data' => $data] , [],$config);
+        // return $pdf->stream('document.pdf');
+    }
+
+
     public function activityTimeFrameConvertToMonths($txt){
         $arr = explode(',', $txt);
         $str = "";

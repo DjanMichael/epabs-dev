@@ -49,7 +49,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/status/update/approve','Transaction\WfpController@updateWfpApprove')->name('wfp_status_approve');
     Route::get('/wfp/status/update/revise','Transaction\WfpController@updateWfpRevise')->name('wfp_status_revise');
     Route::get('/wfp/status/update/submit','Transaction\WfpController@updateWfpSubmit')->name('wfp_status_submit');
-    Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
+
     Route::get('/wfp/unit/new/activity/encode','Transaction\WfpController@newWfpActivity')->name('wfp_add_new_activity');
     Route::get('/wfp/unit/activity/delete','Transaction\WfpController@deleteUnitAcitivityById')->name('r_del_wfp_act');
     //Transaction/Budget Allocation
@@ -62,6 +62,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
+
+    //PRINTING
+    Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
+    Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
