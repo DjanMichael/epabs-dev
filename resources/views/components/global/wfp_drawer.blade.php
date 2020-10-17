@@ -75,18 +75,24 @@
                         @forelse ($activities as $row)
                             <tr class="wfp_table_row">
                                 <td scope="row text-center" style="width:130px;">
-                                    <button type="button"
+
+                                    <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                            style="position: relative;right:0;bottom:0;"
+                                            onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
+                                        <i class="flaticon-edit"></i>
+                                    </button>
+                                    <button id="wfp_del_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                            style="position: relative;right:0;bottom:0;"
+                                            onclick="deleteWfp('{{ $row->twa_id }}')">
+                                        <i class="flaticon2-trash"></i>
+                                    </button>
+                                    <button  id="wfp_comment_act" type="button"
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
                                         onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">
                                         <i class="flaticon-comment"></i>
                                     </button>
-                                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                            style="position: relative;right:0;bottom:0;"
-                                            onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
-                                        <i class="flaticon-edit"></i>
-                                    </button>
-                                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                    <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
                                         onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
                                     <i class="flaticon-medical"></i>

@@ -34,7 +34,8 @@
             padding-right:5px;
             padding-top:2px;
             padding-bottom:2px;
-            height:13px;
+            /* width:10px; */
+            word-break:break-all;
         }
 
         .t-h-d{
@@ -46,6 +47,7 @@
                 font-size: 10px;
                 font-weight: bold;
                 position: relative;
+                /* width:10px; */
                 border:1px solid #181b2b;
         }
         .c{
@@ -67,7 +69,6 @@
                 color:black;
                 text-align: center;
                 line-height: 35px;
-
                 font-size:10px;
                 font-weight:bold;
 
@@ -169,8 +170,8 @@
                     <tr class="t-row">
                         {{-- <td class="t-d txt-center">{{ $row["wfp_activity_id"] }}</td> --}}
                         {{-- <td class="t-d txt-center">{{ $row["function_class"] }}</td> --}}
-                        <td class="t-d txt-center">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
-                        <td class="t-d">{{ $row["out_activity"] }}</td>
+                        <td class="t-d txt-center" >{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
