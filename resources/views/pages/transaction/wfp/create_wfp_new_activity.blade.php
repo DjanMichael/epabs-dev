@@ -876,10 +876,18 @@
 
                 $("#btn_save_wfp").addClass('spinner spinner-white spinner-right');
                 $("#btn_save_wfp").html('Processing ..');
-                $("#btn_save_wfp").attr('disabled',true);
-                $("#kt_body").scrollTop(0);
+                // $("#btn_save_wfp").attr('disabled',true);
 
-                if(wfp_validation.passes()){
+                if(wfp_data.act_cost == 0){
+                    Swal.fire(
+                        "Opps!",
+                        "Activity Cost must not be zero.",
+                        "error"
+                    )
+                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                    $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
+                }else{
+                    if(wfp_validation.passes()){
 
                     var _data = { wfp_code : $("#wfp_code").val() };
                     var _url = "{{ route('db_save_wfp_act') }}";
@@ -890,22 +898,21 @@
                         data : { data : wfp_data , id: $("#wfp_act_id").val() },
                         success:function(data){
                             if(data.message =='not enough budget'){
+                                $("#btn_save_wfp").removeAttr('disabled');
                                 Swal.fire(
                                         "Opps!",
                                         "Not enough budget.",
                                         "error"
                                     )
-                                $("#btn_save_wfp").attr('disabled',false);
-                            }
-                            else if (data.message == 'success'){
+                            }else if (data.message == 'success'){
                                 $("#wfp_act_id").val(data.id);
+                                $("#btn_save_wfp").removeAttr('disabled',true);
+                                $("#btn_pi_add_new").attr('disabled',false);
                                 Swal.fire(
                                     "Successfully Save WFP Activity",
                                     "You may start adding Performance Indicator",
                                     "success"
                                 )
-                                $("#btn_pi_add_new").attr('disabled',false);
-                                $("#btn_save_wfp").attr('disabled',true);
                             }
                             $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                             $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
@@ -913,11 +920,11 @@
                         },complete:function(){
                             $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                             $("#btn_save_wfp").html('Save');
-                            $("#btn_save_wfp").attr('disabled',true);
+                            // $("#btn_save_wfp").attr('disabled',true);
                         }
                     });
 
-                }else{
+                    }else{
                     $("#kt_scrolltop").click();
                     $.each(wfp_validation.errors.all(),function(key,value){
                     // console.log('key:' + key , 'value:' + value);
@@ -931,7 +938,10 @@
                     $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                     $("#btn_save_wfp").html('Save');
                     $("#btn_save_wfp").attr('disabled',false);
+                    }
+
                 }
+
 
 
         }

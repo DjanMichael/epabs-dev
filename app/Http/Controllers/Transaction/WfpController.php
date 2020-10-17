@@ -411,13 +411,10 @@ class WfpController extends Controller
         // dd($req->data["output_function"]);
         // dd($req->all());
         $total_balance_act_plan = 0;
-        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->get()->toArray();
+        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
 
-        if(count($budget_allocation) != 0){
-            foreach($budget_allocation as $r){
-                $total_balance_act_plan += $r["balance_act_plan"];
-            }
-
+        if($budget_allocation){
+            $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);
         }
 
         if( $total_balance_act_plan < $req->data["act_cost"])
