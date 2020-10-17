@@ -627,6 +627,21 @@ class WfpController extends Controller
 
     public function newWfpActivity(Request $req){
 
+        $wfp_code = Crypt::decryptString($req->wfp_code);
+
+        $total_balance_act_plan = 0;
+        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+
+        if($budget_allocation){
+            $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);
+        }
+        if( $total_balance_act_plan <= 0)
+        {
+            return ['message'=> 'No budget'];
+        }else if ( $total_balance_act_plan < 1000){
+            return ['message'=> 'less1000'];
+        }
+
         $a = new WfpActivity;
         $a->wfp_code = Crypt::decryptString($req->wfp_code);
         $a->encoded_by = Auth::user()->id;

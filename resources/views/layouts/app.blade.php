@@ -213,7 +213,7 @@
 				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default " >
 					<!--begin::Header Nav-->
 					<ul class="menu-nav ">
-                        <li class="menu-item "  aria-haspopup="true"> <a  href="#" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
+                        <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
 </ul>
 					<!--end::Header Nav-->
@@ -1817,21 +1817,73 @@
 
             }
 
+
+            function downloadPdfWfp(_wfp_code){
+                var _url ="{{ route('wfp_unit_download') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_self');
+            }
+
+
             function printWfp(_wfp_code){
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
-                window.open(_url,'_blank');
+                window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 
             function addNewActivity(_wfp_code){
                 var _url ="{{ route('wfp_add_new_activity') }}";
-                KTApp.block('#kt_body', {
-                    overlayColor: '#000000',
-                    state: 'primary',
-                    message: 'Redirecting. . '
-                });
-                setTimeout(function(){
-                    window.location.href = _url + '?wfp_code=' + _wfp_code;
-                },1000)
+
+
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data :  { wfp_code : _wfp_code  },
+                    success:function(data){
+
+                        if(data.message =='No budget'){
+                            swal.fire({
+                                    title:"Error",
+                                    text:'Your balance is 0.00',
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                            });
+                        }else if(data.message =='less1000') {
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "Your Balance is Less than 1000",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes, Create Activity it!"
+                            }).then(function(result) {
+                                if (result.value) {
+                                    KTApp.block('#kt_body', {
+                                        overlayColor: '#000000',
+                                        state: 'primary',
+                                        message: 'Redirecting. . '
+                                    });
+                                    setTimeout(function(){
+                                        window.location.href = _url + '?wfp_code=' + _wfp_code;
+                                    },1000)
+                                }
+                            });
+                        }else{
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Redirecting. . '
+                            });
+                            setTimeout(function(){
+                                window.location.href = _url + '?wfp_code=' + _wfp_code;
+                            },1000)
+                        }
+
+                    }
+                })
+
+
             }
         </script>
         </body>
