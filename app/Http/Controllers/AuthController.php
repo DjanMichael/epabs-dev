@@ -18,8 +18,12 @@ class AuthController extends Controller
     //
     function index()
     {
-        $data["division"] = RefUnits::where('status','ACTIVE')->select('division') ->distinct('division')->get()->toArray();
-        $data["section"] = RefUnits::where('status','ACTIVE')->select('section')->distinct('section')->get()->toArray();
+        $data["division"] = RefUnits::where('status','ACTIVE')
+                                    ->where('division','!=','Admin')
+                                    ->select('division') ->distinct('division')->get()->toArray();
+        $data["section"] = RefUnits::where('status','ACTIVE')
+                                    ->where('section','!=','Admin')
+                                    ->select('section')->distinct('section')->get()->toArray();
         $data["roles"] = UserRoles::where('role_id','!=','-1')->get()->toArray();
         return view('pages.auth.login',['data'=>$data]);
     }
