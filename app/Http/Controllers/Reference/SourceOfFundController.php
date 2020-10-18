@@ -51,7 +51,7 @@ class SourceOfFundController extends Controller
                         : RefSourceOfFund::where('sof_classification', $request->sof_classification)->first();
 
         if ($check) {
-            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+            return response()->json(['message'=>'Fund Source '.$request->sof_classification.' already exists!', 'type'=> 'info']);
         } else {
             $check = RefSourceOfFund::find($request->sof_id);
             if ($check) {
@@ -63,7 +63,7 @@ class SourceOfFundController extends Controller
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
             }
             else {
-                return response()->json(['message'=>'Something went wrong']);
+                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
             }
         }
 

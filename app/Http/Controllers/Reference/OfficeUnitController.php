@@ -59,7 +59,7 @@ class OfficeUnitController extends Controller
                                             ])->first();
 
         if ($check) {
-            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+            return response()->json(['message'=>$request->division.'-'.$request->section.' already exists!', 'type'=> 'info']);
         } else {
             $check = RefUnits::find($request->id);
             if ($check) {
@@ -72,7 +72,7 @@ class OfficeUnitController extends Controller
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
             }
             else {
-                return response()->json(['message'=>'Something went wrong']);
+                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
             }
         }
 
