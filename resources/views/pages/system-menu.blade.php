@@ -90,7 +90,7 @@
            </div>
            <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                <button onclick="window.location.href='{{ route('r_ppmp') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -110,7 +110,7 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left" >
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg float-left">PPMP</a>
+                        <a href="{{ route('r_ppmp') }}" class="text-dark text-hover-primary mb-1 font-size-lg float-left">PPMP</a>
                         <span class="text-muted">Create your PPMP</span>
                     </div>
                     <!--end::Text-->

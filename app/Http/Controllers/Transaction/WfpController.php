@@ -194,7 +194,8 @@ class WfpController extends Controller
             $year_id = $year_id->select_year;
             $year = RefYear::where('id',$year_id)->first();
             // dd($a);
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> (count($a) <> 0 ? Crypt::encryptString($a[0]->code) : null) ]);
+            // dd($req->wfp_code);
+            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> ($req->wfp_code != null ? Crypt::encryptString($req->wfp_code) : null) ]);
         }
     }
 
@@ -236,10 +237,10 @@ class WfpController extends Controller
             $wfp->year_id = $year_id;
             $stat = $wfp->save();
 
-            $wfp_act = new WfpActivity;
-            $wfp_act->wfp_code = $code;
-            $wfp_act->encoded_by =  $this->auth_user_id;
-            $wfp_act->save();
+            // $wfp_act = new WfpActivity;
+            // $wfp_act->wfp_code = $code;
+            // $wfp_act->encoded_by =  $this->auth_user_id;
+            // $wfp_act->save();
 
             // $wfp_act_indi = new WfpPerformanceIndicator;
             // $wfp_act_indi->wfp_code = $code;
@@ -642,10 +643,12 @@ class WfpController extends Controller
             return ['message'=> 'less1000'];
         }
 
-        $a = new WfpActivity;
-        $a->wfp_code = Crypt::decryptString($req->wfp_code);
-        $a->encoded_by = Auth::user()->id;
-        $a->save();
+        if($req->insert == '1'){
+            $a = new WfpActivity;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->encoded_by = Auth::user()->id;
+            $a->save();
+        }
 
 
         $data = [];
@@ -659,7 +662,7 @@ class WfpController extends Controller
         $data["wfp"] = Wfp::where('code',$code)->first();
 
         // dd($req->wfp_id);
-        if($req->wfp_id !='null'){
+        if($req->wfp_id != null){
             $check = WfpActivity::where('id',$a->id)->first();
 
             if($check->out_function != null){
@@ -702,10 +705,13 @@ class WfpController extends Controller
 
         }
 
+        if($req->insert == '1'){
+
         $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get();
         $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_act_id',$a->id)->get()->toArray();
 
         return view('pages.transaction.wfp.create_wfp_new_activity',['data' => $data,'wfp_act_id'=>$a->id]);
+        }
     }
 
     public function deleteUnitAcitivityById(Request $req){
