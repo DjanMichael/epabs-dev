@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row div_status">
             <label class="col-12 col-md-2 col-form-label">Status<span class="text-danger">*</span></label>
             <div class="col-12 col-md-3">
                 <span class="switch switch-icon">

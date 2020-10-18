@@ -69,6 +69,7 @@
                     $('#office_unit_id').val(id);
                     $('#division').val(division);
                     $('#section').val(section);
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
@@ -82,7 +83,7 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#office_unit_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 data.division = $("#division").val();
                 data.section = $("#section").val();
 

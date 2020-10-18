@@ -67,6 +67,7 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     $('#program_id').val(id);
                     $('#program').val(program);
+                    $('.div_status').css("display", ((id == null) ? 'none' : ''));
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
@@ -80,7 +81,7 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#program_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 data.program = $("#program").val();
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {

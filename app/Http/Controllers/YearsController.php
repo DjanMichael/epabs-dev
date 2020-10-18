@@ -60,7 +60,7 @@ class YearsController extends Controller
                         : RefYear::where('year', $request->year)->first();
 
         if ($check) {
-            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+            return response()->json(['message'=>'Year '. $request->year .' already exists!', 'type'=> 'info']);
         } else {
             $check = RefYear::find($request->year_id);
             if ($check) {
@@ -68,11 +68,11 @@ class YearsController extends Controller
                 return response()->json(['message'=>'Successfully updated data','type'=>'update']);
             }
             else if (empty($check)) {
-                $refYear = RefYear::create($request->all());
+                RefYear::create($request->all());
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
             }
             else {
-                return response()->json(['message'=>'Something went wrong']);
+                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
             }
         }
 
