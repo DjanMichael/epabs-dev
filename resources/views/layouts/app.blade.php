@@ -1832,11 +1832,10 @@
             function addNewActivity(_wfp_code){
                 var _url ="{{ route('wfp_add_new_activity') }}";
 
-
                 $.ajax({
                     method:"GET",
                     url: _url,
-                    data :  { wfp_code : _wfp_code  },
+                    data :  { wfp_code : _wfp_code ,insert: 0 },
                     success:function(data){
 
                         if(data.message =='No budget'){
@@ -1865,7 +1864,7 @@
                                         message: 'Redirecting. . '
                                     });
                                     setTimeout(function(){
-                                        window.location.href = _url + '?wfp_code=' + _wfp_code;
+                                        window.location.href = _url + '?insert=1&wfp_code=' + _wfp_code ;
                                     },1000)
                                 }
                             });
@@ -1876,7 +1875,7 @@
                                 message: 'Redirecting. . '
                             });
                             setTimeout(function(){
-                                window.location.href = _url + '?wfp_code=' + _wfp_code;
+                                window.location.href = _url +'?insert=1&wfp_code=' + _wfp_code ;
                             },1000)
                         }
 

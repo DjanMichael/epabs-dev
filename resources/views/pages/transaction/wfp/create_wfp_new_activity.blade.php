@@ -513,7 +513,7 @@
                 $(this).addClass('spinner spinner-white spinner-right');
                 $(this).html('Redirecting . . ');
                 setTimeout(function(){
-                    window.location.href = _url + '?wfp_code=' + code;
+                    window.location.href = _url + '?insert=1&wfp_code=' + code;
                 },1000)
             });
 

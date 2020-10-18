@@ -67,6 +67,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
 
+    //PPMP
+    Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
+
+
+
+
+
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
     Route::get('/test','Transaction\WfpController@test');
