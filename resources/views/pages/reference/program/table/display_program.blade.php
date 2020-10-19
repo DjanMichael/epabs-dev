@@ -4,7 +4,6 @@
         <tr>
             <th scope="col" class="text-center">#</th>
             <th scope="col" class="text-center">Program</th>
-            <th scope="col" class="text-center">Coordinator</th>
             <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Action</th>
         </tr>
@@ -14,9 +13,8 @@
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
                 <td data-target="program">{{ $row["program_name"] }}</td>
-                <td data-target="coordinator">{{ $row["name"] }}</td>
                 <td data-target="status">
-                    <span class="label label-inline {{ $row["program_status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["program_status"] }}</span>
+                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
                </td>
                 <td>
                     <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">

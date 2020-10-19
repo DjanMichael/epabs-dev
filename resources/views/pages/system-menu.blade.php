@@ -478,7 +478,7 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_program') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Unit Programs</a>
+                            <a href="{{ route('r_program') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Programs</a>
                             <span class="text-muted">Build your programs</span>
                         </div>
                         <!--end::Text-->
