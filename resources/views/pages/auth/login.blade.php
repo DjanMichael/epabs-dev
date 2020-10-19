@@ -330,7 +330,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				KTApp.block('#kt_body', {
 					overlayColor: '#000000',
 					state: 'primary',
-					message: 'Authenticating. . .'
+					message: '<i class="fas fa-key mr-1"></i> Authenticating. . .'
 				});
 
 				var _url = "{{ route('send_login') }}";
