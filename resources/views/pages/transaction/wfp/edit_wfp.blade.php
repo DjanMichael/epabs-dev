@@ -925,14 +925,21 @@
                                 "Not Enough Budget",
                                 "error"
                             )
-                        }
-                        else if (data == 'success'){
+                        }else if(data == 'the new amount is not enough for the existing Performance Indicator costing'){
+                            Swal.fire(
+                                "Opss!",
+                                "The new amount is not enough for the existing Performance Indicator costing",
+                                "error"
+                            )
+                        }else if (data == 'success'){
                             Swal.fire(
                                 "Good Job!",
                                 "Successfully Updated WFP Activity",
                                 "success"
                             )
                         }
+
+                    },complete:function(){
                         $("#btn_pi_add_new").attr('disabled',false);
                         $("#btn_update_wfp").removeClass('spinner spinner-white spinner-right');
                         $("#btn_update_wfp").html('<i class="flaticon2-refresh icon-md"/>Update');
@@ -1338,8 +1345,8 @@
                         if(data.length != 0){
                             var nf = new Intl.NumberFormat();
                             document.getElementById('total_allocation').innerHTML = nf.format(data.program_budget);
-                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized);
-                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized);
+                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized_plan);
+                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized_plan);
                         }
                     }
                 });

@@ -1755,13 +1755,29 @@
         }
 
         function gotoPPMP(_wfp_code,_wfp_act_id){
-            KTApp.block('#kt_body', {
-                overlayColor: '#000000',
-                state: 'primary',
-                message: 'Redirecting. . .'
+            var _url ="{{ route('check_if_wfp_is_approve') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data: { wfp_code : _wfp_code },
+                success:function(data){
+                    if(data == 'success'){
+                        KTApp.block('#kt_body', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Redirecting. . .'
+                        });
+                        var url ="{{ route('r_ppmp') }}";
+                        window.location.href = url  + "?wfp_act_id=" + _wfp_act_id + "&wfp_code=" + _wfp_code;
+                    }else{
+                        Swal.fire(
+                            "Can\'t Proceed",
+                            "WFP is not Approved",
+                            "error"
+                        )
+                    }
+                }
             });
-            var url ="{{ route('r_ppmp') }}";
-            window.location.href = url  + "?wfp_act_id=" + _wfp_act_id + "&wfp_code=" + _wfp_code;
         }
 
 
@@ -2043,57 +2059,80 @@
             }
 
             function addNewActivity(_wfp_code){
-                var _url ="{{ route('wfp_add_new_activity') }}";
-
+                var _url1 ="{{ route('check_if_wfp_is_submitted') }}";
                 $.ajax({
                     method:"GET",
-                    url: _url,
-                    data :  { wfp_code : _wfp_code ,insert: 0 },
+                    url: _url1,
+                    data: { wfp_code : _wfp_code },
                     success:function(data){
-
-                        if(data.message =='No budget'){
-                            swal.fire({
-                                    title:"Error",
-                                    text:'Your balance is 0.00',
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok",
-                                    customClass: {
-                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                        if(data =='approved wfp'){
+                            Swal.fire(
+                                "Can\'t Proceed",
+                                "WFP already Approved",
+                                "error"
+                            )
+                        }else if(data =='submitted wfp'){
+                            Swal.fire(
+                                "Can\'t Proceed",
+                                "WFP already Submitted",
+                                "error"
+                            )
+                        }else if(data == 'success'){
+                            var _url ="{{ route('wfp_add_new_activity') }}";
+                            $.ajax({
+                                method:"GET",
+                                url: _url,
+                                data :  { wfp_code : _wfp_code ,insert: 0 },
+                                success:function(data){
+                                    if(data.message =='No budget'){
+                                        swal.fire({
+                                                title:"Error",
+                                                text:'Your balance is 0.00',
+                                                icon: "error",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Ok",
+                                                customClass: {
+                                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                                }
+                                        });
+                                    }else if(data.message =='less1000') {
+                                        Swal.fire({
+                                            title: "Are you sure?",
+                                            text: "Your Balance is Less than 1000",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Yes, Create Activity it!"
+                                        }).then(function(result) {
+                                            if (result.value) {
+                                                KTApp.block('#kt_body', {
+                                                    overlayColor: '#000000',
+                                                    state: 'primary',
+                                                    message: 'Redirecting. . '
+                                                });
+                                                setTimeout(function(){
+                                                    window.location.href = _url + '?insert=1&wfp_code=' + _wfp_code ;
+                                                },1000)
+                                            }
+                                        });
+                                    }else{
+                                        KTApp.block('#kt_body', {
+                                            overlayColor: '#000000',
+                                            state: 'primary',
+                                            message: 'Redirecting. . '
+                                        });
+                                        setTimeout(function(){
+                                            window.location.href = _url +'?insert=1&wfp_code=' + _wfp_code ;
+                                        },1000)
                                     }
-                            });
-                        }else if(data.message =='less1000') {
-                            Swal.fire({
-                                title: "Are you sure?",
-                                text: "Your Balance is Less than 1000",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonText: "Yes, Create Activity it!"
-                            }).then(function(result) {
-                                if (result.value) {
-                                    KTApp.block('#kt_body', {
-                                        overlayColor: '#000000',
-                                        state: 'primary',
-                                        message: 'Redirecting. . '
-                                    });
-                                    setTimeout(function(){
-                                        window.location.href = _url + '?insert=1&wfp_code=' + _wfp_code ;
-                                    },1000)
                                 }
                             });
-                        }else{
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Redirecting. . '
-                            });
-                            setTimeout(function(){
-                                window.location.href = _url +'?insert=1&wfp_code=' + _wfp_code ;
-                            },1000)
                         }
-
                     }
                 })
+
+
+
+
 
 
             }

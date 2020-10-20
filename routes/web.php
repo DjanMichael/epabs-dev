@@ -63,6 +63,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
 
+
     //PRINTING
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
@@ -72,7 +73,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
 
 
-
+    //WFP STATUS
+    Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
+    Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
