@@ -18,6 +18,7 @@ class CreateTblProcurementMedicine extends Migration
             $table->string('description');
             $table->integer('unit_id');
             $table->integer('classification_id');
+            $table->integer('category_id');
             $table->enum('fix_price',['Y','N']);
             $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();

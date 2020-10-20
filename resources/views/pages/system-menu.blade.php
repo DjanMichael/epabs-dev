@@ -459,7 +459,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                    <button onclick="window.location.href='{{ route('r_uacs') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                    <button onclick="window.location.href='{{ route('r_dm_category') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                         <!--begin::Symbol-->
                         <div class="symbol symbol-40 symbol-light-primary mr-5">
                             <span class="symbol-label">
@@ -478,8 +478,8 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_uacs') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Drugs and Medicine Category</a>
-                            <span class="text-muted">Manage your UACS</span>
+                            <a href="{{ route('r_dm_category') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Drugs and Medicine Category</a>
+                            <span class="text-muted">Organize your category</span>
                         </div>
                         <!--end::Text-->
                    </button>
@@ -515,7 +515,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                    <button onclick="window.location.href='{{ route('r_program') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                    <button onclick="window.location.href='{{ route('r_unit_program') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                         <!--begin::Symbol-->
                         <div class="symbol symbol-40 symbol-light-primary mr-5">
                             <span class="symbol-label">
@@ -533,7 +533,7 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_program') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Assign Program Coordinators</a>
+                            <a href="{{ route('r_unit_program') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Assign Program Coordinators</a>
                             <span class="text-muted">Choose your coordinators</span>
                         </div>
                         <!--end::Text-->

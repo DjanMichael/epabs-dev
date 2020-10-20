@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reference;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\RefItemUnit;
+use App\RefDmCategory;
 use App\RefClassification;
 use App\RefPrice;
 use App\TableProcurementMedicine;
@@ -15,8 +16,9 @@ class ProcurementMedicineController extends Controller
     public function index(){ return view('pages.reference.procurement.procurement_medicine'); }
 
     public function getProcurementMedicine(){
+        $check = ProcurementMedicine::select('category')->first();
         $data = ProcurementMedicine::paginate(10);
-        return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
+        return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data, 'checker'=>$check]);
     }
 
     public function getProcurementMedicineByPage(Request $request){
@@ -34,6 +36,7 @@ class ProcurementMedicineController extends Controller
             if($query != ''){
                 $data = ProcurementMedicine::where('description' ,'LIKE', '%'. $query .'%')
                                                 ->orWhere('classification' ,'LIKE', '%'. $query .'%')
+                                                ->orWhere('category' ,'LIKE', '%'. $query .'%')
                                                 ->paginate(10);
             }else{
                 $data = ProcurementMedicine::paginate(10);
@@ -64,6 +67,7 @@ class ProcurementMedicineController extends Controller
     public function getAddForm(){
         $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         $data['classification'] = RefClassification::where('status','ACTIVE')->get();
+        $data['category'] = RefDmCategory::where('status','ACTIVE')->get();
         return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data]);
     }
 
@@ -83,8 +87,8 @@ class ProcurementMedicineController extends Controller
             $check = TableProcurementMedicine::find($request->id);
             if ($check) {
                 $check->update(['description' => $request->description, 'unit_id' => $request->unit_id,
-                                'classification_id' => $request->classification_id, 'fix_price' => $request->fix_price,
-                                'status' => $request->status]);
+                                'classification_id' => $request->classification_id, 'category_id' => $request->category_id,
+                                'fix_price' => $request->fix_price, 'status' => $request->status]);
                 return response()->json(['message'=>'Successfully updated data','type'=>'update']);
             }
             else if (empty($check)) {
@@ -92,6 +96,7 @@ class ProcurementMedicineController extends Controller
                     'description' => $request->description,
                     'unit_id' => $request->unit_id,
                     'classification_id' => $request->classification_id,
+                    'category_id' => $request->category_id,
                     'fix_price' => $request->fix_price,
                     'status' => $request->status
                 ];
