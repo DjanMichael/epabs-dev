@@ -47,6 +47,9 @@
             .bg-drawer{
                 z-index:99 ;
             }
+            .modal-backdrop {
+            z-index: 1000;
+            }
 
 
             .page_loader{
@@ -79,9 +82,7 @@
                 overflow-y:hidden;
 
             }
-            .modal-backdrop {
-                z-index: 1000;
-                }
+
         </style>
 
     </head>
@@ -228,7 +229,7 @@
 </div>
 <!--end::Header-->
 
-				<!--begin::Content-->
+<!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Subheader-->
 <div class="subheader subheader-transparent " id="kt_subheader">
@@ -325,12 +326,20 @@
 <!-- begin:wfp_drawer -->
 
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 100%;" id="wfp_drawer">`
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_drawer">
 </div>
 
 
 <div id="bg-drawer-cart" onclick="wfp_act_cart_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 100%;" id="wfp_act_cart_drawer">
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_act_cart_drawer">
 </div>
 <!-- end:wfp_drawer -->
 
@@ -885,8 +894,8 @@
 <!--end::Quick Panel-->
 
 
-<!-- Modal-->
-<div class="modal fade" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095">
+<!-- Modal modal_wfp_comments-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -896,94 +905,97 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div data-scroll="true" data-height="300">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 col-md-3">January</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">Febuary</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">March</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">April</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">May</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">June</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6 col-md-3">January</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-6 col-md-3">July</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                            <div class="col-6 col-md-3">Febuary</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
-                                <div class="col-6 col-md-3">August</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="col-6 col-md-3">March</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
-                                <div class="col-6 col-md-3">September</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="col-6 col-md-3">April</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
-                                <div class="col-6 col-md-3">October</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="col-6 col-md-3">May</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
-                                <div class="col-6 col-md-3">November</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">December</div>
-                                <div class="col-6 col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" id="" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="col-6 col-md-3">June</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6 col-md-3">July</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">August</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">September</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">October</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">November</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">December</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+            <div class="modal-footer" style="float:left">
+
             </div>
         </div>
     </div>
@@ -1727,7 +1739,6 @@
                 focus: true,
                 keyboard:false
             });
-
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
         }
