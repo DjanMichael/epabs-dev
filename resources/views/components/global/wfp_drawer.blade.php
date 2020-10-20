@@ -59,7 +59,9 @@
                         <table class="table table-sm table-bordered table-hover" class="wfp_table">
                             <thead style="text-align:center;" class="bg-secondary">
                                 <tr>
+                                    @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 )
                                     <th scope="col">Action</th>
+                                    @endif
                                     <th scope="col">Act Code</th>
                                     <th scope="col">Function</th>
                                     <th scope="col">Output Function</th>
@@ -77,27 +79,30 @@
 
         @endif
 
-
                         <?php
 
                             $total_cost = 0.00;
                         ?>
                         @forelse ($activities as $row)
                             <tr class="wfp_table_row">
+                                @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 )
                                 <td scope="row text-center" style="width:130px;">
-
+                                    @if($cmd["EDIT"] == 1)
                                     <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                             style="position: relative;right:0;bottom:0;"
                                             data-toggle="tooltip" title="Edit" data-placement="right" data-original-title="Edit"
                                             onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
                                         <i class="flaticon-edit"></i>
                                     </button>
+                                    @endif
+                                    @if($cmd["DEL"] == 1)
                                     <button id="wfp_del_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                             style="position: relative;right:0;bottom:0;"
                                             data-toggle="tooltip" title="Delete" data-placement="right" data-original-title="Delete"
                                             onclick="deleteWfp('{{ $row->twa_id }}')">
                                         <i class="flaticon2-trash"></i>
                                     </button>
+                                    @endif
                                     <button  id="wfp_comment_act" type="button"
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
@@ -105,21 +110,24 @@
                                         onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">
                                         <i class="flaticon-comment"></i>
                                     </button>
+                                    @if($cmd["VIEW"] == 1)
                                     <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
                                         data-toggle="tooltip" title="View Details" data-placement="right" data-original-title="View Details"
                                         onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
                                     <i class="flaticon-medical"></i>
                                     </button>
-
+                                    @endif
+                                    @if($cmd["PPMP"] == 1)
                                     <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
                                         data-toggle="tooltip" title="PPMP" data-placement="right" data-original-title="PPMP"
                                         onclick="gotoPPMP('{{ $wfp_code }}',{{ $row->twa_id }})">
                                     <i class="fas fa-shopping-cart"></i>
                                     </button>
-
+                                    @endif
                                 </td>
+                                @endif
                                 <td>{{ $row->wfp_activity_id }}</td>
                                 <td>{{ $row->function_class }}</td>
                                 <td>{{ $row->function_description }}</td>
@@ -152,7 +160,7 @@
                         @endforelse
 @if(count($activities) <> 0)
                         <tr class="bg-secondary">
-                            <th scope="col"></th>
+                            @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 || $cmd["PPMP"] == 1 ) <th scope="col"></th> @endif
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>

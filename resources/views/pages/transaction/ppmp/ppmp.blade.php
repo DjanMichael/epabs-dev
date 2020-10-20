@@ -22,31 +22,55 @@
     <!--end::Item-->
 </ul>
 <div class="row">
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-12">
         <div class="flex-column col-md-12">
             <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/metronic/theme/html/demo12/dist/assets/media/svg/shapes/abstract-3.svg)">
+                <div class="card-title p-5 bg-dark mb-0">
+                        <h4 class="text-light">Wfp Activity</h4>
+                </div>
                 <!--begin::Body-->
                 <div class="card-body my-4">
-                    <span class="card-title font-weight-bolder text-info font-size-h6 mb-4 text-hover-state-dark d-block">Remaining Budget</span>
-                    <div class="font-weight-bold text-muted font-size-sm">
-                    <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">P 67,000,000</span>90%</div>
-                    <div class="progress progress-xs mt-1 bg-info-o-60">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-2">
+                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Balance</span>
+                            <div class="font-weight-bold text-muted font-size-sm">
+                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">P 67,000,000</span>90%</div>
+                            <div class="progress progress-xs mt-1 bg-info-o-60">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>Utilized</span>
+                            <div class="font-weight-bold text-muted font-size-sm">
+                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">P 67,000,000</span>90%</div>
+                            <div class="progress progress-xs mt-1 bg-info-o-60">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <p class="font-weight-normal mb-0">Select Performance Indicator</p>
+                            <div class="form-group">
+                                <select class="form-control" id="pi_ppmp_select">
+                                    <option value="">TEST</option>
+                                    <option value="">TEST</option>
+                                    <option value="">TEST</option>
+                                </select>
+                            </div>
+                            <p class="font-weight-normal mb-0">Timeframe</p>
+                            <div class="symbol-list d-flex flex-wrap">
+                                <div class="symbol mr-3 mb-1">
+                                    <span class="symbol-label font-size-sm">JAN</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <br>
-                    <span class="card-title font-weight-bolder text-info font-size-h6 mb-4 text-hover-state-dark d-block">Cart Total Amount</span>
-                    <div class="font-weight-bold text-muted font-size-sm">
-                    <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">67%</span>Avarage</div>
-                    <div class="progress progress-xs mt-1 bg-info-o-60">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
                 </div>
                 <!--end::Body-->
             </div>
         </div>
 
 
+
+    </div>
+    <div class="col-12 col-md-3">
         <div class="flex-column  col-md-12" id="kt_profile_aside">
             <!--begin::Forms Widget 15-->
             <div class="card card-custom gutter-b">

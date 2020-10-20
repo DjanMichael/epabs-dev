@@ -118,8 +118,8 @@ class WfpController extends Controller
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $a = \App\TableUnitBudgetAllocation::join('ref_budget_line_item','ref_budget_line_item.id','tbl_unit_budget_allocation.budget_line_item_id')
                                                                     ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
-                                                                    ->where('unit_id', $unit_id)
-                                                                    ->where('year_id',$req->year_id)
+                                                                    ->where('tbl_unit_budget_allocation.unit_id', $unit_id)
+                                                                    ->where('tbl_unit_budget_allocation.year_id',$req->year_id)
                                                                     ->where('ref_budget_line_item.status','ACTIVE')
                                                                     ->get()
                                                                     ->toArray();
@@ -195,7 +195,33 @@ class WfpController extends Controller
             $year = RefYear::where('id',$year_id)->first();
             // dd($a);
             // dd($req->wfp_code);
-            return view('components.global.wfp_drawer',['activities'=>$a, 'year' => $year->year , 'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),'wfp_code'=> ($req->wfp_code != null ? Crypt::encryptString($req->wfp_code) : null) ]);
+            $status = ZWfpLogs::where('wfp_code',$req->wfp_code)->orderBy('created_at','DESC')->first();
+
+            if($status["status"] =='WFP' ){
+                if($status["remarks"] =='SUBMITTED')
+                {
+                    $cmd["EDIT"] = 0;
+                    $cmd["DEL"] = 0;
+                    $cmd["VIEW"] = 0;
+                    $cmd["PPMP"] = 0;
+                }else if($status["remarks"] == 'APPROVED'){
+                    $cmd["EDIT"] = 0;
+                    $cmd["DEL"] = 0;
+                    $cmd["VIEW"] = 0;
+                    $cmd["PPMP"] = 1;
+                }else if ($status["remarks"] == 'FOR REVISION'){
+                    $cmd["EDIT"] = 1;
+                    $cmd["DEL"] = 1;
+                    $cmd["VIEW"] = 1;
+                    $cmd["PPMP"] = 0;
+                }
+            }
+
+            return view('components.global.wfp_drawer',['activities'=>$a,
+                                                        'year' => $year->year ,
+                                                        'user_id'=> (count($a) <> 0 ? $a[0]->user_id : null),
+                                                        'wfp_code'=> ($req->wfp_code != null ? Crypt::encryptString($req->wfp_code) : null),
+                                                        'cmd' => $cmd ]);
         }
     }
 
@@ -262,7 +288,7 @@ class WfpController extends Controller
         if($req->ajax()){
             $sum_used_budget_bli  =0;
             $other_act_pi_cost = WfpPerformanceIndicator::where('wfp_act_id',$req->id)
-                                                        ->where('bli_id',$req->bli_id)
+                                                        // ->where('bli_id',$req->bli_id)
                                                         ->get();
             $wfp_act = WfpActivity::where('id',$req->id)->first();
 
@@ -275,6 +301,7 @@ class WfpController extends Controller
             if($wfp_act->activity_cost == null){
                 return 'save activity first';
             }
+            // dd($sum_used_budget_bli);
             // dd($wfp_act->activity_cost);
             // dd(( $sum_used_budget_bli + $req->data["cost"]));
             //if requested cost is  greater than the activity plan cost
@@ -537,21 +564,47 @@ class WfpController extends Controller
     public function updateWfpActivity(Request $req){
         if($req->ajax()){
 
+            $total_act = 0;
+            $total_pi_cost = 0;
+
             $wfp_code = Crypt::decryptString($req->wfp_act["wfp_code"]);
-            $total_balance_act_plan = 0;
-            $total_balance_act_plan = 0;
-            $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->get()->toArray();
+            $budget_allocation_program = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+            $budget_allocation_program["yearly_budget"];
 
-            if(count($budget_allocation) != 0){
-                foreach($budget_allocation as $r){
-                    $total_balance_act_plan += $r["balance_act_plan"];
+
+            $check_has_pi = WfpPerformanceIndicator::where('wfp_code',$wfp_code)->where('wfp_act_id',$req->wfp_act_id)->get()->toArray();
+
+            if(count($check_has_pi) != 0){
+                foreach($check_has_pi as $r){
+                    $total_pi_cost += $r["cost"];
                 }
-
             }
 
-            if( $total_balance_act_plan < $req->wfp_act["act_cost"])
+
+            $wfp_act = WfpActivity::where('wfp_code',$wfp_code)->where('id','!=',$req->wfp_act_id)->get()->toArray();
+
+            if(count($wfp_act) != 0){
+                foreach($wfp_act as $r){
+                    $total_act += $r["activity_cost"];
+                }
+            }
+
+            // dd($total_act);
+
+            $maximum_cost_request = $budget_allocation_program["yearly_budget"] - $total_act;
+            // dd($budget_allocation_program["yearly_budget"] - $total_act);
+            // dd($req->wfp_act["act_cost"]);
+
+            //validation budget activity
+            if( $maximum_cost_request < $req->wfp_act["act_cost"])
             {
                 return 'not enough budget';
+            }
+            // dd($total_pi_cost);
+            // dd($req->wfp_act["act_cost"]);
+                //validation budget performance indicator
+            if(($req->wfp_act["act_cost"] - 0) < $total_pi_cost){
+                return 'the new amount is not enough for the existing Performance Indicator costing';
             }
 
             // dd($req->wfp_act);

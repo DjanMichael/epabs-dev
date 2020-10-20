@@ -1345,8 +1345,8 @@
                         if(data.length != 0){
                             var nf = new Intl.NumberFormat();
                             document.getElementById('total_allocation').innerHTML = nf.format(data.program_budget);
-                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized);
-                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized);
+                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized_plan);
+                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized_plan);
                         }
                     }
                 });
