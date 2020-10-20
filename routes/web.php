@@ -69,7 +69,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
-
+    Route::get('view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
 
 
 

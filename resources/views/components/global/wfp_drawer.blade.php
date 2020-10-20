@@ -88,25 +88,37 @@
 
                                     <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                             style="position: relative;right:0;bottom:0;"
+                                            data-toggle="tooltip" title="Edit" data-placement="right" data-original-title="Edit"
                                             onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
                                         <i class="flaticon-edit"></i>
                                     </button>
                                     <button id="wfp_del_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                             style="position: relative;right:0;bottom:0;"
+                                            data-toggle="tooltip" title="Delete" data-placement="right" data-original-title="Delete"
                                             onclick="deleteWfp('{{ $row->twa_id }}')">
                                         <i class="flaticon2-trash"></i>
                                     </button>
                                     <button  id="wfp_comment_act" type="button"
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
+                                        data-toggle="tooltip" title="Comment" data-placement="right" data-original-title="Comment"
                                         onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">
                                         <i class="flaticon-comment"></i>
                                     </button>
                                     <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
+                                        data-toggle="tooltip" title="View Details" data-placement="right" data-original-title="View Details"
                                         onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
                                     <i class="flaticon-medical"></i>
                                     </button>
+
+                                    <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                        style="position: relative;right:0;bottom:0;"
+                                        data-toggle="tooltip" title="PPMP" data-placement="right" data-original-title="PPMP"
+                                        onclick="gotoPPMP('{{ $wfp_code }}',{{ $row->twa_id }})">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    </button>
+
                                 </td>
                                 <td>{{ $row->wfp_activity_id }}</td>
                                 <td>{{ $row->function_class }}</td>

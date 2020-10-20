@@ -88,7 +88,7 @@
                 </button>
             </div>
            </div>
-           <div class="col-12 col-md-4">
+           {{-- <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                 <button onclick="window.location.href='{{ route('r_ppmp') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
@@ -116,7 +116,7 @@
                     <!--end::Text-->
                 </button>
             </div>
-           </div>
+           </div> --}}
            <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                 <button  class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
