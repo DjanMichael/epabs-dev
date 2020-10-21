@@ -1821,15 +1821,30 @@
                 wfp_code : _wfp,
                 comment : _comment
             }
-            $.ajax({
-                method:"GET",
-                url: _url,
-                data : _data,
-                success:function(data){
-                    console.log(data);
+            if(_comment != ''){
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data : _data,
+                    success:function(data){
+                        if(data =='success'){
+                            $("#modal_wfp_comments").modal('hide');
+                            Swal.fire(
+                                "Good Job!",
+                                "Comment Successfully Save!",
+                                "success"
+                            )
+                        }
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "Please write something.",
+                    "error"
+                )
+            }
 
-                }
-            });
         })
 
         function editWfp(_wfp_code, _wfp_act_id){
