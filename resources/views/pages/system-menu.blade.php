@@ -138,8 +138,8 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Shopping Module</a>
-                        <span class="text-muted">Shop your Item</span>
+                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Product Item Module</a>
+                        <span class="text-muted">Check Available Item</span>
                     </div>
                     <!--end::Text-->
                 </button>
