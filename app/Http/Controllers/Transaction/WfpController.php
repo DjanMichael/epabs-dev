@@ -32,7 +32,6 @@ class WfpController extends Controller
     public $auth_user_unit_id;
 
 
-
     // wfp performance table settings
     public $pi_table_paginate;
 

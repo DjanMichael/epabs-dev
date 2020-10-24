@@ -156,8 +156,7 @@
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel!",
-                reverseButtons: true
+                cancelButtonText: "No, cancel!"
             }).then(function(result) {
                 if (result.value) {
                     var _url = "{{ route('db_budget_delete_allocation_per_user') }}";
@@ -229,8 +228,7 @@
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel!",
-                reverseButtons: true
+                cancelButtonText: "No, cancel!"
             }).then(function(result) {
                 var _url = "{{ route('db_budget_delete_allocation_per_bli') }}";
                 if (result.value) {
@@ -246,6 +244,8 @@
                                     "success"
                                 )
                                 getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                                $("#btn_save_budget").attr('disabled',false);
+                                $("#btn_update_budget").attr('disabled',true);
                             }else{
                                 Swal.fire(
                                     "Opss!",
@@ -269,12 +269,12 @@
 
         }
 
-        function editBLIUser(unit_id,year_id,user_id,bli_id,bli_budget){
-            console.log(unit_id,year_id,user_id,bli_id);
+        function editBLIUser(_unit_id,year_id,user_id,bli_id,bli_budget){
+            // console.log(unit_id,year_id,user_id,bli_id);
             $("#edit_bli").val("");
             $("#edit_amount").val("");
 
-            $("#edit_bli_unit_id").val(unit_id);
+            $("#edit_bli_unit_id").val(_unit_id);
             $("#edit_bli_user_id").val(user_id);
             $("#edit_bli_year_id").val(year_id);
             $("#edit_bli_id").val(bli_id);
@@ -284,6 +284,30 @@
             //initialize ui value
             $("#bli_name").val(bli_id);
             $("#bli_amount").val(bli_budget);
+
+            var _url ="{{ route('get_budget_amount_by_bli_and_year') }}";
+            var _data = {
+                year : year_id,
+                bli : $("#bli_name option:selected").text(),
+                bli_id : bli_id,
+                unit_id :_unit_id
+            };
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: _data,
+                success:function(data){
+                    var nf = new Intl.NumberFormat();
+                    $("#bli_balance_selected").val(data.calc.balance_year_bli_amount);
+                    $("#txt_amount_bli").html( '₱ ' + nf.format(data.calc.balance_year_bli_amount));
+
+                    if(data.calc.balance_year_bli_amount <= 0 ){
+                        $("#btn_update_budget").attr('disabled',true);
+                    }else{
+                        $("#btn_update_budget").attr('disabled',false);
+                    }
+                }
+            });
 
         }
 

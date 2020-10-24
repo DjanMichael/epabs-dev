@@ -62,7 +62,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
-
+    Route::get('/budgetlineitem/amount/year/allocation','Transaction\BudgetAllocationController@getAmountByBliYear')->name('get_budget_amount_by_bli_and_year');
 
     //PRINTING
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
@@ -70,8 +70,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
-    Route::get('view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
-
+    Route::get('/view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
+    Route::get('/ppmp/perindicator/details/fetch','Transaction\PpmpController@getPIDetails')->name('get_ppmp_details');
 
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');

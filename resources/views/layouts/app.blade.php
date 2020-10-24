@@ -1699,11 +1699,11 @@
                 $("#bg-drawer-cart").addClass('bg-drawer');
                 $("#wfp_act_cart_drawer").addClass('wrapper-drawer-on');
                 var _url = "{{ route('wfp_act_cart_view') }}";
-
+                var _pi_select = $("#pi_ppmp_select option:selected").val();
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id },
+                    data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
                     beforeSend:function(){
                         KTApp.block('#wfp_act_cart_drawer', {
                             overlayColor: '#000000',

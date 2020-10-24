@@ -32,32 +32,38 @@
                 <div class="card-body my-4">
                     <div class="row">
                         <div class="col-12 col-md-4 mb-2">
-                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Balance</span>
+                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Budget</span>
                             <div class="font-weight-bold text-muted font-size-sm">
-                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">P 67,000,000</span>90%</div>
+                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="balance_amount">₱ 0.00</span> <span id="balance_percentage">0%</span></div>
                             <div class="progress progress-xs mt-1 bg-info-o-60">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-info" id = "balance_progress" role="progressbar" style="width:0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>Utilized</span>
                             <div class="font-weight-bold text-muted font-size-sm">
-                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">P 67,000,000</span>90%</div>
+                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="utilize_amount">₱ 0.00</span> <span id="utilize_percentage">0%</span></div>
                             <div class="progress progress-xs mt-1 bg-info-o-60">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 67%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger" id= "utilize_progress" role="progressbar" style="width: 0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-12 col-md-8">
                             <p class="font-weight-normal mb-0">Select Performance Indicator</p>
-                            <div class="form-group">
-                                <select class="form-control" id="pi_ppmp_select">
-                                    <option value="">TEST</option>
-                                    <option value="">TEST</option>
-                                    <option value="">TEST</option>
+                            <div class="form-group " style="">
+                                <select class="form-control form-control-solid" id="pi_ppmp_select">
+                                    <option value="" selected></option>
+                                    @foreach($data["wfp_act_pi"] as $row)
+                                        <option value="{{ $row["id"] }}">{{ $row["performance_indicator"] }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <p class="font-weight-normal mb-0">Timeframe</p>
                             <div class="symbol-list d-flex flex-wrap">
                                 <div class="symbol mr-3 mb-1">
-                                    <span class="symbol-label font-size-sm">JAN</span>
+                                    {{-- @if(count($data["ppmp_items"]) != 0)
+
+                                    @if($data["ppmp_items"])<span class="symbol-label font-size-sm">JAN</span> @endif
+
+
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>
@@ -231,5 +237,44 @@
     <!--end col-10 -->
 </div>
 <!--end row -->
-
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        /*
+            EVENTS
+        */
+        $("#pi_ppmp_select").on('change',function(e){
+            var _url ="{{ route('get_ppmp_details') }}";
+            var _data = { twapi_id : $(this).val() };
+
+            if($(this).val() != ''){
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data:_data,
+                    success:function(data){
+                        // alert(data);
+                        $("#balance_amount").html('₱ ' + data.cost.balance);
+                        $("#balance_percentage").html(data.cost.balance_amount_p + '%');
+                        $("#balance_progress").css('width:' + data.cost.balance_amount_p + '%');
+                        $("#utilize_amount").html('₱ ' + data.cost.ppmp_amount);
+                        $("#utilize_percentage").html(data.cost.ppmp_amount_p + '%');
+                        $("#utilize_progress").css('width:' + data.cost.ppmp_amount_p + '%');
+
+                    }
+                });
+            }
+        });
+
+        /*
+            FUNCTIONS
+        */
+
+        function fetchPerIndicatorActivityCart(twapi_id){
+
+        }
+    });
+</script>
+@endpush

@@ -48,9 +48,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse ($data["ppmp_items"] as $row)
                                 <tr>
                                     <td>
-                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Brasil sad adasda asadasdasdasd</span>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row[""] }}</span>
                                         <span class="text-muted font-weight-bold">Code: BR</span>
                                     </td>
                                     <td class="text-left">
@@ -75,7 +76,11 @@
                                         </button>
                                     </td>
                                 </tr>
-
+                                @empty
+                                <tr>
+                                    <td>NO RECORD</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                                 <tr class="text-left">
                                     <th class="pl-0" style="min-width: 120px"></th>
