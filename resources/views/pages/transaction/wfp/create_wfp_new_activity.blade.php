@@ -513,7 +513,7 @@
                 $(this).addClass('spinner spinner-white spinner-right');
                 $(this).html('Redirecting . . ');
                 setTimeout(function(){
-                    window.location.href = _url + '?wfp_code=' + code;
+                    window.location.href = _url + '?insert=1&wfp_code=' + code;
                 },1000)
             });
 
@@ -1344,8 +1344,8 @@
                         if(data.length != 0){
                             var nf = new Intl.NumberFormat();
                             document.getElementById('total_allocation').innerHTML = nf.format(data.program_budget);
-                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized);
-                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized);
+                            document.getElementById('total_utilized').innerHTML = nf.format(data.utilized_plan);
+                            document.getElementById('total_remaining').innerHTML = nf.format(data.program_budget - data.utilized_plan);
                         }
                     }
                 });

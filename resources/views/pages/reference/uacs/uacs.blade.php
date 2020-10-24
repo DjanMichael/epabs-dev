@@ -71,6 +71,7 @@
                     $('#subcategory').val(subcategory);
                     $('#title').val(title);
                     $('#code').val(code);
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
@@ -84,7 +85,7 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#uacs_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 data.category = $("#category").val();
                 data.subcategory = $("#subcategory").val();
                 data.title = $("#title").val();

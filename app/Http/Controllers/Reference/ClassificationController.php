@@ -9,11 +9,7 @@ use App\RefClassification;
 class ClassificationController extends Controller
 {
     //
-    public function index(){
-
-        return view('pages.reference.classification.classification');
-
-    }
+    public function index(){ return view('pages.reference.classification.classification'); }
 
     public function getClassification()
     {
@@ -50,11 +46,11 @@ class ClassificationController extends Controller
     public function store(Request $request) {
 
         $check = RefClassification::find($request->classification_id)
-                        ? RefClassification::where('classification', $request->classification)->where('id', '<>', $request->classification_id)->first()
-                        : RefClassification::where('classification', $request->classification)->first();
+                    ? RefClassification::where('classification', $request->classification)->where('id', '<>', $request->classification_id)->first()
+                    : RefClassification::where('classification', $request->classification)->first();
 
         if ($check) {
-            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+            return response()->json(['message'=>'Classification '.$request->classification.' already exists!', 'type'=> 'info']);
         } else {
             $check = RefClassification::find($request->classification_id);
             if ($check) {
@@ -66,7 +62,7 @@ class ClassificationController extends Controller
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
             }
             else {
-                return response()->json(['message'=>'Something went wrong']);
+                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
             }
         }
 

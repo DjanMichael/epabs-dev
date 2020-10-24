@@ -26,6 +26,18 @@
             </select>
         </div>
 
+        @isset ($data["category"])
+            <div class="form-group">
+                <label>Category<span class="text-danger">*</span></label>
+                <select class="form-control" id="item_category">
+                    <option value="">Please select category</option>
+                    @foreach($data["category"] as $row)
+                        <option value="{{ $row["id"] }}">{{ $row["category"] }}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endisset
+
         <div class="form-group row">
             <div class="col-12 col-md-6">
                 <label>Price<span class="text-danger">*</span></label>

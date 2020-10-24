@@ -38,9 +38,13 @@ class BudgetAllocationController extends Controller
         return view('pages.transaction.budget_allocation.budget_allocation',['data'=>[]]);
     }
 
-    public function getAllBLI(){
-        $res = RefBudgetLineItem::all();
-        return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
+    public function getAllBLI(Request $req){
+        if($req->ajax()){
+            $res = RefBudgetLineItem::where('year_id',$req->year)->get()->toArray();
+            return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
+        }else{
+            abort(403);
+        }
     }
 
     public function getBudgetAllocationUtilization(Request $req){
@@ -147,6 +151,44 @@ class BudgetAllocationController extends Controller
             }else{
                 abort(403);
             }
+        }
+    }
+
+    public function getAmountByBliYear(Request $req){
+        if($req->ajax()){
+            $data=[];
+            $data["bli"] = RefBudgetLineItem::where('budget_item',$req->bli)->where('year_id',$req->year)->get()->toArray();
+            $data["allocated"] = TableUnitBudgetAllocation::where('budget_line_item_id',$req->bli_id)->get()->toArray();
+            $data["calc"]= [] ;
+            $total_allocated =0;
+            if(count($data["allocated"]) != 0){
+                foreach($data["allocated"] as $row){
+                    $total_allocated += $row["program_budget"];
+                }
+            }
+
+
+            // //edit
+            $hold_edit_value = 0;
+            if($req->has('unit_id')){
+                $a = TableUnitBudgetAllocation::where('budget_line_item_id',$req->bli_id)
+                                            ->where('unit_id',$req->unit_id)
+                                            ->first();
+                $hold_edit_value = $a["program_budget"];
+            }
+            // dd($hold_edit_value);
+            // dd($a["program_budget"]);
+            // dd($total_allocated);
+            $total_allocated -= $hold_edit_value;
+            $data["calc"] =[
+                "total_allocated" => $total_allocated ,
+                "total_year_bli_budget" => $data["bli"][0]["allocation_amount"],
+                "balance_year_bli_amount" =>  $data["bli"][0]["allocation_amount"] - $total_allocated
+            ];
+
+            return $data;
+        }else{
+            abort(403);
         }
     }
 }

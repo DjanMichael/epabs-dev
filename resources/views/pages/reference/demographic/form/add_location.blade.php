@@ -36,8 +36,8 @@
                     </label>
                 </span>
             </div>
-            <label class="col-12 col-md-2 col-form-label">Status<span class="text-danger">*</span></label>
-            <div class="col-12 col-md-3">
+            <label class="col-12 col-md-2 col-form-label div_status">Status<span class="text-danger">*</span></label>
+            <div class="col-12 col-md-3 div_status">
                 <span class="switch switch-icon">
                     <label>
                         <input type="checkbox" name="select" id="chk_status">

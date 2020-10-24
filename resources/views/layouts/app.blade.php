@@ -47,6 +47,9 @@
             .bg-drawer{
                 z-index:99 ;
             }
+            .modal-backdrop {
+            z-index: 1000;
+            }
 
 
             .page_loader{
@@ -79,9 +82,7 @@
                 overflow-y:hidden;
 
             }
-            .modal-backdrop {
-                z-index: 1000;
-                }
+
         </style>
 
     </head>
@@ -228,7 +229,7 @@
 </div>
 <!--end::Header-->
 
-				<!--begin::Content-->
+<!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Subheader-->
 <div class="subheader subheader-transparent " id="kt_subheader">
@@ -325,10 +326,21 @@
 <!-- begin:wfp_drawer -->
 
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
-<div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 100%;" id="wfp_drawer">
-</div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_drawer">
 </div>
 
+
+<div id="bg-drawer-cart" onclick="wfp_act_cart_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_act_cart_drawer">
+</div>
 <!-- end:wfp_drawer -->
 
 
@@ -880,6 +892,119 @@
 	<!--end::Content-->
 </div>
 <!--end::Quick Panel-->
+
+
+<!-- Modal modal_wfp_comments-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6 col-md-3">January</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">Febuary</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">March</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">April</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">May</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">June</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6 col-md-3">July</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">August</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">September</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">October</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">November</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">December</div>
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <input type="number" id="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="float:left">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 <!-- Modal modal_wfp_comments-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
@@ -1552,6 +1677,54 @@
 
         }
 
+
+        function showCartQtyModal(ppmp_id){
+            $("#modal_qty_cart_item").modal({
+                show:true,
+                backdrop:'static',
+                focus: true,
+                keyboard:false
+            });
+
+            alert(ppmp_id);
+        }
+
+        function wfp_act_cart_drawer_close(){
+            $("#bg-drawer-cart").removeClass('bg-drawer');
+            $("#wfp_act_cart_drawer").removeClass('wrapper-drawer-on');
+        }
+
+        function wfp_act_cart_drawer_open(_wfp_code,_wfp_act_id){
+            if(_wfp_act_id != null || _wfp_code != null){
+                $("#bg-drawer-cart").addClass('bg-drawer');
+                $("#wfp_act_cart_drawer").addClass('wrapper-drawer-on');
+                var _url = "{{ route('wfp_act_cart_view') }}";
+                var _pi_select = $("#pi_ppmp_select option:selected").val();
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
+                    beforeSend:function(){
+                        KTApp.block('#wfp_act_cart_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: '<i class="fas fa-shopping-cart icon-xl mr-2"></i> Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        document.getElementById('wfp_act_cart_drawer').innerHTML = data;
+                    }
+                });
+
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No Activity found",
+                    "error"
+                )
+            }
+        }
+
         $("#output_function_pagination .pagination a").on('click',function(e){
                 e.preventDefault();
                 alert('click');
@@ -1566,7 +1739,6 @@
                 focus: true,
                 keyboard:false
             });
-
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
         }
@@ -1581,6 +1753,63 @@
             // alert(user_id + '<br>' + wfp_code);
             fetchPPMPAndPiViewerData(user_id,wfp_code,wfp_act_id);
         }
+
+        function gotoPPMP(_wfp_code,_wfp_act_id){
+            var _url ="{{ route('check_if_wfp_is_approve') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data: { wfp_code : _wfp_code },
+                success:function(data){
+                    if(data == 'success'){
+                        KTApp.block('#kt_body', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Redirecting. . .'
+                        });
+                        var url ="{{ route('r_ppmp') }}";
+                        window.location.href = url  + "?wfp_act_id=" + _wfp_act_id + "&wfp_code=" + _wfp_code;
+                    }else{
+                        Swal.fire(
+                            "Can\'t Proceed",
+                            "WFP is not Approved",
+                            "error"
+                        )
+                    }
+                }
+            });
+        }
+
+
+        function deletePPMPItem(ppmp_id){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won\t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: false
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your PPMP Item has been deleted.",
+                        "success"
+                    )
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "No Changes has been made",
+                        "error"
+                    )
+                }
+            });
+        }
+
+
 
         $("#btn_save_wfp_comment").on('click',function(){
             var _user_id = $("#wfp_comment_user_id_send_to").val();
@@ -1830,58 +2059,80 @@
             }
 
             function addNewActivity(_wfp_code){
-                var _url ="{{ route('wfp_add_new_activity') }}";
-
-
+                var _url1 ="{{ route('check_if_wfp_is_submitted') }}";
                 $.ajax({
                     method:"GET",
-                    url: _url,
-                    data :  { wfp_code : _wfp_code  },
+                    url: _url1,
+                    data: { wfp_code : _wfp_code },
                     success:function(data){
-
-                        if(data.message =='No budget'){
-                            swal.fire({
-                                    title:"Error",
-                                    text:'Your balance is 0.00',
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok",
-                                    customClass: {
-                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                        if(data =='approved wfp'){
+                            Swal.fire(
+                                "Can\'t Proceed",
+                                "WFP already Approved",
+                                "error"
+                            )
+                        }else if(data =='submitted wfp'){
+                            Swal.fire(
+                                "Can\'t Proceed",
+                                "WFP already Submitted",
+                                "error"
+                            )
+                        }else if(data == 'success'){
+                            var _url ="{{ route('wfp_add_new_activity') }}";
+                            $.ajax({
+                                method:"GET",
+                                url: _url,
+                                data :  { wfp_code : _wfp_code ,insert: 0 },
+                                success:function(data){
+                                    if(data.message =='No budget'){
+                                        swal.fire({
+                                                title:"Error",
+                                                text:'Your balance is 0.00',
+                                                icon: "error",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Ok",
+                                                customClass: {
+                                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                                }
+                                        });
+                                    }else if(data.message =='less1000') {
+                                        Swal.fire({
+                                            title: "Are you sure?",
+                                            text: "Your Balance is Less than 1000",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Yes, Create Activity it!"
+                                        }).then(function(result) {
+                                            if (result.value) {
+                                                KTApp.block('#kt_body', {
+                                                    overlayColor: '#000000',
+                                                    state: 'primary',
+                                                    message: 'Redirecting. . '
+                                                });
+                                                setTimeout(function(){
+                                                    window.location.href = _url + '?insert=1&wfp_code=' + _wfp_code ;
+                                                },1000)
+                                            }
+                                        });
+                                    }else{
+                                        KTApp.block('#kt_body', {
+                                            overlayColor: '#000000',
+                                            state: 'primary',
+                                            message: 'Redirecting. . '
+                                        });
+                                        setTimeout(function(){
+                                            window.location.href = _url +'?insert=1&wfp_code=' + _wfp_code ;
+                                        },1000)
                                     }
-                            });
-                        }else if(data.message =='less1000') {
-                            Swal.fire({
-                                title: "Are you sure?",
-                                text: "Your Balance is Less than 1000",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonText: "Yes, Create Activity it!"
-                            }).then(function(result) {
-                                if (result.value) {
-                                    KTApp.block('#kt_body', {
-                                        overlayColor: '#000000',
-                                        state: 'primary',
-                                        message: 'Redirecting. . '
-                                    });
-                                    setTimeout(function(){
-                                        window.location.href = _url + '?wfp_code=' + _wfp_code;
-                                    },1000)
                                 }
                             });
-                        }else{
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Redirecting. . '
-                            });
-                            setTimeout(function(){
-                                window.location.href = _url + '?wfp_code=' + _wfp_code;
-                            },1000)
                         }
-
                     }
                 })
+
+
+
+
 
 
             }

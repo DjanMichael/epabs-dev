@@ -18,8 +18,12 @@ class AuthController extends Controller
     //
     function index()
     {
-        $data["division"] = RefUnits::where('status','ACTIVE')->select('division') ->distinct('division')->get()->toArray();
-        $data["section"] = RefUnits::where('status','ACTIVE')->select('section')->distinct('section')->get()->toArray();
+        $data["division"] = RefUnits::where('status','ACTIVE')
+                                    ->where('division','!=','Admin')
+                                    ->select('division') ->distinct('division')->get()->toArray();
+        $data["section"] = RefUnits::where('status','ACTIVE')
+                                    ->where('section','!=','Admin')
+                                    ->select('section')->distinct('section')->get()->toArray();
         $data["roles"] = UserRoles::where('role_id','!=','-1')->get()->toArray();
         return view('pages.auth.login',['data'=>$data]);
     }
@@ -111,10 +115,9 @@ class AuthController extends Controller
         if($req->ajax())
         {
 
-
             $a = User::where('email',$req->email)->first();
             $b = User::where('username',$req->username)->first();
-            $c = UserProfile::where('unit_id',$req->unit_id)->first();
+            // $c = UserProfile::where('unit_id',$req->unit_id)->first();
             if($a){
                 return response()->json(['message'=>'email address already taken']);
             }
@@ -123,9 +126,9 @@ class AuthController extends Controller
                 return response()->json(['message'=>'username already taken']);
             }
 
-            if($c){
-                return response()->json(['message'=>'Program Manager is already registered']);
-            }
+            // if($c){
+            //     return response()->json(['message'=>'Program Manager is already registered']);
+            // }
 
 
             try {
@@ -145,17 +148,21 @@ class AuthController extends Controller
                 $data2["pic"] = '';
                 $data2["designation"] = '';
 
-                $c = UserProfile::where('unit_id',$req->unit_id)->first();
+                UserProfile::create($data2);
+                // $c = UserProfile::where('unit_id',$req->unit_id)->first();
 
-                if($c){
-                    return response()->json(['message'=>'Unit account already registered']);
-                }else{
-                    UserProfile::create($data2);
-                }
+                // if($c){
+                //     return response()->json(['message'=>'Unit account already registered']);
+                // }else{
+                //     UserProfile::create($data2);
+                // }
+
+
 
                 DB::commit();
+                $ACCESS_TOKEN = $user->createToken( env('APP_NAME') .' Personal Access Client')->accessToken;
 
-                $ACCESS_TOKEN = $user->createToken('Laravel Personal Access Client')->accessToken;
+                Auth::loginUsingId($user->id);
 
                 return response()->json(['access_token'=>$ACCESS_TOKEN]);
 

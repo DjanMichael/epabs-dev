@@ -69,6 +69,7 @@
                     $('#function_deliverables_id').val(id);
                     $('#sequence').val(sequence);
                     $('#function_class').val(function_class);
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
@@ -82,7 +83,7 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#function_deliverables_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 data.class_sequence = $("#sequence").val();
                 data.function_class = $("#function_class").val();
 

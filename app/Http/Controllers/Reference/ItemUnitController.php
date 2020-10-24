@@ -59,7 +59,7 @@ class ItemUnitController extends Controller
                                             ])->first();
 
         if ($check) {
-            return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+            return response()->json(['message'=>'Item unit '.$request->unit_name.' already exists!', 'type'=> 'info']);
         } else {
             $check = RefItemUnit::find($request->item_unit_id);
             if ($check) {
@@ -72,7 +72,7 @@ class ItemUnitController extends Controller
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
             }
             else {
-                return response()->json(['message'=>'Something went wrong']);
+                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
             }
         }
 

@@ -74,6 +74,7 @@
                     $('#province').val(province);
                     $('#city').val(city);
                     $('#chk_outside').prop('checked', outside == 'Yes' ? false : true).trigger('click');
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
@@ -88,7 +89,7 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#location_id").val();
                 var outside = $("#chk_outside").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 data.region = $("#region").val();
                 data.province = $("#province").val();
                 data.city = $("#city").val();

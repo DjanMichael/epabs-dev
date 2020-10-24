@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'role_id'
+        'name', 'email', 'password', 'status', 'username', 'role_id'
     ];
 
     /**
@@ -50,7 +50,7 @@ class User extends Authenticatable
 
 
     public function getUnitId(){
-        $res = $this->profile != null ? \App\UserProfile::where('id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
+        $res = $this->profile != null ? \App\UserProfile::where('unit_id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
         if($res){
             $res2 = \App\RefUnits::where('id',$res->unit_id)->first();
             return ($res2 != null) ? $res2->id : null;
@@ -58,11 +58,11 @@ class User extends Authenticatable
             return null;
         }
     }
-  
+
 
     public function getUnit(){
         $res = $this->profile != null ? \App\UserProfile::where('id',$this->profile->unit_id)->where('user_id',Auth::user()->id)->first() : null;
-      
+
         if($res){
             $res2 = \App\RefUnits::where('id',$res->unit_id)->first();
             return $res2->division . ' / ' . $res2->section;

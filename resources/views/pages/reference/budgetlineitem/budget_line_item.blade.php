@@ -34,9 +34,9 @@
 
             $("#alert").delay(0).hide(0);
 
-            let data = { budget_item :'' };
+            let data = { budget_item :'', year :'', amount :'' };
 
-            let rules = { budget_item :'required' };
+            let rules = { budget_item :'required', year :'required', amount :'required'  };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -47,6 +47,12 @@
         |--------------------------------------------------------------------------
         */
             $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
+
+            $(document).on('keypress', '.number', function(event){
+                if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
 
             // Search button event
             $("#btn_search").on('click',function(){
@@ -59,15 +65,22 @@
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
+                var year = $('#'+id).children('td[data-target=year]').text();
+                var amount = $('#'+id).children('td[data-target=amount]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
                 $.ajax({
                     url: "{{ route('d_add_budget_line_item') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    $('#budget_item_id').val(id);
-                    $('#budget_item').val(budget_item);
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
+                    if (id) {
+                        $('#budget_item_id').val(id);
+                        $('#budget_item').val(budget_item);
+                        $("#year option:contains(" + year +")").attr("selected", true);
+                        $('#amount').val(amount);
+                        $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
+                    }
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -80,8 +93,11 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#budget_item_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
+                var year = $("#year option:selected").text();
                 data.budget_item = $("#budget_item").val();
+                data.year = $("#year").val();
+                data.amount = $("#amount").val();
 
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
@@ -91,9 +107,12 @@
                         url: "{{ route('a_budget_line_item') }}",
                         method: 'POST',
                         data: {
-                            "id"            : id,
-                            "budget_item"   : data.budget_item,
-                            "status"        : status
+                            id           : id,
+                            budget_item  : data.budget_item,
+                            year_id      : data.year,
+                            year         : year,
+                            amount       : data.amount,
+                            status       : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -111,6 +130,8 @@
                             else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
                                 $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
+                                $('#'+id).children('td[data-target=year]').html(year);
+                                $('#'+id).children('td[data-target=amount]').html(data.amount);
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }
