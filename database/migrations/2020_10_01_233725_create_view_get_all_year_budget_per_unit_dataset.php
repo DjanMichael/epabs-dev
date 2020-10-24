@@ -101,6 +101,6 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('view_get_all_year_budget_per_unit_dataset');
+        Schema::dropIfExists('DROP VIEW IF EXISTS vw_get_all_programs_with_count_budget_per_year');
     }
 }

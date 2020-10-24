@@ -200,6 +200,6 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('DROP VIEW IF EXISTS vw_unit_budget_allocation');
+        Schema::dropIfExists('DROP VIEW vw_unit_budget_allocation');
     }
 }

@@ -70,8 +70,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
-    Route::get('view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
-
+    Route::get('/view/wfp/activity/cart/','Transaction\PpmpController@getCartDetailsByWfpActivity')->name('wfp_act_cart_view');
+    Route::get('/ppmp/perindicator/details/fetch','Transaction\PpmpController@getPIDetails')->name('get_ppmp_details');
 
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
