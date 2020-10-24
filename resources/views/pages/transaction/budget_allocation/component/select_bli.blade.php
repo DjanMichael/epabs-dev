@@ -1,6 +1,6 @@
 <option value=""></option>
 @forelse ($data as $row)
-<option value="{{ $row->id }}">{{ $row->budget_item }}</option>
+<option value="{{ $row["id"] }}">{{ $row["budget_item"] }}</option>
 @empty
-<option value="">NO DATA</option>
+<option value="">NO BUDGET LINE ITEM THIS YEAR</option>
 @endforelse

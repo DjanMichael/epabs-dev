@@ -62,7 +62,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/perBLI','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUserPerBLI')->name('db_budget_delete_allocation_per_bli');
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
-
+    Route::get('/budgetlineitem/amount/year/allocation','Transaction\BudgetAllocationController@getAmountByBliYear')->name('get_budget_amount_by_bli_and_year');
 
     //PRINTING
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');

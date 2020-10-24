@@ -24,10 +24,11 @@
                     <div class="col-12">
                         <div class="form">
                             <div class="form-group">
-                                <label>Budget Line Item <span class="text-danger">*</span></label>
+                                <label>Budget Line Item <span class="text-danger">*</span> </label><span style="float:right" class="label label-primary label-inline font-weight-bold mr-2" id="txt_amount_bli">₱ 0.00</span>
                                 <select class="form-control form-control-solid" id="bli_name">
                                     <option>5</option>
                                 </select>
+                                <input type="hidden" id="bli_balance_selected" value=""/>
                             </div>
                             <div class="form-group">
                                 <label>Amount<span class="text-danger">*</span></label>
