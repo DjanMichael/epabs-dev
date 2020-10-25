@@ -1501,6 +1501,7 @@
                 });
             }
 
+
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
         var page_wfp;
 
@@ -1512,7 +1513,7 @@
              * **************************************************/
             getYear();
 
-
+            $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
             "closeButton": false,
@@ -1520,7 +1521,7 @@
             "newestOnTop": false,
             "progressBar": false,
             "positionClass": "toast-bottom-center",
-            "preventDuplicates": false,
+            "preventDuplicates": true,
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",

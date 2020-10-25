@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="form-group">
             <label>Description<span class="text-danger">*</span></label>
-            <input type="hidden" class="form-control" id="procurement_id"/>
+            <input type="text" class="form-control" id="procurement_id"/>
             <input type="text" class="form-control" id="item_description" placeholder="Enter item description"/>
         </div>
 
@@ -63,8 +63,8 @@
                 </span>
             </div>
 
-            <label class="col-12 col-md-2 col-form-label">Status<span class="text-danger">*</span></label>
-            <div class="col-12 col-md-3">
+            <label class="col-12 col-md-2 col-form-label div_status">Status<span class="text-danger">*</span></label>
+            <div class="col-12 col-md-3 div_status">
                 <span class="switch switch-icon">
                     <label>
                         <input type="checkbox" name="select" id="chk_status">

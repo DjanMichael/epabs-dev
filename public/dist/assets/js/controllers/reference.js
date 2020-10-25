@@ -17,6 +17,11 @@ function switchChangeValue(ob, firstValue, secondValue){
     el.value = ($('#'+el.id).prop('checked') == true) ? firstValue : secondValue;
 }
 
+function create_table_row (item) {
+    var row = $('<tr><td>' + item.id + '</td><td>' + item.date + '</td></tr>');
+    return row;
+}
+
 // Populate Table
 function populateTable(populate_url, per_page_url, table, content, pagination){
     var _url = populate_url;

@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Category')
-    @section('panel-icon', 'flaticon-list-2')
+    @section('panel-icon', 'flaticon2-list-1')
     @include('pages.reference.component.panel')
 
 @endsection

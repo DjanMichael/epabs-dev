@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Item Unit')
-    @section('panel-icon', 'flaticon2-list-3')
+    @section('panel-icon', 'fas fa-sitemap')
     @include('pages.reference.component.panel')
 
 @endsection

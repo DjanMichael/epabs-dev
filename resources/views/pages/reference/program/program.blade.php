@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Program')
-    @section('panel-icon', 'flaticon-list-2')
+    @section('panel-icon', 'fas fa-clipboard-list')
     @include('pages.reference.component.panel')
 
 @endsection

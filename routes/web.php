@@ -134,6 +134,14 @@ Route::get('/system/reference/procurement-medicine-price/all','Reference\Procure
 Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
 Route::post('/system/reference/add-procurement-medicine-price','Reference\ProcurementMedicineController@storePrice')->name('a_procurement_medicine_price');
 
+// User Routes
+Route::get('/system/reference/user','UserController@index')->name('r_user');
+Route::get('/system/reference/user/all','UserController@getUser')->name('d_user');
+Route::get('/system/reference/user/pagination','UserController@getUserByPage')->name('d_get_user_by_page');
+Route::get('/system/reference/user/search','UserController@getUserBySearch')->name('d_get_user_search');
+Route::post('/system/reference/change-account-status','UserController@changeAccountStatus')->name('u_account_status');
+Route::post('/system/reference/reset-password','UserController@resetPassword')->name('u_reset_password');
+
 // Unified Accounts Code Structure Routes
 Route::get('/system/reference/unified-accounts-code-structure','Reference\UacsController@index')->name('r_uacs');
 Route::get('/system/reference/unified-accounts-code-structure/all','Reference\UacsController@getUacs')->name('d_uacs');
@@ -173,6 +181,14 @@ Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLine
 Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
 Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
 Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
+
+// Output Function Routes
+Route::get('/system/reference/output-function','OutputFunctionController@index')->name('r_output_function');
+Route::get('/system/reference/output-function/all','OutputFunctionController@getOutputFunction')->name('d_output_function');
+Route::get('/system/reference/output-function/pagination','OutputFunctionController@getOutputFunctionByPage')->name('d_get_output_function_by_page');
+Route::get('/system/reference/output-function/search','OutputFunctionController@getOutputFunctionBySearch')->name('d_get_output_function_search');
+Route::get('/system/reference/output-function/add-form','OutputFunctionController@getAddForm')->name('d_add_output_function');
+Route::post('/system/reference/add-output-function','OutputFunctionController@store')->name('a_output_function');
 
 // Office Unit Routes
 Route::get('/system/reference/office-unit','Reference\OfficeUnitController@index')->name('r_office_unit');
