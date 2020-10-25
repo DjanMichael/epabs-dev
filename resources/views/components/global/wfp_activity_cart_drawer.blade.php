@@ -51,7 +51,7 @@
                                 @forelse ($data["ppmp_items"] as $row)
                                 <tr>
                                     <td>
-                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row[""] }}</span>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg"></span>
                                         <span class="text-muted font-weight-bold">Code: BR</span>
                                     </td>
                                     <td class="text-left">
