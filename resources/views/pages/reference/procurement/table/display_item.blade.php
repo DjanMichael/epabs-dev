@@ -6,6 +6,9 @@
             <th scope="col" class="text-center">Description</th>
             <th scope="col" class="text-center">Unit</th>
             <th scope="col" class="text-center">Classification</th>
+            @isset ($checker)
+                <th scope="col" class="text-center">Category</th>
+            @endisset
             <th scope="col" class="text-center">Price</th>
             <th scope="col" class="text-center">Effective Date</th>
             <th scope="col" class="text-center">Fix Price</th>
@@ -20,6 +23,9 @@
                 <td data-target="description">{{ $row["description"] }}</td>
                 <td data-target="unit_name">{{ $row["unit_name"] }}</td>
                 <td data-target="classification">{{ $row["classification"] }}</td>
+                @isset ($checker)
+                    <td data-target="category">{{ $row["category"] }}</td>
+                @endisset
                 <td data-target="price">{{ number_format($row["price"], 2) }}</td>
                 <td data-target="effective_date">{{ $row["effective_date"] }}</td>
                 <td data-target="fix_price">

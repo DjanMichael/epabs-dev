@@ -2,12 +2,14 @@
     <div class="card-body">
 
         <div class="form-group">
+            <input type="hidden" class="form-control" id="budget_item_id"/>
             <label>Budget Item<span class="text-danger">*</span></label>
-            <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-list-1"></i></span></div>
-                <input type="hidden" class="form-control" id="budget_item_id"/>
-                <input type="text" class="form-control" id="budget_item"/>
-            </div>
+            <select class="form-control" id="budget_item">
+                <option value="">Please select budget item</option>
+                @foreach($data["budget_item"] as $row)
+                    <option value="{{ $row["budget_item"] }}">{{ $row["budget_item"] }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group">

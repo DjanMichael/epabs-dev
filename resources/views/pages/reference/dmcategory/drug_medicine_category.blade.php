@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Drugs And Medicine Category')
-    @section('panel-icon', 'flaticon-background')
+    @section('panel-icon', 'flaticon2-checking')
     @include('pages.reference.component.panel')
 
 @endsection

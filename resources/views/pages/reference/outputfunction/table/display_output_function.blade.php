@@ -3,23 +3,21 @@
     <thead class="bg-dark text-light">
         <tr>
             <th scope="col" class="text-center">#</th>
-            <th scope="col" class="text-center">Budget Item</th>
-            <th scope="col" class="text-center">Year</th>
-            <th scope="col" class="text-center">Allocation Amount</th>
-            <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Function Class</th>
+            <th scope="col" class="text-center">Description</th>
+            <th scope="col" class="text-center">Program</th>
+            <th scope="col" class="text-center">Coordinator</th>
             <th scope="col" class="text-center">Action</th>
         </tr>
     </thead>
     <tbody>
-        @forelse ($budgetlineitem as $row)
+        @forelse ($output_function as $row)
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
-                <td data-target="budget_item">{{ $row["budget_item"] }}</td>
-                <td data-target="year">{{ $row["year"] }}</td>
-                <td data-target="amount">{{ number_format($row["allocation_amount"]) }}</td>
-                <td data-target="status">
-                    <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
-               </td>
+                <td data-target="function_class">{{ $row["function_class"] }}</td>
+                <td data-target="description">{{ $row["description"] }}</td>
+                <td data-target="program">{{ $row["program_name"] }}</td>
+                <td data-target="coordinator">{{ $row["name"] }}</td>
                 <td>
                     <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
                         <i class="flaticon-edit-1"></i>
@@ -35,7 +33,6 @@
 </table>
 <hr>
 
-
 <div id="table_pagination">
-    {{ $budgetlineitem->links('components.global.pagination') }}
+    {{ $output_function->links('components.global.pagination') }}
 </div>
