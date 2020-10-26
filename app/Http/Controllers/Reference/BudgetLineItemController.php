@@ -50,6 +50,7 @@ class BudgetLineItemController extends Controller
 
     public function getAddForm(){
         $data['year'] = RefYear::where('status','ACTIVE')->get();
+        $data['budget_item'] = RefBudgetLineItem::select('budget_item')->distinct()->where('status','ACTIVE')->get();
         return view('pages.reference.budgetlineitem.form.add_budget_line_item', ['data'=> $data]);
     }
 

@@ -107,6 +107,7 @@
                         $('#chk_fix_price').prop('checked', true).trigger('click');
                         $('#chk_status').prop('checked', true).trigger('click');
                     }
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -119,7 +120,7 @@
             // Insert or update supplies event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#procurement_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 var fix_price = $("#chk_fix_price").val();
                 data.description = $("#item_description").val();
                 data.unit = $("#item_unit").val();

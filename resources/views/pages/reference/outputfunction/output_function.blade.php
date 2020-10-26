@@ -1,23 +1,21 @@
 @extends('layouts.app')
-@section('title','Budget Item')
+@section('title','Output Function')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
-        <a class="text-muted">Budget Line Item</a>
+        <a class="text-muted">Output Function</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Budget Item')
-    @section('panel-icon', 'flaticon-notepad')
+    @section('panel-title', 'Output Function')
+    @section('panel-icon', 'flaticon2-files-and-folders')
     @include('pages.reference.component.panel')
-
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
 
@@ -29,14 +27,14 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+            populateTable("{{ route('d_output_function') }}", "{{ route('d_get_output_function_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { budget_item :'', year :'', amount :'' };
+            let data = { function_deliverables_id :'', description :'', program_id : '' };
 
-            let rules = { budget_item :'required', year :'required', amount :'required'  };
+            let rules = { function_deliverables_id :'required', description :'required', program_id :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -46,41 +44,32 @@
         | EVENTS
         |--------------------------------------------------------------------------
         */
-            $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
-
-            $(document).on('keypress', '.number', function(event){
-                if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-                    event.preventDefault();
-                }
-            });
 
             // Search button event
             $("#btn_search").on('click',function(){
-                var str = $("#query_search").val();
+                var search_value = $("#query_search").val();
                 KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
-                populateTableBySearch("{{ route('d_get_budget_line_item_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                populateTableBySearch("{{ route('d_get_output_function_search') }}", search_value, 'table_populate', 'table_content', 'table_pagination');
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
-                var year = $('#'+id).children('td[data-target=year]').text();
-                var amount = $('#'+id).children('td[data-target=amount]').text();
-                var status = $('#'+id).children('td[data-target=status]').find('span').text();
+                var program = $('#'+id).children('td[data-target=function_class]').text();
+                var unit = $('#'+id).children('td[data-target=description]').text();
+                var coordinator = $('#'+id).children('td[data-target=program_name]').text();
+                var coordinator = $('#'+id).children('td[data-target=name]').text();
                 $.ajax({
-                    url: "{{ route('d_add_budget_line_item') }}",
+                    url: "{{ route('d_add_output_function') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
                     if (id) {
-                        $('#budget_item_id').val(id);
-                        $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
-                        $("#year option:contains(" + year +")").attr("selected", true);
-                        $('#amount').val(amount.replace(",", ""));
-                        $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
+                        $('#program_unit_id').val(id);
+                        $("#program option:contains(" + program +")").attr("selected", true);
+                        $("#unit option:contains(" + unit +")").attr("selected", true);
+                        $("#coordinator option:contains(" + coordinator +")").attr("selected", true);
                     }
-                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -92,27 +81,27 @@
 
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#budget_item_id").val();
-                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                var year = $("#year option:selected").text();
-                data.budget_item = $("#budget_item").val();
-                data.year = $("#year").val();
-                data.amount = $("#amount").val();
+                var id = $("#output_function_id").val();
+                var function_deliverables = $("#function_deliverables option:selected").text();
+                var program = $("#program option:selected").text();
+                data.function_deliverables_id = $("#function_deliverables").val();
+                data.description = $("#description").val();
+                data.program_id = $("#program").val();
 
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_budget_line_item') }}",
+                        url: "{{ route('a_output_function') }}",
                         method: 'POST',
                         data: {
-                            id                  : id,
-                            budget_item         : data.budget_item,
-                            year_id             : data.year,
-                            year                : year,
-                            amount              : data.amount,
-                            status              : status
+                            id                       : id,
+                            function_deliverables_id : data.function_deliverables_id,
+                            function_deliverables    : function_deliverables,
+                            description              : data.description,
+                            program_id               : data.program_id,
+                            program                  : program
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -123,16 +112,15 @@
                             }, 1000);
                             if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+                                populateTable("{{ route('d_output_function') }}", "{{ route('d_get_output_function_by_page') }}",
                                                     'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
                             }
                             else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
-                                $('#'+id).children('td[data-target=year]').html(year);
-                                $('#'+id).children('td[data-target=amount]').html(data.amount);
-                                $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
+                                $('#'+id).children('td[data-target=program]').html($("#program option:selected").text());
+                                $('#'+id).children('td[data-target=unit]').html($("#unit option:selected").text());
+                                $('#'+id).children('td[data-target=coordinator]').html($("#coordinator option:selected").text());
                                 toastr.success(result['message']);
                             }
                             else {

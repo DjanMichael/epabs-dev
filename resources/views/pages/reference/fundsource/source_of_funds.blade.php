@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Fund Source')
-    @section('panel-icon', 'flaticon2-tag')
+    @section('panel-icon', 'fas fa-money-bill-wave')
     @include('pages.reference.component.panel')
 @endsection
 

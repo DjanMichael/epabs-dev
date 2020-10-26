@@ -47,7 +47,7 @@ class ProcurementMedicineController extends Controller
 
     public function getProcurementMedicinePrice(Request $request){
         $data = RefPrice::where('procurement_item_id', $request->id)
-                            ->where('procurement_type', 'MED')
+                            ->where('procurement_type', 'DRUM')
                             ->orderBy('effective_date', 'DESC')
                             ->paginate(5);
         return view('pages.reference.procurement.table.display_price',
@@ -58,7 +58,7 @@ class ProcurementMedicineController extends Controller
         if($request->ajax())
         {
             $data = RefPrice::where('procurement_item_id', $request->id)
-                            ->where('procurement_type', 'MED')
+                            ->where('procurement_type', 'DRUM')
                             ->paginate(5);
             return view('pages.reference.procurement.table.display_price',['procurement_item_price'=> $data]);
         }
@@ -105,7 +105,7 @@ class ProcurementMedicineController extends Controller
 
                 $price = [
                     'procurement_item_id' => $latest_record,
-                    'procurement_type' => "MED",
+                    'procurement_type' => "DRUM",
                     'price' => $request->price,
                     'effective_date' => $request->effective_date
                 ];
@@ -125,13 +125,13 @@ class ProcurementMedicineController extends Controller
         $check = RefPrice::find($request->id)
                     ? RefPrice::where([
                                     ['procurement_item_id', $request->procurement_item_id],
-                                    ['procurement_type', 'MED'],
+                                    ['procurement_type', 'DRUM'],
                                     ['effective_date', $request->effective_date],
                                     ['id', '<>', $request->id]
                                     ])->first()
                     : RefPrice::where([
                                     ['procurement_item_id', $request->procurement_item_id],
-                                    ['procurement_type', 'MED'],
+                                    ['procurement_type', 'DRUM'],
                                     ['effective_date', $request->effective_date]
                                     ])->first();
 
@@ -147,7 +147,7 @@ class ProcurementMedicineController extends Controller
             else if (empty($check)) {
                 $price = [
                     'procurement_item_id' => $request->procurement_item_id,
-                    'procurement_type' => "MED",
+                    'procurement_type' => "DRUM",
                     'price' => $request->price,
                     'effective_date' => $request->effective_date
                 ];

@@ -893,119 +893,6 @@
 </div>
 <!--end::Quick Panel-->
 
-
-<!-- Modal modal_wfp_comments-->
-<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-6 col-md-3">January</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">Febuary</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">March</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">April</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">May</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">June</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-6 col-md-3">July</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">August</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">September</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">October</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">November</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3">December</div>
-                            <div class="col-6 col-md-3">
-                                <div class="form-group">
-                                    <input type="number" id="" class="form-control"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" style="float:left">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
 <!-- Modal modal_wfp_comments-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -1501,6 +1388,7 @@
                 });
             }
 
+
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
         var page_wfp;
 
@@ -1512,7 +1400,7 @@
              * **************************************************/
             getYear();
 
-
+            $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
             "closeButton": false,
@@ -1520,7 +1408,7 @@
             "newestOnTop": false,
             "progressBar": false,
             "positionClass": "toast-bottom-center",
-            "preventDuplicates": false,
+            "preventDuplicates": true,
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
@@ -1678,44 +1566,56 @@
         }
 
 
-        function showCartQtyModal(ppmp_id){
-            $("#modal_qty_cart_item").modal({
-                show:true,
-                backdrop:'static',
-                focus: true,
-                keyboard:false
-            });
+        // function showCartQtyModal(_type,_item_id,_ppmp_id){
+        //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
+        //         show:true,
+        //         backdrop:'static',
+        //         focus: true,
+        //         keyboard:false
+        //     });
 
-            alert(ppmp_id);
-        }
+        //     // var ppmp = $("#qty_" + _ppmp_id).val();
+        //     alert(_ppmp_id);
+        // }
 
         function wfp_act_cart_drawer_close(){
             $("#bg-drawer-cart").removeClass('bg-drawer');
             $("#wfp_act_cart_drawer").removeClass('wrapper-drawer-on');
         }
 
+        function fetchCartPPMPItems(_wfp_code,_wfp_act_id){
+            var _url = "{{ route('wfp_act_cart_view') }}";
+            var _pi_select = $("#pi_ppmp_select option:selected").val();
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
+                beforeSend:function(){
+                    KTApp.block('#wfp_act_cart_drawer', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: '<i class="fas fa-shopping-cart icon-xl mr-2"></i> Loading. . .'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_act_cart_drawer').innerHTML = data;
+                }
+            });
+        }
+
         function wfp_act_cart_drawer_open(_wfp_code,_wfp_act_id){
             if(_wfp_act_id != null || _wfp_code != null){
-                $("#bg-drawer-cart").addClass('bg-drawer');
-                $("#wfp_act_cart_drawer").addClass('wrapper-drawer-on');
-                var _url = "{{ route('wfp_act_cart_view') }}";
-                var _pi_select = $("#pi_ppmp_select option:selected").val();
-                $.ajax({
-                    method:"GET",
-                    url:_url,
-                    data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
-                    beforeSend:function(){
-                        KTApp.block('#wfp_act_cart_drawer', {
-                            overlayColor: '#000000',
-                            state: 'primary',
-                            message: '<i class="fas fa-shopping-cart icon-xl mr-2"></i> Loading. . .'
-                        });
-                    },
-                    success:function(data){
-                        document.getElementById('wfp_act_cart_drawer').innerHTML = data;
-                    }
-                });
-
+                if($("#pi_ppmp_select option:selected").val() != ''){
+                    $("#bg-drawer-cart").addClass('bg-drawer');
+                    $("#wfp_act_cart_drawer").addClass('wrapper-drawer-on');
+                    fetchCartPPMPItems(_wfp_code,_wfp_act_id);
+                }else{
+                    Swal.fire(
+                        "Opss!",
+                        "Please Select Performance Indicator",
+                        "error"
+                    )
+                }
             }else{
                 Swal.fire(
                     "Opss!",
@@ -1780,8 +1680,7 @@
             });
         }
 
-
-        function deletePPMPItem(ppmp_id){
+        function deletePPMPItem(_ppmp_id){
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won\t be able to revert this!",
@@ -1792,13 +1691,30 @@
                 reverseButtons: false
             }).then(function(result) {
                 if (result.value) {
-                    Swal.fire(
-                        "Deleted!",
-                        "Your PPMP Item has been deleted.",
-                        "success"
-                    )
-                    // result.dismiss can be "cancel", "overlay",
-                    // "close", and "timer"
+                    var _url ="{{ route('del_pi_ppmp_item') }}";
+                    var _data = { ppmp_id : _ppmp_id };
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: _data,
+                        success:function(data){
+                            if(data == 'success'){
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Your PPMP Item has been deleted.",
+                                    "success"
+                                );
+                                fetchCartPPMPItems();
+                            }else{
+                                Swal.fire(
+                                    "Opss!",
+                                    "Something went wrong!",
+                                    "error"
+                                )
+                            }
+                        }
+                    })
+
                 } else if (result.dismiss === "cancel") {
                     Swal.fire(
                         "Cancelled",
