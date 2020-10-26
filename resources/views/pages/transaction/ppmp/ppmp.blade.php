@@ -98,8 +98,6 @@
                             <!--end::Checkbox list-->
                         </div>
                         <!--end::Categories-->
-                        <button type="submit" class="btn btn-primary font-weight-bolder mr-2 px-8">Reset</button>
-                        <button type="reset" class="btn btn-clear font-weight-bolder text-muted px-8">Setup</button>
                     </form>
                     <!--end::Form-->
                 </div>
@@ -127,7 +125,7 @@
                         <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item through items below.</span>
                     </h3>
                     <div class="card-toolbar">
-                        <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">New Report</a>
+                        {{-- <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">New Report</a> --}}
                     </div>
                 </div>
                 <!--end::Header-->
