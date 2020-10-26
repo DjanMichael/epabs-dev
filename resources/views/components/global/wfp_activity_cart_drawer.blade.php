@@ -23,7 +23,7 @@
 
             <div class="card card-custom col-12">
                 <!--begin::Header-->
-                <div class="card-header border-0 py-5">
+                {{-- <div class="card-header border-0 py-5">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label font-weight-bolder text-dark">New Arrivals</span>
                         <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
@@ -31,7 +31,7 @@
                     <div class="card-toolbar">
                         <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">New Report</a>
                     </div>
-                </div>
+                </div> --}}
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body py-0">
@@ -48,30 +48,34 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $total_cart_items=0;  ?>
                                 @forelse ($data["ppmp_items"] as $row)
+
                                 <tr>
                                     <td>
-                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg"></span>
-                                        <span class="text-muted font-weight-bold">Code: BR</span>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg" style="text-transform: capitalize;">{{  $row->description }}</span>
+                                    <span class="text-muted font-weight-bold">{{ $row->classification }}</span>
                                     </td>
                                     <td class="text-left">
-                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">1,000.00</span>
+                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row->price) }}</span>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                            <span id="qty_">0</span>
-                                            <input type="hidden" id="qty">
-                                            <button onclick="showCartQtyModal('1')" class="btn btn-icon bg-primary btn-xs ml-2">
-                                                <i class="far fa-calendar-plus text-light"></i>
-                                            </button>
+                                                <span id="qty_{{ $row->id }}">{{ $row->jan + $row->feb + $row->mar + $row->apr + $row->may + $row->june + $row->july + $row->aug + $row->sept + $row->oct + $row->nov + $row->dec }}</span>
+                                                {{-- <button onclick="showCartQtyModal('{{ $row->item_type }}','{{ $row->item_id }}','{{ $row->id }}')" class="btn btn-icon bg-primary btn-xs ml-2">
+                                                    <i class="far fa-calendar-plus text-light"></i>
+                                                </button> --}}
                                         </span>
                                         {{-- <span class="text-muted font-weight-bold">Web, UI/UX Design</span> --}}
                                     </td>
                                     <td class="text-left">
-                                        <span class="label label-lg label-light-primary label-inline">Approved</span>
+                                        <?php
+                                            $total_cart_items += $row->price * ($row->jan + $row->feb + $row->mar + $row->apr + $row->may + $row->june + $row->july + $row->aug + $row->sept + $row->oct + $row->nov + $row->dec);
+                                        ?>
+                                    <span class="label label-lg label-light-primary label-inline" >₱ {{ number_format($row->price * ($row->jan + $row->feb + $row->mar + $row->apr + $row->may + $row->june + $row->july + $row->aug + $row->sept + $row->oct + $row->nov + $row->dec),2) }}</span>
                                     </td>
                                     <td class="pr-0 text-right">
-                                        <button type="button" onclick="deletePPMPItem(1)" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary">
+                                        <button type="button" onclick="deletePPMPItem('{{ $row->id }}')" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary">
                                             <i class="fas fa-trash-alt text-primary"></i>
                                         </button>
                                     </td>
@@ -86,7 +90,7 @@
                                     <th class="pl-0" style="min-width: 120px"></th>
                                     <th style="min-width: 120px"></th>
                                     <th class="text-right" style="min-width: 120px">Total</th>
-                                    <th class="text-left" style="min-width: 120px">1,0000.00</th>
+                                    <th class="text-left" style="min-width: 120px">₱ {{ number_format($total_cart_items,2) }}</th>
                                     <th class="pr-0 text-right" style="min-width: 160px"></th>
                                 </tr>
                         </table>
