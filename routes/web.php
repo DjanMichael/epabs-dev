@@ -173,7 +173,7 @@ Route::post('/system/reference/add-program','Reference\ProgramController@store')
 Route::get('/system/reference/unit-program','Reference\UnitProgramController@index')->name('r_unit_program');
 Route::get('/system/reference/unit-program/all','Reference\UnitProgramController@getUnitProgram')->name('d_unit_program');
 Route::get('/system/reference/unit-program/pagination','Reference\UnitProgramController@getUnitProgramByPage')->name('d_get_unit_program_by_page');
-Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramSearch')->name('d_get_unit_program_search');
+Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramBySearch')->name('d_get_unit_program_search');
 Route::get('/system/reference/unit-program/add-form','Reference\UnitProgramController@getAddForm')->name('d_add_unit_program');
 Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
 

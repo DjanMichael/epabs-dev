@@ -33,9 +33,9 @@
 
             $("#alert").delay(0).hide(0);
 
-            let data = { program_id :'', unit_id :'', coordinator_id :'' };
+            let data = { program_id :'', coordinator_id :'' };
 
-            let rules = { program_id :'required', unit_id :'required', coordinator_id :'required' };
+            let rules = { program_id :'required', coordinator_id :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -58,7 +58,7 @@
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var program = $('#'+id).children('td[data-target=program]').text();
-                var unit = $('#'+id).children('td[data-target=unit]').text();
+                // var unit = $('#'+id).children('td[data-target=unit]').text();
                 var coordinator = $('#'+id).children('td[data-target=coordinator]').text();
                 $.ajax({
                     url: "{{ route('d_add_unit_program') }}",
@@ -68,7 +68,7 @@
                     if (id) {
                         $('#program_unit_id').val(id);
                         $("#program option:contains(" + program +")").attr("selected", true);
-                        $("#unit option:contains(" + unit +")").attr("selected", true);
+                        // $("#unit option:contains(" + unit +")").attr("selected", true);
                         $("#coordinator option:contains(" + coordinator +")").attr("selected", true);
                     }
                     $('#modal_reference').modal('toggle');
@@ -84,12 +84,13 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#program_unit_id").val();
                 var program = $("#program option:selected").text();
-                var unit = $("#unit option:selected").text();
-                var coordinator = $("#coordinator option:selected").text();
+                // var unit = $("#unit option:selected").text();
+                var coordinator = ('{{ Auth::user()->role->roles }}') == 'ADMINISTRATOR'
+                                    ? $("#coordinator option:selected").text() : "{{ Auth::user()->name }}";
                 data.program_id = $("#program").val();
-                data.unit_id = $("#unit").val();
-                data.coordinator_id = $("#coordinator").val();
-
+                // data.unit_id = $("#unit").val();
+                data.coordinator_id = ('{{ Auth::user()->role->roles }}') == 'ADMINISTRATOR'
+                                    ? $("#coordinator").val() : "{{ Auth::user()->id }}";
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
                     e.preventDefault();
@@ -101,8 +102,8 @@
                             "id"            : id,
                             "program_id"    : data.program_id,
                             "program"       : program,
-                            "unit_id"       : data.unit_id,
-                            "unit"          : unit,
+                            // "unit_id"       : data.unit_id,
+                            // "unit"          : unit,
                             "user_id"       : data.coordinator_id,
                             "user"          : coordinator
                         },
@@ -122,8 +123,10 @@
                             else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
                                 $('#'+id).children('td[data-target=program]').html($("#program option:selected").text());
-                                $('#'+id).children('td[data-target=unit]').html($("#unit option:selected").text());
-                                $('#'+id).children('td[data-target=coordinator]').html($("#coordinator option:selected").text());
+                                // $('#'+id).children('td[data-target=unit]').html($("#unit option:selected").text());
+                                if ('{{ Auth::user()->role->roles }}' == 'ADMINISTRATOR') {
+                                    $('#'+id).children('td[data-target=coordinator]').html($("#coordinator option:selected").text());
+                                }
                                 toastr.success(result['message']);
                             }
                             else {

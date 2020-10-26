@@ -43,7 +43,7 @@ class UserController extends Controller
                             ->select('user_id as id', 'users.name', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
                             ->where('users.name' ,'LIKE', '%'. $query .'%')
                             ->paginate(10);
-            }else{
+            } else {
                 $data = $this->fetchUser();
             }
             return view('pages.reference.user.table.display_user',['user'=> $data]);
