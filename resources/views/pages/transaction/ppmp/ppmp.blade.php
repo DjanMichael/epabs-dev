@@ -437,12 +437,14 @@
                         )
                         fetchPIDetails();
                     }else if(data == 'duplicate'){
+                        $("#modal_qty_cart_item").modal('hide');
                         Swal.fire(
                             "Opss!",
                             "You already added this item",
                             "warning"
                         )
                     }else{
+                        $("#modal_qty_cart_item").modal('hide');
                         Swal.fire(
                             "Ops!",
                             "Something went wrong!",

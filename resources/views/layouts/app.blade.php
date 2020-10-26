@@ -1705,6 +1705,7 @@
                                     "success"
                                 );
                                 fetchCartPPMPItems();
+                                fetchPIDetails();
                             }else{
                                 Swal.fire(
                                     "Opss!",
