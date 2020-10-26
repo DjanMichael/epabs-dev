@@ -44,7 +44,7 @@ class CreateViewWfpInformation extends Migration
                 `twa`.`out_function` AS `out_function`,
                 (
                     SELECT
-                        `taof`.`function_description`
+                        `taof`.`description`
                     FROM
                         `tbl_activity_output_function` `taof`
                     WHERE
