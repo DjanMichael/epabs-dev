@@ -18,7 +18,7 @@ class PpmpController extends Controller
 
 
     public function __construct(){
-        $this->paginate_ppmp_item_list = 1;
+        $this->paginate_ppmp_item_list = 20;
     }
 
     public function index(Request $req){
