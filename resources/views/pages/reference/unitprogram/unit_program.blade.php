@@ -33,9 +33,9 @@
 
             $("#alert").delay(0).hide(0);
 
-            let data = { program_id :'', coordinator_id :'' };
+            let data = { program :'', coordinator :'' };
 
-            let rules = { program_id :'required', coordinator_id :'required' };
+            let rules = { program :'required', coordinator :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -45,7 +45,6 @@
         | EVENTS
         |--------------------------------------------------------------------------
         */
-            $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
 
             // Search button event
             $("#btn_search").on('click',function(){
@@ -55,22 +54,12 @@
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
-            $(document).on('click', '#btn_add, a[data-role=edit]', function(){
-                var id = $(this).data('id');
-                var program = $('#'+id).children('td[data-target=program]').text();
-                // var unit = $('#'+id).children('td[data-target=unit]').text();
-                var coordinator = $('#'+id).children('td[data-target=coordinator]').text();
+            $(document).on('click', '#btn_add', function(){
                 $.ajax({
                     url: "{{ route('d_add_unit_program') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    if (id) {
-                        $('#program_unit_id').val(id);
-                        $("#program option:contains(" + program +")").attr("selected", true);
-                        // $("#unit option:contains(" + unit +")").attr("selected", true);
-                        $("#coordinator option:contains(" + coordinator +")").attr("selected", true);
-                    }
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -80,16 +69,58 @@
                 $("#alert").delay(0).fadeOut(600);
             });
 
+            // Reset account password event
+            $(document).on('click', 'a[data-role=dismiss]', function(){
+                var id = $(this).data('id');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to dismiss the assigned coordinator!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true
+                }).then(function(result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: "{{ route('del_unit_program') }}",
+                            method: 'POST',
+                            data: { id : id },
+                            beforeSend:function() {
+                                KTApp.block('.table', {
+                                    overlayColor: '#000000',
+                                    state: 'primary',
+                                    message: 'Loading. . .'
+                                });
+                            },
+                            success: function(result) {
+                                KTApp.unblock('.table');
+                                if (result['type'] == 'delete') {
+                                    populateTable("{{ route('d_unit_program') }}", "{{ route('d_get_unit_program_by_page') }}",
+                                                    'table_populate', 'table_content', 'table_pagination');
+                                    toastr.success(result['message']);
+                                } else {
+                                    Swal.fire("System Message", result['message'], "error");
+                                }
+                            },
+                            error: function(result) {
+                                KTApp.unblock('.table');
+                                Swal.fire("System Message", result['message'], "error");
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#program_unit_id").val();
-                var program = $("#program option:selected").text();
                 // var unit = $("#unit option:selected").text();
-                var coordinator = ('{{ Auth::user()->role->roles }}') == 'ADMINISTRATOR'
-                                    ? $("#coordinator option:selected").text() : "{{ Auth::user()->name }}";
-                data.program_id = $("#program").val();
+                data.program = $("#program").val();
                 // data.unit_id = $("#unit").val();
-                data.coordinator_id = ('{{ Auth::user()->role->roles }}') == 'ADMINISTRATOR'
+                data.coordinator = ('{{ Auth::user()->role->roles }}') == 'ADMINISTRATOR'
                                     ? $("#coordinator").val() : "{{ Auth::user()->id }}";
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
@@ -100,43 +131,27 @@
                         method: 'POST',
                         data: {
                             "id"            : id,
-                            "program_id"    : data.program_id,
-                            "program"       : program,
+                            "program_id"    : data.program,
                             // "unit_id"       : data.unit_id,
                             // "unit"          : unit,
-                            "user_id"       : data.coordinator_id,
-                            "user"          : coordinator
+                            "user_id"       : data.coordinator
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
                         },
                         success: function(result) {
-                           setTimeout(function() {
-                                KTUtil.btnRelease(btn);
-                            }, 1000);
+                           setTimeout(function() { KTUtil.btnRelease(btn); }, 1000);
                             if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
                                 populateTable("{{ route('d_unit_program') }}", "{{ route('d_get_unit_program_by_page') }}",
                                                     'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
-                            }
-                            else if (result['type'] == 'update') {
-                                $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=program]').html($("#program option:selected").text());
-                                // $('#'+id).children('td[data-target=unit]').html($("#unit option:selected").text());
-                                if ('{{ Auth::user()->role->roles }}' == 'ADMINISTRATOR') {
-                                    $('#'+id).children('td[data-target=coordinator]').html($("#coordinator option:selected").text());
-                                }
-                                toastr.success(result['message']);
-                            }
-                            else {
+                            } else {
                                 Swal.fire("System Message", result['message'], "error");
                             }
                         },
                         error: function(result) {
-                            setTimeout(function() {
-                                KTUtil.btnRelease(btn);
-                            }, 1000);
+                            setTimeout(function() { KTUtil.btnRelease(btn); }, 1000);
                             Swal.fire("System Message", result['message'], "error");
                         }
                     });

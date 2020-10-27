@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\RefProgram;
 use App\RefUnits;
 use App\User;
+use App\UserProfile;
 use App\TableUnitProgram;
 use App\Views\UnitProgram;
 use Auth;
@@ -19,8 +20,8 @@ class UnitProgramController extends Controller
     public function getUnitProgram(){
         $userRole = Auth::user()->role->roles;
         $data = ($userRole == 'ADMINISTRATOR')
-                    ? UnitProgram::paginate(10)
-                    : UnitProgram::where('user_id', '=', Auth::user()->id)->paginate(10);
+                    ? UnitProgram::orderBy('id', 'ASC')->paginate(10)
+                    : UnitProgram::where('user_id', '=', Auth::user()->id)->orderBy('id', 'ASC')->paginate(10);
         return view('pages.reference.unitprogram.table.display_unit_program',['unit_program'=> $data]);
     }
 
@@ -30,15 +31,15 @@ class UnitProgramController extends Controller
         {
             $userRole = Auth::user()->role->roles;
             $data = ($userRole == 'ADMINISTRATOR')
-                        ? UnitProgram::paginate(10)
-                        : UnitProgram::where('user_id', '=', Auth::user()->id)->paginate(10);
+                        ? UnitProgram::orderBy('id', 'ASC')->paginate(10)
+                        : UnitProgram::where('user_id', '=', Auth::user()->id)->orderBy('id', 'ASC')->paginate(10);
             return view('pages.reference.unitprogram.table.display_unit_program',['unit_program'=> $data]);
         } else {
             abort(403);
         }
     }
 
-    public function getUnitProgramBySearch(Request $request){
+    public function getUnitProgramBySearch(Request $request) {
         $userRole = Auth::user()->role->roles;
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest)
@@ -50,13 +51,13 @@ class UnitProgramController extends Controller
                                         ->orWhere('division' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('section' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('name' ,'LIKE', '%'. $query .'%')
-                                        ->paginate(10)
+                                        ->orderBy('id', 'ASC')->paginate(10)
                         : UnitProgram::where('user_id', '=', Auth::user()->id)
                                         ->where('program_name' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('division' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('section' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('name' ,'LIKE', '%'. $query .'%')
-                                        ->paginate(10);
+                                        ->orderBy('id', 'ASC')->paginate(10);
             } else {
                 $data = ($userRole == 'ADMINISTRATOR')
                         ? UnitProgram::paginate(10)
@@ -68,7 +69,7 @@ class UnitProgramController extends Controller
         }
     }
 
-    public function getAddForm(){
+    public function getAddForm() {
         $data['program'] = RefProgram::where('status','ACTIVE')
                                         ->whereNotIn('id', TableUnitProgram::select('program_id')->get()->toArray())
                                         ->get();
@@ -80,36 +81,42 @@ class UnitProgramController extends Controller
     public function store(Request $request) {
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest) {
-            $check = TableUnitProgram::find($request->id)
-                    ? TableUnitProgram::where('program_id', $request->program_id)
-                                        ->where('user_id', $request->user_id)
-                                        ->where('id', '<>', $request->id)
-                                        ->first()
-                    : TableUnitProgram::where('program_id', $request->program_id)
-                                        ->where('user_id', $request->user_id)
-                                        ->first();
+            $user = UserProfile::where('user_id', '=', $request->user_id)->first();
+            try {
+                $unit_program = [
+                    'program_id' => $request->program_id,
+                    'unit_id' => $user->unit_id,
+                    'user_id' => $request->user_id
+                ];
 
-            if ($check) {
-                return response()->json(['message'=>'Coordinator'.$request->user.' is already assigned to the program '.$request->program.'!', 'type'=> 'info']);
-            } else {
+                TableUnitProgram::create($unit_program);
+                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $errorInfo = $exception->errorInfo;
+                return response()->json(['message'=>'Something went wrong', 'type'=>'error']);
+            }
+
+        } else {
+            abort(403);
+        }
+
+    }
+
+    public function removeAssignment(Request $request) {
+        $isAjaxRequest = $request->ajax();
+        if($isAjaxRequest){
+            try {
                 $check = TableUnitProgram::find($request->id);
                 if ($check) {
-                    $check->update(['program_id' => $request->program_id, 'user_id' => $request->user_id]);
-                    return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                    $check->delete();
+                    return response()->json(['message'=>'Successfully remove assigned user','type'=>'delete']);
+                } else {
+                    return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
                 }
-                else if (empty($check)) {
-                    $unit_program = [
-                        'program_id' => $request->program_id,
-                        'unit_id' => Auth::user()->getUnitId(),
-                        'user_id' => $request->user_id
-                    ];
-
-                    TableUnitProgram::create($unit_program);
-                    return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
-                }
-                else {
-                    return response()->json(['message'=>'Something went wrong']);
-                }
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $errorInfo = $exception->errorInfo;
+                return response()->json(['message'=>'Something went wrong', 'type'=>'error']);
             }
         } else {
             abort(403);

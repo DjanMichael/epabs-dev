@@ -98,7 +98,7 @@
                         $('#item_description').val(description);
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
-                        $('#item_price').val(price);
+                        $('.price-details').css('display', 'none');
                         $('#effective_date').val(effective_date);
                         $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
@@ -125,8 +125,8 @@
                 data.description = $("#item_description").val();
                 data.unit = $("#item_unit").val();
                 data.classification = $("#item_classification").val();
-                data.price = $("#item_price").val();
-                data.effective_date = $("#effective_date").val();
+                data.price = (id != "") ? 'Blank' : $("#item_price").val();
+                data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
 
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
