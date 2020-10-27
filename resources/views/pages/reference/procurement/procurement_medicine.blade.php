@@ -84,11 +84,11 @@
             // Display add or edit medicine form event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                alert(id);
+                // alert(id);
                 var description = $('#'+id).children('td[data-target=description]').text();
-                alert(description);
+                // alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
-                alert(unit_name);
+                // alert(unit_name);
                 var classification = $('#'+id).children('td[data-target=classification]').text();
                 var category = $('#'+id).children('td[data-target=category]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
@@ -106,8 +106,7 @@
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
                         $("#item_category option:contains(" + category +")").attr("selected", true);
-                        $('#item_price').val(price);
-                        $('#effective_date').val(effective_date);
+                        $('.price-details').css('display', 'none');
                         $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
@@ -134,8 +133,8 @@
                 data.unit = $("#item_unit").val();
                 data.classification = $("#item_classification").val();
                 data.category = $("#item_category").val();
-                data.price = $("#item_price").val();
-                data.effective_date = $("#effective_date").val();
+                data.price = (id != "") ? 'Blank' : $("#item_price").val();
+                data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
 
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {

@@ -55,20 +55,19 @@
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                var program = $('#'+id).children('td[data-target=function_class]').text();
-                var unit = $('#'+id).children('td[data-target=description]').text();
-                var coordinator = $('#'+id).children('td[data-target=program_name]').text();
-                var coordinator = $('#'+id).children('td[data-target=name]').text();
+                var function_class = $('#'+id).children('td[data-target=function_class]').text();
+                var description = $('#'+id).children('td[data-target=description]').text();
+                var program = $('#'+id).children('td[data-target=program]').text();
                 $.ajax({
                     url: "{{ route('d_add_output_function') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
                     if (id) {
-                        $('#program_unit_id').val(id);
+                        $('#output_function_id').val(id);
+                        $("#function_deliverables option:contains(" + function_class +")").attr("selected", true);
+                        $('#description').val(description);
                         $("#program option:contains(" + program +")").attr("selected", true);
-                        $("#unit option:contains(" + unit +")").attr("selected", true);
-                        $("#coordinator option:contains(" + coordinator +")").attr("selected", true);
                     }
                     $('#modal_reference').modal('toggle');
                 });
@@ -118,9 +117,9 @@
                             }
                             else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
+                                $('#'+id).children('td[data-target=function_class]').html($("#function_deliverables option:selected").text());
+                                $('#'+id).children('td[data-target=description]').html(data.description);
                                 $('#'+id).children('td[data-target=program]').html($("#program option:selected").text());
-                                $('#'+id).children('td[data-target=unit]').html($("#unit option:selected").text());
-                                $('#'+id).children('td[data-target=coordinator]').html($("#coordinator option:selected").text());
                                 toastr.success(result['message']);
                             }
                             else {
