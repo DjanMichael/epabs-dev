@@ -16,7 +16,7 @@
                 <td>{{ $row["id"] }}</td>
                 <td data-target="budget_item">{{ $row["budget_item"] }}</td>
                 <td data-target="year">{{ $row["year"] }}</td>
-                <td data-target="amount">{{ $row["allocation_amount"] }}</td>
+                <td data-target="amount">{{ number_format($row["allocation_amount"]) }}</td>
                 <td data-target="status">
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
                </td>

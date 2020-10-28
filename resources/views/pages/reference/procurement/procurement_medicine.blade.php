@@ -29,7 +29,7 @@
         |--------------------------------------------------------------------------
         */
             populateTable("{{ route('d_get_procurement_medicine') }}", "{{ route('d_get_procurement_medicine_by_page') }}",
-                                'table_populate', 'table_content', 'table_pagination');
+                            'table_populate', 'table_content', 'table_pagination');
 
             $("#alert, #alert_inner").delay(0).hide(0);
 
@@ -37,6 +37,7 @@
                 description :'',
                 unit:'',
                 classification: '',
+                category: '',
                 price: '',
                 effective_date: ''
             };
@@ -45,6 +46,7 @@
                 description :'required',
                 unit:'required',
                 classification: 'required',
+                category: 'required',
                 price: 'required',
                 effective_date: 'required'
             };
@@ -82,11 +84,13 @@
             // Display add or edit medicine form event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
+                // alert(id);
                 var description = $('#'+id).children('td[data-target=description]').text();
-                alert(description);
+                // alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
-                alert(unit_name);
+                // alert(unit_name);
                 var classification = $('#'+id).children('td[data-target=classification]').text();
+                var category = $('#'+id).children('td[data-target=category]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
                 var effective_date = $('#'+id).children('td[data-target=effective_date]').text();
                 var fix_price = $('#'+id).children('td[data-target=fix_price]').find('span').text();
@@ -101,8 +105,8 @@
                         $('#item_description').val(description);
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
-                        $('#item_price').val(price);
-                        $('#effective_date').val(effective_date);
+                        $("#item_category option:contains(" + category +")").attr("selected", true);
+                        $('.price-details').css('display', 'none');
                         $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
@@ -110,6 +114,7 @@
                         $('#chk_fix_price').prop('checked', true).trigger('click');
                         $('#chk_status').prop('checked', true).trigger('click');
                     }
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -122,13 +127,14 @@
             // Insert or update medicine event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#procurement_id").val();
-                var status = $("#chk_status").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 var fix_price = $("#chk_fix_price").val();
                 data.description = $("#item_description").val();
                 data.unit = $("#item_unit").val();
                 data.classification = $("#item_classification").val();
-                data.price = $("#item_price").val();
-                data.effective_date = $("#effective_date").val();
+                data.category = $("#item_category").val();
+                data.price = (id != "") ? 'Blank' : $("#item_price").val();
+                data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
 
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
@@ -142,6 +148,7 @@
                             "description": data.description,
                             "unit_id": data.unit,
                             "classification_id": data.classification,
+                            "category_id": data.category,
                             "price": data.price,
                             "effective_date": data.effective_date,
                             "fix_price": fix_price,
@@ -166,6 +173,7 @@
                                 $('#'+id).children('td[data-target=description]').html(data.description);
                                 $('#'+id).children('td[data-target=unit_name]').html($("#item_unit option:selected").text());
                                 $('#'+id).children('td[data-target=classification]').html($("#item_classification option:selected").text());
+                                $('#'+id).children('td[data-target=category]').html($("#item_category option:selected").text());
                                 $('#'+id).children('td[data-target=fix_price]').html((fix_price == "Yes" ? '<span>Yes</span>' : '<a data-role="price" data-id="'+id+'" class="btn btn-light-primary"><i class="flaticon-price-tag"></i></a>'));
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);

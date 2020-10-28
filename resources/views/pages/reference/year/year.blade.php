@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title','Year')
+@push('styles')
+    {{-- <script src="{{ asset('test/css/footable.core.standalone.css') }}"></script> --}}
+    {{-- <script src="{{ asset('test/css/reference.js') }}"></script> --}}
+@endpush
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
@@ -14,18 +18,103 @@
     @section('panel-icon', 'flaticon2-calendar-1')
     @include('pages.reference.component.panel')
 
+    <table class="table" data-show-toggle="false" data-expand-first="true">
+        <thead>
+            <tr>
+                <th data-visible="false">ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th data-breakpoints="xs">Job Title</th>
+                <th data-breakpoints="xs sm">Started On</th>
+                <th data-breakpoints="all" data-title="DOB">Date of Birth</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Dennise</td>
+                <td>Fuhrman</td>
+                <td>High School History Teacher</td>
+                <td>November 8th 2011</td>
+                <td>July 25th 1960</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Elodia</td>
+                <td>Weisz</td>
+                <td>Wallpaperer Helper</td>
+                <td>October 15th 2010</td>
+                <td>March 30th 1982</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Raeann</td>
+                <td>Haner</td>
+                <td>Internal Medicine Nurse Practitioner</td>
+                <td>November 28th 2013</td>
+                <td>February 26th 1966</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Junie</td>
+                <td>Landa</td>
+                <td>Offbearer</td>
+                <td>October 31st 2010</td>
+                <td>March 29th 1966</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Solomon</td>
+                <td>Bittinger</td>
+                <td>Roller Skater</td>
+                <td>December 29th 2011</td>
+                <td>September 22nd 1964</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Bar</td>
+                <td>Lewis</td>
+                <td>Clown</td>
+                <td>November 12th 2012</td>
+                <td>August 4th 1991</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Usha</td>
+                <td>Leak</td>
+                <td>Ships Electronic Warfare Officer</td>
+                <td>August 14th 2012</td>
+                <td>November 20th 1979</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Lorriane</td>
+                <td>Cooke</td>
+                <td>Technical Services Librarian</td>
+                <td>September 21st 2010</td>
+                <td>April 7th 1969</td>
+            </tr>
+        </tbody>
+    </table>
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('test/js/footable.core.js') }}"></script>
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
+
+    {{-- <script src="{{ asset('test/js/reference.js') }}"></script> --}}
 
     {{-- <script src="{{ asset('dist/assets/plugins/custom/datatables/datatables.bundle.js?v=7.1.2') }}"></script> --}}
     {{-- <script src="{{ asset('dist/assets/js/pages/crud/datatables/basic/basic.js?v=7.1.2') }}"></script> --}}
 
     <script>
+        // jQuery(function($){
+
+        // });
         $(document).ready(function() {
+
             // $('#kt_datatable').DataTable( {
             //     paging: false,
             //     searching: false,
@@ -39,7 +128,6 @@
         |--------------------------------------------------------------------------
         */
             populateTable("{{ route('d_year') }}", "{{ route('d_get_year_by_page') }}", 'table_populate', 'table_content', 'table_pagination');
-
             $("#alert").delay(0).hide(0);
 
             let data = { year :'' };

@@ -9,11 +9,7 @@ use App\RefClassification;
 class ClassificationController extends Controller
 {
     //
-    public function index(){
-
-        return view('pages.reference.classification.classification');
-
-    }
+    public function index(){ return view('pages.reference.classification.classification'); }
 
     public function getClassification()
     {

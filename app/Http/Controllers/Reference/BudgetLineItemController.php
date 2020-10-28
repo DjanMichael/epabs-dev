@@ -13,11 +13,12 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budgetlineitem.budget_line_item'); }
 
     public function fetchBudgetLineItem(){
-        $data = RefBudgetLineItem::join('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
+        $data = RefBudgetLineItem::leftJoin('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
                     ->select('ref_budget_line_item.id', 'budget_item', 'year', 'allocation_amount', 'ref_budget_line_item.status')
                     ->paginate(10);
         return $data;
     }
+
     public function getBudgetLineItem(){
         return view('pages.reference.budgetlineitem.table.display_budget_line_item',['budgetlineitem'=> $this->fetchBudgetLineItem()]);
     }
@@ -36,7 +37,7 @@ class BudgetLineItemController extends Controller
         {
             $query = $request->q;
             if($query != ''){
-                $data = RefBudgetLineItem::join('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
+                $data = RefBudgetLineItem::leftJoin('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
                                         ->select('ref_budget_line_item.id', 'budget_item', 'year', 'allocation_amount', 'ref_budget_line_item.status')
                                         ->where('budget_item' ,'LIKE', '%'. $query .'%')
                                         ->paginate(10);
@@ -49,6 +50,7 @@ class BudgetLineItemController extends Controller
 
     public function getAddForm(){
         $data['year'] = RefYear::where('status','ACTIVE')->get();
+        $data['budget_item'] = RefBudgetLineItem::select('budget_item')->distinct()->where('status','ACTIVE')->get();
         return view('pages.reference.budgetlineitem.form.add_budget_line_item', ['data'=> $data]);
     }
 

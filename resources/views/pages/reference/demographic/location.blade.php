@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Demographic')
-    @section('panel-icon', 'flaticon-map-location')
+    @section('panel-icon', 'fas fa-map-marked')
     @include('pages.reference.component.panel')
 
 @endsection

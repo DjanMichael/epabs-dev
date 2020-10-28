@@ -11,7 +11,7 @@
 
 @section('content')
     @section('panel-title', 'Budget Item')
-    @section('panel-icon', 'flaticon-list')
+    @section('panel-icon', 'flaticon-notepad')
     @include('pages.reference.component.panel')
 
 @endsection
@@ -75,9 +75,9 @@
                     document.getElementById('dynamic_content').innerHTML= data;
                     if (id) {
                         $('#budget_item_id').val(id);
-                        $('#budget_item').val(budget_item);
+                        $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
                         $("#year option:contains(" + year +")").attr("selected", true);
-                        $('#amount').val(amount);
+                        $('#amount').val(amount.replace(",", ""));
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
                     $('.div_status').css("display", (id == null) ? 'none' : '');
@@ -107,12 +107,12 @@
                         url: "{{ route('a_budget_line_item') }}",
                         method: 'POST',
                         data: {
-                            id           : id,
-                            budget_item  : data.budget_item,
-                            year_id      : data.year,
-                            year         : year,
-                            amount       : data.amount,
-                            status       : status
+                            id                  : id,
+                            budget_item         : data.budget_item,
+                            year_id             : data.year,
+                            year                : year,
+                            amount              : data.amount,
+                            status              : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");

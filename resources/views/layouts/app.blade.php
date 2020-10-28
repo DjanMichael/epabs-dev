@@ -1403,6 +1403,7 @@
                 });
             }
 
+
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
         var page_wfp;
 
@@ -1412,17 +1413,12 @@
              *      INITIALIZE
              *
              * **************************************************/
-<<<<<<< Updated upstream
-            getYear();
 
-
-=======
             setTimeout(function(){
                 getYear();
                 getProgramsAssigned();
             },1000);
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
->>>>>>> Stashed changes
 
             toastr.options = {
             "closeButton": false,
@@ -1430,7 +1426,7 @@
             "newestOnTop": false,
             "progressBar": false,
             "positionClass": "toast-bottom-center",
-            "preventDuplicates": false,
+            "preventDuplicates": true,
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
@@ -1777,6 +1773,7 @@
                                     "success"
                                 );
                                 fetchCartPPMPItems();
+                                fetchPIDetails();
                             }else{
                                 Swal.fire(
                                     "Opss!",

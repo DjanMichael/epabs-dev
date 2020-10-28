@@ -26,7 +26,19 @@
             </select>
         </div>
 
-        <div class="form-group row">
+        @isset ($data["category"])
+            <div class="form-group">
+                <label>Category<span class="text-danger">*</span></label>
+                <select class="form-control" id="item_category">
+                    <option value="">Please select category</option>
+                    @foreach($data["category"] as $row)
+                        <option value="{{ $row["id"] }}">{{ $row["category"] }}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endisset
+
+        <div class="form-group row price-details">
             <div class="col-12 col-md-6">
                 <label>Price<span class="text-danger">*</span></label>
                 <div class="input-group">
@@ -51,8 +63,8 @@
                 </span>
             </div>
 
-            <label class="col-12 col-md-2 col-form-label">Status<span class="text-danger">*</span></label>
-            <div class="col-12 col-md-3">
+            <label class="col-12 col-md-2 col-form-label div_status">Status<span class="text-danger">*</span></label>
+            <div class="col-12 col-md-3 div_status">
                 <span class="switch switch-icon">
                     <label>
                         <input type="checkbox" name="select" id="chk_status">
