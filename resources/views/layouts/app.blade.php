@@ -877,12 +877,17 @@
 					<div>
 						<h5 class="font-weight-bold mb-3">System</h5>
 						<div class="form-group mb-0 row align-items-center">
-                            <label class="col-8 col-form-label">PLAN YEAR SET UP</label>
-                            <div class="col-4 d-flex justify-content-end">
+                            <label class="col-4 col-form-label">PLAN YEAR SET UP</label>
+                            <div class="col-6 d-flex justify-content-end">
                                 <select name="" id="GLOBAL_YEAR" class="form-control">
                                 </select>
                             </div>
 
+                            <label class="col-4 col-form-label">PROGRAM SELECT</label>
+                            <div class="col-6 d-flex justify-content-end">
+                                <select name="" id="GLOBAL_PROGRAM" class="form-control">
+                                </select>
+                            </div>
 						</div>
 				</form>
 			</div>
@@ -1376,6 +1381,16 @@
                     }
             });
 
+            function getProgramsAssigned(){
+                var _url  ="{{ route('get_program_assigned') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        document.getElementById('GLOBAL_PROGRAM').innerHTML = data;
+                    }
+                });
+            }
 
             function getYear(){
                 var _url = "{{ route('get_year') }}"
@@ -1397,9 +1412,17 @@
              *      INITIALIZE
              *
              * **************************************************/
+<<<<<<< Updated upstream
             getYear();
 
 
+=======
+            setTimeout(function(){
+                getYear();
+                getProgramsAssigned();
+            },1000);
+            $('body').tooltip({selector: '[data-toggle="tooltip"]'});
+>>>>>>> Stashed changes
 
             toastr.options = {
             "closeButton": false,
@@ -1433,6 +1456,7 @@
                 {
                     var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
                     $("#GLOBAL_YEAR").val(settings.year);
+                    $("#GLOBAL_PROGRAM").val(settings.program);
                 }else{
                     getUserYear();
                 }
@@ -1443,6 +1467,9 @@
                 updateUserGlobalSettingsYear();
             });
 
+            $("#GLOBAL_PROGRAM").change(function(){
+                updateUserGlobalSettingsProgramsSelected();
+            })
 
 
 
@@ -1452,7 +1479,46 @@
              *
              * **************************************************/
 
+            function updateUserGlobalSettingsProgramsSelected(){
+                var _url = "{{ route('u_global_user_program') }}";
+                var datastr = "id=" + $("#GLOBAL_PROGRAM").val();
+                if($("#GLOBAL_PROGRAM").val() != ''){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: datastr,
+                        success:function(data){
+                            if(data.message == 'success'){
+                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                var a = localStorage.getItem('GLOBAL_SETTINGS');
+                                a = a ? JSON.parse(a) : {};
+                                if(data.type =='insert')
+                                {
+                                    a['program'] = data.data.id;
+                                    a['program_name'] = $("#GLOBAL_PROGRAM option:selected").text()
+                                }else{
+                                    a['program'] = data.data.id;
+                                    a['program_name'] = $("#GLOBAL_PROGRAM option:selected").text()
+                                }
+                                localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
+                            }else{
+                                toastr.error("Saving Failed", "Error");
+                            }
+                        },
+                        complete:function(){
+                            KTApp.block('#kt_body', {
+                                overlayColor: '#000000',
+                                state: 'primary',
+                                message: 'Refreshing with new settings'
+                            });
+                            setTimeout(function(){
+                                window.location.reload(1);
+                            },2500);
+                        }
+                    });
+                }
+            }
 
 
             function updateUserGlobalSettingsYear(){
@@ -1552,6 +1618,14 @@
                     success:function(data){
                         document.getElementById('wfp_drawer').innerHTML = data;
                         KTApp.unblock('#wfp_drawer');
+                        var url = window.location.href;
+                        // alert(url.search(/ppmp/i));
+                        if(url.search(/ppmp/i) > 0)
+                        {
+                            $("#wfp_menu_drawer").addClass('d-none');
+                        }else{
+                            $("#wfp_menu_drawer").removeClass('d-none');
+                        }
                     }
                 });
             }else{
@@ -1561,7 +1635,6 @@
                     "error"
                 )
             }
-
         }
 
 
