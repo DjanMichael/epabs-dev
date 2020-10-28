@@ -30,7 +30,7 @@ class WfpController extends Controller
     //
     public $auth_user_id;
     public $auth_user_unit_id;
-
+    public $auth_user_program_id;
 
     // wfp performance table settings
     public $pi_table_paginate;
@@ -44,7 +44,7 @@ class WfpController extends Controller
         $this->middleware(function ($request, $next) {
             $this->auth_user_id = Auth::user()->id;
             $this->auth_user_unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId() ;
-
+            $this->auth_user_program_id =  (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_program_id;
             // wfp performance table settings
             $this->pi_table_paginate = 3;
 
@@ -119,6 +119,7 @@ class WfpController extends Controller
                                                                     ->join('ref_year','ref_year.id','tbl_unit_budget_allocation.year_id')
                                                                     ->where('tbl_unit_budget_allocation.unit_id', $unit_id)
                                                                     ->where('tbl_unit_budget_allocation.year_id',$req->year_id)
+                                                                    ->where('tbl_unit_budget_allocation.program_id',$this->auth_user_program_id)
                                                                     ->where('ref_budget_line_item.status','ACTIVE')
                                                                     ->get()
                                                                     ->toArray();
@@ -173,10 +174,13 @@ class WfpController extends Controller
 
     public function getCalculateBudgetAllocationUtilization(Request $req){
         // $a = new TableUnitBudgetAllocation();
+        // dd($req->all());
+        // $progam_id = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId();
-        $vw_allocation = BudgetAllocationAllYearPerProgram::where('unit_id',$unit_id)
-                                                        ->where('year_id',$req->year_id)
+        $vw_allocation = BudgetAllocationAllYearPerProgram::where('t1_unit_id',$unit_id)
+                                                        ->where('t1_year_id',$req->year_id)
                                                         ->where('budget_line_item_id',$req->bli_id)
+                                                        ->where('t1_program_id',$this->auth_user_program_id)
                                                         ->first();
 
         // $result = $a->getSingleBudgetAllocationUtilization(,$req->year_id,$req->bli_id);
@@ -203,16 +207,25 @@ class WfpController extends Controller
                     $cmd["DEL"] = 0;
                     $cmd["VIEW"] = 0;
                     $cmd["PPMP"] = 0;
+                    $cmd["COMMENT"] = 0;
                 }else if($status["remarks"] == 'APPROVED'){
                     $cmd["EDIT"] = 0;
                     $cmd["DEL"] = 0;
                     $cmd["VIEW"] = 0;
                     $cmd["PPMP"] = 1;
+                    $cmd["COMMENT"] = 1;
                 }else if ($status["remarks"] == 'FOR REVISION'){
                     $cmd["EDIT"] = 1;
                     $cmd["DEL"] = 1;
                     $cmd["VIEW"] = 1;
                     $cmd["PPMP"] = 0;
+                    $cmd["COMMENT"] = 0;
+                }else if($status["remarks"] == 'NOT SUBMITTED'){
+                    $cmd["EDIT"] = 1;
+                    $cmd["DEL"] = 1;
+                    $cmd["VIEW"] = 1;
+                    $cmd["PPMP"] = 0;
+                    $cmd["COMMENT"] = 0;
                 }
             }
 
@@ -274,7 +287,7 @@ class WfpController extends Controller
             DB::commit();
             //generate code decrypted
             $wfp_code = Crypt::encryptString($wfp->code);
-            return  $stat ? ['wfp_code'=> $wfp_code ,'message' =>'success','wfp_act_id'=>  $wfp_act->id] : ['wfp_code'=> Crypt::encryptString($wfp->code) ,'message' =>'not saved'];
+            return  $stat ? ['wfp_code'=> $wfp_code ,'message' =>'success'] : ['wfp_code'=> Crypt::encryptString($wfp->code) ,'message' =>'not saved'];
         } catch (\Exception $e) {
             DB::rollBack();
             return $e->getMessage();
@@ -285,18 +298,17 @@ class WfpController extends Controller
     public function savePerformaceIndicator(Request $req){
 
         if($req->ajax()){
+            // dd($req->all());
             $sum_used_budget_bli  =0;
             $other_act_pi_cost = WfpPerformanceIndicator::where('wfp_act_id',$req->id)
-                                                        // ->where('bli_id',$req->bli_id)
+                                                        ->where('bli_id',$req->bli_id)
                                                         ->get();
             $wfp_act = WfpActivity::where('id',$req->id)->first();
-
             if(count($other_act_pi_cost) != 0){
                 foreach ($other_act_pi_cost as $r){
                     $sum_used_budget_bli += $r["cost"];
                 }
             }
-
             if($wfp_act->activity_cost == null){
                 return 'save activity first';
             }
@@ -306,6 +318,14 @@ class WfpController extends Controller
             //if requested cost is  greater than the activity plan cost
             if(( $sum_used_budget_bli + $req->data["cost"])  > ($wfp_act->activity_cost - 0 )){
                 return 'exceeds act budget';
+            }
+            // $progam_id = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            //budgetline budget not exceeding
+            $program_budget = BudgetAllocationUtilization::where('budget_line_item_id',$req->bli_id)
+                                                        ->where('program_id',$this->auth_user_program_id)
+                                                        ->first();
+            if($req->data["cost"] > $program_budget->utilized_pi_balance){
+                return 'exceeds bli budget';
             }
 
             $wfp_indicator = new WfpPerformanceIndicator;
@@ -328,7 +348,6 @@ class WfpController extends Controller
         $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
 
         if($year_id){
-
             if($req->q != null){
                 $qry = $req->q;
                 $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
@@ -449,26 +468,44 @@ class WfpController extends Controller
             return ['message'=> 'not enough budget'];
         }
 
-        $wfp_act = WfpActivity::where('id',$req->id)->first();
-        // dd($wfp_act);
-        $wfp_act->wfp_code = $wfp_code;
-        $wfp_act->out_function =$req->data["output_function"];
-        $wfp_act->out_activity =$req->data["activity_output"];
-        $wfp_act->activity_category_id =$req->data["activity_categ"];
-        $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
-        $wfp_act->activity_timeframe =$req->data["act_timeframe"];
-        $wfp_act->responsible_person =$req->data["responsible_person"];
-        $wfp_act->target_q1 =$req->data["t_q1"];
-        $wfp_act->target_q2 =$req->data["t_q2"];
-        $wfp_act->target_q3 =$req->data["t_q3"];
-        $wfp_act->target_q4 =$req->data["t_q4"];
-        $wfp_act->activity_cost =$req->data["act_cost"];
-        $wfp_act->encoded_by = Auth::user()->id;
-        $wfp_act->save();
-
+        if($req->id != null || $req->id != ''){
+            //update
+            $wfp_act = WfpActivity::where('id',$req->id)->first();
+            $wfp_act->wfp_code = $wfp_code;
+            $wfp_act->out_function =$req->data["output_function"];
+            $wfp_act->out_activity =$req->data["activity_output"];
+            $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
+            $wfp_act->activity_timeframe =$req->data["act_timeframe"];
+            $wfp_act->responsible_person =$req->data["responsible_person"];
+            $wfp_act->target_q1 =$req->data["t_q1"];
+            $wfp_act->target_q2 =$req->data["t_q2"];
+            $wfp_act->target_q3 =$req->data["t_q3"];
+            $wfp_act->target_q4 =$req->data["t_q4"];
+            $wfp_act->activity_cost =$req->data["act_cost"];
+            $wfp_act->encoded_by = Auth::user()->id;
+            $wfp_act->save();
+        }else{
+            //insert
+            $wfp_act = new WfpActivity;
+            $wfp_act->wfp_code = $wfp_code;
+            $wfp_act->out_function =$req->data["output_function"];
+            $wfp_act->out_activity =$req->data["activity_output"];
+            $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
+            $wfp_act->activity_timeframe =$req->data["act_timeframe"];
+            $wfp_act->responsible_person =$req->data["responsible_person"];
+            $wfp_act->target_q1 =$req->data["t_q1"];
+            $wfp_act->target_q2 =$req->data["t_q2"];
+            $wfp_act->target_q3 =$req->data["t_q3"];
+            $wfp_act->target_q4 =$req->data["t_q4"];
+            $wfp_act->activity_cost =$req->data["act_cost"];
+            $wfp_act->encoded_by = Auth::user()->id;
+            $wfp_act->save();
+        }
         // dd(Crypt::decryptString($req->wfp_code));
 
-        return ['message'=>'success','id'=>$wfp_act->id];
+        return ['message'=>'success','id'=> $wfp_act->id];
 
     }
 

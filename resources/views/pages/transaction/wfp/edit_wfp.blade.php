@@ -247,9 +247,9 @@
             <button type="button" class="btn btn-transparent-warning mr-2" id="btn_update_wfp">
                 <i class="flaticon2-refresh icon-md"></i>Update
             </button>
-            <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
+            {{-- <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
                 <i class="flaticon-time-3 icon-md"></i>Add New Activity
-            </button>
+            </button> --}}
             <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'"
                     class="btn btn-transparent-success font-weight-bold">
                 <i class="flaticon2-check-mark icon-md"></i>Done
@@ -668,7 +668,10 @@
                         else if(data == 'exceeds act budget')
                         {
                             toastr.error("Activity Budget Exceeded", "Opss!");
-                        }else if (data == 'save activity first'){
+                        }else if (data == 'exceeds bli budget'){
+                            toastr.error("Not Enough Budget in Budget Line Item", "Opss!");
+                        }
+                        else if (data =='save activity first'){
                             toastr.error("Save the activity first", "Opss!");
                         }
                         else{
@@ -1339,7 +1342,7 @@
                 $.ajax({
                     method:"GET",
                     url:_url,
-                    data: ({  year_id : year_id1, bli_id : bli_id1}),
+                    data: {  year_id : year_id1, bli_id : bli_id1},
                     success:function(data){
                         // console.log(data.length);
                         if(data.length != 0){

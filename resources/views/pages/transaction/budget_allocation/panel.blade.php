@@ -122,7 +122,7 @@
 
 <script>
 
-        function showAddBudgetModal(unit_id,year_id,user_id){
+        function showAddBudgetModal(unit_id,year_id,user_id,program_id){
             $("#modal_budget_program").modal({
                 show:true,
                 backdrop:'static',
@@ -133,6 +133,8 @@
             $("#bli_unit_id").val(unit_id);
             $("#bli_year_id").val(year_id);
             $("#bli_user_id").val(user_id);
+            $("#bli_program_id").val(program_id);
+            alert(program_id);
 
             //clear fields
             $("#bli_name").val("");
@@ -146,10 +148,10 @@
             $("#edit_bli").val("");
             $("#edit_amount").val("");
 
-            getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+            getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,program_id);
         }
 
-        function deleteAllAllocation(unit_id1,year_id1){
+        function deleteAllAllocation(unit_id1,year_id1,program_id1){
             Swal.fire({
                 title: "Are you sure, You want to delete all allocation?",
                 text: "You won\'t be able to revert this!",
@@ -162,7 +164,8 @@
                     var _url = "{{ route('db_budget_delete_allocation_per_user') }}";
                     var _data = {
                         unit_id : unit_id1,
-                        year_id : year_id1
+                        year_id : year_id1,
+                        program_id:program_id1
                     };
                     $.ajax({
                         method:"GET",
@@ -199,11 +202,10 @@
 
         }
 
-        function getUnitYearlyBudgetPerBLI(_unit_id,_year_id,_user_id){
+        function getUnitYearlyBudgetPerBLI(_unit_id,_year_id,_user_id,_program_id){
 
             var _url ="{{ route('d_budget_allocation_per_bli_by_user') }}";
-            var _data = { unit_id : _unit_id, year_id: _year_id, user_id: _user_id };
-
+            var _data = { unit_id : _unit_id, year_id: _year_id, user_id: _user_id , program_id : _program_id};
             $.ajax({
                 method:"GET",
                 url : _url,
@@ -221,7 +223,7 @@
             var unit_id = $("#bli_unit_id").val();
             var user_id = $("#bli_user_id").val();
             var year_id = $("#bli_year_id").val();
-
+            var program_id = $("#bli_program_id").val();
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won\'t be able to revert this!",
@@ -243,7 +245,7 @@
                                     "Budget line Item Allocation has been deleted.",
                                     "success"
                                 )
-                                getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                                getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,program_id);
                                 $("#btn_save_budget").attr('disabled',false);
                                 $("#btn_update_budget").attr('disabled',true);
                             }else{

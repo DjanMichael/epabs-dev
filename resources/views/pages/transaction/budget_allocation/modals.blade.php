@@ -38,6 +38,7 @@
                                     <input type="hidden" id="bli_unit_id" value="">
                                     <input type="hidden" id="bli_year_id" value="">
                                     <input type="hidden" id="bli_user_id" value="">
+                                    <input type="hidden" id="bli_program_id" value="">
                                 </div>
                             </div>
                         </div>

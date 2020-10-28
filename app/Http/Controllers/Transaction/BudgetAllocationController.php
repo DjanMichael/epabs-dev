@@ -54,12 +54,12 @@ class BudgetAllocationController extends Controller
         //  dd(BudgetAllocationAllYearPerProgram::all());
 
         if($req->q == null || $req->q == ''){
-            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
+            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id','t1_program_id')
                                                                                 ->where('t1_year_id',$req->year - 0)
                                                                                 ->orderBy($req->sort != '' ? $req->sort : 't1_year_id' )
                                                                                 ->paginate($this->budget_allocation_pagination);
         }else{
-            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id')
+            $data["unit_budget_allocation"] = BudgetAllocationAllYearPerProgram::groupBy('t1_unit_id','t1_year_id','t1_program_id')
                                                                                 ->where('t1_year_id',$req->year - 0)
                                                                                 ->where(fn($q) =>
                                                                                 $q->orWhere('t1_division','LIKE','%' . $req->q . '%')
@@ -75,9 +75,11 @@ class BudgetAllocationController extends Controller
 
     public function getBudgetAllocationPerBLIByUser(Request $req){
         $data = [];
+
         $data["unit_per_user_budget"] = BudgetAllocationUtilization::where('user_id',$req->user_id)
                                                                     ->where('unit_id',$req->unit_id)
                                                                     ->where('year_id',$req->year_id)
+                                                                    ->where('program_id',$req->program_id)
                                                                     ->get()->toArray();
         // dd($data);
         return view('pages.transaction.budget_allocation.component.table_unit_bli_allocation',['data'=>$data]);
@@ -88,12 +90,14 @@ class BudgetAllocationController extends Controller
             $check = TableUnitBudgetAllocation::where('budget_line_item_id',$req->budget_line_item_id)
                                                 ->where('unit_id',$req->unit_id)
                                                 ->where('year_id',$req->year_id)
+                                                ->where('program_id',$req->program_id)
                                                 ->first();
             //check for duplicates on budget line item
             if($check){
                 return 'duplicate';
             }else{
                 $budget = new TableUnitBudgetAllocation;
+                $budget->program_id = $req->program_id;
                 $budget->unit_id = $req->unit_id;
                 $budget->budget_line_item_id = $req->budget_line_item_id;
                 $budget->program_budget = $req->amount;
@@ -145,6 +149,7 @@ class BudgetAllocationController extends Controller
         if($req->ajax()){
             $del_allocation_all  = TableUnitBudgetAllocation::where('unit_id',$req->unit_id)
                                                             ->where('year_id',$req->year_id)
+                                                            ->where('program_id',$req->program_id)
                                                             ->delete();
             if($del_allocation_all)                                            {
                 return 'success';

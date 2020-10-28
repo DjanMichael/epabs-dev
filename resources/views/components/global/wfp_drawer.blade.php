@@ -18,10 +18,9 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="width:91%;">
+        <div class="row" style="width:91%;" id="wfp_menu_drawer">
             <div class="col-12 col-md-8">
                 <div class="row">
-
                     @if(count($activities) <> 0)
                     <div class="col-12 col-md-4">
                         <button type="button" onclick="wfpApprove('{{ $wfp_code }}')" class="btn btn-transparent-success font-weight-bold  btn-block"><i class="flaticon-like icon-md"></i>APPROVED WFP</button>
@@ -103,6 +102,7 @@
                                         <i class="flaticon2-trash"></i>
                                     </button>
                                     @endif
+                                    @if($cmd["COMMENT"] == 1)
                                     <button  id="wfp_comment_act" type="button"
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
@@ -110,6 +110,7 @@
                                         onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">
                                         <i class="flaticon-comment"></i>
                                     </button>
+                                    @endif
                                     @if($cmd["VIEW"] == 1)
                                     <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
