@@ -502,9 +502,9 @@
            /*************************************************
                         EVENT LISTENERS
             *************************************************/
-            // $("#search_output_function").on('click',function(){
-            //     populateOutputFunctionsAll();
-            // });
+            $("#search_output_function").on('click',function(){
+                populateOutputFunctionsAll();
+            });
             $("#btn_add_new_act").on('click',function(){
                 var code = $("#wfp_code").val();
                 var _url ="{{ route('wfp_add_new_activity') }}";
@@ -637,6 +637,7 @@
             }else{
                 pi_data.catering_include ='false';
                 pi_data.batches = '';
+                delete pi_rules.batches
             }
             console.log(pi_data);
 
@@ -672,6 +673,9 @@
                         else if(data =='no budget')
                         {
                             toastr.error("Not Enough Budget", "Opss!");
+                        }
+                        else if (data == 'exceeds bli budget'){
+                            toastr.error("Not Enough Budget in Budget Line Item", "Opss!");
                         }
                         else if(data == 'exceeds act budget')
                         {

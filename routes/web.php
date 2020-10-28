@@ -82,6 +82,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
+    Route::get('/user/setup/programAssigned','GlobalSettingsController@getUserProgramAssigned')->name('get_program_assigned');
+    Route::get('/user/settings/update/programs','GlobalSettingsController@updateProgramSelected')->name('u_global_user_program');
     Route::get('/test','Transaction\WfpController@test');
     Route::get('/user/settings/update/year','GlobalSettingsController@updateUserYear')->name('u_global_user_year');
     Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');

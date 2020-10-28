@@ -3,6 +3,7 @@
         <tr class="text-left">
             <th style="min-width: 200px">Program Coordinator</th>
             <th style="min-width: 150px">Office</th>
+            <th style="min-width: 150px">Program</th>
             <th style="min-width: 150px">Allocation</th>
             <th style="min-width: 150px">Utilized</th>
             <th style="min-width: 150px">Balance</th>
@@ -16,11 +17,11 @@
         $hasBudget = $row["hasBudget"] != 0;
         // $row["hasBudget"] != 0 ;
 
-        $total = $row["yearly_budget"]  ;
-        $used  = $row["yearly_utilized"] ;
+        $total = $row["yearly_budget"] ;
+        $used  = $row["yearly_utilized"];
 
-        if ($hasBudget || ( $total != 0 && $used != 0)){
-            $bal   =  number_format((($total - $used) / $total) * 100,2);
+        if (($hasBudget && $used != null) || ( $total != 0 && $used != null )){
+            $bal  = number_format((($total - $used) / $total) * 100,2);
             $used = number_format(($used / $total) * 100,2);
         }else{
             $total =0;
@@ -34,22 +35,25 @@
                     <div class="col-3">
                         <div class="symbol-list d-flex flex-wrap">
                             <div class="symbol symbol-50  mr-3">
-                                <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words($hasBudget ? $row["name"] : $row["t1_name"],2),0,1)) }}</span>
+                                <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words($row["t1_name"],2),0,1)) }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-9 pt-2 pl-6">
-                        <span class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg" style= "text-transform: capitalize;">{{  $hasBudget ? $row["name"] : $row["t1_name"] }} </span>
+                        <span class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg" style= "text-transform: capitalize;">{{  $row["t1_name"]  }} </span>
                         <span class="text-muted font-weight-bold text-muted d-block">{{  $hasBudget ? ($row["designation"] == ""  ? "NO DESIGNATION" : $row["designation"]) : ($row["t1_designation"] == ""  ? "NO DESIGNATION" : $row["t1_designation"]) }}</span>
                     </div>
                 </div>
             </td>
             <td>
-            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{  $hasBudget ? $row["division"] : $row["t1_division"]   }}</span>
-                <span class="text-muted font-weight-bold">{{  $hasBudget ? $row["section"] : $row["t1_section"] }}</span>
+            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{  $row["t1_division"]   }}</span>
+                <span class="text-muted font-weight-bold">{{  $row["t1_section"] }}</span>
             </td>
             <td>
-            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($total,2) }}</span>
+                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{  $row["t1_program_name"]   }}</span>
+            </td>
+            <td>
+            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row["yearly_budget"],2) }}</span>
             </td>
             <td>
                 <div class="d-flex flex-column w-100 mr-2">
@@ -74,7 +78,7 @@
                 </div>
             </td>
             <td class="pr-0 text-right">
-                <button type="button" onClick="showAddBudgetModal({{  $hasBudget ? $row["unit_id"] : $row["t1_unit_id"] }},{{ $hasBudget ? $row["year_id"] : $row["t1_year_id"] }},{{ $hasBudget ? $row["user_id"] : $row["t1_user_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                <button type="button" onClick="showAddBudgetModal({{  $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_user_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                     <span class="svg-icon svg-icon-md svg-icon-primary">
                         <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/General/Settings-1.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -88,7 +92,7 @@
                     </span>
                 </button>
                 @if($hasBudget)
-                    <button type="button" onClick="deleteAllAllocation({{  $hasBudget ? $row["unit_id"] : $row["t1_unit_id"] }},{{ $hasBudget ? $row["year_id"] : $row["t1_year_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                    <button type="button" onClick="deleteAllAllocation({{  $row["t1_unit_id"] }},{{ $row["t1_year_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                         <span class="svg-icon svg-icon-md svg-icon-primary">
                             <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/General/Trash.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

@@ -122,7 +122,7 @@
                                 success:function(data){
                                     if(data =="success"){
                                         toastr.success("Budget Allocation Sucessfully Save", "Good Job");
-                                        getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                                        getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,$("#bli_program_id").val());
                                         $("#bli_name").val("");
                                         $("#bli_amount").val("");
                                     }else{
@@ -184,7 +184,7 @@
                             success:function(data){
                                 if(data =="success"){
                                     toastr.success("Budget Allocation Sucessfully Save", "Good Job");
-                                    getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id);
+                                    getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,$("#bli_program_id").val());
                                     $("#bli_name").val("");
                                     $("#bli_amount").val("");
                                 }else{
@@ -230,14 +230,13 @@
                                 'required.budget_line_item_id' : 'Budget Line Item is Required',
                                 'required.amount' : 'Budget Line Item Amount is Required',
                             }
-
                             let bli_data = {
                                 budget_line_item_id : $("#bli_name option:selected").val(),
                                 amount : $("#bli_amount").val() != 0 ? $("#bli_amount").val() : null,
                                 unit_id : $("#bli_unit_id").val(),
-                                year_id : $("#bli_year_id").val()
+                                year_id : $("#bli_year_id").val(),
+                                program_id : $("#bli_program_id").val()
                             }
-
                             let validation = new Validator(bli_data, bli_rules, options);
                             if (validation.passes()) {
                                 var _url = "{{ route('db_bli_allocation_unit_save') }}";
@@ -253,7 +252,7 @@
                                     },
                                     success:function(data){
                                         if (data == 'success'){
-                                            getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val());
+                                            getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val(),$("#bli_program_id").val());
                                             fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
                                             $("#bli_name").val("");
                                             $("#bli_amount").val("");
@@ -312,7 +311,8 @@
                             budget_line_item_id : $("#bli_name option:selected").val(),
                             amount : $("#bli_amount").val() != 0 ? $("#bli_amount").val() : null,
                             unit_id : $("#bli_unit_id").val(),
-                            year_id : $("#bli_year_id").val()
+                            year_id : $("#bli_year_id").val(),
+                            program_id : $("#bli_program_id").val()
                         }
 
                         let validation = new Validator(bli_data, bli_rules, options);
@@ -330,7 +330,7 @@
                                 },
                                 success:function(data){
                                     if (data == 'success'){
-                                        getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val());
+                                        getUnitYearlyBudgetPerBLI(bli_data.unit_id,bli_data.year_id,$("#bli_user_id").val(),$("#bli_program_id").val());
                                         fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
                                         $("#bli_name").val("");
                                         $("#bli_amount").val("");
