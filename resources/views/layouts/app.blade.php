@@ -907,13 +907,13 @@
                                 <select name="" id="GLOBAL_YEAR" class="form-control">
                                 </select>
                             </div>
-
                             <label class="col-4 col-form-label">PROGRAM SELECT</label>
                             <div class="col-6 d-flex justify-content-end">
                                 <select name="" id="GLOBAL_PROGRAM" class="form-control">
                                 </select>
                             </div>
-						</div>
+                        </div>
+                        <button id="BTN_GLOBAL_SETTTINGS_SAVE" class="btn btn-block btn-primary">Save</button>
 				</form>
 			</div>
 			<!--end::Tabpane-->
@@ -1450,14 +1450,36 @@
             });
 
 
-            $("#GLOBAL_YEAR").change(function(){
-                updateUserGlobalSettingsYear();
+            // $("#GLOBAL_YEAR").change(function(){
+            //     updateUserGlobalSettingsYear();
+            // });
+
+            // $("#GLOBAL_PROGRAM").change(function(){
+            //     updateUserGlobalSettingsProgramsSelected();
+            // })
+
+            $("#BTN_GLOBAL_SETTTINGS_SAVE").on('click',function(){
+                Promise.resolve(4)
+                    .then(()=>{
+                        updateUserGlobalSettingsYear();
+                    })
+                    .then(()=>{
+                        updateUserGlobalSettingsProgramsSelected();
+                    })
+                    .then(() => {
+                        KTApp.block('#kt_body', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Refreshing with new settings'
+                        });
+                        setTimeout(function(){
+                            window.location.reload(1);
+                        },3500);
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
             });
-
-            $("#GLOBAL_PROGRAM").change(function(){
-                updateUserGlobalSettingsProgramsSelected();
-            })
-
 
 
               /***************************************************
@@ -1476,7 +1498,7 @@
                         data: datastr,
                         success:function(data){
                             if(data.message == 'success'){
-                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                toastr.success("Settings Program Save Sucessfully ", "Good Job");
                                 var a = localStorage.getItem('GLOBAL_SETTINGS');
                                 a = a ? JSON.parse(a) : {};
                                 if(data.type =='insert')
@@ -1490,18 +1512,8 @@
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
                             }else{
-                                toastr.error("Saving Failed", "Error");
+                                toastr.error("Saving Program Failed", "Error");
                             }
-                        },
-                        complete:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Refreshing with new settings'
-                            });
-                            setTimeout(function(){
-                                window.location.reload(1);
-                            },2500);
                         }
                     });
                 }
@@ -1518,7 +1530,7 @@
                         data: datastr,
                         success:function(data){
                             if(data.message == 'success'){
-                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                toastr.success("Settings Year Save Sucessfully ", "Good Job");
                                 var a = localStorage.getItem('GLOBAL_SETTINGS');
                                 a = a ? JSON.parse(a) : {};
                                 if(data.type =='insert')
@@ -1532,18 +1544,8 @@
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
                             }else{
-                                toastr.error("Saving Failed", "Error");
+                                toastr.error("Saving Year Failed", "Error");
                             }
-                        },
-                        complete:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Refreshing with new settings'
-                            });
-                            setTimeout(function(){
-                                window.location.reload(1);
-                            },2500);
                         }
                     });
                 }
