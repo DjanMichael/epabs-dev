@@ -8,5 +8,5 @@ class RefActivityOutputFunctions extends Model
 {
     //
     protected $table ="tbl_activity_output_function";
-    protected $fillable =["function_output","function_description","user_id","program_id"];
+    protected $fillable =["function_output_id","function_description","user_id","program_id"];
 }

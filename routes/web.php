@@ -77,6 +77,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/items/list','Transaction\PpmpController@getAllPPMPItemList')->name('get_all_ppmp_items_list');
     Route::get('ppmp/items/add/byPi','Transaction\PpmpController@addPPMPItemsByPI')->name('add_pi_ppmp_items');
     Route::get('/ppmp/item/deleteById','Transaction\PpmpController@deletePPMPItemsById')->name('del_pi_ppmp_item');
+    Route::get('/ppmp/view/byWfpCode','Transaction\PpmpController@getPPMPView')->name('wfp_ppmp_view');
 
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');

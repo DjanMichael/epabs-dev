@@ -4,7 +4,7 @@
     <!--begin::Head-->
     <head><base href="../../">
                 <meta charset="utf-8"/>
-    <title> {{ env('APP_NAME') }} |  @yield('title') </title>
+    <title> {{ env('APP_NAME') . ' ' . env('APP_Version') }} |  @yield('title') </title>
         <meta name="description" content="Page with empty content"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -80,20 +80,35 @@
 
             .hide_scroll{
                 overflow-y:hidden;
-
+                overflow-x: hidden;
             }
+            body{
+                position: relative;
+                width: 100%;
+            }
+
+            /* for perfect scroll but scroll top not showing
+            html {
+                overflow: scroll;
+                overflow-x: hidden;
+            }
+            ::-webkit-scrollbar {
+                width: 0px;
+                background: transparent;
+            } */
 
         </style>
 
     </head>
     <!--end::Head-->
 
-    <!--begin::Body-->
-    <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading hide_scroll" >
-      {{-- {{ dd(Auth::user()->getUnitId()) }} --}}
-    {{-- <div class="bg_loader">
-        <div class="loader"></div>
-    </div> --}}
+<!--begin::Body-->
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
+    {{-- <div id="container-wrapper"
+    data-scroll="true" data-wheel-propagation="true"
+    class=" scroll scroll-pull hide_scroll"> --}}
+
+    {{-- <div  > --}}
 
     <div class="page_loader" style="background-image: url({{ asset("dist/assets/media/bg/bg-3.jpg") }});">
         <span>
@@ -324,7 +339,6 @@
 <!--end::Main-->
 
 <!-- begin:wfp_drawer -->
-
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull"
         data-scroll="true"
@@ -332,8 +346,9 @@
         style="height: 100%;"
         id="wfp_drawer">
 </div>
+<!-- end:wfp_drawer -->
 
-
+<!-- begin:wfp_ppmp_cart_item -->
 <div id="bg-drawer-cart" onclick="wfp_act_cart_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull"
         data-scroll="true"
@@ -341,7 +356,17 @@
         style="height: 100%;"
         id="wfp_act_cart_drawer">
 </div>
-<!-- end:wfp_drawer -->
+<!-- end:wfp_ppmp_cart_item -->
+
+<!-- begin:wfp_ppmp_view -->
+<div id="bg-drawer-ppmp-drawer" onclick="wfp_ppmp_viewer_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_ppmp_viewer_drawer">
+</div>
+<!-- end:wfp_ppmp_view -->
 
 
 <!-- begin::User Panel-->
@@ -1238,7 +1263,7 @@
 </div>
 <!--end::Chat Panel-->
 
-                            <!--begin::Scrolltop-->
+<!--begin::Scrolltop-->
 <div id="kt_scrolltop" class="scrolltop">
 	<span class="svg-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -1246,51 +1271,17 @@
         <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1"/>
         <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero"/>
     </g>
-</svg><!--end::Svg Icon--></span></div>
+</svg><!--end::Svg Icon--></span>
+</div>
 <!--end::Scrolltop-->
 
-{{-- <!--begin::Sticky Toolbar-->
-<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-	<!--begin::Item-->
-	<li class="nav-item mb-2" id="kt_demo_panel_toggle" data-toggle="tooltip"  title="Check out more demos" data-placement="right">
-		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-success btn-hover-success" href="#">
-			<i class="flaticon2-drop"></i>
-		</a>
-	</li>
-	<!--end::Item-->
 
-	<!--begin::Item-->
-	<li class="nav-item mb-2" data-toggle="tooltip" title="Layout Builder" data-placement="left">
-        		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://preview.keenthemes.com/metronic/preview/demo12/builder.html" target="_blank">
-			<i class="flaticon2-gear"></i>
-		</a>
-	</li>
-	<!--end::Item-->
+{{-- </div>
+</div> --}}
 
-	<!--begin::Item-->
-	<li class="nav-item mb-2" data-toggle="tooltip" title="Documentation" data-placement="left">
-		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" href="https://keenthemes.com/metronic/?page=docs" target="_blank">
-			<i class="flaticon2-telegram-logo"></i>
-		</a>
-	</li>
-	<!--end::Item-->
-
-			<!--begin::Item-->
-		<li class="nav-item" id="kt_sticky_toolbar_chat_toggler" data-toggle="tooltip" title="Chat Example" data-placement="left">
-			<a class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" href="#" data-toggle="modal" data-target="#kt_chat_modal">
-				<i class="flaticon2-chat-1"></i>
-			</a>
-		</li>
-		<!--end::Item-->
-	</ul>
-<!--end::Sticky Toolbar--> --}}
-
-
-
-
-        <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-        <!--begin::Global Config(global config for global JS scripts)-->
-        <script>
+<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+<!--begin::Global Config(global config for global JS scripts)-->
+<script>
             var KTAppSettings = {
     "breakpoints": {
         "sm": 576,
@@ -1362,7 +1353,7 @@
         <!--begin::Page Vendors(used by this page)-->
                 <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
                 {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
-                <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
+                {{-- <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
         <!--end::Page Vendors-->
 
         <!--begin::Page Scripts(used by this page)-->
@@ -1646,6 +1637,12 @@
         //     alert(_ppmp_id);
         // }
 
+        function wfp_ppmp_viewer_drawer_close(){
+            $("#bg-drawer-ppmp-drawer").removeClass('bg-drawer');
+            $("#wfp_ppmp_viewer_drawer").removeClass('wrapper-drawer-on');
+        }
+
+
         function wfp_act_cart_drawer_close(){
             $("#bg-drawer-cart").removeClass('bg-drawer');
             $("#wfp_act_cart_drawer").removeClass('wrapper-drawer-on');
@@ -1667,6 +1664,34 @@
                 },
                 success:function(data){
                     document.getElementById('wfp_act_cart_drawer').innerHTML = data;
+                }
+            });
+        }
+
+        function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
+            if(_wfp_act_id != null || _wfp_code != null){
+                $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
+                $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
+                fetchPPMPViewer(_wfp_code,_wfp_act_id);
+            }
+        }
+
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id){
+            var _url = "{{ route('wfp_ppmp_view') }}";
+
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id},
+                beforeSend:function(){
+                    KTApp.block('#wfp_ppmp_viewer_drawer', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: '<i class="fas fa-boxes icon-xl mr-2"></i> Loading. . .'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_ppmp_viewer_drawer').innerHTML = data;
                 }
             });
         }

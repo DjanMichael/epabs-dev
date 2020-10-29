@@ -24,7 +24,7 @@
                     <!--begin::Body-->
                     <div class="card-body">
                         <!--begin::Section-->
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col-12 d-flex align-items-center">
                                 <div class="symbol-list d-flex flex-wrap">
                                     <div class="symbol symbol-60 mr-3">
@@ -35,8 +35,10 @@
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column mr-auto">
                                     <!--begin: Title-->
-                                <span class="card-title text-hover-primary fnt-weight-bolder font-size-h5 text-dark mb-1">{{ $row["name"] }}</span>
+                                    <span class="card-title text-hover-primary fnt-weight-bolder font-size-h5 text-dark mb-1">{{ $row["name"] }}</span>
                                     <span class="text-muted font-weight-bold">{{ $row["designation"] != '' ? $row["designation"] : 'NO DESIGNATION' }}</span>
+                                    <span class="label label-inline font-weight-bolder mr-2" >{{ $row["division"] . ' - ' .  $row["section"]  }}</span>
+
                                     <!--end::Title-->
                                 </div>
                             </div>
@@ -70,7 +72,7 @@
                     <!--begin::Footer-->
                     <div class="card-footer row pt-3 pb-3 bg-dark m-0" style="height: 40px;wdith:100%">
                         <div class="col-10">
-                            <span class="label label-inline font-weight-bolder mr-2" >{{ $row["division"] . ' - ' .  $row["section"]  }}</span>
+                            <span class="label label-inline font-weight-bolder mr-2" >{{ $row["program_name"] }}</span>
                         </div>
                         <div class="col-2 text-right">
                             <span class="label label-primary label-inline font-weight-bolder mr-2" >{{ $row["wfp_activity_count"] != null ? $row["wfp_activity_count"] : '0' }}</span>
