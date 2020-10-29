@@ -161,4 +161,13 @@ class PpmpController extends Controller
             abort(403);
         }
     }
+
+    public function getPPMPView(Request $req){
+        if($req->ajax()){
+            return view('components.global.wfp_ppmp_drawer');
+        }else{
+            abort(403);
+        }
+    }
+
 }

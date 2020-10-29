@@ -4,16 +4,23 @@
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
     <span class="label label-rounded label-danger mr-2" style="position:absolute;left:0;top:0;" id="cart_count_badge">0</span>
     <!--begin::Item-->
-<li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="right" data-original-title="Show Selected Items">
+<li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Show Selected Items">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
-            <i class="fas fa-box-open text-primary"></i>
+            <i class="fas fa-shopping-cart text-primary"></i>
         </button>
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="nav-item mb-2"  onclick="wfp_drawer_open('{{ $data['wfp_code'] }}')" data-toggle="tooltip" title="" data-placement="right" data-original-title="Open Wfp Activity">
+    <li class="nav-item mb-2"  onclick="wfp_drawer_open('{{ $data['wfp_code'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open Wfp Activity">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
             <i class="fas fa-stream text-primary"></i>
+        </button>
+    </li>
+    <!--end::Item-->
+     <!--begin::Item-->
+     <li class="nav-item mb-2"  onclick="wfp_ppmp_viewer_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open PPMP">
+        <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
+            <i class="fas fa-boxes text-primary"></i>
         </button>
     </li>
     <!--end::Item-->
@@ -273,6 +280,7 @@
             <div class="modal-footer" style="float:left">
                 Total :<span id="qty_total" style="font-weight:bold;">0</span> |
                 Price :<span id="lbl_price" style="font-weight:bold;">0</span> |
+                SubTotal :<span id="lbl_sub_total" style="font-weight:bold;">0</span> |
                 Balance :<span id="lbl_balance" style="font-weight:bold;">0</span>
                 <button type="button" class="btn btn-primary" onclick="savePiCart()" >Add Item</button>
             </div>
@@ -505,6 +513,7 @@
             $("#qty_total").html('0');
             $("#lbl_price").html('₱ 0.00');
             $("#lbl_balance").html('₱ 0.00');
+            $("#lbl_sub_total").html('₱ 0.00');
 
 
             __type = _type ;
@@ -562,6 +571,7 @@
 
         $("#lbl_balance").html('₱ ' +  nf.format(deducted));
         $("#qty_total").html(qty);
+        $("#lbl_sub_total").html('₱ ' + nf.format((qty * price)));
     }
 </script>
 @endpush

@@ -241,12 +241,14 @@ class WfpController extends Controller
         $user_id = Auth::user()->id;
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = $req->year_id;
+        $program_id = (GlobalSystemSettings::where('user_id',$user_id)->first())->select_program_id;
 
-        $code = DB::select('CALL generate_wfp_code(?,?,?)' , array($user_id,$unit_id,$year_id));
+        $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
         $check = Wfp::where('user_id',$user_id)
                     ->where('unit_id',$unit_id)
                     ->where('year_id',$year_id)
+                    ->where('program_id',$program_id)
                     ->first();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
         if($check){
@@ -273,6 +275,7 @@ class WfpController extends Controller
             $wfp->user_id = $user_id;
             $wfp->unit_id = $unit_id;
             $wfp->year_id = $year_id;
+            $wfp->program_id = $program_id;
             $stat = $wfp->save();
 
             // $wfp_act = new WfpActivity;
@@ -356,12 +359,12 @@ class WfpController extends Controller
                                         $q->where('name','LIKE', '%' . $qry .'%')
                                         ->orWhere('division','LIKE','%' . $qry .'%')
                                         ->orWhere('section','LIKE','%' . $qry .'%'))
-                                    ->groupBy(['unit_id','year_id','user_id'])
+                                    ->groupBy(['unit_id','year_id','user_id','program_id'])
                                     ->paginate($this->wfp_list_paginate);
             }else{
                 $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
                                     ->where('wfp_code','!=',null)
-                                    ->groupBy(['unit_id','year_id','user_id'])
+                                    ->groupBy(['unit_id','year_id','user_id','program_id'])
                                     ->paginate($this->wfp_list_paginate);
             }
             if(count($data["wfp_list"]) <> 0){
