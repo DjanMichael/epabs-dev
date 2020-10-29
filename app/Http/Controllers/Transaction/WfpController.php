@@ -44,7 +44,8 @@ class WfpController extends Controller
         $this->middleware(function ($request, $next) {
             $this->auth_user_id = Auth::user()->id;
             $this->auth_user_unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId() ;
-            $this->auth_user_program_id =  (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_program_id;
+            $check_if_has_settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            $this->auth_user_program_id =  $check_if_has_settings ? (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_program_id : 0;
             // wfp performance table settings
             $this->pi_table_paginate = 3;
 
@@ -358,7 +359,8 @@ class WfpController extends Controller
                                     ->where(fn($q) =>
                                         $q->where('name','LIKE', '%' . $qry .'%')
                                         ->orWhere('division','LIKE','%' . $qry .'%')
-                                        ->orWhere('section','LIKE','%' . $qry .'%'))
+                                        ->orWhere('section','LIKE','%' . $qry .'%')
+                                        ->orWhere('program_name','LIKE','%' . $qry .'%'))
                                     ->groupBy(['unit_id','year_id','user_id','program_id'])
                                     ->paginate($this->wfp_list_paginate);
             }else{
