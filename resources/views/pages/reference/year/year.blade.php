@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @section('title','Year')
 @push('styles')
-    {{-- <script src="{{ asset('test/css/footable.core.standalone.css') }}"></script> --}}
-    {{-- <script src="{{ asset('test/css/reference.js') }}"></script> --}}
+    <!-- FooTable -->
+    <link rel="stylesheet" href="{{ asset("/css/footable/footable.core.standalone.css") }}">
 @endpush
+
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
@@ -99,7 +100,10 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('test/js/footable.core.js') }}"></script>
+    <!-- FooTable -->
+    <script src="{{ asset('/js/footable/footable.core.js') }}"></script>
+    <script src="{{ asset('/js/footable/footable.core.min.js') }}"></script>
+
     <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('dist/assets/js/form_validate.js') }}"></script>
     <script src="{{ asset('dist/assets/js/controllers/reference.js') }}"></script>
