@@ -894,7 +894,6 @@
 				<!--end::Nav-->
 			</div>
 			<!--end::Tabpane-->
-
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel">
 				<form class="form">
@@ -913,7 +912,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button id="BTN_GLOBAL_SETTTINGS_SAVE" class="btn btn-block btn-primary">Save</button>
+                        <button type="button" id="BTN_GLOBAL_SETTTINGS_SAVE" class="btn btn-block btn-primary">Save</button>
 				</form>
 			</div>
 			<!--end::Tabpane-->
@@ -1470,11 +1469,12 @@
                         KTApp.block('#kt_body', {
                             overlayColor: '#000000',
                             state: 'primary',
-                            message: 'Refreshing with new settings'
+                            message: 'Changing Configuration'
                         });
                         setTimeout(function(){
-                            window.location.reload(1);
-                        },3500);
+                            window.location.href="{{ route('dashboard') }}";
+                            // window.location.reload(1);
+                        },2000);
                     })
                     .then((err)=>{
                         return Promise.reject(err);
