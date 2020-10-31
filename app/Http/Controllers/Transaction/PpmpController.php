@@ -10,6 +10,7 @@ use App\PpmpItems;
 use App\WfpActivity;
 use App\Views\ProcurementMedSupplies;
 use DB;
+
 class PpmpController extends Controller
 {
     //
@@ -164,7 +165,29 @@ class PpmpController extends Controller
 
     public function getPPMPView(Request $req){
         if($req->ajax()){
-            return view('components.global.wfp_ppmp_drawer');
+            // dd($req->all());
+            $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get()->toArray();
+            $pi_ids = [];
+
+            if(count($wfp_act_ids) > 0){
+                $i =0;
+                for ($i=0; $i < count($wfp_act_ids) ; $i++ ){
+                    $pi_ids[$i] = $wfp_act_ids[$i]["id"];
+                }
+            }
+            $vw = "vw_procurement_drum_supplies_items";
+            $data["ppmp_items"] = \DB::table('tbl_ppmp_items')
+                                        ->join($vw,function($q) use ($vw)
+                                        {
+                                            $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
+                                            $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
+                                        })
+                                        ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
+                                        ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)->get()->toArray();
+
+            // $pi_ids = Arr::flatten($pi_ids);
+            // dd($data);
+            return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
         }else{
             abort(403);
         }
