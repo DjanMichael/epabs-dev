@@ -92,9 +92,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
-    Route::get('/', function ()  {
-        return view('pages.admin_dashboard');
-    })->name('dashboard');
+    Route::get('/', 'PageController@dashboard')->name('dashboard');
 });
 
 Route::get('/logout/session',function(){
