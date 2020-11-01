@@ -19,6 +19,7 @@ class CreateTblActivityOutputFunction extends Migration
             // $table->foreign('function_output')->references('id')->on('ref_function_deliverables');
             $table->string('description');
             $table->integer('user_id');
+            $table->integer('program_id');
             // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
