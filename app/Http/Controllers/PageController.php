@@ -21,15 +21,15 @@ class PageController extends Controller
 
         if($program){
             $data["user_info"] = UserInfo::where('program_id', $program->select_program_id)
-                                    ->where('year_id',$program->select_year)
-                                    ->groupBy('program_id')
-                                    ->get()->toArray();
-        $data["budget_allocation"] = BudgetAllocationUtilization::where('program_id', $program->select_program_id)
-                                            ->where('year_id',$program->select_year)
-                                            ->groupBy('program_id','budget_line_item_id')
-                                            ->get()->toArray();
+                                        ->where('year_id',$program->select_year)
+                                        ->groupBy('program_id')
+                                        ->get()->toArray();
+            $data["budget_allocation"] = BudgetAllocationUtilization::where('program_id', $program->select_program_id)
+                                                ->where('year_id',$program->select_year)
+                                                ->groupBy('program_id','budget_line_item_id')
+                                                ->get()->toArray();
         }
-
+        // dd($data);
         return view('pages.admin_dashboard',['data'=>$data]);
     }
 }
