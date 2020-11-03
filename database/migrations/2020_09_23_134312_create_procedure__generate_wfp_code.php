@@ -15,7 +15,7 @@ class CreateProcedureGenerateWfpCode extends Migration
     {
         DB2::unprepared('
             DROP PROCEDURE IF EXISTS generate_wfp_code;
-            CREATE PROCEDURE generate_wfp_code (user_id INT(11), unit_id INT(11),year_id INT(11))
+            CREATE PROCEDURE generate_wfp_code (user_id INT(11), unit_id INT(11),year_id INT(11),program_id INT(11))
             BEGIN
             SELECT CONCAT(
                  LPAD(user_id,3,0),
