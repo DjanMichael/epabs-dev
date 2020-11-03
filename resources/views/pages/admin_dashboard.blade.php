@@ -24,22 +24,22 @@
                         <div class="col-12 d-flex align-items-center">
                             <div class="symbol-list d-flex flex-wrap">
                                 <div class="symbol symbol-60 mr-3">
-                                    <span class="symbol-label font-size-h6">{{ strtoupper(Str::substr(Str::words($data["user_info"][0]["name"],2),0,1)) }}</span>
+                                    <span class="symbol-label font-size-h6">{{ strtoupper(Str::substr(Str::words( $data != null ? $data["user_info"][0]["name"] : 'NO USER INFO',2),0,1)) }}</span>
                                 </div>
                             </div>
                             <!--end::Pic-->
                             <!--begin::Info-->
                             <div class="d-flex flex-column mr-auto">
                                 <!--begin: Title-->
-                                <span class="card-title text-hover-primary fnt-weight-bolder font-size-h5 text-dark mb-1">{{ $data["user_info"][0]["name"] }}</span>
-                                <span class="text-muted font-weight-bold">{{ $data["user_info"][0]["designation"] =='' ? 'NO DESIGNATION' : $data["user_info"][0]["designation"] }}</span>
+                                <span class="card-title text-hover-primary fnt-weight-bolder font-size-h5 text-dark mb-1">{{ $data != null ? $data["user_info"][0]["name"] : 'NO USER INFO' }}</span>
+                                <span class="text-muted font-weight-bold">{{ $data == null ? 'NO DESIGNATION' : $data["user_info"][0]["designation"] }}</span>
                                 {{-- <span class="label label-inline font-weight-bolder mr-2" >{{ $row["division"] . ' - ' .  $row["section"]  }}</span> --}}
                                 <!--end::Title-->
                             </div>
                         </div>
                         <div class="separator separator-dashed separator-border-2 separator-secondary mb-3 mt-6"></div>
-                        <span style="font-size:15px;font-weight:bold;">{{ $data["user_info"][0]["program_name"] }}</span>
-                        <h5>{{ $data["user_info"][0]["division"] }} <span class="label label-dot label-dark mr-3 ml-3"></span> {{ $data["user_info"][0]["section"] }}</h5>
+                        <span style="font-size:15px;font-weight:bold;">{{ $data != null ? $data["user_info"][0]["program_name"] : 'NO USER INFO' }}</span>
+                        <h5>{{ $data != null ? $data["user_info"][0]["division"] : 'NO USER INFO'}} <span class="label label-dot label-dark mr-3 ml-3"></span> {{ $data != null ? $data["user_info"][0]["section"] : 'NO USER INFO' }}</h5>
                     </div>
                     {{-- <span class="svg-icon svg-icon-2x svg-icon-info">
                         <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
@@ -76,19 +76,19 @@
                     <div class="row h-100" >
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_budget"],2)  }}</h1>
+                                <h1>₱ {{ number_format(($data != null ? $data["budget_allocation"][0]["yearly_budget"] : 0),2) }}</h1>
                                 <span>Total Budget Allocation</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_utilized"],2) }}</h1>
+                                <h1>₱ {{ number_format(($data != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0),2) }}</h1>
                                 <span>Total Budget Utilization</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_budget"] - $data["budget_allocation"][0]["yearly_utilized"],2) }}</h1>
+                                <h1>₱ {{ number_format(($data != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0) ,2) }}</h1>
                                 <span>Total Budget Balance</span>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                             <div class="p-5 bg-info text-light rounded">
                               <div class="row">
                                 <?php $total_budget=0; ?>
-                                @forelse($data["budget_allocation"] as $row)
+                                @forelse($data as $row["budget_allocation"])
                                     <?php
                                         $total_budget += $row["program_budget"];
                                     ?>
