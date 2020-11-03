@@ -1408,6 +1408,7 @@
                 getYear();
                 getProgramsAssigned();
             },1000);
+
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
@@ -1558,13 +1559,14 @@
                     method:"GET",
                     url: _url,
                     success:function(data){
-                        var a = localStorage.getItem('GLOBAL_SETTINGS');
-                        a = a ? JSON.parse(a) : {};
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['year'] = data.data.select_year;
 
-                        a['year'] = data.data.select_year;
-
-                        localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
-                        $("#GLOBAL_YEAR").val(data.data.select_year);
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_year);
+                        }
                     }
                 });
             }

@@ -28,6 +28,9 @@ class PageController extends Controller
                                                 ->where('year_id',$program->select_year)
                                                 ->groupBy('program_id','budget_line_item_id')
                                                 ->get()->toArray();
+        }else{
+            $data["user_info"] = null;
+            $data["budget_allocation"] = null;
         }
         // dd($data);
         return view('pages.admin_dashboard',['data'=>$data]);
