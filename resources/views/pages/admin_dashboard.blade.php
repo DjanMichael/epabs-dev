@@ -14,14 +14,6 @@
 
 @section('content')
 <!-- begin:dashboard budget -->
-{{-- {{ dd($data) }} --}}
-<?php
-
-    $total_budget = 0;
-
-?>
-
-
 <div class="row">
     <div class="col-md-12 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
@@ -84,29 +76,43 @@
                     <div class="row h-100" >
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ 0.00</h1>
+                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_budget"],2)  }}</h1>
                                 <span>Total Budget Allocation</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ 0.00</h1>
+                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_utilized"],2) }}</h1>
                                 <span>Total Budget Utilization</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="p-5 bg-secondary rounded">
-                                <h1>₱ 0.00</h1>
+                                <h1>₱ {{ number_format($data["budget_allocation"][0]["yearly_budget"] - $data["budget_allocation"][0]["yearly_utilized"],2) }}</h1>
                                 <span>Total Budget Balance</span>
                             </div>
                         </div>
+                        {{-- {{dd($data)}} --}}
                         <div class="col-12 mt-2  h-100">
                             <div class="p-5 bg-info text-light rounded">
                               <div class="row">
+                                <?php $total_budget=0; ?>
+                                @forelse($data["budget_allocation"] as $row)
+                                    <?php
+                                        $total_budget += $row["program_budget"];
+                                    ?>
+                                    <div class="col-12">
+                                        <span>{{ $row["budget_item"] }}</span>
+                                        <span style="float:right;">₱ {{ number_format($row["program_budget"],2) }}</span>
+                                    </div>
+                                @empty
+                                    <div class="col-12">NO ALLOCATED BUDGET</div>
+                                @endforelse
+                                  <div class="separator separator-dashed separator-border-2 separator-primary mb-3 mt-6"></div>
                                   <div class="col-12">
-                                    <span>BUDGET LINE ITEM</span>
-                                    <span style="float:right;">₱ 0.00</span>
-                                  </div>
+                                    <span>TOTAL</span>
+                                    <span style="float:right;font-weight:bold;">₱ {{ number_format($total_budget,2) }}</span>
+                                </div>
                               </div>
                             </div>
                         </div>
