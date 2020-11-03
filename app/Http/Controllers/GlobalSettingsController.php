@@ -42,14 +42,19 @@ class GlobalSettingsController extends Controller
 
     public function getUserYear(){
         $a = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-        return response()->json(['data'=> $a]);
+        if($a){
+            return response()->json(['data'=> $a]);
+        }else{
+            return response()->json(['data'=> null]);
+        }
+
     }
 
     public function getUserProgramAssigned(){
-        $a = TableUnitProgram::join('ref_program','ref_program.id','tbl_unit_program.program_id')
+        $data["program"] = TableUnitProgram::join('ref_program','ref_program.id','tbl_unit_program.program_id')
                                 ->where('tbl_unit_program.user_id',Auth::user()->id)->get()->toArray();
-
-        return view('components.global.system_set_up_program_assigned',['data' =>$a]);
+        $data["settings"] = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        return view('components.global.system_set_up_program_assigned',['data' =>$data]);
     }
 
     public function updateProgramSelected(Request $req){
