@@ -21,6 +21,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         `up`.`designation` AS `designation`,
                         `ru`.`division` AS `division`,
                         `ru`.`section` AS `section`,
+                        `tup`.`program_id` AS `program_id`,
                         `tuba`.`id` AS `tuba_id`,
                         `tuba`.`budget_line_item_id` AS `budget_line_item_id`,
                         `rbli`.`budget_item` AS `budget_item`,
@@ -171,19 +172,24 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                 (
                                     (
                                         (
-                                            `users_profile` `up`
-                                            JOIN `users` `u` ON (`u`.`id` = `up`.`user_id`)
+                                            (
+                                                `users_profile` `up`
+                                                JOIN `users` `u` ON (`u`.`id` = `up`.`user_id`)
+                                            )
+                                            JOIN `ref_units` `ru` ON (`ru`.`id` = `up`.`unit_id`)
                                         )
-                                        JOIN `ref_units` `ru` ON (`ru`.`id` = `up`.`unit_id`)
+                                        JOIN `tbl_unit_budget_allocation` `tuba` ON (
+                                            `tuba`.`unit_id` = `up`.`unit_id`
+                                        )
                                     )
-                                    JOIN `tbl_unit_budget_allocation` `tuba` ON (
-                                        `tuba`.`unit_id` = `up`.`unit_id`
-                                    )
+                                    JOIN `ref_year` `ry` ON (`ry`.`id` = `tuba`.`year_id`)
                                 )
-                                JOIN `ref_year` `ry` ON (`ry`.`id` = `tuba`.`year_id`)
+                                JOIN `ref_budget_line_item` `rbli` ON (
+                                    `rbli`.`id` = `tuba`.`budget_line_item_id`
+                                )
                             )
-                            JOIN `ref_budget_line_item` `rbli` ON (
-                                `rbli`.`id` = `tuba`.`budget_line_item_id`
+                            JOIN `tbl_unit_program` `tup` ON (
+                                `tup`.`program_id` = `tuba`.`program_id`
                             )
                         )
                     GROUP BY
