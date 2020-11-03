@@ -178,6 +178,7 @@ class WfpController extends Controller
         // dd($req->all());
         // $progam_id = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId();
+        // dd($this->auth_user_program_id);
         $vw_allocation = BudgetAllocationAllYearPerProgram::where('t1_unit_id',$unit_id)
                                                         ->where('t1_year_id',$req->year_id)
                                                         ->where('budget_line_item_id',$req->bli_id)
@@ -185,7 +186,7 @@ class WfpController extends Controller
                                                         ->first();
 
         // $result = $a->getSingleBudgetAllocationUtilization(,$req->year_id,$req->bli_id);
-
+        // dd($vw_allocation);
         return $vw_allocation;
     }
 
