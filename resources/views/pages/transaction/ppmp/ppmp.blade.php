@@ -28,9 +28,9 @@
 <div class="row">
     <div class="col-12 col-md-12">
         <div class="flex-column col-md-12">
-            <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-2.svg') }})">
+            <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
                 <div class="card-title p-5 bg-dark mb-0">
-                        <h4 class="text-light">Wfp Activity</h4>
+                        <h4 class="text-light">CREATE PPMP</h4>
                 </div>
                 <!--begin::Body-->
                 <div class="card-body my-4">
@@ -59,17 +59,51 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <p class="font-weight-normal mb-0"></p>
-                            <div class="symbol-list d-flex flex-wrap">
-                                <div class="symbol mr-3 mb-1">
-                                    @if(count($data["ppmp_items"]) != 0)
-
-                                    @if($data["ppmp_items"])<span class="symbol-label font-size-sm">JAN</span> @endif
-
-
-                                    @endif
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div id="batch_wrapper">
+                                        <p class="font-weight-normal mb-0">Select Batch No</p>
+                                        <div class="form-group" style="">
+                                            <select class="form-control form-control-solid" id="pi_batch_no">
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div> --}}
+                                <div class="col-12 col-md-6">
+                                    <div id="pi_region_wrapper">
+                                        <p class="font-weight-normal mb-0">Select Region</p>
+                                        <div class="form-group" style="">
+                                            <select class="form-control form-control-solid" id="pi_region">
+                                                <option value="" selected></option>
+                                                @foreach($data["location"] as $row)
+                                                    <option value="{{ $row["id"] }}">{{ $row["region"] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div id="pi_prov_wrapper">
+                                        <p class="font-weight-normal mb-0">Select Province</p>
+                                        <div class="form-group" style="">
+                                            <select class="form-control form-control-solid" id="pi_prov">
+                                                <option value="" selected></option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div id="pi_city_wrapper">
+                                        <p class="font-weight-normal mb-0">Select City</p>
+                                        <div class="form-group " style="">
+                                            <select class="form-control form-control-solid" id="pi_city">
+                                                <option value="" selected></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,8 +120,9 @@
             <div class="card card-custom gutter-b">
                 <!--begin::Body-->
                 <div class="card-body">
+
                     <!--begin::Form-->
-                    <form>
+                    <form id="side_isppmp">
                         <!--begin::Categories-->
                         <div class="form-group mb-11">
                             <label class="font-size-h3 font-weight-bolder text-dark mb-7">Categories</label>
@@ -107,6 +142,120 @@
                         <!--end::Categories-->
                     </form>
                     <!--end::Form-->
+
+                    <div id="side_catering">
+                        CATERING SERVICES UNIT PRICE (PAX)
+                        <div class="table-responsive">
+                            <table class="table table-borderless mb-0">
+                                <tbody>
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BOARD AND LODGING</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">650.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BREAKFAST</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">150.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">DINNER</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">300.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">LUNCH</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">300.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK AM</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">100.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-success">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
+
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                        </td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK PM</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">100.00</td>
+                                    </tr>
+                                    <!--end::Item-->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
                 </div>
                 <!--end::Body-->
             </div>
@@ -124,12 +273,12 @@
             </div>
 
             <div class="col-12">
-            <div class="card card-custom"  id="table_ppmp">
+            <div class="card card-custom " id="table_ppmp">
                 <!--begin::Header-->
                 <div class="card-header border-0 py-5">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label font-weight-bolder text-dark">Item List</span>
-                        <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item through items below.</span>
+                        <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item here.</span>
                     </h3>
                     <div class="card-toolbar">
                         {{-- <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">New Report</a> --}}
@@ -165,6 +314,61 @@
                     <!--end::Table-->
                 </div>
                 <!--end::Body-->
+            </div>
+            <div class="card card-custom"  id="catering_form">
+                CATERING FORM
+                <form>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <table class="table table-borderless mb-0">
+                                <tbody>
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BOARD AND LODGING</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BREAKFAST</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">DINNER</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">LUNCH</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK AM</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK PM</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 col-md-4">
+
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <h1>TOTAL : 0.00</h1>
+                        </div>
+                    </div>
+                </form>
             </div>
             </div>
         </div>
@@ -300,6 +504,12 @@
         /*
             INITIALIZE
         */
+            $("#catering_form").hide();
+            $("#side_catering").hide();
+            $("#batch_wrapper").hide();
+            $("#pi_region_wrapper").hide();
+            $("#pi_prov_wrapper").hide();
+            $("#pi_city_wrapper").hide();
             setTimeout(function(){
                 getAllPPMPItemsList();
             },1000);
@@ -311,7 +521,13 @@
         });
 
 
+        $("#pi_region").on('change',function(){
+            fetchProvLocation($("#pi_region option:selected").text());
+        });
 
+        $("#pi_prov").on('change',function(){
+            fetchCityLocation($("#pi_prov option:selected").text());
+        });
 
         /*
             FUNCTIONS
@@ -324,48 +540,111 @@
     //end $(document).ready
 
     function fetchPIDetails(){
-            var _url ="{{ route('get_ppmp_details') }}";
-            var _data = { twapi_id : $("#pi_ppmp_select").val() };
+        var _url ="{{ route('get_ppmp_details') }}";
+        var _data = { twapi_id : $("#pi_ppmp_select").val() };
 
-            if($("#pi_ppmp_select").val() != ''){
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    data:_data,
-                    beforeSend:function(){
-                        // $("#pi_card").addClass('spinner spinner-primary spinner-right');
-                        KTApp.block('#pi_card', {
-                            overlayColor: '#000000',
-                            state: 'primary',
-                            message: 'Retrieving Details. . .'
-                        });
-                    },
-                    success:function(data){
-                        // alert(data);
-                        $("#balance_amount").html('₱ ' + data.cost.balance);
-                        $("#balance_amount_input").val(data.cost.balance);
+        if($("#pi_ppmp_select").val() != ''){
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data:_data,
+                beforeSend:function(){
+                    // $("#pi_card").addClass('spinner spinner-primary spinner-right');
+                    KTApp.block('#pi_card', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Retrieving Details. . .'
+                    });
+                },
+                success:function(data){
+                    // alert(data);
+                    $("#balance_amount").html('₱ ' + data.cost.balance);
+                    $("#balance_amount_input").val(data.cost.balance);
 
-                        $("#balance_percentage").html(data.cost.balance_amount_p + '%');
-                        $("#balance_progress").css('width:' + data.cost.balance_amount_p + '%');
-                        $("#utilize_amount").html('₱ ' + data.cost.ppmp_amount);
-                        $("#utilize_percentage").html(data.cost.ppmp_amount_p + '%');
-                        $("#utilize_progress").css('width:' + data.cost.ppmp_amount_p + '%');
-                        $("#cart_count_badge").html(data.ppmp_items.length);
-                    },complete:function(){
-                        // $("#pi_card").removeClass('spinner spinner-primary spinner-right');
-                        KTApp.unblock('#pi_card');
+                    $("#balance_percentage").html(data.cost.balance_amount_p + '%');
+                    $("#balance_progress").css('width:' + data.cost.balance_amount_p + '%');
+                    $("#utilize_amount").html('₱ ' + data.cost.ppmp_amount);
+                    $("#utilize_percentage").html(data.cost.ppmp_amount_p + '%');
+                    $("#utilize_progress").css('width:' + data.cost.ppmp_amount_p + '%');
+                    $("#cart_count_badge").html(data.ppmp_items.length);
+
+                    if (data.wfp_act_pi.is_catering == "Y"){
+                        // alert('catering!')
+                        $("#table_ppmp").hide();
+                        $("#side_isppmp").hide();
+
+                        $("#catering_form").show();
+                        $("#side_catering").show();
+                        $("#batch_wrapper").show();
+                        $("#pi_region_wrapper").show();
+                        $("#pi_prov_wrapper").show();
+                        $("#pi_city_wrapper").show();
+
+                        fetchPiCateringBatches(_data);
+                    }else{
+                        $("#catering_form").hide();
+                        $("#side_catering").hide();
+                        $("#batch_wrapper").hide();
+                        $("#pi_region_wrapper").hide();
+                        $("#pi_prov_wrapper").hide();
+                        $("#pi_city_wrapper").hide();
+
+                        $("#table_ppmp").show();
+                        $("#side_isppmp").show();
                     }
-                });
-            }else{
-                $("#balance_amount").html('₱ 0.00');
-                $("#balance_percentage").html('0%');
-                $("#balance_progress").css('width:0%');
-                $("#utilize_amount").html('₱ 0.00');
-                $("#utilize_percentage").html('0%');
-                $("#utilize_progress").css('width:0%');
-                $("#cart_count_badge").html('0');
-            }
+
+                },complete:function(){
+                    // $("#pi_card").removeClass('spinner spinner-primary spinner-right');
+                    KTApp.unblock('#pi_card');
+                }
+            });
+        }else{
+            $("#balance_amount").html('₱ 0.00');
+            $("#balance_percentage").html('0%');
+            $("#balance_progress").css('width:0%');
+            $("#utilize_amount").html('₱ 0.00');
+            $("#utilize_percentage").html('0%');
+            $("#utilize_progress").css('width:0%');
+            $("#cart_count_badge").html('0');
         }
+    }
+
+    function fetchPiCateringBatches(_data){
+        var _url ="{{ route('get_pi_batches') }}";
+        $.ajax({
+            method:"GET",
+            url : _url,
+            data:_data,
+            success:function(data){
+                document.getElementById('pi_batch_no').innerHTML = data;
+            }
+        })
+    }
+
+    function fetchProvLocation(region){
+        var _url = "{{ route('get_pi_prov') }}";
+         $.ajax({
+            method:"GET",
+            url : _url,
+            data:{ reg : region },
+            success:function(data){
+                document.getElementById('pi_prov').innerHTML = data;
+            }
+        })
+    }
+
+    function fetchCityLocation(province){
+        var _url = "{{ route('get_pi_city') }}";
+         $.ajax({
+            method:"GET",
+            url : _url,
+            data:{ prov : province },
+            success:function(data){
+                document.getElementById('pi_city').innerHTML = data;
+            }
+        })
+
+    }
 
     function getAllPPMPItemsList(_page,_q){
         var _url = "{{ route('get_all_ppmp_items_list') }}";

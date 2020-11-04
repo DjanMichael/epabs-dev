@@ -9,6 +9,8 @@ use App\WfpPerformanceIndicator;
 use App\PpmpItems;
 use App\WfpActivity;
 use App\Views\ProcurementMedSupplies;
+use App\TablePiCateringBatches;
+use App\RefLocation;
 use DB;
 
 class PpmpController extends Controller
@@ -39,9 +41,38 @@ class PpmpController extends Controller
             $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
         }
 
+        $data["location"] = RefLocation::select('id','region')->groupBy('region')->get()->toArray();
         // dd($data);
 
         return view('pages.transaction.ppmp.ppmp',['data' => $data]);
+    }
+
+    public function getBatchesByPiId(Request $req){
+        if($req->ajax()){
+            $data = TablePiCateringBatches::where('pi_id',$req->twapi_id)->get()->toArray();
+            // dd($data);
+            return view('pages.transaction.ppmp.components.select_catering_batches',['data' => $data]);
+        }else{
+            abort(403);
+        }
+    }
+
+    public function getCateringProvince(Request $req){
+        if($req->ajax()){
+            $data = RefLocation::where('region',$req->reg)->select('id','region','province')->groupBy('province')->get()->toArray();
+            return view('pages.transaction.ppmp.components.select_catering_province',['data' => $data]);
+        }else{
+            abort(403);
+        }
+    }
+
+    public function getCateringCity(Request $req){
+        if($req->ajax()){
+            $data = RefLocation::where('province',$req->prov)->select('id','region','province','city')->groupBy('city')->get()->toArray();
+            return view('pages.transaction.ppmp.components.select_catering_city',['data' => $data]);
+        }else{
+            abort(403);
+        }
     }
 
     public function getCartDetailsByWfpActivity(Request $req){
@@ -98,7 +129,7 @@ class PpmpController extends Controller
             }
 
 
-
+            // dd($data["wfp_act_pi"]["is_catering"]);
 
             return $data;
         }else{
