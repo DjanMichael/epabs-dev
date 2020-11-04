@@ -18,6 +18,7 @@ use App\RefYear;
 use App\UserProfile;
 use App\GlobalSystemSettings;
 use App\Views\BudgetAllocationUtilization;
+use App\TablePiCateringBatches;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Auth;
@@ -306,14 +307,17 @@ class WfpController extends Controller
             // dd($req->all());
             $sum_used_budget_bli  =0;
             $other_act_pi_cost = WfpPerformanceIndicator::where('wfp_act_id',$req->id)
-                                                        ->where('bli_id',$req->bli_id)
+                                                        // ->where('bli_id',$req->bli_id)
                                                         ->get();
+
             $wfp_act = WfpActivity::where('id',$req->id)->first();
+
             if(count($other_act_pi_cost) != 0){
                 foreach ($other_act_pi_cost as $r){
                     $sum_used_budget_bli += $r["cost"];
                 }
             }
+
             if($wfp_act->activity_cost == null){
                 return 'save activity first';
             }
@@ -343,7 +347,18 @@ class WfpController extends Controller
             $wfp_indicator->is_ppmp = $req->data["ppmp_include"] == 'true' ? 'Y' : 'N';
             $wfp_indicator->is_catering = $req->data["catering_include"] == 'true' ? 'Y' : 'N';
             $wfp_indicator->batch = $req->has('batches') ? $req->data["batches"] : '';
-            return $wfp_indicator->save() ? 'success' : 'failed';
+            $wfp_pi = $wfp_indicator->save();
+            if($req->data["catering_include"] == 'true')
+            {
+                $b_no = $req->data["batches"] - 0;
+                for($i=1; $i <= $b_no; $i++){
+                    $wfp_batch = new TablePiCateringBatches;
+                    $wfp_batch->pi_id = $wfp_indicator->id;
+                    $wfp_batch->batch_no = $i;
+                    $wfp_batch->save();
+                }
+            }
+            return   $wfp_pi ? 'success' : 'failed';
         }
     }
 
