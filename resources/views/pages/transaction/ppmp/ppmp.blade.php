@@ -520,7 +520,6 @@
             fetchPIDetails();
         });
 
-
         $("#pi_region").on('change',function(){
             fetchProvLocation($("#pi_region option:selected").text());
         });
