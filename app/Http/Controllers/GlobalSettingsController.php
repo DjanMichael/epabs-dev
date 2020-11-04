@@ -47,7 +47,15 @@ class GlobalSettingsController extends Controller
         }else{
             return response()->json(['data'=> null]);
         }
+    }
 
+    public function getUserProgram(){
+        $a = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        if($a){
+            return response()->json(['data'=> $a]);
+        }else{
+            return response()->json(['data'=> null]);
+        }
     }
 
     public function getUserProgramAssigned(){

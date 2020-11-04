@@ -93,13 +93,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/test','Transaction\WfpController@test');
     Route::get('/user/settings/update/year','GlobalSettingsController@updateUserYear')->name('u_global_user_year');
     Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');
+    Route::get('/user/settings/get/programs','GlobalSettingsController@getUserProgram')->name('d_get_programs');
+
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');
 });
 
 Route::get('/logout/session',function(){
-
     Auth::logout();
     return redirect()->route('login');
 })->name('Logout');

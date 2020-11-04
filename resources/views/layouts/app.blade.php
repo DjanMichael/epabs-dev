@@ -1446,6 +1446,7 @@
                     $("#GLOBAL_PROGRAM").val(settings.program);
                 }else{
                     getUserYear();
+                    getUserPrograms();
                 }
             });
 
@@ -1563,9 +1564,25 @@
                             var a = localStorage.getItem('GLOBAL_SETTINGS');
                             a = a ? JSON.parse(a) : {};
                             a['year'] = data.data.select_year;
-
                             localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
                             $("#GLOBAL_YEAR").val(data.data.select_year);
+                        }
+                    }
+                });
+            }
+
+            function getUserPrograms(){
+                var _url = "{{ route('d_get_programs') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['program'] = data.data.select_program_id;
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_program_id);
                         }
                     }
                 });
