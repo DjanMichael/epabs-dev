@@ -142,120 +142,6 @@
                         <!--end::Categories-->
                     </form>
                     <!--end::Form-->
-
-                    <div id="side_catering">
-                        CATERING SERVICES UNIT PRICE (PAX)
-                        <div class="table-responsive">
-                            <table class="table table-borderless mb-0">
-                                <tbody>
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BOARD AND LODGING</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">650.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BREAKFAST</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">150.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">DINNER</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">300.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">LUNCH</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">300.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK AM</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">100.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="w-40px align-middle pb-6 pl-0 pr-2">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-success">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-success">
-
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                        </td>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK PM</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">100.00</td>
-                                    </tr>
-                                    <!--end::Item-->
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
                 </div>
                 <!--end::Body-->
             </div>
@@ -275,14 +161,23 @@
             <div class="col-12">
             <div class="card card-custom " id="table_ppmp">
                 <!--begin::Header-->
-                <div class="card-header border-0 py-5">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label font-weight-bolder text-dark">Item List</span>
-                        <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item here.</span>
-                    </h3>
-                    <div class="card-toolbar">
-                        {{-- <a href="#" class="btn btn-primary font-weight-bolder font-size-sm">New Report</a> --}}
+                <div class="card-header border-0 py-5 bg-dark">
+                    <div class="row w-100">
+                        <div class="col-12 col-md-6">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label font-weight-bolder text-light">Item List</span>
+                                <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item here.</span>
+                            </h3>
+                        </div>
+                        <div class="form-group col-12 col-md-6">
+                            <div class="row mt-3">
+                                <input type="text" class="form-control form-control-solid col-12 col-md-8 mb-3 mb-md-0" placeholder="Search Item" id="search_txt"/>
+                                <button class="btn btn-light-primary font-weight-bold col-12 col-md-3 ml-md-2" type="button" id="btnSearchItem">Search</button>
+                            </div>
+                        </div>
                     </div>
+                    {{-- <div class="card-toolbar">
+                    </div> --}}
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
@@ -314,61 +209,6 @@
                     <!--end::Table-->
                 </div>
                 <!--end::Body-->
-            </div>
-            <div class="card card-custom"  id="catering_form">
-                CATERING FORM
-                <form>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <table class="table table-borderless mb-0">
-                                <tbody>
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BOARD AND LODGING</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BREAKFAST</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">DINNER</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">LUNCH</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK AM</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <tr>
-                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK PM</td>
-                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" class="form-control"></td>
-                                    </tr>
-                                    <!--end::Item-->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-12 col-md-4">
-
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <h1>TOTAL : 0.00</h1>
-                        </div>
-                    </div>
-                </form>
             </div>
             </div>
         </div>
@@ -486,11 +326,91 @@
                 Price :<span id="lbl_price" style="font-weight:bold;">0</span> |
                 SubTotal :<span id="lbl_sub_total" style="font-weight:bold;">0</span> |
                 Balance :<span id="lbl_balance" style="font-weight:bold;">0</span>
-                <button type="button" class="btn btn-primary" onclick="savePiCart()" >Add Item</button>
+                <button type="button" class="btn btn-primary" onclick="savePiCart()" id="btnSavePiCart" >Add Item</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+<!-- Modal catering_service-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_catering_service" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">CATERING SERVICE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <table class="table table-borderless mb-0">
+                                <tbody>
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BOARD AND LODGING</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_bal" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">BREAKFAST</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_b" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">DINNER</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_d" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">LUNCH</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_l" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK AM</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_sam" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <tr>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">SNACK PM</td>
+                                        <td class="font-size-lg font-weight-bolder text-dark-75 align-middle w-150px pb-6">100.00 X</td>
+                                        <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6"><input type="number" id="txt_catering_input_spm" class="form-control"></td>
+                                    </tr>
+                                    <!--end::Item-->
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="float:left">
+                <h1 id="c_sub_total">TOTAL : 0.00</h1> |
+                <button type="button" class="btn btn-primary" >Add Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </div>
 <!--end row -->
@@ -504,6 +424,9 @@
         /*
             INITIALIZE
         */
+
+
+
             $("#catering_form").hide();
             $("#side_catering").hide();
             $("#batch_wrapper").hide();
@@ -517,7 +440,8 @@
             EVENTS
         */
         $("#pi_ppmp_select").on('change',function(e){
-            fetchPIDetails();
+            $("#pi_batch_no").val("");
+            fetchPIDetails("ALL");
         });
 
         $("#pi_region").on('change',function(){
@@ -528,6 +452,9 @@
             fetchCityLocation($("#pi_prov option:selected").text());
         });
 
+        $("#btnSearchItem").on('click',function(){
+            getAllPPMPItemsList();
+        });
         /*
             FUNCTIONS
         */
@@ -535,12 +462,97 @@
         function fetchPerIndicatorActivityCart(twapi_id){
 
         }
-    });
+
+        function fetchlocation(_id){
+            var _url = "{{ route('get_catering_location') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data: { id : _id }
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        $("#pi_batch_no").on('change',function(){
+            if($(this).val() == ''){
+                fetchPIDetails("ALL");
+            }else{
+                var _url = "{{ route('get_catering_batch_details') }}";
+                var _data = { pi_id : $("#pi_ppmp_select option:selected").val(), batch_id : $("#pi_batch_no option:selected").val() }
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: _data,
+                    success:function(data){
+                        $("#cart_count_badge").html(data.data.data.ppmp_items.length);
+                        console.log(data.data.data.catering_location);
+                        if(data.data.data.catering_location.length == 1){
+                            fetchlocation($(this).val());
+                            $("#pi_region").val(data.data.data.catering_location.id);
+                            $("#pi_prov").val(data.data.data.catering_location.id);
+                            $("#pi_city").val(data.data.data.catering_location.id);
+                        }
+                        document.getElementById('wfp_act_cart_drawer').innerHTML = data.data.data.view;
+                    }
+                })
+            }
+        });
+
+        document.addEventListener('click',function(e){
+            if(e.target && e.target.id== 'btn_set_catering_pax'){
+                    //do something
+
+                    $("#modal_catering_service").modal({
+                        show:true,
+                        backdrop:'static',
+                        focus: true,
+                        keyboard:false
+                    });
+                }
+            });
+        });
+        var catering_grand_total=0;
+        var nf = new Intl.NumberFormat();
+        var catering_temp_total =0;
+        document.addEventListener('keyup',function(e){
+
+
+            if(e.target && e.target.id== 'txt_catering_input_bal'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+            if(e.target && e.target.id== 'txt_catering_input_b'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+            if(e.target && e.target.id== 'txt_catering_input_d'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+            if(e.target && e.target.id== 'txt_catering_input_l'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+            if(e.target && e.target.id== 'txt_catering_input_sam'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+            if(e.target && e.target.id== 'txt_catering_input_spm'){
+                $("#c_sub_total").html( '₱' + nf.format(get_catering_total_qty()));
+            }
+
+        });
     //end $(document).ready
 
-    function fetchPIDetails(){
+    function get_catering_total_qty(){
+            return (($("#txt_catering_input_bal").val() - 0) +
+                    ($("#txt_catering_input_b").val() - 0) +
+                    ($("#txt_catering_input_d").val() - 0) +
+                    ($("#txt_catering_input_l").val() - 0) +
+                    ($("#txt_catering_input_sam").val() - 0) +
+                    ($("#txt_catering_input_spm").val() - 0) ) * 100; // testing 100 need to get unit price for multiplication
+    }
+    var is_catering = 'N';
+    function fetchPIDetails(type){
         var _url ="{{ route('get_ppmp_details') }}";
-        var _data = { twapi_id : $("#pi_ppmp_select").val() };
+        var _data = { twapi_id : $("#pi_ppmp_select").val() , batch_id : $("#pi_batch_no option:selected").val() };
 
         if($("#pi_ppmp_select").val() != ''){
             $.ajax({
@@ -568,36 +580,34 @@
                     $("#cart_count_badge").html(data.ppmp_items.length);
 
                     if (data.wfp_act_pi.is_catering == "Y"){
-                        // alert('catering!')
-                        $("#table_ppmp").hide();
-                        $("#side_isppmp").hide();
-
-                        $("#catering_form").show();
-                        $("#side_catering").show();
+                        is_catering = 'Y';
                         $("#batch_wrapper").show();
                         $("#pi_region_wrapper").show();
                         $("#pi_prov_wrapper").show();
                         $("#pi_city_wrapper").show();
+                        // $("#cart_count_badge").html(0);
+                        fetchPiCateringBatches(_data,type);
 
-                        fetchPiCateringBatches(_data);
                     }else{
-                        $("#catering_form").hide();
-                        $("#side_catering").hide();
+                        is_catering = 'N';
+                        // $("#side_catering").hide();
                         $("#batch_wrapper").hide();
                         $("#pi_region_wrapper").hide();
                         $("#pi_prov_wrapper").hide();
                         $("#pi_city_wrapper").hide();
-
                         $("#table_ppmp").show();
                         $("#side_isppmp").show();
+                        // $("#cart_count_badge").html(data.ppmp_items.length);
                     }
+
+                    // data.wfp_act.data_arr.forEach(setAttrbtnSetCatering);
 
                 },complete:function(){
                     // $("#pi_card").removeClass('spinner spinner-primary spinner-right');
                     KTApp.unblock('#pi_card');
                 }
             });
-        }else{
+        }else if ($("#pi_ppmp_select").val() == ''){
             $("#balance_amount").html('₱ 0.00');
             $("#balance_percentage").html('0%');
             $("#balance_progress").css('width:0%');
@@ -605,19 +615,37 @@
             $("#utilize_percentage").html('0%');
             $("#utilize_progress").css('width:0%');
             $("#cart_count_badge").html('0');
+
+            $("#batch_wrapper").hide();
+            $("#pi_region_wrapper").hide();
+            $("#pi_prov_wrapper").hide();
+            $("#pi_city_wrapper").hide();
         }
     }
 
-    function fetchPiCateringBatches(_data){
+    function fetchPiCateringBatches(_data,_type){
         var _url ="{{ route('get_pi_batches') }}";
+        var data = {
+            d : _data,
+            t : [
+                 _type,
+                 $("#pi_batch_no option:selected").val()
+            ]
+        }
+
         $.ajax({
             method:"GET",
             url : _url,
-            data:_data,
+            data:data,
             success:function(data){
-                document.getElementById('pi_batch_no').innerHTML = data;
+                if(data.type != undefined || data.type == 'ADDING_ITEM'){
+                    $("#pi_batch_no").val(data.batch_id);
+                }else{
+                    document.getElementById('pi_batch_no').innerHTML = data;
+                }
             }
         })
+
     }
 
     function fetchProvLocation(region){
@@ -649,7 +677,8 @@
         var _url = "{{ route('get_all_ppmp_items_list') }}";
         var _data = {
             page :_page,
-            sorted : sortedBy
+            sorted : sortedBy,
+            q : $("#search_txt").val()
         }
         $.ajax({
             method:"GET",
@@ -681,12 +710,81 @@
     var __price ;
 
     function savePiCart(){
+        $("#btnSavePiCart").addClass('spinner spinner-primary spinner-right');
+        $("#btnSavePiCart").attr('disabled',true);
         if($("#pi_ppmp_select option:selected").val() != ""){
             var _url = "{{ route('add_pi_ppmp_items') }}";
-            var _data = {
+            if(is_catering == 'Y' && $("#pi_batch_no").val() != '' ){
+                var _data = {
+                    type: __type,
+                    id:__id,
+                    twapi : $("#pi_ppmp_select option:selected").val(),
+                    batch : $("#pi_batch_no option:selected").val(),
+                    price :__price,
+                    jan : parseInt($("#jan_cart").val()),
+                    feb : parseInt($("#feb_cart").val()),
+                    mar : parseInt($("#mar_cart").val()),
+                    apr : parseInt($("#apr_cart").val()),
+                    may : parseInt($("#may_cart").val()),
+                    june : parseInt($("#june_cart").val()),
+                    july : parseInt($("#july_cart").val()),
+                    aug : parseInt($("#aug_cart").val()),
+                    sept : parseInt($("#sept_cart").val()),
+                    oct : parseInt($("#oct_cart").val()),
+                    nov : parseInt($("#nov_cart").val()),
+                    dec : parseInt($("#dec_cart").val())
+                };
+
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data:_data,
+                    beforeSend:function(){
+                        KTApp.block('#modal_qty_cart_item', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Saving. . .'
+                    });
+
+                    },
+                    success:function(data){
+                        if(data =='success'){
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Good Job!",
+                                "Item Added to Cart",
+                                "success"
+                            )
+                            fetchPIDetails("ADDING_ITEM");
+                        }else if(data == 'duplicate'){
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Opss!",
+                                "You already added this item",
+                                "warning"
+                            )
+                        }else{
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Ops!",
+                                "Something went wrong!",
+                                "error"
+                            )
+                        }
+
+                    },complete:function(){
+
+                        KTApp.unblock('#modal_qty_cart_item');
+                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
+                        $("#btnSavePiCart").attr('disabled',false);
+                    }
+                });
+            }else if(is_catering == 'N'){
+                var _data = {
                 type: __type,
                 id:__id,
                 twapi : $("#pi_ppmp_select option:selected").val(),
+                batch : '',
                 price :__price,
                 jan : parseInt($("#jan_cart").val()),
                 feb : parseInt($("#feb_cart").val()),
@@ -702,45 +800,53 @@
                 dec : parseInt($("#dec_cart").val())
             };
             $.ajax({
-                method:"GET",
-                url: _url,
-                data:_data,
-                beforeSend:function(){
-                    KTApp.block('#modal_qty_cart_item', {
-                    overlayColor: '#000000',
-                    state: 'primary',
-                    message: 'Saving. . .'
-                });
+                    method:"GET",
+                    url: _url,
+                    data:_data,
+                    beforeSend:function(){
+                        KTApp.block('#modal_qty_cart_item', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Saving. . .'
+                    });
 
-                },
-                success:function(data){
-                    if(data =='success'){
-                        $("#modal_qty_cart_item").modal('hide');
-                        Swal.fire(
-                            "Good Job!",
-                            "Item Added to Cart",
-                            "success"
-                        )
-                        fetchPIDetails();
-                    }else if(data == 'duplicate'){
-                        $("#modal_qty_cart_item").modal('hide');
-                        Swal.fire(
-                            "Opss!",
-                            "You already added this item",
-                            "warning"
-                        )
-                    }else{
-                        $("#modal_qty_cart_item").modal('hide');
-                        Swal.fire(
-                            "Ops!",
-                            "Something went wrong!",
-                            "error"
-                        )
+                    },
+                    success:function(data){
+                        if(data =='success'){
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Good Job!",
+                                "Item Added to Cart",
+                                "success"
+                            )
+                            fetchPIDetails("ADDING_ITEM");
+                        }else if(data == 'duplicate'){
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Opss!",
+                                "You already added this item",
+                                "warning"
+                            )
+                        }else{
+                            $("#modal_qty_cart_item").modal('hide');
+                            Swal.fire(
+                                "Ops!",
+                                "Something went wrong!",
+                                "error"
+                            )
+                        }
+                    },complete:function(){
+                        KTApp.unblock('#modal_qty_cart_item');
                     }
-                },complete:function(){
-                    KTApp.unblock('#modal_qty_cart_item');
-                }
-            });
+                });
+            }else{
+                $("#modal_qty_cart_item").modal('hide');
+                Swal.fire(
+                    "Opss!",
+                    "Please Select Batch",
+                    "error"
+                )
+            }
         }else{
             Swal.fire(
                 "Opss!",

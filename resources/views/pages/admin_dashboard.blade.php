@@ -44,19 +44,19 @@
                 </div>
                 <div class="col-12 col-md-8 h-100">
                     <div class="row h-100" >
-                        <div class="col-4">
+                        <div class="col-12 col-md-4 mb-md-0 mb-3">
                             <div class="p-5 bg-secondary rounded">
                                 <h1>₱ {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0),2) }}</h1>
                                 <span>Total Budget Allocation</span>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4 mb-md-0 mb-3">
                             <div class="p-5 bg-secondary rounded">
                                 <h1>₱ {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0),2) }}</h1>
                                 <span>Total Budget Utilization</span>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4 mb-md-0 mb-3">
                             <div class="p-5 bg-secondary rounded">
                                 <h1>₱ {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0) ,2) }}</h1>
                                 <span>Total Budget Balance</span>

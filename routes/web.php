@@ -81,7 +81,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/get/batches/byPi','Transaction\PpmpController@getBatchesByPiId')->name('get_pi_batches');
     Route::get('/ppmp/get/catering/select/prov','Transaction\PpmpController@getCateringProvince')->name('get_pi_prov');
     Route::get('/ppmp/get/catering/select/city','Transaction\PpmpController@getCateringCity')->name('get_pi_city');
-
+    Route::get('/ppmp/get/catering/batch/cart/details','Transaction\PPmpController@getCateringBatchDetails')->name('get_catering_batch_details');
+    Route::get('/ppmp/get/catering/batch/locations','Transaction\PpmpController@getCateringLocation')->name('get_catering_location');
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
     Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');
