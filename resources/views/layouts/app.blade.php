@@ -1362,6 +1362,14 @@
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        <script src="{{ asset('js/app.js')}}"></script>
+        <script>
+            Echo.private('test-channel.{{ Auth::user()->id }}')
+                .listen('TestEvent', (e) => {
+                    alert(e.message);
+                })
+
+        </script>
 
         <script>
             $.ajaxSetup({
@@ -1378,6 +1386,10 @@
                     url: _url,
                     success:function(data){
                         document.getElementById('GLOBAL_PROGRAM').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getProgramsAssigned()
+                        },1000);
                     }
                 });
             }
@@ -1389,6 +1401,10 @@
                     url: _url,
                     success:function(data){
                         document.getElementById('GLOBAL_YEAR').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getYear()
+                        },1000);
                     }
                 });
             }
@@ -1404,10 +1420,7 @@
              *
              * **************************************************/
 
-            setTimeout(function(){
-                getYear();
-                getProgramsAssigned();
-            },1000);
+
 
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
@@ -1588,6 +1601,11 @@
                 });
             }
 
+            setTimeout(function(){
+                getYear();
+                getProgramsAssigned();
+            },1000);
+
             loader_page();
 
         });
@@ -1672,10 +1690,11 @@
         function fetchCartPPMPItems(_wfp_code,_wfp_act_id){
             var _url = "{{ route('wfp_act_cart_view') }}";
             var _pi_select = $("#pi_ppmp_select option:selected").val();
+            var _batch = $("#pi_batch_no").val()  != null ? $("#pi_batch_no").val() : '' ;
             $.ajax({
                 method:"GET",
                 url:_url,
-                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select, batch : _batch},
                 beforeSend:function(){
                     KTApp.block('#wfp_act_cart_drawer', {
                         overlayColor: '#000000',

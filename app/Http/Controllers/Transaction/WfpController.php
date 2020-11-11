@@ -346,7 +346,7 @@ class WfpController extends Controller
             $wfp_indicator->cost = $req->data["cost"];
             $wfp_indicator->is_ppmp = $req->data["ppmp_include"] == 'true' ? 'Y' : 'N';
             $wfp_indicator->is_catering = $req->data["catering_include"] == 'true' ? 'Y' : 'N';
-            $wfp_indicator->batch = $req->has('batches') ? $req->data["batches"] : '';
+            $wfp_indicator->batch = $req->data["batches"] != '' ? $req->data["batches"] : '';
             $wfp_pi = $wfp_indicator->save();
             if($req->data["catering_include"] == 'true')
             {
@@ -607,8 +607,25 @@ class WfpController extends Controller
                 $wfp_indicator->cost = $req->pi["cost"];
                 $wfp_indicator->is_ppmp = $req->pi["ppmp_include"] == 'true' ? 'Y' : 'N';
                 $wfp_indicator->is_catering = $req->pi["catering_include"] == 'true' ? 'Y' : 'N';
-                $wfp_indicator->batch = $req->has('batches') ? $req->pi["batches"] : '';
-                return $wfp_indicator->save() ? 'success' : 'failed';
+                $wfp_indicator->batch = $req->pi["batches"] != '' ? $req->pi["batches"] : '';
+                $wfp_pi = $wfp_indicator->save();
+                if($req->pi["catering_include"] == 'true')
+                {
+
+                    $delete_existing = TablePiCateringBatches::where('pi_id',$req->id)->delete();
+                    if($delete_existing){
+                        $b_no = $req->pi["batches"] - 0;
+                        for($i=1; $i <= $b_no; $i++){
+                            $wfp_batch = new TablePiCateringBatches;
+                            $wfp_batch->pi_id = $req->id;
+                            $wfp_batch->batch_no = $i;
+                            $wfp_batch->save();
+                        }
+                    }
+                }
+
+                return  $wfp_pi ? 'success' : 'failed';
+
             }else{
                 return 'no budget';
             }

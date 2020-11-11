@@ -49,9 +49,13 @@ class PpmpController extends Controller
 
     public function getBatchesByPiId(Request $req){
         if($req->ajax()){
-            $data = TablePiCateringBatches::where('pi_id',$req->twapi_id)->get()->toArray();
-            // dd($data);
-            return view('pages.transaction.ppmp.components.select_catering_batches',['data' => $data]);
+            // dd($req->t[0]);
+            if($req->t[0] == "ALL"){
+                $data = TablePiCateringBatches::where('pi_id',$req->d["twapi_id"])->get()->toArray();
+                return view('pages.transaction.ppmp.components.select_catering_batches',['data' => $data]);
+            }else{
+                return ["type" => "ADDING_ITEM","batch_id" => $req->t[1]];
+            }
         }else{
             abort(403);
         }
@@ -83,9 +87,8 @@ class PpmpController extends Controller
         // if($a){
         //     $data["ppmp_items"] = $a->toArray();
         // }
-        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?)' , array($req->pi_id));
+        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' ));
 
-        // dd($data);
         return view('components.global.wfp_activity_cart_drawer',['data' => $data]);
     }
 
@@ -93,13 +96,42 @@ class PpmpController extends Controller
         if($req->ajax()){
             $data = [];
             $data["wfp_act_pi"] = WfpPerformanceIndicator::where('id',$req->twapi_id)->first();
-            $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
+            $data["ppmp_items"] = [];
+            // dd($req->all());
+            if($data["wfp_act_pi"]["is_catering"] == "Y"){
+                // $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
+                $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)
+                                                ->where('batch_id',$req->batch_id)->get()->toArray();
+            }else{
+                $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
+            }
+
             $data["cost"] = [];
             $budget = $data["wfp_act_pi"]["cost"];
             $item_cost = 0;
             if($data["wfp_act_pi"]){
+                $data["wfp_act"] = WfpActivity::select('activity_timeframe')->where('id',$data["wfp_act_pi"]->wfp_act_id)->limit(1)->get()->toArray();
+                $arr = explode(',',$data["wfp_act"][0]["activity_timeframe"]);
+                $months_list = [];
+                $i =1;
+                $j =0;
+                foreach($arr as $row){
+                    if($row == 'Y'){
+                        $months_list[$j] = $this->activityTimeFrameConvertToMonths($i);
+                        $j++;
+                    }
+                    $i++;
+                }
+
+                // $months_list = rtrim($months_list,', ');
+
+                $data["wfp_act"] = [
+                                "data_list" => $data["wfp_act"][0]["activity_timeframe"],
+                                "data_arr"=> $months_list
+                                ];
+
                 //calculate total costing use in ppmp items
-                if(count( $data["ppmp_items"] ) != 0){
+                if(count( $data["ppmp_items"]) != 0){
                     foreach($data["ppmp_items"] as $row){
                         $item_cost +=  ($row["price"] * ($row["jan"] + $row["feb"] +
                                                         $row["mar"] + $row["apr"] +
@@ -130,7 +162,7 @@ class PpmpController extends Controller
 
 
             // dd($data["wfp_act_pi"]["is_catering"]);
-
+            // dd($data);
             return $data;
         }else{
             abort(403);
@@ -139,7 +171,6 @@ class PpmpController extends Controller
 
     public function getAllPPMPItemList(Request $req){
         if($req->has('sorted')){
-
             $i ;
             $arr = $req->sorted;
             for($i = 0; $i < count($arr); $i++){
@@ -149,16 +180,32 @@ class PpmpController extends Controller
                                             ->whereIn('classification',$arr)
                                             ->paginate($this->paginate_ppmp_item_list);
         }else{
-            $data = ProcurementMedSupplies::where('price','!=',0)->paginate($this->paginate_ppmp_item_list);
+            $data = ProcurementMedSupplies::where('price','!=',0)
+                                            ->where(fn($q) =>
+                                                $q->where('description','LIKE','%' . $req->q . '%')
+                                            )->paginate($this->paginate_ppmp_item_list);
         }
         return view('pages.transaction.ppmp.components.med_supplies_list',['data' => $data]);
     }
 
     public function addPPMPItemsByPI(Request $req){
         if($req->ajax()){
-            // dd($req->all());
-            $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
-            ->where('item_type',$req->type)->where('item_id',$req->id)->where('price',$req->price)->first();
+
+
+            if($req->batch == null){
+                $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
+                            ->where('item_type',$req->type)
+                            ->where('item_id',$req->id)
+                            ->where('price',$req->price)->first();
+                // dd($b);
+            }else{
+                $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
+                            ->where('item_type',$req->type)
+                            ->where('item_id',$req->id)
+                            ->where('price',$req->price)
+                            ->where('batch_id',$req->batch)->first();
+            }
+
             if($b){
                 return 'duplicate';
             }else{
@@ -179,6 +226,9 @@ class PpmpController extends Controller
                 $a->oct = $req->oct;
                 $a->nov = $req->nov;
                 $a->dec = $req->dec;
+                if($req->batch != null){
+                    $a->batch_id = $req->batch;
+                }
                 return $a->save() ? 'success' : 'failed';
             }
         }else{
@@ -222,6 +272,35 @@ class PpmpController extends Controller
         }else{
             abort(403);
         }
+    }
+
+    public function getCateringLocation(Request $req){
+        $a = RefLocation::where('id',$req->id)->first();
+        return $a ;
+    }
+
+    public function getCateringBatchDetails(Request $req){
+        // dd($req->all());
+        $data =[];
+        $data["ppmp_items"] = [];
+        if ($req->batch_id != null)
+        {
+            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch_id));
+        }
+
+        $data["catering_batch"] = TablePiCateringBatches::where('id',$req->batch_id)->first();
+        $data["catering_location"] = [];
+        if($data["catering_batch"]->batch_location != null){
+            $data["catering_location"] = RefLocation::where('id',$data["catering_batch"]->batch_location)->first();
+        }
+        // dd($data);
+        // return $data;
+        return ["data" =>["view" => view('components.global.wfp_activity_cart_drawer',['data' => $data]), "data" => $data]];
+    }
+
+    public function activityTimeFrameConvertToMonths($i){
+        $month = ["January","Febuary","March","April","May","June","July","August","September","October","November","December"];
+        return $month[$i-1];
     }
 
 }
