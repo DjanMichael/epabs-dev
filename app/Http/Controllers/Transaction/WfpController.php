@@ -19,6 +19,8 @@ use App\UserProfile;
 use App\GlobalSystemSettings;
 use App\Views\BudgetAllocationUtilization;
 use App\TablePiCateringBatches;
+use App\TableSystemEvents;
+use App\Events\NotifyUserWfpStatus;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Auth;
@@ -732,6 +734,11 @@ class WfpController extends Controller
         $a->status = 'WFP';
         $a->remarks = 'APPROVED';
         $a->save();
+
+        $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
+
+        event(new NotifyUserWfpStatus($wfp,'WFP Approve','Your Wfp has been approved','WFP Update'));
+
     }
 
 
@@ -742,6 +749,8 @@ class WfpController extends Controller
         $a->status = 'WFP';
         $a->remarks = 'SUBMITTED';
         $a->save();
+        $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
+        event(new NotifyUserWfpStatus($wfp,'WFP Submit','Your Wfp has been submitted','WFP Update'));
     }
 
     public function updateWfpRevise(Request $req){
@@ -751,6 +760,8 @@ class WfpController extends Controller
         $a->status = 'WFP';
         $a->remarks = 'FOR REVISION';
         $a->save();
+        $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
+        event(new NotifyUserWfpStatus($wfp,'WFP Revise','Your Wfp needs to be revised','WFP Update'));
     }
 
     public function newWfpActivity(Request $req){

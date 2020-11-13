@@ -17,6 +17,6 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('test-channel.{id}', function ($user, $id) {
+Broadcast::channel('wfp.notify.user.{id}', function ($user, $id) {
     return true;
 });

@@ -185,7 +185,131 @@
 			<!--begin::Topbar-->
 			<div class="topbar">
 
-
+                <div class="dropdown">
+                    <!--begin::Toggle-->
+                    <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="false" id="Notification">
+                        <div class="btn btn-icon btn-dropdown btn-lg mr-1 pulse pulse-white">
+                            <span class="svg-icon svg-icon-xl svg-icon-primary">
+                                <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Code/Compiling.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                        <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+                                        <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="pulse-ring"></span>
+                        </div>
+                    </div>
+                    <!--end::Toggle-->
+                    <!--begin::Dropdown-->
+                    <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg" style="">
+                        <form>
+                            <!--begin::Header-->
+                            <div class="d-flex flex-column pt-12 bg-dark-o-5 rounded-top">
+                                <!--begin::Title-->
+                                <h4 class="d-flex flex-center">
+                                    <span class="text-dark">User Notifications</span>
+                                    <span class="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">23 new</span>
+                                </h4>
+                                <!--end::Title-->
+                                <!--begin::Tabs-->
+                                <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary mt-3 px-8" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications">Alerts</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_events">Events</a>
+                                    </li>
+                                    {{-- <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_logs">Logs</a>
+                                    </li> --}}
+                                </ul>
+                                <!--end::Tabs-->
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Content-->
+                            <div class="tab-content">
+                                <!--begin::Tabpane-->
+                                <div class="tab-pane active show p-8" id="topbar_notifications_notifications" role="tabpanel">
+                                    <!--begin::Scroll-->
+                                    <div class="scroll pr-7 mr-n7 ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;" id="topbar_notifications_notifications_content">
+                                        <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-6" >
+                                            <!--begin::Symbol-->
+                                            <div class="symbol symbol-40 symbol-light-primary mr-5">
+                                                <span class="symbol-label">
+                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                                                        <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                                <path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000"></path>
+                                                                <rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1"></rect>
+                                                            </g>
+                                                        </svg>
+                                                        <!--end::Svg Icon-->
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--end::Symbol-->
+                                            <!--begin::Text-->
+                                            <div class="d-flex flex-column font-weight-bold">
+                                                <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Cool App</a>
+                                                <span class="text-muted">Marketing campaign planning</span>
+                                            </div>
+                                            <!--end::Text-->
+                                        </div>
+                                        <!--end::Item-->
+                                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+                                    </div>
+                                    <!--end::Scroll-->
+                                    <!--begin::Action-->
+                                    <div class="d-flex flex-center pt-7">
+                                        <a href="#" class="btn btn-light-primary font-weight-bold text-center">See All</a>
+                                    </div>
+                                    <!--end::Action-->
+                                </div>
+                                <!--end::Tabpane-->
+                                <!--begin::Tabpane-->
+                                <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
+                                    <!--begin::Nav-->
+                                    <div class="navi navi-hover scroll my-4 ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+                                       <div   id="topbar_notifications_events_content">
+                                            <!--begin::Item-->
+                                            <a href="#" class="navi-item">
+                                                <div class="navi-link">
+                                                    <div class="navi-icon mr-2">
+                                                        <i class="flaticon2-analytics-1 text-success"></i>
+                                                    </div>
+                                                    <div class="navi-text">
+                                                        <div class="font-weight-bold">New customer is registered</div>
+                                                        <div class="text-muted">3 days ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        <!--end::Item-->
+                                       </div>
+                                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+                                    <!--end::Nav-->
+                                </div>
+                                <!--end::Tabpane-->
+                                <!--begin::Tabpane-->
+                                <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+                                    <!--begin::Nav-->
+                                    <div class="d-flex flex-center text-center text-muted min-h-200px">All caught up!
+                                    <br>No new notifications.</div>
+                                    <!--end::Nav-->
+                                </div>
+                                <!--end::Tabpane-->
+                            </div>
+                            <!--end::Content-->
+                        </form>
+                    </div>
+                    <!--end::Dropdown-->
+                </div>
 
         <!--begin::Quick panel-->
 			        <div class="topbar-item">
@@ -212,7 +336,7 @@
 							</div>
 			            </div>
 			            <!--end::User-->
-			        			    			</div>
+                </div>
 			<!--end::Topbar-->
 		</div>
 		<!--end::Container-->
@@ -668,7 +792,7 @@
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade show pt-2 pr-5 mr-n5 active" id="kt_quick_panel_notifications" role="tabpanel">
 				<!--begin::Nav-->
-				<div class="navi navi-icon-circle navi-spacer-x-0">
+				<div class="navi navi-icon-circle navi-spacer-x-0" id="notification_panel">
 					<!--begin::Item-->
 					<a href="#" class="navi-item">
 						<div class="navi-link rounded">
@@ -1273,7 +1397,7 @@
 </svg><!--end::Svg Icon--></span>
 </div>
 <!--end::Scrolltop-->
-
+<audio id="notification_sound" src="{{ asset('dist/assets/media/sounds/notif_sound.mp3') }}" ></audio>
 
 {{-- </div>
 </div> --}}
@@ -1363,13 +1487,7 @@
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
         <script src="{{ asset('js/app.js')}}"></script>
-        <script>
-            Echo.private('test-channel.{{ Auth::user()->id }}')
-                .listen('TestEvent', (e) => {
-                    alert(e.message);
-                })
 
-        </script>
 
         <script>
             $.ajaxSetup({
@@ -1409,6 +1527,25 @@
                 });
             }
 
+            function fetchUserNotification(){
+                var _url ="{{ route('get_user_notification') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        document.getElementById('topbar_notifications_notifications_content').innerHTML = data;
+                    },error:function(e){
+                       console.log(e.message)
+                    }
+                });
+            }
+
+            $("#fetchUserNotification, #Notification").on('click',function(){
+                fetchUserNotification();
+            });
+
+
+
 
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
         var page_wfp;
@@ -1419,28 +1556,83 @@
              *      INITIALIZE
              *
              * **************************************************/
+            // let src = "";
+            // let notif_sound = new Audio(src);
+             function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
 
+                return toMatch.some((toMatchItem) => {
+                    return navigator.userAgent.match(toMatchItem);
+                });
+            }
+
+            if(detectMob()){
+                alert('mobile');
+                document.getElementById('notification_sound').muted = true;
+                document.getElementById('notification_sound').play();
+            }else{
+                navigator.mediaDevices.getUserMedia({audio: true}).
+                then((stream) => {
+                    document.getElementById('notification_sound').autoplay = true;
+                    document.getElementById('notification_sound').muted = true;
+                });
+            }
 
 
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-center",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
             };
+
+
+            Echo.private('wfp.notify.user.{{ Auth::user()->id }}')
+            .listen('NotifyUserWfpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        if(e.title == "WFP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "WFP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "WFP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
 
 
 
@@ -1993,7 +2185,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Revise it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({
@@ -2025,7 +2217,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Submit it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({
