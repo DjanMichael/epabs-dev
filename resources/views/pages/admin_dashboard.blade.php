@@ -67,7 +67,7 @@
                             <div class="p-5 bg-info text-light rounded">
                               <div class="row">
                                 <?php $total_budget = 0; ?>
-                                {{-- {{ dd($data) }} --}}
+
                                 @if($data["budget_allocation"]  != null)
                                     @foreach($data["budget_allocation"] as $row)
                                         <?php

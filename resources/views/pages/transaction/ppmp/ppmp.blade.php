@@ -30,7 +30,7 @@
         <div class="flex-column col-md-12">
             <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
                 <div class="card-title p-5 bg-dark mb-0">
-                        <h4 class="text-light">CREATE PPMP</h4>
+                    <span class="card-label font-weight-bolder text-light">CREATE PPMP</span>
                 </div>
                 <!--begin::Body-->
                 <div class="card-body my-4">
@@ -424,9 +424,6 @@
         /*
             INITIALIZE
         */
-
-
-
             $("#catering_form").hide();
             $("#side_catering").hide();
             $("#batch_wrapper").hide();
@@ -468,9 +465,9 @@
             $.ajax({
                 method:"GET",
                 url: _url,
-                data: { id : _id }
+                data: { id : _id },
                 success:function(data){
-                    console.log(data);
+                    // console.log(data);
                 }
             })
         }
@@ -487,9 +484,11 @@
                     data: _data,
                     success:function(data){
                         $("#cart_count_badge").html(data.data.data.ppmp_items.length);
-                        console.log(data.data.data.catering_location);
+                        // console.log(data.data.data.catering_location);
                         if(data.data.data.catering_location.length == 1){
                             fetchlocation($(this).val());
+                            console.log(data.data.data);
+
                             $("#pi_region").val(data.data.data.catering_location.id);
                             $("#pi_prov").val(data.data.data.catering_location.id);
                             $("#pi_city").val(data.data.data.catering_location.id);

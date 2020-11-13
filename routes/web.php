@@ -96,6 +96,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');
     Route::get('/user/settings/get/programs','GlobalSettingsController@getUserProgram')->name('d_get_programs');
 
+    //NOTIFICATION
+    Route::get('/user/notification/wfp','NotificationController@getUserNotif')->name('get_user_notification');
+
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');
