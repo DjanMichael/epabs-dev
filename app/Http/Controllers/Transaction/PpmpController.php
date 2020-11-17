@@ -274,9 +274,16 @@ class PpmpController extends Controller
         }
     }
 
-    public function getCateringLocation(Request $req){
-        $a = RefLocation::where('id',$req->id)->first();
-        return $a ;
+    public function getCateringRegionAll(){
+        return  view('pages.transaction.ppmp.components.select_catering_region',['data' => RefLocation::select('region')->groupBy('region')->get()->toArray()]);
+    }
+
+    public function getCateringProvinceAll(){
+        return  view('pages.transaction.ppmp.components.select_catering_province',['data' => RefLocation::select('province')->groupBy('province')->get()->toArray()]);
+    }
+
+    public function getCateringCityAll(){
+        return  view('pages.transaction.ppmp.components.select_catering_city',['data' => RefLocation::select('city')->groupBy('city')->get()->toArray()]);
     }
 
     public function getCateringBatchDetails(Request $req){
@@ -298,9 +305,23 @@ class PpmpController extends Controller
         return ["data" =>["view" => view('components.global.wfp_activity_cart_drawer',['data' => $data]), "data" => $data]];
     }
 
+    public function saveCateringBatchDetails(Request $req){
+        if($req->ajax()){
+            $location = RefLocation::where('region',$req->region)->where('province',$req->province)->where('city',$req->city)->first();
+            if($location){
+                $a =  TablePiCateringBatches::where('id',$req->batch_id)->first();
+                $a->pi_id = $req->twapi;
+                $a->batch_no = $req->batch_no;
+                $a->batch_location = $location->id;
+                return $a->save() ? 'success' : 'fail';
+            }
+        }else{
+            abort(403);
+        }
+    }
+
     public function activityTimeFrameConvertToMonths($i){
         $month = ["January","Febuary","March","April","May","June","July","August","September","October","November","December"];
         return $month[$i-1];
     }
-
 }

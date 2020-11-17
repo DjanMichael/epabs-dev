@@ -23,6 +23,7 @@ class CreateTableEventLogs extends Migration
             $table->string('event_name');
             $table->string('event_title');
             $table->string('event_description');
+            $table->string('payload',10000);
             $table->string('isRead');
             $table->timestamps();
         });

@@ -1,6 +1,7 @@
 {{-- <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull" data-scroll="true" data-wheel-propagationtrue" style="height: 768px;" id="wfp_drawer"> --}}
     {{-- scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 768px;"  --}}
+
 <div class="row">
     <div class="bg-dark text-light col-12 p-15"
     style="padding:10px;position:fixed;top:-10px;margin:0 auto;height:auto;width:100%;z-index:1040;
@@ -21,7 +22,7 @@
         <div class="row" style="width:91%;" id="wfp_menu_drawer">
             <div class="col-12 col-md-8">
                 <div class="row">
-                    @if(count($activities) <> 0)
+                    @if(count($data["activities"]) <> 0)
                     <div class="col-12 col-md-4">
                         <button type="button" onclick="wfpApprove('{{ $wfp_code }}')" class="btn btn-transparent-success font-weight-bold  btn-block"><i class="flaticon-like icon-md"></i>APPROVED WFP</button>
                         <button type="button" onclick="wfpSubmit('{{ $wfp_code }}')" class="btn btn-transparent-primary font-weight-bold  btn-block"><i class="flaticon2-send-1 icon-md"></i>SUBMIT WFP</button>
@@ -30,7 +31,7 @@
                     @endif
 
                     <div class="col-12 col-md-4">
-                        @if(count($activities) <> 0)
+                        @if(count($data["activities"]) <> 0)
                         <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>Print</button>
                         <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>Export PDF</button>
                         @endif
@@ -51,7 +52,7 @@
         <div class="col-12 col-md-4" style="height:120px;"></div>
         <div class="col-12 col-md-4 mb-md-40" style="height:120px;"></div>
 
-        @if(count($activities) <> 0)
+        @if(count($data["activities"]) <> 0)
         <div class="col-12 " style="position: relative;">
                 <div class="offcanvas-content pr-5 mr-n5" id="wfp_drawer_title">
                     <div class="table-responsive-*">
@@ -77,12 +78,11 @@
                         <tbody style="overflow-y: scroll;">
 
         @endif
-
                         <?php
 
                             $total_cost = 0.00;
                         ?>
-                        @forelse ($activities as $row)
+                        @forelse ($data["activities"] as $row)
                             <tr class="wfp_table_row">
                                 @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 )
                                 <td scope="row text-center" style="width:130px;">
@@ -107,7 +107,7 @@
                                         class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;bottom:0px;right:0;"
                                         data-toggle="tooltip" title="Comment" data-placement="right" data-original-title="Comment"
-                                        onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}')">
+                                onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}','{{ $row->twa_id }}')">
                                         <i class="flaticon-comment"></i>
                                     </button>
                                     @endif
@@ -119,7 +119,13 @@
                                     <i class="flaticon-medical"></i>
                                     </button>
                                     @endif
-                                    @if($cmd["PPMP"] == 1)
+                                    <?php
+                                        $CheckIfHasPi = \App\WfpPerformanceIndicator::where('wfp_code',request()->get('wfp_code'))
+                                                                                    ->where('wfp_act_id',$row->twa_id)
+                                                                                    ->first();
+
+                                    ?>
+                                    @if($cmd["PPMP"] == 1 && $CheckIfHasPi)
                                     <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                         style="position: relative;right:0;bottom:0;"
                                         data-toggle="tooltip" title="PPMP" data-placement="right" data-original-title="PPMP"
@@ -159,7 +165,7 @@
                                 </div>
                             </div>
                         @endforelse
-@if(count($activities) <> 0)
+@if(count($data["activities"]) <> 0)
                         <tr class="bg-secondary">
                             @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 || $cmd["PPMP"] == 1 ) <th scope="col"></th> @endif
                             <th scope="col"></th>
@@ -182,6 +188,13 @@
 </div>
 
 @endif
+
+
+@forelse($data["comments"] as $row)
+<span>{{ $row["comment"] }} </span>
+@empty
+
+@endforelse
     {{-- </div>
 </div> --}}
 
