@@ -211,13 +211,13 @@ class WfpController extends Controller
                     $cmd["DEL"] = 0;
                     $cmd["VIEW"] = 0;
                     $cmd["PPMP"] = 0;
-                    $cmd["COMMENT"] = 0;
+                    $cmd["COMMENT"] = 1;
                 }else if($status["remarks"] == 'APPROVED'){
                     $cmd["EDIT"] = 0;
                     $cmd["DEL"] = 0;
                     $cmd["VIEW"] = 0;
                     $cmd["PPMP"] = 1;
-                    $cmd["COMMENT"] = 1;
+                    $cmd["COMMENT"] = 0;
                 }else if ($status["remarks"] == 'FOR REVISION'){
                     $cmd["EDIT"] = 1;
                     $cmd["DEL"] = 1;
@@ -233,8 +233,8 @@ class WfpController extends Controller
                 }
             }
 
-            $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->get();
-
+            $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->groupBy('wfp_act_id')
+                                           ->get();
 
             return view('components.global.wfp_drawer',['data'=>$data,
                                                         'year' => $year->year ,
@@ -400,12 +400,21 @@ class WfpController extends Controller
     }
     function saveWfpComments(Request $req){
         if($req->ajax()){
+            $code =Crypt::decryptString($req->wfp_code);
+            $wfp = Wfp::where('code',$code)->first();
+
             $a = new WfpComments;
-            $a->wfp_code = $req->wfp_code;
+            $a->wfp_code = $code;
             $a->user_id = $req->user_id;
             $a->comment = $req->comment;
             $a->wfp_act_id = $req->twa_id;
-            return $a->save() ? 'success' : 'failed';
+            if( $a->save())
+            {
+                event(new NotifyUserWfpStatus($wfp,'Comment',$req->twa_id,'WFP Comment'));
+                return 'success';
+            }else{
+                return 'failed';
+            }
         }else{
             abort(403);
         }

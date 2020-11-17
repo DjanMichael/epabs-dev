@@ -59,7 +59,7 @@
                         <table class="table table-sm table-bordered table-hover" class="wfp_table">
                             <thead style="text-align:center;" class="bg-secondary">
                                 <tr>
-                                    @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 )
+                                    @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 ||  $cmd["COMMENT"] == 1 )
                                     <th scope="col">Action</th>
                                     @endif
                                     <th scope="col">Act Code</th>
@@ -84,7 +84,7 @@
                         ?>
                         @forelse ($data["activities"] as $row)
                             <tr class="wfp_table_row">
-                                @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 )
+                                @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 ||  $cmd["PPMP"] == 1 ||  $cmd["COMMENT"] == 1 )
                                 <td scope="row text-center" style="width:130px;">
                                     @if($cmd["EDIT"] == 1)
                                     <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
@@ -167,7 +167,7 @@
                         @endforelse
 @if(count($data["activities"]) <> 0)
                         <tr class="bg-secondary">
-                            @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 || $cmd["PPMP"] == 1 ) <th scope="col"></th> @endif
+                            @if($cmd["EDIT"] == 1 || $cmd["DEL"] == 1 || $cmd["VIEW"] == 1 || $cmd["PPMP"] == 1 ||  $cmd["COMMENT"] == 1 ) <th scope="col"></th> @endif
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -188,13 +188,84 @@
 </div>
 
 @endif
+</div>
 
-
+@if(count($data["comments"]) <> 0)
+<div class="row">
+    <div class="col-12 p-5">
+        <h3 class="display-5"><i class="flaticon-chat text-primary mr-2"></i>Comment Section</h3>
+        <div class="separator separator-dashed separator-border-3"></div>
+    </div>
+</div>
+@endif
+<div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle row" id="comments">
 @forelse($data["comments"] as $row)
-<span>{{ $row["comment"] }} </span>
+  <!--begin::Item-->
+  <div class="card border-top-0 col-12">
+    <!--begin::Header-->
+    <div class="card-header" >
+        <div class="card-title text-dark " >
+            <div class="card-label text-light pl-4 label label-primary label-inline font-weight-bolder">{{ 'ACTIVITY #' . Str::padLeft($row["wfp_act_id"],5,'0') }}</div>
+        </div>
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div >
+        <div class="card-body text-dark-50 font-size-lg pl-12 ">
+            <?php
+                $comments = \App\WfpComments::join('users','users.id','tbl_wfp_comments.user_id')
+                                            ->select('users.name','tbl_wfp_comments.created_at','tbl_wfp_comments.comment')
+                                            ->where('wfp_code',$row["wfp_code"])
+                                            ->where('wfp_act_id',$row["wfp_act_id"])
+                                            ->get();
+            ?>
+                @foreach($comments as $row2)
+                <div class="mb-3">
+                    <!--begin::Section-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-50 symbol-light mr-5">
+                            <span class="symbol-label font-size-h1">
+                                 {{ strtoupper(Str::substr(Str::words($row2["name"],2),0,1)) }}
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column flex-grow-1">
+                            <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">{{ $row2["name"] }}</div>
+                            <span class="text-muted font-weight-normal"><i class="
+                                flaticon-time-1 mr-2"></i>{{ Carbon\Carbon::parse($row2["created_at"])->diffForHumans() }}</span>
+                        </div>
+                        <!--end::Text-->
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Desc-->
+                    <p class="text-dark-50 m-0 p-5 font-weight-bold bg-gray-200 rounded-lg mt-1"> {{ $row2["comment"] }}</p>
+                    <!--end::Desc-->
+                </div>
+                    {{-- <div class="row">
+                        <div class="col-3 ">
+                            <div class="symbol symbol-50 ">
+                                <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words($row2["name"],2),0,1)) }}</span>
+                            </div>
+                            asd
+                        </div>
+                        <div class="col-9 ">
+                                {{ $row2["comment"] }} <br><span>{{ Carbon\Carbon::parse($row2["created_at"])->diffForHumans() }}</span>
+                        </div>
+                    </div> --}}
+
+                @endforeach
+            </div>
+
+    </div>
+    <!--end::Body-->
+</div>
+<!--end::Item-->
+
+
 @empty
 
 @endforelse
-    {{-- </div>
-</div> --}}
+</div>
 

@@ -13,4 +13,22 @@ class NotificationController extends Controller
 
         return view('components.global.user_notification',['data'=>$data]);
     }
+
+    public function updateNotifToReadById(Request $req){
+        if($req->ajax()){
+            $this->updateIsReadStatus($req->id);
+        }
+    }
+
+    public function updateCommentToReadById(Request $req){
+        if($req->ajax()){
+            $this->updateIsReadStatus($req->id);
+        }
+    }
+
+    public function updateIsReadStatus($id){
+        $a  = TableSystemEvents::where('id',$id)->first();
+        $a->isRead ='Y';
+        return $a->save() ? 'success' : 'fail';
+    }
 }
