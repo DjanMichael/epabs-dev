@@ -4,7 +4,7 @@
     <!--begin::Head-->
     <head><base href="../../">
                 <meta charset="utf-8"/>
-    <title> {{ env('APP_NAME') }} |  @yield('title') </title>
+    <title> {{ env('APP_NAME') . ' ' . env('APP_Version') }} |  @yield('title') </title>
         <meta name="description" content="Page with empty content"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -50,8 +50,13 @@
             .modal-backdrop {
             z-index: 1000;
             }
-
-
+            ._bg-hover-gray{
+                transition: background-color 0.6s ease;
+                background-color:white;
+            }
+            ._bg-hover-gray:hover{
+                background-color: #d9ddff;
+            }
             .page_loader{
                 z-index: 100000;
                 position: fixed;
@@ -80,20 +85,35 @@
 
             .hide_scroll{
                 overflow-y:hidden;
-
+                overflow-x: hidden;
             }
+            body{
+                position: relative;
+                width: 100%;
+            }
+
+            /* for perfect scroll but scroll top not showing
+            html {
+                overflow: scroll;
+                overflow-x: hidden;
+            }
+            ::-webkit-scrollbar {
+                width: 0px;
+                background: transparent;
+            } */
 
         </style>
 
     </head>
     <!--end::Head-->
 
-    <!--begin::Body-->
-    <body  id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled page-loading hide_scroll" >
-      {{-- {{ dd(Auth::user()->getUnitId()) }} --}}
-    {{-- <div class="bg_loader">
-        <div class="loader"></div>
-    </div> --}}
+<!--begin::Body-->
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
+    {{-- <div id="container-wrapper"
+    data-scroll="true" data-wheel-propagation="true"
+    class=" scroll scroll-pull hide_scroll"> --}}
+
+    {{-- <div  > --}}
 
     <div class="page_loader" style="background-image: url({{ asset("dist/assets/media/bg/bg-3.jpg") }});">
         <span>
@@ -170,18 +190,19 @@
 			<!--begin::Topbar-->
 			<div class="topbar">
 
-
-
         <!--begin::Quick panel-->
-			        <div class="topbar-item">
+			        <div class="topbar-item ">
 			            <div class="btn btn-icon btn-lg mr-1" id="kt_quick_panel_toggle">
-			                <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
-        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>			            </div>
+                            <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                        </div>
 			        </div>
 			        <!--end::Quick panel-->
                         <!--begin::User-->
@@ -197,7 +218,7 @@
 							</div>
 			            </div>
 			            <!--end::User-->
-			        			    			</div>
+                </div>
 			<!--end::Topbar-->
 		</div>
 		<!--end::Container-->
@@ -324,7 +345,6 @@
 <!--end::Main-->
 
 <!-- begin:wfp_drawer -->
-
 <div id="bg-drawer" onclick="wfp_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull"
         data-scroll="true"
@@ -332,8 +352,9 @@
         style="height: 100%;"
         id="wfp_drawer">
 </div>
+<!-- end:wfp_drawer -->
 
-
+<!-- begin:wfp_ppmp_cart_item -->
 <div id="bg-drawer-cart" onclick="wfp_act_cart_drawer_close()"></div>
 <div class="wrapper-drawer scroll scroll-pull"
         data-scroll="true"
@@ -341,7 +362,17 @@
         style="height: 100%;"
         id="wfp_act_cart_drawer">
 </div>
-<!-- end:wfp_drawer -->
+<!-- end:wfp_ppmp_cart_item -->
+
+<!-- begin:wfp_ppmp_view -->
+<div id="bg-drawer-ppmp-drawer" onclick="wfp_ppmp_viewer_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="wfp_ppmp_viewer_drawer">
+</div>
+<!-- end:wfp_ppmp_view -->
 
 
 <!-- begin::User Panel-->
@@ -621,7 +652,6 @@
 			{{-- <li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_logs" >Audit Logs</a>
 			</li> --}}
-
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_notifications" >Notifications</a>
 			</li>
@@ -638,238 +668,17 @@
 	<!--end::Header-->
 
 	<!--begin::Content-->
-	<div class="offcanvas-content px-10">
+	<div class="offcanvas-content">
 		<div class="tab-content">
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade show pt-2 pr-5 mr-n5 active" id="kt_quick_panel_notifications" role="tabpanel">
 				<!--begin::Nav-->
-				<div class="navi navi-icon-circle navi-spacer-x-0">
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold font-size-lg">
-									5 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-psd text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									79 PSD files generated
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-safe-shield-protection text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									3 Defence alerts
-								</div>
-								<div class="text-muted">
-									40% less alerts thar last week
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-notepad text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									Avarage 4 blog posts per author
-								</div>
-								<div class="text-muted">
-									Most posted 12 time
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-users-1 text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									16 authors joined last week
-								</div>
-								<div class="text-muted">
-									9 photodrapehrs, 7 designer
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-info icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items have been submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-download text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2.8 GB-total downloads size
-								</div>
-								<div class="text-muted">
-									Mostly PSD end  AL concepts
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									7 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
+				<div class="navi navi-icon-circle navi-spacer-x-0 h-100"  id="topbar_notifications_notifications_content">
+
 				</div>
 				<!--end::Nav-->
 			</div>
 			<!--end::Tabpane-->
-
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel">
 				<form class="form">
@@ -877,13 +686,18 @@
 					<div>
 						<h5 class="font-weight-bold mb-3">System</h5>
 						<div class="form-group mb-0 row align-items-center">
-                            <label class="col-8 col-form-label">PLAN YEAR SET UP</label>
-                            <div class="col-4 d-flex justify-content-end">
+                            <label class="col-4 col-form-label">PLAN YEAR SET UP</label>
+                            <div class="col-6 d-flex justify-content-end">
                                 <select name="" id="GLOBAL_YEAR" class="form-control">
                                 </select>
                             </div>
-
-						</div>
+                            <label class="col-4 col-form-label">PROGRAM SELECT</label>
+                            <div class="col-6 d-flex justify-content-end">
+                                <select name="" id="GLOBAL_PROGRAM" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" id="BTN_GLOBAL_SETTTINGS_SAVE" class="btn btn-block btn-primary">Save</button>
 				</form>
 			</div>
 			<!--end::Tabpane-->
@@ -912,6 +726,7 @@
                             </div>
                             <input type="hidden" id="wfp_ref" value="">
                             <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                            <input type="hidden" id="wfp_comment_wfp_act_id" value="">
                         </div>
                     </div>
                     <div class="col-12">
@@ -1233,7 +1048,7 @@
 </div>
 <!--end::Chat Panel-->
 
-                            <!--begin::Scrolltop-->
+<!--begin::Scrolltop-->
 <div id="kt_scrolltop" class="scrolltop">
 	<span class="svg-icon"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -1241,51 +1056,17 @@
         <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1"/>
         <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero"/>
     </g>
-</svg><!--end::Svg Icon--></span></div>
+</svg><!--end::Svg Icon--></span>
+</div>
 <!--end::Scrolltop-->
+<audio id="notification_sound" src="{{ asset('dist/assets/media/sounds/notif_sound.mp3') }}" ></audio>
 
-{{-- <!--begin::Sticky Toolbar-->
-<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-	<!--begin::Item-->
-	<li class="nav-item mb-2" id="kt_demo_panel_toggle" data-toggle="tooltip"  title="Check out more demos" data-placement="right">
-		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-success btn-hover-success" href="#">
-			<i class="flaticon2-drop"></i>
-		</a>
-	</li>
-	<!--end::Item-->
+{{-- </div>
+</div> --}}
 
-	<!--begin::Item-->
-	<li class="nav-item mb-2" data-toggle="tooltip" title="Layout Builder" data-placement="left">
-        		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://preview.keenthemes.com/metronic/preview/demo12/builder.html" target="_blank">
-			<i class="flaticon2-gear"></i>
-		</a>
-	</li>
-	<!--end::Item-->
-
-	<!--begin::Item-->
-	<li class="nav-item mb-2" data-toggle="tooltip" title="Documentation" data-placement="left">
-		<a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" href="https://keenthemes.com/metronic/?page=docs" target="_blank">
-			<i class="flaticon2-telegram-logo"></i>
-		</a>
-	</li>
-	<!--end::Item-->
-
-			<!--begin::Item-->
-		<li class="nav-item" id="kt_sticky_toolbar_chat_toggler" data-toggle="tooltip" title="Chat Example" data-placement="left">
-			<a class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" href="#" data-toggle="modal" data-target="#kt_chat_modal">
-				<i class="flaticon2-chat-1"></i>
-			</a>
-		</li>
-		<!--end::Item-->
-	</ul>
-<!--end::Sticky Toolbar--> --}}
-
-
-
-
-        <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-        <!--begin::Global Config(global config for global JS scripts)-->
-        <script>
+<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+<!--begin::Global Config(global config for global JS scripts)-->
+<script>
             var KTAppSettings = {
     "breakpoints": {
         "sm": 576,
@@ -1357,7 +1138,7 @@
         <!--begin::Page Vendors(used by this page)-->
                 <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
                 {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
-                <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
+                {{-- <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
         <!--end::Page Vendors-->
 
         <!--begin::Page Scripts(used by this page)-->
@@ -1367,6 +1148,8 @@
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        <script src="{{ asset('js/app.js')}}"></script>
+
 
         <script>
             $.ajaxSetup({
@@ -1376,6 +1159,20 @@
                     }
             });
 
+            function getProgramsAssigned(){
+                var _url  ="{{ route('get_program_assigned') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        document.getElementById('GLOBAL_PROGRAM').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getProgramsAssigned()
+                        },1000);
+                    }
+                });
+            }
 
             function getYear(){
                 var _url = "{{ route('get_year') }}"
@@ -1384,9 +1181,16 @@
                     url: _url,
                     success:function(data){
                         document.getElementById('GLOBAL_YEAR').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getYear()
+                        },1000);
                     }
                 });
             }
+
+
+
 
 
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
@@ -1398,27 +1202,83 @@
              *      INITIALIZE
              *
              * **************************************************/
-            getYear();
+            // let src = "";
+            // let notif_sound = new Audio(src);
+             function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+
+                return toMatch.some((toMatchItem) => {
+                    return navigator.userAgent.match(toMatchItem);
+                });
+            }
+
+            if(detectMob()){
+
+                document.getElementById('notification_sound').muted = true;
+                document.getElementById('notification_sound').play();
+            }else{
+                navigator.mediaDevices.getUserMedia({audio: true}).
+                then((stream) => {
+                    document.getElementById('notification_sound').autoplay = true;
+                    document.getElementById('notification_sound').muted = true;
+                });
+            }
+
 
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-center",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
             };
+
+
+            Echo.private('wfp.notify.user.{{ Auth::user()->id }}')
+            .listen('NotifyUserWfpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        if(e.title == "WFP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "WFP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "WFP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
 
 
 
@@ -1434,14 +1294,44 @@
                 {
                     var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
                     $("#GLOBAL_YEAR").val(settings.year);
+                    $("#GLOBAL_PROGRAM").val(settings.program);
                 }else{
                     getUserYear();
+                    getUserPrograms();
                 }
             });
 
 
-            $("#GLOBAL_YEAR").change(function(){
-                updateUserGlobalSettingsYear();
+            // $("#GLOBAL_YEAR").change(function(){
+            //     updateUserGlobalSettingsYear();
+            // });
+
+            // $("#GLOBAL_PROGRAM").change(function(){
+            //     updateUserGlobalSettingsProgramsSelected();
+            // })
+
+            $("#BTN_GLOBAL_SETTTINGS_SAVE").on('click',function(){
+                Promise.resolve(4)
+                    .then(()=>{
+                        updateUserGlobalSettingsYear();
+                    })
+                    .then(()=>{
+                        updateUserGlobalSettingsProgramsSelected();
+                    })
+                    .then(() => {
+                        KTApp.block('#kt_body', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Changing Configuration'
+                        });
+                        setTimeout(function(){
+                            window.location.href="{{ route('dashboard') }}";
+                            // window.location.reload(1);
+                        },2000);
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
             });
 
 
@@ -1452,8 +1342,65 @@
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+             $("#kt_quick_panel_toggle").on('click',function(){
+                fetchUserNotification();
+            });
+             function fetchUserNotification(){
+                var _url ="{{ route('get_user_notification') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    beforeSend:function(){
+                        KTApp.block('#kt_quick_panel_notifications', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading . . .'
+                        });
+                    },
+                    success:function(data){
+                        KTApp.unblock('#kt_quick_panel_notifications');
+                        $("#new_notif_count").html(data.count);
+                        document.getElementById('topbar_notifications_notifications_content').innerHTML = data;
+                    },error:function(e){
+                       console.log(e.message)
+                    }
+                });
+            }
 
+            function test(id){
+                alert(id);
+            }
 
+            function updateUserGlobalSettingsProgramsSelected(){
+                var _url = "{{ route('u_global_user_program') }}";
+                var datastr = "id=" + $("#GLOBAL_PROGRAM").val();
+                if($("#GLOBAL_PROGRAM").val() != ''){
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data: datastr,
+                        success:function(data){
+                            if(data.message == 'success'){
+                                toastr.success("Settings Program Save Sucessfully ", "Good Job");
+                                var a = localStorage.getItem('GLOBAL_SETTINGS');
+                                a = a ? JSON.parse(a) : {};
+                                if(data.type =='insert')
+                                {
+                                    a['program'] = data.data.id;
+                                    a['program_name'] = $("#GLOBAL_PROGRAM option:selected").text()
+                                }else{
+                                    a['program'] = data.data.id;
+                                    a['program_name'] = $("#GLOBAL_PROGRAM option:selected").text()
+                                }
+                                localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+
+                            }else{
+                                toastr.error("Saving Program Failed", "Error");
+                            }
+                        }
+                    });
+                }
+            }
 
 
             function updateUserGlobalSettingsYear(){
@@ -1466,7 +1413,7 @@
                         data: datastr,
                         success:function(data){
                             if(data.message == 'success'){
-                                toastr.success("Settings Save Sucessfully ", "Good Job");
+                                toastr.success("Settings Year Save Sucessfully ", "Good Job");
                                 var a = localStorage.getItem('GLOBAL_SETTINGS');
                                 a = a ? JSON.parse(a) : {};
                                 if(data.type =='insert')
@@ -1480,18 +1427,8 @@
                                 localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
 
                             }else{
-                                toastr.error("Saving Failed", "Error");
+                                toastr.error("Saving Year Failed", "Error");
                             }
-                        },
-                        complete:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Refreshing with new settings'
-                            });
-                            setTimeout(function(){
-                                window.location.reload(1);
-                            },2500);
                         }
                     });
                 }
@@ -1504,16 +1441,38 @@
                     method:"GET",
                     url: _url,
                     success:function(data){
-                        var a = localStorage.getItem('GLOBAL_SETTINGS');
-                        a = a ? JSON.parse(a) : {};
-
-                        a['year'] = data.data.select_year;
-
-                        localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
-                        $("#GLOBAL_YEAR").val(data.data.select_year);
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['year'] = data.data.select_year;
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_year);
+                        }
                     }
                 });
             }
+
+            function getUserPrograms(){
+                var _url = "{{ route('d_get_programs') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['program'] = data.data.select_program_id;
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_program_id);
+                        }
+                    }
+                });
+            }
+
+            setTimeout(function(){
+                getYear();
+                getProgramsAssigned();
+            },1000);
 
             loader_page();
 
@@ -1553,6 +1512,14 @@
                     success:function(data){
                         document.getElementById('wfp_drawer').innerHTML = data;
                         KTApp.unblock('#wfp_drawer');
+                        // var url = window.location.href;
+                        // alert(url.search(/ppmp/i));
+                        // if(url.search(/ppmp/i) > 0)
+                        // {
+                        //     $("#wfp_menu_drawer").addClass('d-none');
+                        // }else{
+                        //     $("#wfp_menu_drawer").removeClass('d-none');
+                        // }
                     }
                 });
             }else{
@@ -1562,10 +1529,13 @@
                     "error"
                 )
             }
-
         }
 
+        function show_wfp_drawer_from_notification(id){
+            wfp_drawer_open(id);
+            document.getElementById('kt_quick_panel_close').click();
 
+        }
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
         //         show:true,
@@ -1578,6 +1548,12 @@
         //     alert(_ppmp_id);
         // }
 
+        function wfp_ppmp_viewer_drawer_close(){
+            $("#bg-drawer-ppmp-drawer").removeClass('bg-drawer');
+            $("#wfp_ppmp_viewer_drawer").removeClass('wrapper-drawer-on');
+        }
+
+
         function wfp_act_cart_drawer_close(){
             $("#bg-drawer-cart").removeClass('bg-drawer');
             $("#wfp_act_cart_drawer").removeClass('wrapper-drawer-on');
@@ -1586,10 +1562,11 @@
         function fetchCartPPMPItems(_wfp_code,_wfp_act_id){
             var _url = "{{ route('wfp_act_cart_view') }}";
             var _pi_select = $("#pi_ppmp_select option:selected").val();
+            var _batch = $("#pi_batch_no").val()  != null ? $("#pi_batch_no").val() : '' ;
             $.ajax({
                 method:"GET",
                 url:_url,
-                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select, batch : _batch},
                 beforeSend:function(){
                     KTApp.block('#wfp_act_cart_drawer', {
                         overlayColor: '#000000',
@@ -1599,6 +1576,34 @@
                 },
                 success:function(data){
                     document.getElementById('wfp_act_cart_drawer').innerHTML = data;
+                }
+            });
+        }
+
+        function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
+            if(_wfp_act_id != null || _wfp_code != null){
+                $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
+                $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
+                fetchPPMPViewer(_wfp_code,_wfp_act_id);
+            }
+        }
+
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id){
+            var _url = "{{ route('wfp_ppmp_view') }}";
+
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id},
+                beforeSend:function(){
+                    KTApp.block('#wfp_ppmp_viewer_drawer', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: '<i class="fas fa-boxes icon-xl mr-2"></i> Loading. . .'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_ppmp_viewer_drawer').innerHTML = data;
                 }
             });
         }
@@ -1632,7 +1637,7 @@
                 fetch_output_function($(this).attr('href').split('page=')[1])
             });
 
-        function showModalComment(user_id,wfp_code){
+        function showModalComment(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_comments").modal({
                 show:true,
                 backdrop:'static',
@@ -1641,6 +1646,7 @@
             });
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
+            $("#wfp_comment_wfp_act_id").val(wfp_act_id);
         }
 
         function showWfpActivityModal(user_id,wfp_code,wfp_act_id){
@@ -1705,6 +1711,7 @@
                                     "success"
                                 );
                                 fetchCartPPMPItems();
+                                fetchPIDetails();
                             }else{
                                 Swal.fire(
                                     "Opss!",
@@ -1729,13 +1736,15 @@
 
         $("#btn_save_wfp_comment").on('click',function(){
             var _user_id = $("#wfp_comment_user_id_send_to").val();
+            var _twa_id = $("#wfp_comment_wfp_act_id").val();
             var _wfp = $("#wfp_ref").val();
             var _comment = $("#wfp_comment_data").val();
             var _url = "{{ route('db_save_wfp_comment') }}";
             var _data = {
                 user_id : _user_id,
                 wfp_code : _wfp,
-                comment : _comment
+                comment : _comment,
+                twa_id : _twa_id
             }
             $.ajax({
                 method:"GET",
@@ -1743,6 +1752,20 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
+                    $("#modal_wfp_comments").toggle('hide');
+                    if(data =="success"){
+                        Swal.fire(
+                                    "Good Job!",
+                                    "Comment Successfully!",
+                                    "success"
+                                )
+                    }else{
+                        Swal.fire(
+                                    "Something went wrong!",
+                                    "",
+                                    "error"
+                                )
+                    }
 
                 }
             });
@@ -1859,7 +1882,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Revise it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({
@@ -1891,7 +1914,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Submit it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({

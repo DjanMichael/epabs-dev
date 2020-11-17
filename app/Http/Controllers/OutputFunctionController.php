@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Views\UnitProgram;
+use App\Views\ActivityOutputFunction;
 use App\OutputFunction;
 use App\RefFunctionDeliverables;
-use App\RefProgram;
-use App\User;
 use Auth;
 
 class OutputFunctionController extends Controller
@@ -14,32 +14,19 @@ class OutputFunctionController extends Controller
     //
     public function index(){ return view('pages.reference.outputfunction.output_function'); }
 
-    public function fetchOutputFunction(){
-        if (Auth::user()->role->roles == 'ADMINISTRATOR') {
-            $data = OutputFunction::join('ref_function_deliverables', 'ref_function_deliverables.id', '=', 'tbl_activity_output_function.output_function_id')
-                        ->join('ref_program', 'ref_program.id', '=', 'tbl_activity_output_function.program_id')
-                        ->join('users', 'users.id', '=', 'tbl_activity_output_function.user_id')
-                        ->select('tbl_activity_output_function.id as id', 'function_class', 'description', 'program_name', 'name')
-                        ->orderBy('id', 'ASC')
-                        ->paginate(10);
-        } else {
-            $data = OutputFunction::join('ref_function_deliverables', 'ref_function_deliverables.id', '=', 'tbl_activity_output_function.output_function_id')
-                        ->join('ref_program', 'ref_program.id', '=', 'tbl_activity_output_function.program_id')
-                        ->join('users', 'users.id', '=', 'tbl_activity_output_function.user_id')
-                        ->select('tbl_activity_output_function.id as id', 'function_class', 'description', 'program_name', 'name')
-                        ->where('users.id' ,'=', Auth::user()->id)
-                        ->orderBy('id', 'ASC')
-                        ->paginate(10);
-        }
+    public function fetchOutputFunction() {
+        $data = (Auth::user()->role->roles == 'ADMINISTRATOR')
+                    ? ActivityOutputFunction::orderBy('id', 'ASC')->paginate(10)
+                    : ActivityOutputFunction::where('user_id' ,'=', Auth::user()->id)
+                                                ->orderBy('id', 'ASC')->paginate(10);
         return $data;
     }
 
-    public function getOutputFunction(){
-        // return dd($this->fetchOutputFunction());
+    public function getOutputFunction() {
         return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
     }
 
-    public function getOutputFunctionByPage(Request $request){
+    public function getOutputFunctionByPage(Request $request) {
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest){
             return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
@@ -49,16 +36,27 @@ class OutputFunctionController extends Controller
     }
 
     public function getOutputFunctionBySearch(Request $request) {
+        $userRole = Auth::user()->role->roles;
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest)
         {
             $query = $request->q;
             if($query != ''){
-                $data = OutputFunction::leftJoin('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
-                                        ->select('ref_budget_line_item.id', 'budget_item', 'year', 'allocation_amount', 'ref_budget_line_item.status')
-                                        ->where('budget_item' ,'LIKE', '%'. $query .'%')
-                                        ->paginate(10);
-            }else{
+                $data = ($userRole == 'ADMINISTRATOR')
+                            ? ActivityOutputFunction::where('description', 'LIKE', '%'. $query .'%')
+                                                    ->orWhere('function_class' ,'LIKE', '%'. $query .'%')
+                                                    ->orWhere('program_name' ,'LIKE', '%'. $query .'%')
+                                                    ->orderBy('id', 'ASC')
+                                                    ->paginate(10)
+                            : ActivityOutputFunction::where('user_id' ,'=', Auth::user()->id)
+                                                    ->where(function ($sql) use ($query) {
+                                                        $sql->where('description', 'LIKE', '%'. $query .'%')
+                                                            ->orWhere('function_class' ,'LIKE', '%'. $query .'%')
+                                                            ->orWhere('program_name' ,'LIKE', '%'. $query .'%');
+                                                    })
+                                                    ->orderBy('id', 'ASC')
+                                                    ->paginate(10);
+            } else {
                 $data = $this->fetchOutputFunction();
             }
             return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $data]);
@@ -69,32 +67,20 @@ class OutputFunctionController extends Controller
 
     public function getAddForm(){
         $data['function_deliverables'] = RefFunctionDeliverables::where('status','ACTIVE')->get();
-        $data['program'] = RefProgram::where('status','ACTIVE')->get();
+        $data['program'] = UnitProgram::where('user_id', '=', Auth::user()->id)->where('program_status','ACTIVE')->get();
         return view('pages.reference.outputfunction.form.add_output_function', ['data'=> $data]);
     }
 
     public function store(Request $request) {
+        $isAjaxRequest = $request->ajax();
+        if($isAjaxRequest) {
 
-        // $check = OutputFunction::find($request->id)
-        //             ? OutputFunction::where([
-        //                                     ['budget_item', $request->budget_item],
-        //                                     ['year_id', $request->year_id],
-        //                                     ['id', '<>', $request->id]
-        //                                     ])->first()
-        //             : OutputFunction::where([
-        //                                     ['budget_item', $request->budget_item],
-        //                                     ['year_id', $request->year_id],
-        //                                     ])->first();
-
-        // if ($check) {
-        //     return response()->json(['message'=>'Budget Item '.$request->budget_item.' already have amount for year '.$request->year, 'type'=> 'info']);
-        // } else {
             $check = OutputFunction::find($request->id);
             if ($check) {
-                $check->update(['budget_item' => $request->budget_item,
-                                'year_id' => $request->year_id,
-                                'allocation_amount' => $request->amount,
-                                'status' => $request->status]);
+                $check->update(['output_function_id' => $request->function_deliverables_id,
+                                'description' => $request->description,
+                                'user_id' => Auth::user()->id,
+                                'program_id' => $request->program_id]);
                 return response()->json(['message'=>'Successfully updated data','type'=>'update']);
             }
             else if (empty($check)) {
@@ -110,7 +96,9 @@ class OutputFunctionController extends Controller
             else {
                 return response()->json(['message'=>'Something went wrong']);
             }
-        // }
+        } else {
+            abort(403);
+        }
 
     }
 

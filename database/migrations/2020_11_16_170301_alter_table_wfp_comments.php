@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColStatusProgramBudTblActivityOutputFunction extends Migration
+class AlterTableWfpComments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddColStatusProgramBudTblActivityOutputFunction extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('tbl_activity_output_function', function($table) {
-            $table->integer('program_id');
+        Schema::table('tbl_wfp_comments', function (Blueprint $table) {
+            $table->integer('wfp_act_id')->after('wfp_code');
         });
     }
 
@@ -26,8 +25,8 @@ class AddColStatusProgramBudTblActivityOutputFunction extends Migration
      */
     public function down()
     {
-        Schema::table('tbl_activity_output_function', function($table) {
-            $table->dropColumn('program_id');
+        Schema::table('tbl_wfp_comments', function (Blueprint $table) {
+            $table->dropColumn('wfp_act_id');
         });
     }
 }

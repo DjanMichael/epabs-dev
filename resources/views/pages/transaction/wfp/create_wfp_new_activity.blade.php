@@ -446,7 +446,6 @@
                 uacs_title_id:'required',
                 performance_indicator: 'required',
                 ppmp_include:'required',
-                catering_include:'required',
                 cost:'required',
             }
             let options = {
@@ -638,8 +637,9 @@
             }else{
                 pi_data.catering_include ='false';
                 pi_data.batches = '';
+                delete pi_rules.batches
             }
-            console.log(pi_data);
+
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
 
@@ -673,6 +673,9 @@
                         else if(data =='no budget')
                         {
                             toastr.error("Not Enough Budget", "Opss!");
+                        }
+                        else if (data == 'exceeds bli budget'){
+                            toastr.error("Not Enough Budget in Budget Line Item", "Opss!");
                         }
                         else if(data == 'exceeds act budget')
                         {

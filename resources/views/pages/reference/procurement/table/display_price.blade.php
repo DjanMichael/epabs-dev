@@ -27,7 +27,7 @@
                 <td data-target="price">{{ number_format($row["price"], 2) }}</td>
                 <td data-target="effective_date">{{ $row["effective_date"] }}</td>
                 <td>
-                    <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit-price" data-id="{{ $row["id"] }}">
+                    <a class="btn btn-icon btn-light-primary mr-2" data-toggle="tooltip" title="Edit Price Details" data-role="edit-price" data-id="{{ $row["id"] }}">
                         <i class="flaticon-edit-1"></i>
                     </a>
                 </td>

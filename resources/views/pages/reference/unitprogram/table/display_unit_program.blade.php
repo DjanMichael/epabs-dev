@@ -6,7 +6,9 @@
             <th scope="col" class="text-center">Program</th>
             <th scope="col" class="text-center">Division - Section</th>
             <th scope="col" class="text-center">Coordinator</th>
+            @if(Auth::user()->role->roles == 'ADMINISTRATOR')
             <th scope="col" class="text-center">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -16,11 +18,13 @@
                 <td data-target="program">{{ $row["program_name"] }}</td>
                 <td data-target="unit">{{ $row["division"] }} - {{ $row["section"] }}</td>
                 <td data-target="coordinator">{{ $row["name"] }}</td>
-                <td>
-                    <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
-                        <i class="flaticon-edit-1"></i>
-                    </a>
-                </td>
+                @if(Auth::user()->role->roles == 'ADMINISTRATOR')
+                    <td>
+                        <a class="btn btn-icon btn-light-danger mr-2" data-toggle="tooltip" data-placement="bottom" title="Dismiss Assignment" data-role="dismiss" data-id="{{ $row["id"] }}">
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                    </td>
+                @endif
             </tr>
             @empty
             <tr>

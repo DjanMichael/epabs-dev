@@ -48,5 +48,10 @@ class ref_units extends Seeder
         RefUnits::create(["id"=>"34", "division"=>"MSD", "section"=>"HRDMU", "status"=>"ACTIVE"]);
         RefUnits::create(["id"=>"35", "division"=>"MSD", "section"=>"PROCUREMENT", "status"=>"ACTIVE"]);
         RefUnits::create(["id"=>"36", "division"=>"MSD", "section"=>"BUDGET", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"37", "division"=>"PDOHO", "section"=>"AGUSAN DEL NORTE", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"38", "division"=>"PDOHO", "section"=>"AGUSAN DEL SUR", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"39", "division"=>"PDOHO", "section"=>"SURIGAO DEL NORTE", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"40", "division"=>"PDOHO", "section"=>"SURIGAO DEL SUR", "status"=>"ACTIVE"]);
+        RefUnits::create(["id"=>"41", "division"=>"PDOHO", "section"=>"PROVINCE OF DINAGAT ISLANDS", "status"=>"ACTIVE"]);
     }
 }

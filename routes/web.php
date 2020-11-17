@@ -15,6 +15,8 @@ use App\User;
 |   r = Redirect
 |   a = Add
 |   d = Display
+    u = update
+    del = delete
 */
 
 Route::group(['middleware' => ['web', 'auth']], function () {
@@ -75,25 +77,37 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/items/list','Transaction\PpmpController@getAllPPMPItemList')->name('get_all_ppmp_items_list');
     Route::get('ppmp/items/add/byPi','Transaction\PpmpController@addPPMPItemsByPI')->name('add_pi_ppmp_items');
     Route::get('/ppmp/item/deleteById','Transaction\PpmpController@deletePPMPItemsById')->name('del_pi_ppmp_item');
-
+    Route::get('/ppmp/view/byWfpCode','Transaction\PpmpController@getPPMPView')->name('wfp_ppmp_view');
+    Route::get('/ppmp/get/batches/byPi','Transaction\PpmpController@getBatchesByPiId')->name('get_pi_batches');
+    Route::get('/ppmp/get/catering/select/prov','Transaction\PpmpController@getCateringProvince')->name('get_pi_prov');
+    Route::get('/ppmp/get/catering/select/city','Transaction\PpmpController@getCateringCity')->name('get_pi_city');
+    Route::get('/ppmp/get/catering/batch/cart/details','Transaction\PPmpController@getCateringBatchDetails')->name('get_catering_batch_details');
+    Route::get('/ppmp/get/catering/batch/locations/regions','Transaction\PpmpController@getCateringRegionAll')->name('get_pi_all_region');
+    Route::get('/ppmp/get/catering/batch/locations/provinces','Transaction\PpmpController@getCateringProvinceAll')->name('get_pi_all_province');
+    Route::get('/ppmp/get/catering/batch/locations/cities','Transaction\PpmpController@getCateringCityAll')->name('get_pi_all_city');
+    Route::get('/ppmp/save/catering/details/batch','Transaction\PpmpController@saveCateringBatchDetails')->name('db_save_catering_details_batch');
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
     Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');
 
     // GLOBAL SYSTEM SETTINGS
     Route::get('/users/setup/year','YearsController@get_year')->name('get_year');
+    Route::get('/user/setup/programAssigned','GlobalSettingsController@getUserProgramAssigned')->name('get_program_assigned');
+    Route::get('/user/settings/update/programs','GlobalSettingsController@updateProgramSelected')->name('u_global_user_program');
     Route::get('/test','Transaction\WfpController@test');
     Route::get('/user/settings/update/year','GlobalSettingsController@updateUserYear')->name('u_global_user_year');
     Route::get('/user/settings/get/year','GlobalSettingsController@getUserYear')->name('d_get_year');
+    Route::get('/user/settings/get/programs','GlobalSettingsController@getUserProgram')->name('d_get_programs');
+
+    //NOTIFICATION
+    Route::get('/user/notification/wfp','NotificationController@getUserNotif')->name('get_user_notification');
+
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
-    Route::get('/', function ()  {
-        return view('pages.admin_dashboard');
-    })->name('dashboard');
+    Route::get('/', 'PageController@dashboard')->name('dashboard');
 });
 
 Route::get('/logout/session',function(){
-
     Auth::logout();
     return redirect()->route('login');
 })->name('Logout');
@@ -119,7 +133,7 @@ Route::get('/users','AuthController@getAllUser')->name('g_users');
 Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
 Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
 Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
-Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesSearch')->name('d_get_procurement_supplies_search');
+Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesBySearch')->name('d_get_procurement_supplies_search');
 Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
 Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
 Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
@@ -130,7 +144,7 @@ Route::post('/system/reference/add-procurement-supplies-price','Reference\Procur
 Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
 Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMedicineController@getProcurementMedicine')->name('d_get_procurement_medicine');
 Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
-Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineSearch')->name('d_get_procurement_medicine_search');
+Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineBySearch')->name('d_get_procurement_medicine_search');
 Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
 Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
 Route::get('/system/reference/procurement-medicine-price/all','Reference\ProcurementMedicineController@getProcurementMedicinePrice')->name('d_get_procurement_medicine_price');
@@ -161,7 +175,7 @@ Route::get('/system/reference/drug-medicine-category/search','Reference\DrugMedi
 Route::get('/system/reference/drug-medicine-category/add-form','Reference\DrugMedicineCategoryController@getAddForm')->name('d_add_dm_category');
 Route::post('/system/reference/add-drug-medicine-category','Reference\DrugMedicineCategoryController@store')->name('a_dm_category');
 
-// Program  Routes
+// Program Routes
 Route::get('/system/reference/program','Reference\ProgramController@index')->name('r_program');
 Route::get('/system/reference/program/all','Reference\ProgramController@getProgram')->name('d_program');
 Route::get('/system/reference/program/pagination','Reference\ProgramController@getProgramByPage')->name('d_get_program_by_page');
@@ -169,13 +183,14 @@ Route::get('/system/reference/program/search','Reference\ProgramController@getPr
 Route::get('/system/reference/program/add-form','Reference\ProgramController@getAddForm')->name('d_add_program');
 Route::post('/system/reference/add-program','Reference\ProgramController@store')->name('a_program');
 
-// Unit Program  Routes
+// Unit Program Routes
 Route::get('/system/reference/unit-program','Reference\UnitProgramController@index')->name('r_unit_program');
 Route::get('/system/reference/unit-program/all','Reference\UnitProgramController@getUnitProgram')->name('d_unit_program');
 Route::get('/system/reference/unit-program/pagination','Reference\UnitProgramController@getUnitProgramByPage')->name('d_get_unit_program_by_page');
-Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramSearch')->name('d_get_unit_program_search');
+Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramBySearch')->name('d_get_unit_program_search');
 Route::get('/system/reference/unit-program/add-form','Reference\UnitProgramController@getAddForm')->name('d_add_unit_program');
 Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
+Route::post('/system/reference/remove-unit-program','Reference\UnitProgramController@removeAssignment')->name('del_unit_program');
 
 // Budget Line Item Routes
 Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');

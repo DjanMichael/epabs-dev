@@ -21,9 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ref_dm_category::class);
         $this->call(ref_item_unit::class);
         $this->call(ref_location::class);
+        $this->call(ref_program::class);
         $this->call(ref_uacs::class);
         $this->call(user::class);
         $this->call(tbl_user_roles::class);
-        
+
     }
 }

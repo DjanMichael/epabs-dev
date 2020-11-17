@@ -43,7 +43,7 @@ class UserController extends Controller
                             ->select('user_id as id', 'users.name', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
                             ->where('users.name' ,'LIKE', '%'. $query .'%')
                             ->paginate(10);
-            }else{
+            } else {
                 $data = $this->fetchUser();
             }
             return view('pages.reference.user.table.display_user',['user'=> $data]);
@@ -65,7 +65,7 @@ class UserController extends Controller
                 }
             } catch (\Illuminate\Database\QueryException $exception) {
                 $errorInfo = $exception->errorInfo;
-                return response()->json(['message'=>$errorInfo, 'type'=>'error']);
+                return response()->json(['message'=>'Something went wrong', 'type'=>'error']);
             }
         } else {
             abort(403);
@@ -77,16 +77,16 @@ class UserController extends Controller
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest){
             try {
-                $userExist = User::find($request->id);
-                if ($userExist) {
-                    $userExist->update(['password' => bcrypt('123456')]);
+                $check = User::find($request->id);
+                if ($check) {
+                    $check->update(['password' => bcrypt('123456')]);
                     return response()->json(['message'=>'Successfully reset password','type'=>'update']);
                 } else {
                     return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
                 }
             } catch (\Illuminate\Database\QueryException $exception) {
                 $errorInfo = $exception->errorInfo;
-                return response()->json(['message'=>$errorInfo, 'type'=>'error']);
+                return response()->json(['message'=>'Something went wrong', 'type'=>'error']);
             }
         } else {
             abort(403);

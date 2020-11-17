@@ -12,10 +12,9 @@ class WfpActivityInfo extends Model
     public function getOutputFunctionById($id){
             if($id != null ){
                 $a = RefActivityOutputFunctions::where('id',$id)->first();
-                return $a->function_description;
+                return $a->description;
             }else{
                 return '';
             }
-
     }
 }

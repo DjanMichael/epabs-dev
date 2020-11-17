@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RefYear;
-
+use App\GlobalSystemSettings;
+use Auth;
 class YearsController extends Controller
 {
     //
     function get_year(){
 
-        $data = RefYear::where('status','ACTIVE')->get();
-
+        $data["year"] = RefYear::where('status','ACTIVE')->get();
+        $data["settings"] = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         return view('components.global.system_set_up_year',['data' => $data]);
     }
 

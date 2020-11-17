@@ -48,15 +48,20 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
+            'dump' => [
+                'dump_binary_path' => 'C:\xampp\mysql\bin',
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+            ],
             'modes' => [
                 //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column
                 'STRICT_TRANS_TABLES',
@@ -70,6 +75,12 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            // 'dump' => [
+            //     // 'dump_command_path' => env('MYSQL_DB_BIN'),
+            //     'dump_command_path' => 'C:/xampp/mysql/bin/',
+            //     'use_single_transaction',
+            //     'timeout' => 60 * 5,
+            // ],
         ],
 
         'pgsql' => [

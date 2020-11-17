@@ -25,7 +25,7 @@
             <select class="form-control" id="program">
                 <option value="">Please select program</option>
                 @foreach($data["program"] as $row)
-                    <option value="{{ $row["id"] }}">{{ $row["program_name"] }}</option>
+                    <option value="{{ $row["program_id"] }}">{{ $row["program_name"] }}</option>
                 @endforeach
             </select>
         </div>

@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="form-group">
             <label>Description<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="procurement_id"/>
+            <input type="hidden" class="form-control" id="procurement_id"/>
             <input type="text" class="form-control" id="item_description" placeholder="Enter item description"/>
         </div>
 
@@ -38,7 +38,7 @@
             </div>
         @endisset
 
-        <div class="form-group row">
+        <div class="form-group row price-details">
             <div class="col-12 col-md-6">
                 <label>Price<span class="text-danger">*</span></label>
                 <div class="input-group">
