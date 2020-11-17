@@ -82,7 +82,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/get/catering/select/prov','Transaction\PpmpController@getCateringProvince')->name('get_pi_prov');
     Route::get('/ppmp/get/catering/select/city','Transaction\PpmpController@getCateringCity')->name('get_pi_city');
     Route::get('/ppmp/get/catering/batch/cart/details','Transaction\PPmpController@getCateringBatchDetails')->name('get_catering_batch_details');
-    Route::get('/ppmp/get/catering/batch/locations','Transaction\PpmpController@getCateringLocation')->name('get_catering_location');
+    Route::get('/ppmp/get/catering/batch/locations/regions','Transaction\PpmpController@getCateringRegionAll')->name('get_pi_all_region');
+    Route::get('/ppmp/get/catering/batch/locations/provinces','Transaction\PpmpController@getCateringProvinceAll')->name('get_pi_all_province');
+    Route::get('/ppmp/get/catering/batch/locations/cities','Transaction\PpmpController@getCateringCityAll')->name('get_pi_all_city');
+    Route::get('/ppmp/save/catering/details/batch','Transaction\PpmpController@saveCateringBatchDetails')->name('db_save_catering_details_batch');
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
     Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');

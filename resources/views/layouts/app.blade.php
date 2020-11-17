@@ -50,8 +50,13 @@
             .modal-backdrop {
             z-index: 1000;
             }
-
-
+            ._bg-hover-gray{
+                transition: background-color 0.6s ease;
+                background-color:white;
+            }
+            ._bg-hover-gray:hover{
+                background-color: #d9ddff;
+            }
             .page_loader{
                 z-index: 100000;
                 position: fixed;
@@ -185,142 +190,19 @@
 			<!--begin::Topbar-->
 			<div class="topbar">
 
-                <div class="dropdown">
-                    <!--begin::Toggle-->
-                    <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="false" id="Notification">
-                        <div class="btn btn-icon btn-dropdown btn-lg mr-1 pulse pulse-white">
-                            <span class="svg-icon svg-icon-xl svg-icon-primary">
-                                <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Code/Compiling.svg-->
+        <!--begin::Quick panel-->
+			        <div class="topbar-item ">
+			            <div class="btn btn-icon btn-lg mr-1" id="kt_quick_panel_toggle">
+                            <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"></rect>
-                                        <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
-                                        <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
                                     </g>
-                                </svg>
-                                <!--end::Svg Icon-->
+                                </svg><!--end::Svg Icon-->
                             </span>
-                            <span class="pulse-ring"></span>
                         </div>
-                    </div>
-                    <!--end::Toggle-->
-                    <!--begin::Dropdown-->
-                    <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg" style="">
-                        <form>
-                            <!--begin::Header-->
-                            <div class="d-flex flex-column pt-12 bg-dark-o-5 rounded-top">
-                                <!--begin::Title-->
-                                <h4 class="d-flex flex-center">
-                                    <span class="text-dark">User Notifications</span>
-                                    <span class="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">23 new</span>
-                                </h4>
-                                <!--end::Title-->
-                                <!--begin::Tabs-->
-                                <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary mt-3 px-8" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications">Alerts</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_events">Events</a>
-                                    </li>
-                                    {{-- <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#topbar_notifications_logs">Logs</a>
-                                    </li> --}}
-                                </ul>
-                                <!--end::Tabs-->
-                            </div>
-                            <!--end::Header-->
-                            <!--begin::Content-->
-                            <div class="tab-content">
-                                <!--begin::Tabpane-->
-                                <div class="tab-pane active show p-8" id="topbar_notifications_notifications" role="tabpanel">
-                                    <!--begin::Scroll-->
-                                    <div class="scroll pr-7 mr-n7 ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;" id="topbar_notifications_notifications_content">
-                                        <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-6" >
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-40 symbol-light-primary mr-5">
-                                                <span class="symbol-label">
-                                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
-                                                        <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24"></rect>
-                                                                <path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000"></path>
-                                                                <rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1"></rect>
-                                                            </g>
-                                                        </svg>
-                                                        <!--end::Svg Icon-->
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <!--begin::Text-->
-                                            <div class="d-flex flex-column font-weight-bold">
-                                                <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Cool App</a>
-                                                <span class="text-muted">Marketing campaign planning</span>
-                                            </div>
-                                            <!--end::Text-->
-                                        </div>
-                                        <!--end::Item-->
-                                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
-                                    </div>
-                                    <!--end::Scroll-->
-                                    <!--begin::Action-->
-                                    <div class="d-flex flex-center pt-7">
-                                        <a href="#" class="btn btn-light-primary font-weight-bold text-center">See All</a>
-                                    </div>
-                                    <!--end::Action-->
-                                </div>
-                                <!--end::Tabpane-->
-                                <!--begin::Tabpane-->
-                                <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
-                                    <!--begin::Nav-->
-                                    <div class="navi navi-hover scroll my-4 ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
-                                       <div   id="topbar_notifications_events_content">
-                                            <!--begin::Item-->
-                                            <a href="#" class="navi-item">
-                                                <div class="navi-link">
-                                                    <div class="navi-icon mr-2">
-                                                        <i class="flaticon2-analytics-1 text-success"></i>
-                                                    </div>
-                                                    <div class="navi-text">
-                                                        <div class="font-weight-bold">New customer is registered</div>
-                                                        <div class="text-muted">3 days ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        <!--end::Item-->
-                                       </div>
-                                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
-                                    <!--end::Nav-->
-                                </div>
-                                <!--end::Tabpane-->
-                                <!--begin::Tabpane-->
-                                <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
-                                    <!--begin::Nav-->
-                                    <div class="d-flex flex-center text-center text-muted min-h-200px">All caught up!
-                                    <br>No new notifications.</div>
-                                    <!--end::Nav-->
-                                </div>
-                                <!--end::Tabpane-->
-                            </div>
-                            <!--end::Content-->
-                        </form>
-                    </div>
-                    <!--end::Dropdown-->
-                </div>
-
-        <!--begin::Quick panel-->
-			        <div class="topbar-item">
-			            <div class="btn btn-icon btn-lg mr-1" id="kt_quick_panel_toggle">
-			                <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
-        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>			            </div>
 			        </div>
 			        <!--end::Quick panel-->
                         <!--begin::User-->
@@ -770,7 +652,6 @@
 			{{-- <li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_logs" >Audit Logs</a>
 			</li> --}}
-
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_notifications" >Notifications</a>
 			</li>
@@ -787,233 +668,13 @@
 	<!--end::Header-->
 
 	<!--begin::Content-->
-	<div class="offcanvas-content px-10">
+	<div class="offcanvas-content">
 		<div class="tab-content">
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade show pt-2 pr-5 mr-n5 active" id="kt_quick_panel_notifications" role="tabpanel">
 				<!--begin::Nav-->
-				<div class="navi navi-icon-circle navi-spacer-x-0" id="notification_panel">
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold font-size-lg">
-									5 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-psd text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									79 PSD files generated
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-safe-shield-protection text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									3 Defence alerts
-								</div>
-								<div class="text-muted">
-									40% less alerts thar last week
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-notepad text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									Avarage 4 blog posts per author
-								</div>
-								<div class="text-muted">
-									Most posted 12 time
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-users-1 text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									16 authors joined last week
-								</div>
-								<div class="text-muted">
-									9 photodrapehrs, 7 designer
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-info icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items have been submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-download text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2.8 GB-total downloads size
-								</div>
-								<div class="text-muted">
-									Mostly PSD end  AL concepts
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									7 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
+				<div class="navi navi-icon-circle navi-spacer-x-0 h-100"  id="topbar_notifications_notifications_content">
+
 				</div>
 				<!--end::Nav-->
 			</div>
@@ -1065,6 +726,7 @@
                             </div>
                             <input type="hidden" id="wfp_ref" value="">
                             <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                            <input type="hidden" id="wfp_comment_wfp_act_id" value="">
                         </div>
                     </div>
                     <div class="col-12">
@@ -1527,22 +1189,6 @@
                 });
             }
 
-            function fetchUserNotification(){
-                var _url ="{{ route('get_user_notification') }}";
-                $.ajax({
-                    method:"GET",
-                    url: _url,
-                    success:function(data){
-                        document.getElementById('topbar_notifications_notifications_content').innerHTML = data;
-                    },error:function(e){
-                       console.log(e.message)
-                    }
-                });
-            }
-
-            $("#fetchUserNotification, #Notification").on('click',function(){
-                fetchUserNotification();
-            });
 
 
 
@@ -1575,7 +1221,7 @@
             }
 
             if(detectMob()){
-                alert('mobile');
+
                 document.getElementById('notification_sound').muted = true;
                 document.getElementById('notification_sound').play();
             }else{
@@ -1689,11 +1335,41 @@
             });
 
 
+
+
               /***************************************************
              *
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+             $("#kt_quick_panel_toggle").on('click',function(){
+                fetchUserNotification();
+            });
+             function fetchUserNotification(){
+                var _url ="{{ route('get_user_notification') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    beforeSend:function(){
+                        KTApp.block('#kt_quick_panel_notifications', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading . . .'
+                        });
+                    },
+                    success:function(data){
+                        KTApp.unblock('#kt_quick_panel_notifications');
+                        $("#new_notif_count").html(data.count);
+                        document.getElementById('topbar_notifications_notifications_content').innerHTML = data;
+                    },error:function(e){
+                       console.log(e.message)
+                    }
+                });
+            }
+
+            function test(id){
+                alert(id);
+            }
 
             function updateUserGlobalSettingsProgramsSelected(){
                 var _url = "{{ route('u_global_user_program') }}";
@@ -1836,14 +1512,14 @@
                     success:function(data){
                         document.getElementById('wfp_drawer').innerHTML = data;
                         KTApp.unblock('#wfp_drawer');
-                        var url = window.location.href;
+                        // var url = window.location.href;
                         // alert(url.search(/ppmp/i));
-                        if(url.search(/ppmp/i) > 0)
-                        {
-                            $("#wfp_menu_drawer").addClass('d-none');
-                        }else{
-                            $("#wfp_menu_drawer").removeClass('d-none');
-                        }
+                        // if(url.search(/ppmp/i) > 0)
+                        // {
+                        //     $("#wfp_menu_drawer").addClass('d-none');
+                        // }else{
+                        //     $("#wfp_menu_drawer").removeClass('d-none');
+                        // }
                     }
                 });
             }else{
@@ -1855,7 +1531,11 @@
             }
         }
 
+        function show_wfp_drawer_from_notification(id){
+            wfp_drawer_open(id);
+            document.getElementById('kt_quick_panel_close').click();
 
+        }
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
         //         show:true,
@@ -1957,7 +1637,7 @@
                 fetch_output_function($(this).attr('href').split('page=')[1])
             });
 
-        function showModalComment(user_id,wfp_code){
+        function showModalComment(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_comments").modal({
                 show:true,
                 backdrop:'static',
@@ -1966,6 +1646,7 @@
             });
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
+            $("#wfp_comment_wfp_act_id").val(wfp_act_id);
         }
 
         function showWfpActivityModal(user_id,wfp_code,wfp_act_id){
@@ -2055,13 +1736,15 @@
 
         $("#btn_save_wfp_comment").on('click',function(){
             var _user_id = $("#wfp_comment_user_id_send_to").val();
+            var _twa_id = $("#wfp_comment_wfp_act_id").val();
             var _wfp = $("#wfp_ref").val();
             var _comment = $("#wfp_comment_data").val();
             var _url = "{{ route('db_save_wfp_comment') }}";
             var _data = {
                 user_id : _user_id,
                 wfp_code : _wfp,
-                comment : _comment
+                comment : _comment,
+                twa_id : _twa_id
             }
             $.ajax({
                 method:"GET",
@@ -2069,6 +1752,20 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
+                    $("#modal_wfp_comments").toggle('hide');
+                    if(data =="success"){
+                        Swal.fire(
+                                    "Good Job!",
+                                    "Comment Successfully!",
+                                    "success"
+                                )
+                    }else{
+                        Swal.fire(
+                                    "Something went wrong!",
+                                    "",
+                                    "error"
+                                )
+                    }
 
                 }
             });

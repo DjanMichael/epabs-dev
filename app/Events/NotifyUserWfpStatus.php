@@ -23,6 +23,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
     public $desc;
     public $event_name;
     public $isRead;
+    public $payload;
 
     /**
      * Create a new event instance.
@@ -47,6 +48,8 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $this->desc = $desc;
             $this->isRead ='N';
 
+            $wfp_code = ["wfp_code" => $wfp->code];
+            $wfp_code = json_encode($wfp_code);
             $e = new TableSystemEvents;
             $e->notif_type = 'NOTIFICATION';
             $e->from_user_id = '-2';
@@ -56,6 +59,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $e->event_name = $event_name;
             $e->event_title = $title;
             $e->event_description = $desc;
+            $e->payload = $wfp_code;
             $e->isRead = $this->isRead;
             $e->save();
     }
@@ -76,6 +80,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             "icon_level" => $this->icon_level,
             "title" => $this->title,
             "desc" => $this->desc,
+            "payload" => $this->payload,
             "isRead" => $this->isRead
         ];
     }

@@ -74,10 +74,6 @@
                                         <p class="font-weight-normal mb-0">Select Region</p>
                                         <div class="form-group" style="">
                                             <select class="form-control form-control-solid" id="pi_region">
-                                                <option value="" selected></option>
-                                                @foreach($data["location"] as $row)
-                                                    <option value="{{ $row["id"] }}">{{ $row["region"] }}</option>
-                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -102,6 +98,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <button type="button" class="btn btn-primary" id="btnSaveCateringDetails">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -424,9 +423,13 @@
         /*
             INITIALIZE
         */
+            fetchAllRegion();
+            fetchAllProvince();
+            fetchAllCity();
             $("#catering_form").hide();
             $("#side_catering").hide();
             $("#batch_wrapper").hide();
+            $("#btnSaveCateringDetails").hide();
             $("#pi_region_wrapper").hide();
             $("#pi_prov_wrapper").hide();
             $("#pi_city_wrapper").hide();
@@ -452,22 +455,87 @@
         $("#btnSearchItem").on('click',function(){
             getAllPPMPItemsList();
         });
+
+        $("#btnSaveCateringDetails").on('click',function(e){
+            var _url="{{ route('db_save_catering_details_batch') }}";
+            var _data = {
+                twapi : $("#pi_ppmp_select option:selected").val(),
+                batch_id : $("#pi_batch_no option:selected").val(),
+                batch_no : $("#pi_batch_no option:selected").text(),
+                region : $("#pi_region option:selected").val(),
+                province : $("#pi_prov option:selected").val(),
+                city : $("#pi_city option:selected").val()
+            };
+
+            if($("#pi_batch_no option:selected").val() != '' && $("#pi_ppmp_select option:selected").val() != '' &&
+                $("#pi_region option:selected").val() != '' && $("#pi_prov option:selected").val() != '' && $("#pi_city option:selected").val() != ''){
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: _data,
+                    success:function(data){
+                        if(data =='success'){
+                            Swal.fire(
+                                "Good Job!",
+                                "Batch details has been save!",
+                                "success"
+                            )
+                        }else{
+                            Swal.fire(
+                                "Opss!",
+                                "Something went wrong",
+                                "error"
+                            )
+                        }
+                    }
+                });
+            }else{
+                alert('please fill up');
+            }
+
+        });
         /*
             FUNCTIONS
         */
 
         function fetchPerIndicatorActivityCart(twapi_id){
-
         }
 
-        function fetchlocation(_id){
-            var _url = "{{ route('get_catering_location') }}";
+        function fetchAllRegion(){
+            var _url = "{{ route('get_pi_all_region') }}";
             $.ajax({
                 method:"GET",
                 url: _url,
-                data: { id : _id },
                 success:function(data){
-                    // console.log(data);
+                    document.getElementById('pi_region').innerHTML = data;
+                },error:function(){
+                    fetchAllRegion();
+                }
+            })
+        }
+
+        function fetchAllProvince(){
+            var _url = "{{ route('get_pi_all_province') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('pi_prov').innerHTML = data;
+                },error:function(){
+                    fetchAllProvince();
+                }
+            })
+        }
+
+        function fetchAllCity(){
+            var _url = "{{ route('get_pi_all_city') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    document.getElementById('pi_city').innerHTML = data;
+                },error:function(){
+                    fetchAllCity();
                 }
             })
         }
@@ -484,14 +552,32 @@
                     data: _data,
                     success:function(data){
                         $("#cart_count_badge").html(data.data.data.ppmp_items.length);
-                        // console.log(data.data.data.catering_location);
-                        if(data.data.data.catering_location.length == 1){
-                            fetchlocation($(this).val());
-                            console.log(data.data.data);
+                        // console.log(data.data.data.catering_location.province);
+                        if(data.data.data.catering_location.id != undefined || data.data.data.catering_location.id != ''){
+                            var AssignedValue = function(){
+                                return new Promise(resolve => {
+                                    $("#pi_region").val(data.data.data.catering_location.region);
+                                    $("#pi_prov").val(data.data.data.catering_location.province);
+                                    $("#pi_city").val(data.data.data.catering_location.city);
+                                    resolve();
+                                });
+                            };
 
-                            $("#pi_region").val(data.data.data.catering_location.id);
-                            $("#pi_prov").val(data.data.data.catering_location.id);
-                            $("#pi_city").val(data.data.data.catering_location.id);
+                            Promise.resolve(6)
+                                .then(()=>{
+                                    fetchProvLocation(data.data.data.catering_location.region);
+                                })
+                                .then(()=>{
+                                    fetchCityLocation(data.data.data.catering_location.province);
+                                })
+                                .then(()=>{
+                                    setTimeout(function(){
+                                        AssignedValue();
+                                    },1000)
+                                })
+                                .then((err)=>{
+                                    return Promise.reject(err);
+                            });
                         }
                         document.getElementById('wfp_act_cart_drawer').innerHTML = data.data.data.view;
                     }
@@ -584,6 +670,7 @@
                         $("#pi_region_wrapper").show();
                         $("#pi_prov_wrapper").show();
                         $("#pi_city_wrapper").show();
+                        $("#btnSaveCateringDetails").show();
                         // $("#cart_count_badge").html(0);
                         fetchPiCateringBatches(_data,type);
 
@@ -591,6 +678,7 @@
                         is_catering = 'N';
                         // $("#side_catering").hide();
                         $("#batch_wrapper").hide();
+                        $("#btnSaveCateringDetails").hide();
                         $("#pi_region_wrapper").hide();
                         $("#pi_prov_wrapper").hide();
                         $("#pi_city_wrapper").hide();
@@ -648,28 +736,34 @@
     }
 
     function fetchProvLocation(region){
-        var _url = "{{ route('get_pi_prov') }}";
-         $.ajax({
-            method:"GET",
-            url : _url,
-            data:{ reg : region },
-            success:function(data){
-                document.getElementById('pi_prov').innerHTML = data;
-            }
-        })
+        return new Promise(resolve => {
+            var _url = "{{ route('get_pi_prov') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data:{ reg : region },
+                success:function(data){
+                    document.getElementById('pi_prov').innerHTML = data;
+                    resolve();
+                }
+            })
+        });
+
     }
 
     function fetchCityLocation(province){
-        var _url = "{{ route('get_pi_city') }}";
-         $.ajax({
-            method:"GET",
-            url : _url,
-            data:{ prov : province },
-            success:function(data){
-                document.getElementById('pi_city').innerHTML = data;
-            }
-        })
-
+        return new Promise(resolve => {
+            var _url = "{{ route('get_pi_city') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data:{ prov : province },
+                success:function(data){
+                    document.getElementById('pi_city').innerHTML = data;
+                    resolve();
+                }
+            })
+        });
     }
 
     function getAllPPMPItemsList(_page,_q){
