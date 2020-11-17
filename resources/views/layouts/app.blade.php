@@ -680,8 +680,8 @@
 			</div>
 			<!--end::Tabpane-->
 			<!--begin::Tabpane-->
-			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel">
-				<form class="form">
+			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel" >
+				<form class="form" style="padding:20px;">
 					<!--begin::Section-->
 					<div>
 						<h5 class="font-weight-bold mb-3">System</h5>
