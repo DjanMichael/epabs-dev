@@ -101,7 +101,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //NOTIFICATION
     Route::get('/user/notification/wfp','NotificationController@getUserNotif')->name('get_user_notification');
-
+    Route::get('/user/notification/wfp/status/update','NotificationController@updateNotifToReadById')->name('db_update_notif_status_to_read');
+    Route::get('/user/notification/wfp/activity/comment/update','NotificationController@updateCommentToReadById')->name('db_update_comment_status_to_read');
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');

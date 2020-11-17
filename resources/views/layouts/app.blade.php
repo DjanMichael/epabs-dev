@@ -1266,12 +1266,20 @@
                             document.getElementById('notification_sound').play();
                         }
                     }).then(() =>{
+
+                        console.log(e);
+                        // WFP STATUS
                         if(e.title == "WFP Submit"){
                             toastr.info(e.desc, "Notification");
                         }else if(e.title == "WFP Approve"){
                             toastr.success(e.desc, "Notification");
                         }else if(e.title == "WFP Revise"){
                             toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
                         }
                     })
                     .then((err)=>{
@@ -1531,11 +1539,103 @@
             }
         }
 
-        function show_wfp_drawer_from_notification(id){
-            wfp_drawer_open(id);
+        function updateNotifToRead(_id){
+            var _url ="{{ route('db_update_notif_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function updateCommentToRead(_id){
+            var _url ="{{ route('db_update_comment_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function wfp_drawer_on_comment_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateCommentToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function wfp_drawer_on_notification_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateNotifToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function show_wfp_drawer_from_notification(notif_id,id){
+            wfp_drawer_on_notification_open(notif_id,id);
             document.getElementById('kt_quick_panel_close').click();
 
         }
+
+        function show_wfp_drawer_from_comment(notif_id,id){
+            wfp_drawer_on_comment_open(notif_id,id);
+            document.getElementById('kt_quick_panel_close').click();
+        }
+
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
         //         show:true,
@@ -1752,7 +1852,7 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
-                    $("#modal_wfp_comments").toggle('hide');
+                    $("#modal_wfp_comments").modal('hide');
                     if(data =="success"){
                         Swal.fire(
                                     "Good Job!",
