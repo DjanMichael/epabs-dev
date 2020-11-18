@@ -7,7 +7,7 @@
             @forelse ($data["wfp_list"] as $row)
             <div class="col-xl-4 col-md-6">
                 <!--begin::Card-->
-                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-5" style="height:250px;cursor:pointer;"
+                <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-0 m-md-2" style="height:250px;cursor:pointer;"
                     onclick="wfp_drawer_open('{{ $row['wfp_code'] }}')"
                     style="cursor:pointer;"
                     id="wfp_card">
@@ -50,16 +50,16 @@
                             <!--begin: Item-->
                             <div class="mr-12 d-flex flex-column mb-7">
                                 <span class="font-weight-bolder mb-1 mt-5">Utilized</span>
-                                <span class="font-weight-bolder font-size-h6 pt-1">
+                                <span class="font-weight-bolder pt-1" style="font-size:13px">
                                     <span class="font-weight-bold text-dark-50">₱</span>
                                     {{ $row["yearly_utilized"] != null ? number_format($row["yearly_utilized"],2) : '0.00' }}
                                 </span>
                             </div>
                             <!--end::Item-->
                             <!--begin::Item-->
-                            <div class="mr-12 d-flex flex-column mb-7">
+                            <div class=" d-flex flex-column mb-7">
                                 <span class="font-weight-bolder mb-1 mt-5">Balance</span>
-                                <span class="font-weight-bolder font-size-h6 pt-1">
+                                <span class="font-weight-bolder pt-1" style="font-size:13px">
                                     <span class="font-weight-bold text-dark-50">₱</span>
                                     {{ number_format($row["yearly_budget"] - $row["yearly_utilized"],2) }}
                                 </span>
