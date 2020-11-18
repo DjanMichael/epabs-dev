@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Auth;
+use App\GlobalSystemSettings;
 class User extends Authenticatable
 {
 
@@ -46,6 +47,11 @@ class User extends Authenticatable
 
     public function role(){
         return $this->hasOne('App\UserRoles','role_id','role_id');
+    }
+
+    public function getSelectedProgramId(){
+        $res = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        return $res->select_program_id;
     }
 
 

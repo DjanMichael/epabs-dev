@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Crypt;
 use DB;
 use Auth;
 use PDF;
+use App\User;
+use App\RefProgram;
 
 use App\Views\BudgetAllocationAllYearPerProgram;
 
@@ -250,6 +252,10 @@ class WfpController extends Controller
         $year_id = $req->year_id;
         $program_id = (GlobalSystemSettings::where('user_id',$user_id)->first())->select_program_id;
 
+        if($program_id <= 0 ){
+            return ['message'=>'only program coordinator can generate wfp'];
+        }
+
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
         $check = Wfp::where('user_id',$user_id)
@@ -369,25 +375,49 @@ class WfpController extends Controller
     public function getAllUnitsWfpList(Request $req){
         $data = [];
         $user_id  = $this->auth_user_id;
-        $year_id = GlobalSystemSettings::where('user_id',$user_id)->first();
-
-        if($year_id){
+        $settings = GlobalSystemSettings::where('user_id',$user_id)->first();
+        $user_role = (Auth::user()->role)->roles;
+        if($settings){
             if($req->q != null){
-                $qry = $req->q;
-                $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
-                                    ->where('wfp_code','!=',null)
-                                    ->where(fn($q) =>
-                                        $q->where('name','LIKE', '%' . $qry .'%')
-                                        ->orWhere('division','LIKE','%' . $qry .'%')
-                                        ->orWhere('section','LIKE','%' . $qry .'%')
-                                        ->orWhere('program_name','LIKE','%' . $qry .'%'))
-                                    ->groupBy(['unit_id','year_id','user_id','program_id'])
-                                    ->paginate($this->wfp_list_paginate);
+                if($user_role != "PROGRAM COORDINATOR"){
+                    $qry = $req->q;
+                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                                        ->where('wfp_code','!=',null)
+                                        ->where(fn($q) =>
+                                            $q->where('name','LIKE', '%' . $qry .'%')
+                                            ->orWhere('division','LIKE','%' . $qry .'%')
+                                            ->orWhere('section','LIKE','%' . $qry .'%')
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
+                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->paginate($this->wfp_list_paginate);
+                }else{
+                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                                        ->where('wfp_code','!=',null)
+                                        ->where('program_id',$settings->select_program_id)
+                                        ->where(fn($q) =>
+                                            $q->where('name','LIKE', '%' . $qry .'%')
+                                            ->orWhere('division','LIKE','%' . $qry .'%')
+                                            ->orWhere('section','LIKE','%' . $qry .'%')
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
+                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->paginate($this->wfp_list_paginate);
+                }
+
             }else{
-                $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$year_id->select_year)
-                                    ->where('wfp_code','!=',null)
-                                    ->groupBy(['unit_id','year_id','user_id','program_id'])
-                                    ->paginate($this->wfp_list_paginate);
+                if($user_role != "PROGRAM COORDINATOR"){
+                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                                        ->where('wfp_code','!=',null)
+                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->paginate($this->wfp_list_paginate);
+
+                }else{
+                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                                        ->where('wfp_code','!=',null)
+                                        ->where('program_id',$settings->select_program_id)
+                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->paginate($this->wfp_list_paginate);
+                }
+
             }
             if(count($data["wfp_list"]) <> 0){
                 return view('pages.transaction.wfp.table.wfp_list',['data'=> $data]);
@@ -731,7 +761,8 @@ class WfpController extends Controller
         $a->remarks = 'APPROVED';
         $a->save();
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
-        event(new NotifyUserWfpStatus($wfp,'WFP Approve','Your Wfp has been approved','WFP Update'));
+        $program = RefProgram::where('id',$wfp->program_id)->first();
+        event(new NotifyUserWfpStatus($wfp,'WFP Approve', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been approved','WFP Update'));
     }
 
 
@@ -743,7 +774,8 @@ class WfpController extends Controller
         $a->remarks = 'SUBMITTED';
         $a->save();
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
-        event(new NotifyUserWfpStatus($wfp,'WFP Submit','Your Wfp has been submitted','WFP Update'));
+        $program = RefProgram::where('id',$wfp->program_id)->first();
+        broadcast(new NotifyUserWfpStatus($wfp,'WFP Submit', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been submitted','WFP Update'))->toOthers();
     }
 
     public function updateWfpRevise(Request $req){
@@ -754,7 +786,8 @@ class WfpController extends Controller
         $a->remarks = 'FOR REVISION';
         $a->save();
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
-        event(new NotifyUserWfpStatus($wfp,'WFP Revise','Your Wfp needs to be revised','WFP Update'));
+        $program = RefProgram::where('id',$wfp->program_id)->first();
+        event(new NotifyUserWfpStatus($wfp,'WFP Revise', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp needs to be revised','WFP Update'));
     }
 
     public function newWfpActivity(Request $req){
