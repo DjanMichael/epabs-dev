@@ -217,6 +217,7 @@
                                             ->select('users.name','tbl_wfp_comments.created_at','tbl_wfp_comments.comment')
                                             ->where('wfp_code',$row["wfp_code"])
                                             ->where('wfp_act_id',$row["wfp_act_id"])
+                                            ->orderBy('created_at','DESC')
                                             ->get();
             ?>
                 @foreach($comments as $row2)

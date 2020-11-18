@@ -106,6 +106,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     #System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');
+    //DASHBOARD
+    Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
+
+
 });
 
 Route::get('/logout/session',function(){

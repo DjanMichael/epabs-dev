@@ -80,7 +80,7 @@ class AuthController extends Controller
 
                 // dd($user);
 
-                $tokenResult = $user->createToken('Laravel Personal Access Client');
+                $tokenResult = $user->createToken( env('APP_NAME') . ' Personal Access Client');
                 $token = $tokenResult->token;
                 // if ($req->remember_me  == 'true'){
                 //     Auth::login($user,true);

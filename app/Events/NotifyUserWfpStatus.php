@@ -18,7 +18,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
+    public $program_id;
     public $icon;
     public $icon_level;
     public $title;
@@ -34,7 +34,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
      */
     public function __construct(Wfp $wfp,$title,$desc,$event_name)
     {
-        $this->user_id = $wfp->user_id;
+        $this->program_id = $wfp->program_id;
 
         if($event_name == "WFP Update"){
             if($title =="WFP Submit"){
@@ -57,7 +57,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $e = new TableSystemEvents;
             $e->notif_type = 'NOTIFICATION';
             $e->from_user_id = Auth::user()->id;
-            $e->to_user_id =  $this->user_id;
+            $e->to_program_id =  $this->program_id;
             $e->icon = $this->icon;
             $e->icon_level = $this->icon_level;
             $e->event_name = $event_name;
@@ -81,7 +81,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $e = new TableSystemEvents;
             $e->notif_type = 'NOTIFICATION';
             $e->from_user_id = Auth::user()->id;
-            $e->to_user_id =  $this->user_id;
+            $e->to_program_id =  $this->program_id;
             $e->icon = $this->icon;
             $e->icon_level = $this->icon_level;
             $e->event_name = $event_name;
@@ -101,7 +101,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('wfp.notify.user.'. $this->user_id);
+        return new PrivateChannel('wfp.notify.user.'. $this->program_id);
     }
 
     public function broadcastWith(){

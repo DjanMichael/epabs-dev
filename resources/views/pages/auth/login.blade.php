@@ -324,7 +324,24 @@ License: You must have a valid license purchased only from themeforest(the above
 						}
 					});
 			}
-		});
+        });
+
+        function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+
+                return toMatch.some((toMatchItem) => {
+                    return navigator.userAgent.match(toMatchItem);
+                });
+            }
+
 		$('#kt_login_signin_submit').on('click', function (e) {
 				e.preventDefault();
 				KTApp.block('#kt_body', {
@@ -335,7 +352,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 				var _url = "{{ route('send_login') }}";
 				var remember_me = document.getElementById('remember_me');
-				var _data = "username=" + $('#username').val() + '&password=' + $("#password").val() + '&remember_me=' + remember_me.checked;
+				var _data = "username=" + $('#username').val() + '&password=' + $("#password").val() + '&remember_me=' + remember_me.checked ;
 
 				$.ajax({
 					method:"POST",
@@ -343,13 +360,12 @@ License: You must have a valid license purchased only from themeforest(the above
 					timeout: 10000,
 					data: _data,
 					success:function(data){
+                        console.log(data);
 						if(data.access_token != null)
 						{
 							sessionStorage.setItem('token',`Bearer ` + data.access_token);
-
 							KTApp.unblock('#kt_body');
-
-							window.location.href="{{ route('dashboard') }}";
+							window.location.href="{{ route('dashboard') }}?isMobile=" + detectMob();
 						}else if(data.message =='Unauthorized'){
 							swal.fire({
 								text: "Sorry, Invalid Credentials",
@@ -462,7 +478,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 								localStorage.removeItem('signup_validate');
 								setTimeout(() => {
-                                    window.location.href="{{ route('dashboard') }}";
+                                    window.location.href="{{ route('dashboard') }}?isMobile=" + detectMob();
                                 }, 1000);
 							}else if(data.message != null){
 								swal.fire({

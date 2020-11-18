@@ -1221,9 +1221,8 @@
             }
 
             if(detectMob()){
-
                 document.getElementById('notification_sound').muted = true;
-                document.getElementById('notification_sound').play();
+                // document.getElementById('notification_sound').play();
             }else{
                 navigator.mediaDevices.getUserMedia({audio: true}).
                 then((stream) => {
@@ -1236,25 +1235,91 @@
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-bottom-center",
-                "preventDuplicates": true,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
             };
 
+            // toastr.options = {
+            //     "closeButton": true,
+            //     "debug": false,
+            //     "newestOnTop": true,
+            //     "progressBar": true,
+            //     "positionClass": "toast-top-right",
+            //     "preventDuplicates": false,
+            //     "onclick": null,
+            //     "showDuration": "300",
+            //     "hideDuration": "1000",
+            //     "timeOut": "5000",
+            //     "extendedTimeOut": "1000",
+            //     "showEasing": "swing",
+            //     "hideEasing": "linear",
+            //     "showMethod": "fadeIn",
+            //     "hideMethod": "fadeOut"
+            // };
 
-            Echo.private('wfp.notify.user.{{ Auth::user()->id }}')
+            Echo.private('system.events.logs')
+            .listen('LoginAuthenticationLog', (e) => {
+
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        // console.log(window.location.href.slice(0, -1));
+                        // console.log(window.location.origin);
+                        if(window.location.origin == window.location.href.slice(0, -1))
+                        {
+                            var template =`
+                            <div class="timeline-item" id="logs_item">
+                                <div class="timeline-media bg-light-primary">
+                                    <span class="svg-icon svg-icon-primary">
+                                    <i class ="` + e.icon + ` ` + e.icon_level + `"></i>
+                                    </span>
+                                </div>
+
+                                <div class="timeline-info h-100">
+                                    <span class="text-muted mr-2"><i class="`+  JSON.parse(e.payload).device +`"></i></span><span class="font-weight-bold text-primary">{{ Carbon\Carbon::parse(` + e.created_at + `)->diffForHumans() }}</span>
+                                    <p class="font-weight-normal text-dark-50 pb-2">
+                                        ` +  e.desc + `
+                                    </p>
+                                </div>
+
+                            </div>
+                            `;
+
+                            $("#event_logs").prepend(template);
+                        }
+
+                        toastr.info(e.desc, "Authentication");
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+
+
+            Echo.private('wfp.notify.user.{{ Auth::user()->getSelectedProgramId() }}')
             .listen('NotifyUserWfpStatus', (e) => {
                 Promise.resolve(4)
                     .then(()=>{

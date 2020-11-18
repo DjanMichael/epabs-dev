@@ -20,3 +20,8 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('wfp.notify.user.{id}', function ($user, $id) {
     return true;
 });
+
+Broadcast::channel('system.events.logs', function ($user) {
+    $a = Auth::user()->role->roles != "PROGRAM COORDINATOR" ? true : false;
+    return $a;
+});
