@@ -79,7 +79,6 @@
 
         @endif
                         <?php
-
                             $total_cost = 0.00;
                         ?>
                         @forelse ($data["activities"] as $row)

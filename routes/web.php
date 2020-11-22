@@ -69,6 +69,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     //PRINTING
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
+    Route::get('/ppmp/program/print/','PDFController@printProgramPPMP')->name('ppmp_program_print');
+
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
@@ -86,6 +88,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/get/catering/batch/locations/provinces','Transaction\PpmpController@getCateringProvinceAll')->name('get_pi_all_province');
     Route::get('/ppmp/get/catering/batch/locations/cities','Transaction\PpmpController@getCateringCityAll')->name('get_pi_all_city');
     Route::get('/ppmp/save/catering/details/batch','Transaction\PpmpController@saveCateringBatchDetails')->name('db_save_catering_details_batch');
+    Route::get('/ppmp/status/update/approve','Transaction\PpmpController@updateStatusApprove')->name('status_update_approve');
+    Route::get('/ppmp/status/update/submit','Transaction\PpmpController@updateStatusSubmit')->name('status_update_submit');
+    Route::get('/ppmp/status/update/revise','Transaction\PpmpController@updateStatusRevise')->name('status_update_revise');
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
     Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');

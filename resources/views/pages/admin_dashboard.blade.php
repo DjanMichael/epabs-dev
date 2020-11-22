@@ -687,11 +687,10 @@
         $(document).ready(function(){
             //remove parameter for duplicate events
             setTimeout(function(){
-                // var newURL = location.href.split("?")[0];
-                // window.history.pushState('object', document.title, newURL);
+                var newURL = location.href.split("?")[0];
+                window.history.pushState('object', document.title, newURL);
                 fetchAllSystemLogs();
             },1500)
-
 
         });
 

@@ -100,8 +100,13 @@ class PpmpController extends Controller
             // dd($req->all());
             if($data["wfp_act_pi"]["is_catering"] == "Y"){
                 // $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
-                $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)
-                                                ->where('batch_id',$req->batch_id)->get()->toArray();
+                if($req->batch_id != null){
+                    $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)
+                    ->where('batch_id',$req->batch_id)->get()->toArray();
+                }else{
+                    $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
+                }
+         
             }else{
                 $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
             }
@@ -257,15 +262,34 @@ class PpmpController extends Controller
                 }
             }
             $vw = "vw_procurement_drum_supplies_items";
+            // $data["category"] = \DB::table($vw)->get()->toArray();
+
             $data["ppmp_items"] = \DB::table('tbl_ppmp_items')
+                                        ->join($vw,function($q) use ($vw)
+                                        {
+                                            $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
+                                            $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
+
+                                        })
+                                        ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
+                                        ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
+                                        ->where($vw . '.classification','!=','CATERING SERVICES')
+                                        ->get()
+                                        ->groupBy('classification')
+                                        ->toArray();
+
+            $data["ppmp_catering"] = \DB::table('tbl_ppmp_items')
                                         ->join($vw,function($q) use ($vw)
                                         {
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                         })
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
-                                        ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)->get()->toArray();
+                                        ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
+                                        ->where($vw . '.classification','=','CATERING SERVICES')
+                                        ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
 
+            $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($data);
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
@@ -318,8 +342,31 @@ class PpmpController extends Controller
         }else{
             abort(403);
         }
+    }   
+
+    public function updateStatusApprove(Request $req){
+        if($req->ajax()){
+
+        }else{
+            abort(403);
+        }
     }
 
+    public function updateStatusSubmit(Request $req){
+        if($req->ajax()){
+
+        }else{
+            abort(403);
+        }
+    }
+
+    public function updateStatusRevise(Request $req){
+        if($req->ajax()){
+
+        }else{
+            abort(403);
+        }
+    }
     public function activityTimeFrameConvertToMonths($i){
         $month = ["January","Febuary","March","April","May","June","July","August","September","October","November","December"];
         return $month[$i-1];
