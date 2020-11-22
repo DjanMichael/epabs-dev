@@ -680,8 +680,8 @@
 			</div>
 			<!--end::Tabpane-->
 			<!--begin::Tabpane-->
-			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel">
-				<form class="form">
+			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel" >
+				<form class="form" style="padding:20px;">
 					<!--begin::Section-->
 					<div>
 						<h5 class="font-weight-bold mb-3">System</h5>
@@ -1221,9 +1221,8 @@
             }
 
             if(detectMob()){
-
                 document.getElementById('notification_sound').muted = true;
-                document.getElementById('notification_sound').play();
+                // document.getElementById('notification_sound').play();
             }else{
                 navigator.mediaDevices.getUserMedia({audio: true}).
                 then((stream) => {
@@ -1236,25 +1235,91 @@
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-bottom-center",
-                "preventDuplicates": true,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
             };
 
+            // toastr.options = {
+            //     "closeButton": true,
+            //     "debug": false,
+            //     "newestOnTop": true,
+            //     "progressBar": true,
+            //     "positionClass": "toast-top-right",
+            //     "preventDuplicates": false,
+            //     "onclick": null,
+            //     "showDuration": "300",
+            //     "hideDuration": "1000",
+            //     "timeOut": "5000",
+            //     "extendedTimeOut": "1000",
+            //     "showEasing": "swing",
+            //     "hideEasing": "linear",
+            //     "showMethod": "fadeIn",
+            //     "hideMethod": "fadeOut"
+            // };
 
-            Echo.private('wfp.notify.user.{{ Auth::user()->id }}')
+            Echo.private('system.events.logs')
+            .listen('LoginAuthenticationLog', (e) => {
+
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        // console.log(window.location.href.slice(0, -1));
+                        // console.log(window.location.origin);
+                        if(window.location.origin == window.location.href.slice(0, -1))
+                        {
+                            var template =`
+                            <div class="timeline-item" id="logs_item">
+                                <div class="timeline-media bg-light-primary">
+                                    <span class="svg-icon svg-icon-primary">
+                                    <i class ="` + e.icon + ` ` + e.icon_level + `"></i>
+                                    </span>
+                                </div>
+
+                                <div class="timeline-info h-100">
+                                    <span class="text-muted mr-2"><i class="`+  JSON.parse(e.payload).device +`"></i></span><span class="font-weight-bold text-primary">{{ Carbon\Carbon::parse(` + e.created_at + `)->diffForHumans() }}</span>
+                                    <p class="font-weight-normal text-dark-50 pb-2">
+                                        ` +  e.desc + `
+                                    </p>
+                                </div>
+
+                            </div>
+                            `;
+
+                            $("#event_logs").prepend(template);
+                        }
+
+                        toastr.info(e.desc, "Authentication");
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+
+
+            Echo.private('wfp.notify.user.{{ Auth::user()->getSelectedProgramId() }}')
             .listen('NotifyUserWfpStatus', (e) => {
                 Promise.resolve(4)
                     .then(()=>{
@@ -1266,12 +1331,20 @@
                             document.getElementById('notification_sound').play();
                         }
                     }).then(() =>{
+
+                        console.log(e);
+                        // WFP STATUS
                         if(e.title == "WFP Submit"){
                             toastr.info(e.desc, "Notification");
                         }else if(e.title == "WFP Approve"){
                             toastr.success(e.desc, "Notification");
                         }else if(e.title == "WFP Revise"){
                             toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
                         }
                     })
                     .then((err)=>{
@@ -1531,11 +1604,103 @@
             }
         }
 
-        function show_wfp_drawer_from_notification(id){
-            wfp_drawer_open(id);
+        function updateNotifToRead(_id){
+            var _url ="{{ route('db_update_notif_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function updateCommentToRead(_id){
+            var _url ="{{ route('db_update_comment_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function wfp_drawer_on_comment_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateCommentToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function wfp_drawer_on_notification_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateNotifToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function show_wfp_drawer_from_notification(notif_id,id){
+            wfp_drawer_on_notification_open(notif_id,id);
             document.getElementById('kt_quick_panel_close').click();
 
         }
+
+        function show_wfp_drawer_from_comment(notif_id,id){
+            wfp_drawer_on_comment_open(notif_id,id);
+            document.getElementById('kt_quick_panel_close').click();
+        }
+
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
         //         show:true,
@@ -1588,7 +1753,9 @@
             }
         }
 
-        function fetchPPMPViewer(_wfp_code,_wfp_act_id){
+     
+
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id = null){
             var _url = "{{ route('wfp_ppmp_view') }}";
 
             $.ajax({
@@ -1752,7 +1919,7 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
-                    $("#modal_wfp_comments").toggle('hide');
+                    $("#modal_wfp_comments").modal('hide');
                     if(data =="success"){
                         Swal.fire(
                                     "Good Job!",
@@ -1994,6 +2161,44 @@
 
             function printWfp(_wfp_code){
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_blank','menubar=0,titlebar=0');
+            }
+
+            function approvePPMP(_wfp_code){
+                var _url ="{{ route('status_update_approve') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                });
+            }
+
+            function submitPPMP(_wfp_code){
+                var _url ="{{ route('status_update_submit') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                })
+            }
+
+            function revisePPMP(_wfp_code){
+                var _url ="{{ route('status_update_revise') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                });
+            }
+
+            function printPpmp(_wfp_code){
+                var _url ="{{ route('ppmp_program_print') }}" + '?wfp_code=' + _wfp_code;
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 

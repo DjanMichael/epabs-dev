@@ -124,6 +124,18 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
+                    }else if(data.message == 'only program coordinator can generate wfp'){
+                        $("#modal_create_wfp").modal('hide');
+                        swal.fire({
+                                title:"Opss!",
+                                text: "Only Program Coordinator Can Generate WFP",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                     }else{
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({

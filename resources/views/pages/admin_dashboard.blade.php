@@ -582,97 +582,14 @@
             <div class="card-header">
              <div class="card-title">
               <h3 class="card-label">
-               Activity Logs
-               <small>sub title</small>
+               Event Logs
+               <small>System Activity</small>
               </h3>
              </div>
             </div>
             <div class="card-body">
                 <div class="timeline timeline-5">
-                    <div class="timeline-items">
-                        <!--begin::Item-->
-                        <div class="timeline-item">
-                            <!--begin::Icon-->
-                            <div class="timeline-media bg-light-primary">
-                                <span class="svg-icon svg-icon-primary">
-
-                                </span>
-                            </div>
-                            <!--end::Icon-->
-
-                            <!--begin::Info-->
-                            <div class="timeline-info h-100">
-                                <span class="font-weight-bold text-primary">09:30 AM</span>
-                                <p class="font-weight-normal text-dark-50 pb-2">
-                                    To start a blog, think of a topic about and first brainstorm ways to write details
-                                </p>
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Item-->
-
-                        <!--begin::Item-->
-                        <div class="timeline-item">
-                            <!--begin::Icon-->
-                            <div class="timeline-media bg-light-primary">
-                                <span class="svg-icon svg-icon-primary">
-
-                                </span>
-                            </div>
-                            <!--end::Icon-->
-
-                            <!--begin::Info-->
-                            <div class="timeline-info">
-                                <span class="font-weight-bold text-primary">2:45 PM</span>
-                                <p class="font-weight-normal text-dark-50 pt-1 pb-2">
-                                    To start a blog, think of a topic about and first brainstorm ways to write details
-                                </p>
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Item-->
-
-                        <!--begin::Item-->
-                        <div class="timeline-item">
-                            <!--begin::Icon-->
-                            <div class="timeline-media bg-light-primary">
-                                <span class="svg-icon svg-icon-primary">
-
-                                </span>
-                            </div>
-                            <!--end::Icon-->
-
-                            <!--begin::Info-->
-                            <div class="timeline-info">
-                                <span class="font-weight-bold text-primary">3:12 PM</span>
-                                <p class="font-weight-normal text-dark-50 pt-1 pb-2">
-                                    To start a blog, think of a topic about and first brainstorm ways to write details
-                                </p>
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Item-->
-
-                        <!--begin::Item-->
-                        <div class="timeline-item">
-                            <!--begin::Icon-->
-                            <div class="timeline-media bg-light-primary">
-                                <span class="svg-icon svg-icon-primary">
-
-                                </span>
-                            </div>
-                            <!--end::Icon-->
-
-                            <!--begin::Info-->
-                            <div class="timeline-info">
-                                <span class="font-weight-bold text-primary">7:05 PM</span>
-                                <p class="font-weight-normal text-dark-50 pt-1">
-                                    To start a blog, think of a topic about and first brainstorm ways to write details
-                                </p>
-                            </div>
-                            <!--end::Info-->
-                        </div>
-                        <!--end::Item-->
+                    <div class="timeline-items scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 300px" id="event_logs">
                     </div>
                 </div>
             </div>
@@ -766,6 +683,36 @@
 @push('scripts')
 <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
 <script>
+
+        $(document).ready(function(){
+            //remove parameter for duplicate events
+            setTimeout(function(){
+                var newURL = location.href.split("?")[0];
+                window.history.pushState('object', document.title, newURL);
+                fetchAllSystemLogs();
+            },1500)
+
+        });
+
+        function fetchAllSystemLogs(){
+            var _url = "{{ route('get_system_logs') }}";
+            $.ajax({
+                method:"GET",
+                url:_url ,
+                beforeSend:function(){
+                    KTApp.block('#event_logs', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: '<i class="flaticon2-reload-1 mr-2" ></i>Initilizing Logs'
+                        });
+                },
+                success:function(data){
+                    document.getElementById('event_logs').innerHTML = data;
+                    KTApp.unblock('#event_logs');
+                }
+            })
+        }
+
         $("#btn_search_user").on('click',function(e){
             e.preventDefault();
 

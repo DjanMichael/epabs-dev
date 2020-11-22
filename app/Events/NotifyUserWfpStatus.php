@@ -11,12 +11,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Wfp;
 use App\TableSystemEvents;
-
+use App\WfpComments;
+use Auth;
+use Illuminate\Support\Str;
 class NotifyUserWfpStatus implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user_id;
+    public $program_id;
     public $icon;
     public $icon_level;
     public $title;
@@ -32,6 +34,9 @@ class NotifyUserWfpStatus implements ShouldBroadcast
      */
     public function __construct(Wfp $wfp,$title,$desc,$event_name)
     {
+        $this->program_id = $wfp->program_id;
+
+        if($event_name == "WFP Update"){
             if($title =="WFP Submit"){
                 $this->icon = 'flaticon2-file';
                 $this->icon_level = 'info';
@@ -43,7 +48,6 @@ class NotifyUserWfpStatus implements ShouldBroadcast
                 $this->icon_level = 'danger';
             }
 
-            $this->user_id = $wfp->user_id;
             $this->title = $title;
             $this->desc = $desc;
             $this->isRead ='N';
@@ -52,16 +56,42 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $wfp_code = json_encode($wfp_code);
             $e = new TableSystemEvents;
             $e->notif_type = 'NOTIFICATION';
-            $e->from_user_id = '-2';
-            $e->to_user_id =  $this->user_id;
+            $e->from_user_id = Auth::user()->id;
+            $e->to_program_id =  $this->program_id;
             $e->icon = $this->icon;
             $e->icon_level = $this->icon_level;
             $e->event_name = $event_name;
-            $e->event_title = $title;
-            $e->event_description = $desc;
+            $e->event_title = $this->title;
+            $e->event_description = $this->desc;
             $e->payload = $wfp_code;
             $e->isRead = $this->isRead;
             $e->save();
+        }else if($event_name ="WFP Comment"){
+            $wfp_act_id = $desc; // param wfp_act_id
+
+            $this->icon = 'flaticon-chat';
+            $this->icon_level = 'primary';
+            $this->title = $title;
+            $this->isRead ='N';
+            $this->desc =  '<b>'  . Str::title(Auth::user()->name) . '</b>' . ' commented on wfp activity  #' . Str::padLeft($wfp_act_id, 5, '0');
+
+            $wfp_code = ["wfp_code" => $wfp->code];
+            $wfp_code = json_encode($wfp_code);
+
+            $e = new TableSystemEvents;
+            $e->notif_type = 'NOTIFICATION';
+            $e->from_user_id = Auth::user()->id;
+            $e->to_program_id =  $this->program_id;
+            $e->icon = $this->icon;
+            $e->icon_level = $this->icon_level;
+            $e->event_name = $event_name;
+            $e->event_title = $this->title;
+            $e->event_description = $this->desc;
+            $e->payload = $wfp_code;
+            $e->isRead = $this->isRead;
+            $e->save();
+        }
+
     }
 
     /**
@@ -71,7 +101,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('wfp.notify.user.'. $this->user_id);
+        return new PrivateChannel('wfp.notify.user.'. $this->program_id);
     }
 
     public function broadcastWith(){

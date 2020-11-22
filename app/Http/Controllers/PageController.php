@@ -7,6 +7,8 @@ use App\Views\BudgetAllocationUtilization;
 use App\Views\UserInfo;
 use App\GlobalSystemSettings;
 use Auth;
+use App\Events\LoginAuthenticationLog;
+use App\TableSystemEvents;
 class PageController extends Controller
 {
 
@@ -15,7 +17,7 @@ class PageController extends Controller
         return view('pages.system-menu');
     }
 
-    public function dashboard(){
+    public function dashboard(Request $req){
         $data =[];
         $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
 
@@ -32,7 +34,21 @@ class PageController extends Controller
             $data["user_info"] = null;
             $data["budget_allocation"] = null;
         }
+        // dd($req->isMobile);
+        if($req->isMobile != null){
+            broadcast(new LoginAuthenticationLog('Authentication',$req->isMobile))->toOthers();
+        }
+
         // dd($data);
         return view('pages.admin_dashboard',['data'=>$data]);
+    }
+
+    public function getAllEventLogs(Request $req){
+        if($req->ajax()){
+            $data["logs"] = TableSystemEvents::where('notif_type','LOGS')->limit(100)->orderBy('created_at','DESC')->get();
+            return view('components.global.event_logs_item',['data' => $data]);
+        }else{
+            abort(403);
+        }
     }
 }
