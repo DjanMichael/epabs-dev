@@ -1753,7 +1753,9 @@
             }
         }
 
-        function fetchPPMPViewer(_wfp_code,_wfp_act_id){
+     
+
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id = null){
             var _url = "{{ route('wfp_ppmp_view') }}";
 
             $.ajax({
@@ -2159,6 +2161,44 @@
 
             function printWfp(_wfp_code){
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_blank','menubar=0,titlebar=0');
+            }
+
+            function approvePPMP(_wfp_code){
+                var _url ="{{ route('status_update_approve') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                });
+            }
+
+            function submitPPMP(_wfp_code){
+                var _url ="{{ route('status_update_submit') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                })
+            }
+
+            function revisePPMP(_wfp_code){
+                var _url ="{{ route('status_update_revise') }}";
+                $.ajax({
+                    method:"GET",
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+
+                    }
+                });
+            }
+
+            function printPpmp(_wfp_code){
+                var _url ="{{ route('ppmp_program_print') }}" + '?wfp_code=' + _wfp_code;
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 

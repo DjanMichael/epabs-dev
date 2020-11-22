@@ -36,7 +36,7 @@
                 <div class="card-body my-4">
                     <div class="row">
                         <div class="col-12 col-md-4 mb-2">
-                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Budget</span>
+                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Remaining Budget</span>
                             <div class="font-weight-bold text-muted font-size-sm">
                             <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="balance_amount">₱ 0.00</span> <span id="balance_percentage">0%</span></div>
                             <div class="progress progress-xs mt-1 bg-info-o-60">
