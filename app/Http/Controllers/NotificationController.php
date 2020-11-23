@@ -8,7 +8,6 @@ use Auth;
 use App\GlobalSystemSettings;
 class NotificationController extends Controller
 {
-    //
     public function getUserNotif(){
         if(Auth::user()->role->roles =="PROGRAM COORDINATOR"){
             $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
@@ -17,11 +16,9 @@ class NotificationController extends Controller
            }else{
                 $data["notif"]  = [];
            }
-
         }else{
             $data["notif"] = TableSystemEvents::orderBy('created_at','DESC')->limit(100)->get()->toArray();
         }
-
         return view('components.global.user_notification',['data'=>$data]);
     }
 
