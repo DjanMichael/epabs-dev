@@ -113,7 +113,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/', 'PageController@dashboard')->name('dashboard');
     //DASHBOARD
     Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
-
+    //CHAT
+    Route::get('/system/get/user/messages/details','ChatController@index')->name('r_chat');
 
 });
 
