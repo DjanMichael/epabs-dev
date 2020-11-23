@@ -72,9 +72,10 @@ class UnitProgramController extends Controller
     public function getAddForm() {
         $data['program'] = RefProgram::where('status','ACTIVE')
                                         ->whereNotIn('id', TableUnitProgram::select('program_id')->get()->toArray())
+                                        ->orderBy('program_name', 'ASC')
                                         ->get();
         // $data['unit'] = RefUnits::where('status','ACTIVE')->where('id', '<>', '1')->get();
-        $data['coordinator'] = User::where('id', '<>', '1')->get();
+        $data['coordinator'] = User::where('id', '<>', '1')->orderBy('name', 'ASC')->get();
         return view('pages.reference.unitprogram.form.add_unit_program', ['data'=> $data]);
     }
 
