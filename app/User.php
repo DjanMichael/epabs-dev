@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function getSelectedProgramId(){
         $res = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-        return $res->select_program_id;
+        return $res != null ? $res->select_program_id : null;
     }
 
 
