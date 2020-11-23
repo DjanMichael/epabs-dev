@@ -467,7 +467,7 @@
 		    <!--end:Item-->
 
 		    <!--begin::Item-->
-		    <a href="custom/apps/user/profile-3.html"  class="navi-item">
+            <a href="{{ route('r_chat') }}"  class="navi-item">
 		        <div class="navi-link">
 					<div class="symbol symbol-40 bg-light mr-3">
 						<div class="symbol-label">
@@ -1753,7 +1753,7 @@
             }
         }
 
-     
+
 
         function fetchPPMPViewer(_wfp_code,_wfp_act_id = null){
             var _url = "{{ route('wfp_ppmp_view') }}";
