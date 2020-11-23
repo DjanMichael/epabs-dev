@@ -138,7 +138,13 @@
     </div>
 
     <!--begin::Main-->
-	<!--begin::Header Mobile-->
+    <!--begin::Header Mobile-->
+
+
+
+
+
+
 <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed " >
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
@@ -1319,7 +1325,7 @@
 
 
 
-            Echo.private('wfp.notify.user.{{ Auth::user()->getSelectedProgramId() }}')
+            Echo.private('wfp.notify.user.{{ Auth::user()->getSelectedProgramId() != '' ? Auth::user()->getSelectedProgramId() : 0}}')
             .listen('NotifyUserWfpStatus', (e) => {
                 Promise.resolve(4)
                     .then(()=>{
@@ -1354,6 +1360,11 @@
             });
 
 
+            Echo.private('chat.user.{{ Auth::user()->id }}')
+            .listen('ChatUserSendReceive', (e) => {
+                alert(e.msg);
+                console.log(e.msg);
+            });
 
             /***************************************************
              *

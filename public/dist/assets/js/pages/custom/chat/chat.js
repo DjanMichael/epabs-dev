@@ -12,7 +12,7 @@ var KTAppChat = function () {
 		_chatAsideOffcanvasObj = new KTOffcanvas(_chatAsideEl, {
 			overlay: true,
             baseClass: 'offcanvas-mobile',
-            //closeBy: 'kt_chat_aside_close',
+            // closeBy: 'kt_chat_aside_close',
             toggleBy: 'kt_app_chat_toggle'
         });
 
