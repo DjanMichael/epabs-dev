@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,7 +88,7 @@
         main{
             position: relative;
             top:65px;
-           
+
         }
 
         .col-1{
@@ -162,10 +162,10 @@
         <?php
             $g_total = 0;
         ?>
-        <?php 
+        <?php
             $supplies = collect($data["ppmp_items"])->toArray();
         ?>
-                <?php 
+                <?php
                     //  dd($supplies);
                     $arr = [];
                     $arr_keys = [];
@@ -176,7 +176,7 @@
                                     [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
                                     );
                     }
-            
+
 
                     $item_row = [];
 
@@ -245,7 +245,7 @@
                         @endif
                 @endforeach
             @endforeach
-            
+
         @if(count($data["ppmp_catering"]) <> 0)
             <tr>
                 <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="t-h-d">CATERING SERVICES</td>
@@ -263,7 +263,7 @@
                                                     ->get()->toArray();
             ?>
                 @foreach($batch as $row3)
-                    <?php   
+                    <?php
                     $vw = "vw_procurement_drum_supplies_items";
                     $items = \DB::table('tbl_ppmp_items')
                                     ->join($vw,function($q) use ($vw)
@@ -275,17 +275,17 @@
                                     ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
                                     ->where($vw . '.classification','=','CATERING SERVICES')
                                     ->get()->toArray();
-                    
+
                     ?>
                     <tr>
                         <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;" class="t-h-d">
-                            {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}} 
+                            {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
                         </td>
                     </tr>
                         <tr>
                             <?php $i1 =1; ?>
                             @foreach( $items as $row4)
-                                <?php $i1++; ?> 
+                                <?php $i1++; ?>
                             @endforeach
                             @if(count($items) <> 0)
                                 <td rowspan="1" class="t-d txt-center">{{ $row3["uacs_id"] }}</td>
@@ -293,7 +293,7 @@
                                 <td rowspan="1" colspan="17" class="t-d"> NO DATA. </td>
                             @endif
                             @foreach( $items as $row4)
-                                    <?php 
+                                    <?php
                                     $qty2 = $row4->jan + $row4->feb + $row4->mar + $row4->apr + $row4->may + $row4->june + $row4->july + $row4->aug + $row4->sept + $row4->oct + $row4->nov + $row4->dec;
                                         $g_total += $qty2 * $row4->price;
                                     ?>
