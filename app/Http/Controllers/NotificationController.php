@@ -12,7 +12,11 @@ class NotificationController extends Controller
     public function getUserNotif(){
         if(Auth::user()->role->roles =="PROGRAM COORDINATOR"){
             $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-            $data["notif"] = TableSystemEvents::where('to_program_id',$settings->select_program_id)->orderBy('created_at','DESC')->limit(50)->get()->toArray();
+           if($settings){
+                $data["notif"] = TableSystemEvents::where('to_program_id',$settings->select_program_id)->orderBy('created_at','DESC')->limit(50)->get()->toArray();
+           }else{
+                $data["notif"]  = [];
+           }
 
         }else{
             $data["notif"] = TableSystemEvents::orderBy('created_at','DESC')->limit(100)->get()->toArray();
