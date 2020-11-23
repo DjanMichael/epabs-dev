@@ -51,9 +51,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/status/update/approve','Transaction\WfpController@updateWfpApprove')->name('wfp_status_approve');
     Route::get('/wfp/status/update/revise','Transaction\WfpController@updateWfpRevise')->name('wfp_status_revise');
     Route::get('/wfp/status/update/submit','Transaction\WfpController@updateWfpSubmit')->name('wfp_status_submit');
-
     Route::get('/wfp/unit/new/activity/encode','Transaction\WfpController@newWfpActivity')->name('wfp_add_new_activity');
     Route::get('/wfp/unit/activity/delete','Transaction\WfpController@deleteUnitAcitivityById')->name('r_del_wfp_act');
+
     //Transaction/Budget Allocation
     Route::get('/user/unit/budget_allocation','Transaction\BudgetAllocationController@index')->name('r_budget_allocation');
     Route::get('/budgetLineItem/All','Transaction\BudgetAllocationController@getAllBLI')->name('d_bli_all');
@@ -70,7 +70,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
     Route::get('/ppmp/program/print/','PDFController@printProgramPPMP')->name('ppmp_program_print');
-
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
@@ -91,6 +90,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/status/update/approve','Transaction\PpmpController@updateStatusApprove')->name('status_update_approve');
     Route::get('/ppmp/status/update/submit','Transaction\PpmpController@updateStatusSubmit')->name('status_update_submit');
     Route::get('/ppmp/status/update/revise','Transaction\PpmpController@updateStatusRevise')->name('status_update_revise');
+
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');
     Route::get('/wfp/check/status/submitted','WfpLogsController@getWfpStatusSubmitted')->name('check_if_wfp_is_submitted');
@@ -108,13 +108,22 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/notification/wfp','NotificationController@getUserNotif')->name('get_user_notification');
     Route::get('/user/notification/wfp/status/update','NotificationController@updateNotifToReadById')->name('db_update_notif_status_to_read');
     Route::get('/user/notification/wfp/activity/comment/update','NotificationController@updateCommentToReadById')->name('db_update_comment_status_to_read');
-    #System Menu
+
+    //System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');
+
     //DASHBOARD
-    Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
+    Route::get('/system/get/all/event_logs','PageController@gemtAllEventLogs')->name('get_system_logs');
+
     //CHAT
     Route::get('/system/get/user/messages/details','ChatController@index')->name('r_chat');
+    Route::get('/system/get/chat/user/list','ChatController@getChatUsersList')->name('g_user_messages_byuser');
+    Route::get('/system/get/chat/init/content','ChatController@getChatInitDisplayContent')->name('d_init_display_message_content');
+    Route::get('/system/get/chat/users/content','ChatController@getChatConvoUsersById')->name('g_users_convo_by_id');
+    Route::get('/user/chat/send/message','ChatController@sendMessageToUser')->name('db_send_chat_message_to_user');
+    //Transaction/Activity Calendar
+    Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 
 });
 

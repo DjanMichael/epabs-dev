@@ -5,9 +5,28 @@
     <a href="" class="text-muted">Chat</a>
 </li>
 @endsection
+
+@push('styles')
+<style>
+
+.active_chat_convo{
+    background-color:white !important;
+    border-right:6px solid rgb(163, 104, 230);
+}
+
+#chat_user_list_card{
+    background-color: #dbfff9;
+}
+/* Style the active class (and buttons on mouse-over) */
+.active_chat_convo, #chat_user_list_card:hover {
+  background-color: white;
+
+}
+</style>
+@endpush
 @section('content')
 
-<div class="container">
+<div class=" container  bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
     <!--begin::Chat-->
     <div class="d-flex flex-row">
         <!--begin::Aside-->
@@ -37,280 +56,20 @@
                     </div>
                     <!--end:Search-->
                     <!--begin:Users-->
-                    <div class="mt-7 scroll scroll-pull" style="height: auto; overflow: hidden;">
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_12.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Matt Pears</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Head of Development</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">35 mins</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_11.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Charlie Stone</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Art Director</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">7 hrs</span>
-                                <span class="label label-sm label-success">4</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_10.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Teresa Fox</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Web Designer</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">3 hrs</span>
-                                <span class="label label-sm label-danger">5</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_13.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Giannis Nelson</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">IT Consultant</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">2 days</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_15.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Carles Puyol</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Operator</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">5 mins</span>
-                                <span class="label label-sm label-success">9</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_16.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Ana Torn</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Head Of Finance</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">2 days</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_18.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Lisa Pears</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Web Designer</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">6 mins</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_20.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Amanda Bold</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Art Director</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">3 hrs</span>
-                                <span class="label label-sm label-warning">7</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Nick Jhonson</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">IT Consultant</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">10 mins</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_19.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Sarah Larson</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Web Designer</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">4 hrs</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_22.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Matt Pears</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Head of Development</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">35 mins</span>
-                                <span class="label label-sm label-success">5</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_23.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Tim Stone</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Web Developer</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">5 hrs</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_17.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Jhon Richardson</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Head of Development</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">1 week</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_18.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Ana Kiskia</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Web Master</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">35 mins</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_14.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Nick Stone</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Art Director</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">3 hrs</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
-                        <!--begin:User-->
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-circle symbol-50 mr-3">
-                                    <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_13.jpg">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Nick Nilson</a>
-                                    <span class="text-muted font-weight-bold font-size-sm">Software Arcitect</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span class="text-muted font-weight-bold font-size-sm">3 days</span>
-                            </div>
-                        </div>
-                        <!--end:User-->
+                    <div class="mt-7 scroll scroll-pull" style="height: auto; overflow: hidden;" id ="chat_users_list">
+
                     </div>
                     <!--end:Users-->
                 </div>
                 <!--end::Body-->
             </div>
             <!--end::Card-->
-        </div><div class="offcanvas-mobile-overlay"></div>
+        </div>
         <!--end::Aside-->
         <!--begin::Content-->
-        <div class="flex-row-fluid ml-lg-8" id="kt_chat_content">
+        <div class="flex-row-fluid ml-lg-8 d-none " id="kt_chat_content">
             <!--begin::Card-->
-            <div class="card card-custom">
+            <div class="card card-custom bg-transparent">
                 <!--begin::Header-->
                 <div class="card-header align-items-center px-4 py-3">
                     <div class="text-left flex-grow-1">
@@ -329,108 +88,14 @@
                             </span>
                         </button>
                         <!--end::Aside Mobile Toggle-->
-                        <!--begin::Dropdown Menu-->
-                        <div class="dropdown dropdown-inline">
-                            <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ki ki-bold-more-hor icon-md"></i>
-                            </button>
-                            <div class="dropdown-menu p-0 m-0 dropdown-menu-left dropdown-menu-md">
-                                <!--begin::Navigation-->
-                                <ul class="navi navi-hover py-5">
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-drop"></i>
-                                            </span>
-                                            <span class="navi-text">New Group</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-list-3"></i>
-                                            </span>
-                                            <span class="navi-text">Contacts</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-rocket-1"></i>
-                                            </span>
-                                            <span class="navi-text">Groups</span>
-                                            <span class="navi-link-badge">
-                                                <span class="label label-light-primary label-inline font-weight-bold">new</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-bell-2"></i>
-                                            </span>
-                                            <span class="navi-text">Calls</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-gear"></i>
-                                            </span>
-                                            <span class="navi-text">Settings</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-separator my-3"></li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-magnifier-tool"></i>
-                                            </span>
-                                            <span class="navi-text">Help</span>
-                                        </a>
-                                    </li>
-                                    <li class="navi-item">
-                                        <a href="#" class="navi-link">
-                                            <span class="navi-icon">
-                                                <i class="flaticon2-bell-2"></i>
-                                            </span>
-                                            <span class="navi-text">Privacy</span>
-                                            <span class="navi-link-badge">
-                                                <span class="label label-light-danger label-rounded font-weight-bold">5</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <!--end::Navigation-->
-                            </div>
-                        </div>
-                        <!--end::Dropdown Menu-->
+
                     </div>
-                    <div class="text-center text-center">
-                        <div class="symbol-group symbol-hover justify-content-center">
-                            <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip" title="" data-original-title="Ana Fox">
-                                <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_16.jpg">
-                            </div>
-                            <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip" title="" data-original-title="Nich Nilson">
-                                <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                            </div>
-                            <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip" title="" data-original-title="James Stone">
-                                <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_22.jpg">
-                            </div>
-                            <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip" title="" data-original-title="Micheal Bold">
-                                <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_23.jpg">
-                            </div>
-                            <div class="symbol symbol-35 symbol-circle" data-toggle="tooltip" title="" data-original-title="Sean Cooper">
-                                <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_15.jpg">
-                            </div>
-                            <div class="symbol symbol-35 symbol-circle symbol-light-success" data-toggle="tooltip" title="" data-original-title="Invite someone">
-                                <span class="symbol-label font-weight-bold">5+</span>
-                            </div>
-                        </div>
+                    <div class="text-center text-center font-weight-bold font-size-md" id="chat_convo_selected">
+                        NAME
                     </div>
                     <div class="text-right flex-grow-1">
                         <!--begin::Dropdown Menu-->
-                        <div class="dropdown dropdown-inline">
+                        {{-- <div class="dropdown dropdown-inline">
                             <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="svg-icon svg-icon-lg">
                                     <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Add-user.svg-->
@@ -513,151 +178,33 @@
                                 </ul>
                                 <!--end::Navigation-->
                             </div>
-                        </div>
+                        </div> --}}
                         <!--end::Dropdown Menu-->
                     </div>
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
-                <div class="card-body">
+                <div class="card-body" >
                     <!--begin::Scroll-->
-                    <div class="scroll scroll-pull" data-mobile-height="350" style="height: auto; overflow: hidden;">
-                        <!--begin::Messages-->
-                        <div class="messages">
-                            <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-35 mr-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_12.jpg">
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Nich Larson</a>
-                                        <span class="text-muted font-size-sm">2 Hours</span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">How likely are you to recommend our company to your friends and family?</div>
-                            </div>
-                            <!--end::Message In-->
-                            <!--begin::Message Out-->
-                            <div class="d-flex flex-column mb-5 align-items-end">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <span class="text-muted font-size-sm">3 minutes</span>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
-                                    </div>
-                                    <div class="symbol symbol-circle symbol-35 ml-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.</div>
-                            </div>
-                            <!--end::Message Out-->
-                            <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-35 mr-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Adam Cook</a>
-                                        <span class="text-muted font-size-sm">40 seconds</span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">Ok, Understood!</div>
-                            </div>
-                            <!--end::Message In-->
-                            <!--begin::Message Out-->
-                            <div class="d-flex flex-column mb-5 align-items-end">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <span class="text-muted font-size-sm">Just now</span>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
-                                    </div>
-                                    <div class="symbol symbol-circle symbol-35 ml-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">You’ll receive notifications for all issues, pull requests!</div>
-                            </div>
-                            <!--end::Message Out-->
-                            <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-35 mr-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_16.jpg">
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Nina Pears</a>
-                                        <span class="text-muted font-size-sm">40 seconds</span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">You can unwatch this repository immediately by clicking here:
-                                <a href="#">https://github.com</a></div>
-                            </div>
-                            <!--end::Message In-->
-                            <!--begin::Message Out-->
-                            <div class="d-flex flex-column mb-5 align-items-end">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <span class="text-muted font-size-sm">Just now</span>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
-                                    </div>
-                                    <div class="symbol symbol-circle symbol-35 ml-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_1.jpg">
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Discover what students who viewed Learn Figma - UI/UX Design. Essential Training also viewed</div>
-                            </div>
-                            <!--end::Message Out-->
-                            <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-35 mr-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_12.jpg">
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Matthew Robertson</a>
-                                        <span class="text-muted font-size-sm">40 seconds</span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">Most purchased Business courses during this sale!</div>
-                            </div>
-                            <!--end::Message In-->
-                            <!--begin::Message Out-->
-                            <div class="d-flex flex-column mb-5 align-items-end">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <span class="text-muted font-size-sm">Just now</span>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
-                                    </div>
-                                    <div class="symbol symbol-circle symbol-35 ml-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                    </div>
-                                </div>
-                                <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided</div>
-                            </div>
-                            <!--end::Message Out-->
-                        </div>
-                        <!--end::Messages-->
+                    <div class="scroll scroll-pull" data-mobile-height="350" style="height: 350px; overflow: hidden;" id="content_chat">
                     </div>
-                    <!--end::Scroll-->
                 </div>
                 <!--end::Body-->
                 <!--begin::Footer-->
+                <textarea id="txtMessage" class="form-control border-0 p-0" rows="3" placeholder="Type a message"></textarea>
                 <div class="card-footer align-items-center">
                     <!--begin::Compose-->
-                    <textarea class="form-control border-0 p-0" rows="2" placeholder="Type a message"></textarea>
                     <div class="d-flex align-items-center justify-content-between mt-5">
                         <div class="mr-3">
-                            <a href="#" class="btn btn-clean btn-icon btn-md mr-1">
+                            {{-- <a href="#" class="btn btn-clean btn-icon btn-md mr-1">
                                 <i class="flaticon2-photograph icon-lg"></i>
                             </a>
                             <a href="#" class="btn btn-clean btn-icon btn-md">
                                 <i class="flaticon2-photo-camera icon-lg"></i>
-                            </a>
+                            </a> --}}
                         </div>
                         <div>
-                            <button type="button" class="btn btn-primary btn-md text-uppercase font-weight-bold chat-send py-2 px-6">Send</button>
+                            <button type="button" id="btnSendMessage" class="btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">Send</button>
                         </div>
                     </div>
                     <!--begin::Compose-->
@@ -675,11 +222,136 @@
 @push('scripts')
 
     <script>
-        $(".offcanvas-mobile-overlay").remove();
+
+        var _selected_convo_user_id;
+
+
         $(".offcanvas-mobile-overlay").on('click',function(){
             $("#kt_chat_aside").removeClass('offcanvas-mobile-on');
             $(this).remove();
         });
+
+        function fetchMessagesByUsers(){
+            var _url = "{{ route('g_user_messages_byuser') }}";
+            $.ajax({
+                method:"GET",
+                url:_url ,
+                success:function(data){
+                    document.getElementById('chat_users_list').innerHTML = data;
+                }
+            });
+        }
+
+        function fetchInitContent(){
+            var _url = "{{ route('d_init_display_message_content') }}";
+            $.ajax({
+                method:"GET",
+                url:_url ,
+                success:function(data){
+                    document.getElementById('content_chat').innerHTML = data;
+                }
+            });
+        }
+
+
+        function UserShowConvo(_id,_name,el){
+            // Get the container element
+            $("#chat_convo_selected").html(_name);
+            _selected_convo_user_id = _id;
+            var mob_el = $("#offcanvas-mobile-overlay");
+
+            if(mob_el != undefined || mob_el != null) {
+                mob_el.trigger('click');
+            }
+
+            var _url = "{{ route('g_users_convo_by_id') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data: { id : _id},
+                success:function(data){
+                    document.getElementById('content_chat').innerHTML = data;
+                    $(".offcanvas-mobile-overlay").trigger('click');
+                    $("#content_chat").animate({
+                        scrollTop: $(
+                        '#content_chat').get(0).scrollHeight
+                    }, 100);
+                },
+                complete:function(){
+
+                        var btnContainer = document.getElementById("chat_users_list");
+                        // Get all buttons with class="btn" inside the container
+                        // var btns = btnContainer.getElementById("chat_user_list_card");
+                        var btns = $("#chat_users_list #chat_user_list_card");
+                        // Loop through the buttons and add the active class to the current/clicked button
+                        for (var i = 0; i < btns.length; i++) {
+                            btns[i].addEventListener("click", function() {
+                                var current = document.getElementsByClassName("active_chat_convo");
+                                current[0].className = current[0].className.replace(" active_chat_convo", "");
+                                // var current = document.getElementsByClassName("active_chat_convo");
+                                // current[0].className = current[0].className.replace(" active_chat_convo", "");
+                                // this.className += " active_chat_convo";
+                            });
+                        }
+                        $(el).addClass('active_chat_convo');
+                    }
+            })
+            $("#kt_chat_content").removeClass('d-none');
+        }
+
+        $(document).ready(function(){
+            fetchMessagesByUsers();
+            setTimeout(function(){
+                fetchInitContent();
+            },1500);
+            $("#txtMessage").on('keyup',function(e){
+                e.preventDefault();
+                return true;
+
+            })
+            $("#btnSendMessage").on('click',function(e){
+                e.preventDefault();
+                var _url = "{{ route('db_send_chat_message_to_user') }}";
+                if($("#txtMessage").val() !='') {
+                    $.ajax({
+                        method:"GET",
+                        url: _url,
+                        data : { send_to : _selected_convo_user_id, msg: $("#txtMessage").val() },
+                        success:function(data){
+                            var template =`
+                            <div class="d-flex flex-column mb-5 align-items-end">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <span class="text-muted font-size-sm">Just now</span>
+                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
+                                    </div>
+                                    <div class="symbol symbol-circle symbol-45 ml-3">
+                                        <span class="symbol-label font-size-h5">T.J</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">`+ $("#txtMessage").val() +`</div>
+                            </div>
+                            `;
+
+                            $(".messages").append(template);
+
+                            $("#content_chat").animate({
+                                scrollTop: $(
+                                '#content_chat').get(0).scrollHeight
+                            }, 2000);
+                            $("#txtMessage").val("");
+                        }
+                    })
+                }else{
+                    alert('type something!');
+                }
+
+            });
+
+        });
+        //end $(document)
     </script>
     <script src="{{ asset('dist/assets/js/pages/custom/chat/chat.js') }}"></script>
+
+
 @endpush
