@@ -26,15 +26,15 @@
 @endpush
 @section('content')
 
-<div class=" container  bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
+<div class=" container  bgi-size-cover bgi-position-top bgi-no-repeat ml-0 p-0" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
     <!--begin::Chat-->
     <div class="d-flex flex-row">
         <!--begin::Aside-->
-        <div class="flex-row-auto offcanvas-mobile w-350px w-xl-400px" id="kt_chat_aside">
+        <div class="flex-row-auto offcanvas-mobile w-350px w-xl-400px bg-gray-100" id="kt_chat_aside">
             <!--begin::Card-->
             <div class="card card-custom">
                 <!--begin::Body-->
-                <div class="card-body">
+                <div class="card-body h-100 m-0 p-0">
                     <!--begin:Search-->
                     <div class="input-group input-group-solid">
                         <div class="input-group-prepend">
@@ -56,8 +56,7 @@
                     </div>
                     <!--end:Search-->
                     <!--begin:Users-->
-                    <div class="mt-7 scroll scroll-pull" style="height: auto; overflow: hidden;" id ="chat_users_list">
-
+                    <div class="mt-7 scroll scroll-pull bg-gray-100 h-100 w-100 p-0 " style="height: auto; overflow: hidden;" id ="chat_users_list">
                     </div>
                     <!--end:Users-->
                 </div>
@@ -67,7 +66,7 @@
         </div>
         <!--end::Aside-->
         <!--begin::Content-->
-        <div class="flex-row-fluid ml-lg-8 d-none " id="kt_chat_content">
+        <div class="flex-row-fluid ml-lg-8 " id="kt_chat_content">
             <!--begin::Card-->
             <div class="card card-custom bg-transparent">
                 <!--begin::Header-->
@@ -186,12 +185,18 @@
                 <!--begin::Body-->
                 <div class="card-body" >
                     <!--begin::Scroll-->
-                    <div class="scroll scroll-pull" data-mobile-height="350" style="height: 350px; overflow: hidden;" id="content_chat">
+                    <div class="scroll scroll-pull" data-mobile-height="450" style="height: 450px; overflow: hidden;" id="content_chat">
                     </div>
                 </div>
                 <!--end::Body-->
                 <!--begin::Footer-->
-                <textarea id="txtMessage" class="form-control border-0 p-0" rows="3" placeholder="Type a message"></textarea>
+                <textarea id="txtMessage"
+                        onkeyup="textAreaAdjust(this)"
+                        style="overflow:hidden"
+                        class="d-none form-control border-0 p-0"
+                        rows="3"
+                        placeholder="Type a message"
+                        data-emojiable="true"></textarea>
                 <div class="card-footer align-items-center">
                     <!--begin::Compose-->
                     <div class="d-flex align-items-center justify-content-between mt-5">
@@ -204,7 +209,7 @@
                             </a> --}}
                         </div>
                         <div>
-                            <button type="button" id="btnSendMessage" class="btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">Send</button>
+                            <button type="button" id="btnSendMessage" class=" d-none btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">Send</button>
                         </div>
                     </div>
                     <!--begin::Compose-->
@@ -256,6 +261,8 @@
 
         function UserShowConvo(_id,_name,el){
             // Get the container element
+            $("#btnSendMessage").removeClass('d-none');
+            $("#txtMessage").removeClass('d-none');
             $("#chat_convo_selected").html(_name);
             _selected_convo_user_id = _id;
             var mob_el = $("#offcanvas-mobile-overlay");
@@ -299,37 +306,56 @@
             $("#kt_chat_content").removeClass('d-none');
         }
 
+        function textAreaAdjust(element) {
+
+            element.style.height = "1px";
+            element.style.height = (25+element.scrollHeight)+"px";
+        }
+
         $(document).ready(function(){
             fetchMessagesByUsers();
             setTimeout(function(){
                 fetchInitContent();
             },1500);
+
             $("#txtMessage").on('keyup',function(e){
                 e.preventDefault();
                 return true;
+            });
 
+            $('#txtMessage').on('keydown',function(e) {
+                var code = e.keyCode || e.which;
+                if(code == 13 && e.ctrlKey) { //Enter keycode
+                    $("#btnSendMessage").trigger('click');
+                }
             })
+
             $("#btnSendMessage").on('click',function(e){
                 e.preventDefault();
+                var _msg = $("#txtMessage").val();
+                _msg =  _msg.replace(/\n/gm, "<br>");
+                console.log(_msg);
                 var _url = "{{ route('db_send_chat_message_to_user') }}";
                 if($("#txtMessage").val() !='') {
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data : { send_to : _selected_convo_user_id, msg: $("#txtMessage").val() },
+                        data : { send_to : _selected_convo_user_id, msg:_msg },
                         success:function(data){
                             var template =`
                             <div class="d-flex flex-column mb-5 align-items-end">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <span class="text-muted font-size-sm">Just now</span>
-                                        <a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
+                                        <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">`+ _msg +`</div>
+                                        <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
                                     </div>
-                                    <div class="symbol symbol-circle symbol-45 ml-3">
+                                    <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-end">
                                         <span class="symbol-label font-size-h5">T.J</span>
                                     </div>
+                                    {{-- <div class="symbol symbol-circle symbol-35 ml-3">
+                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
+                                    </div> --}}
                                 </div>
-                                <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">`+ $("#txtMessage").val() +`</div>
                             </div>
                             `;
 
@@ -340,6 +366,8 @@
                                 '#content_chat').get(0).scrollHeight
                             }, 2000);
                             $("#txtMessage").val("");
+                        },error:function(e){
+                            console.log(e.responseJSON.message);
                         }
                     })
                 }else{

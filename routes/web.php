@@ -117,7 +117,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/get/all/event_logs','PageController@gemtAllEventLogs')->name('get_system_logs');
 
     //CHAT
-    Route::get('/system/get/user/messages/details','ChatController@index')->name('r_chat');
+    Route::get('/system/get/user/messages/details/chatapp','ChatController@index')->name('r_chat');
     Route::get('/system/get/chat/user/list','ChatController@getChatUsersList')->name('g_user_messages_byuser');
     Route::get('/system/get/chat/init/content','ChatController@getChatInitDisplayContent')->name('d_init_display_message_content');
     Route::get('/system/get/chat/users/content','ChatController@getChatConvoUsersById')->name('g_users_convo_by_id');

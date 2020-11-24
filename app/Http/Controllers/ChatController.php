@@ -64,6 +64,7 @@ class ChatController extends Controller
                                                         $q->where('user_from',$req->id)
                                                         ->where('user_to',$this->user_id)
                                                     )
+                                                    ->limit(50)
                                                     ->get();
 
             return view('pages.chat.component.chat_user_content',['data'=>$data]);
