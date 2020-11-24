@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 use App\UserChat;
 use Auth;
 class ChatUserSendReceive implements ShouldBroadcast
@@ -54,6 +55,9 @@ class ChatUserSendReceive implements ShouldBroadcast
 
     public function broadcastWith(){
         return [
+            "from" => Auth::user()->id,
+            "name" => Auth::user()->username,
+            "name_1" => Str::Title(Str::substr(Str::words(Auth::user()->username,2),0,1)),
             "msg" => $this->msg
         ];
     }

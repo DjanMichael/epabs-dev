@@ -3,7 +3,7 @@
 <html lang="en" >
     <!--begin::Head-->
     <head><base href="../../">
-                <meta charset="utf-8"/>
+    <meta charset="utf-8"/>
     <title> {{ env('APP_NAME') . ' ' . env('APP_Version') }} |  @yield('title') </title>
         <meta name="description" content="Page with empty content"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -1362,8 +1362,40 @@
 
             Echo.private('chat.user.{{ Auth::user()->id }}')
             .listen('ChatUserSendReceive', (e) => {
-                alert(e.msg);
-                console.log(e.msg);
+                var url = window.location.href;
+                if(url.search(/chatapp/i) > 0)
+                {
+                    var template;
+                        template =`
+                            <div class="d-flex flex-column mb-5 align-items-start">
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-circle symbol-45 mr-3">
+                                        <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                    </div>
+                                    <div>
+                                        <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
+                                        <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $(".messages").append(template);
+                        $("#content_chat").animate({
+                            scrollTop: $(
+                            '#content_chat').get(0).scrollHeight
+                        }, 2000);
+
+                }else{
+                    toastr.info(e.msg, "<b>" + e.from  + "</b>" + " send you a message");
+                }
+
+                if(!detectMob()){
+                    document.getElementById('notification_sound').muted = false;
+                    document.getElementById('notification_sound').play();
+                }else{
+                    document.getElementById('notification_sound').muted = false;
+                    document.getElementById('notification_sound').play();
+                }
             });
 
             /***************************************************
