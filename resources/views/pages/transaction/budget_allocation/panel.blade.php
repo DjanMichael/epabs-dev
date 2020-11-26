@@ -134,7 +134,6 @@
             $("#bli_year_id").val(year_id);
             $("#bli_user_id").val(user_id);
             $("#bli_program_id").val(program_id);
-            alert(program_id);
 
             //clear fields
             $("#bli_name").val("");
@@ -271,7 +270,7 @@
 
         }
 
-        function editBLIUser(_unit_id,year_id,user_id,bli_id,bli_budget){
+        function editBLIUser(_unit_id,year_id,user_id,bli_id,bli_budget,program_id){
             // console.log(unit_id,year_id,user_id,bli_id);
             $("#edit_bli").val("");
             $("#edit_amount").val("");
@@ -280,6 +279,7 @@
             $("#edit_bli_user_id").val(user_id);
             $("#edit_bli_year_id").val(year_id);
             $("#edit_bli_id").val(bli_id);
+            $("#edit_program_id").val(program_id);
 
             $("#btn_save_budget").attr('disabled',true);
             $("#btn_update_budget").attr('disabled',false);

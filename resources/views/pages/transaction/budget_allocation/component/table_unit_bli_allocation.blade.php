@@ -4,6 +4,8 @@
 <input type="hidden" id="edit_bli_user_id" value="" />
 <input type="hidden" id="edit_bli_year_id" value="" />
 <input type="hidden" id="edit_bli_id" value="" />
+<input type="hidden" id="edit_program_id" value="" />
+
 
 <input type="hidden" id="edit_bli" value="" />
 <input type="hidden" id="edit_amount" value="" />
@@ -21,7 +23,7 @@
         </thead>
         <tbody id="unit_bli_allocation_row">
             <?php
-
+            // dd($data["unit_per_user_budget"]);
             $total =0;
             ?>
             @forelse ($data["unit_per_user_budget"] as $row)
@@ -32,7 +34,7 @@
             ?>
             <tr>
                 <td class="pr-0 text-left">
-                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }})">
+                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }},{{ $row["program_id"] }})">
                         <i class="flaticon-edit"></i>
                     </button>
                     <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" onClick="deleteBLIUser({{ $row["tuba_id"] }})">

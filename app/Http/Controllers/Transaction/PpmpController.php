@@ -106,7 +106,7 @@ class PpmpController extends Controller
                 }else{
                     $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
                 }
-         
+
             }else{
                 $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
             }
@@ -342,7 +342,7 @@ class PpmpController extends Controller
         }else{
             abort(403);
         }
-    }   
+    }
 
     public function updateStatusApprove(Request $req){
         if($req->ajax()){

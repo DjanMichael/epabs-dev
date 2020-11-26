@@ -20,6 +20,7 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                     `dataset1`.`t1_year_id` AS `t1_year_id`,
                     `dataset1`.`hasBudget` AS `hasBudget`,
                     `dataset1`.`t1_user_id` AS `t1_user_id`,
+                    `dataset1`.`t1_role_id` AS `t1_role_id`,
                     `dataset1`.`t1_name` AS `t1_name`,
                     `dataset1`.`t1_designation` AS `t1_designation`,
                     `dataset1`.`t1_division` AS `t1_division`,
@@ -41,6 +42,16 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                     `dataset2`.`utilized_pi` AS `utilized_plan`,
                     `dataset2`.`yearly_budget` - `dataset2`.`yearly_utilized` AS `yearly_balance`,
                     `dataset2`.`yearly_budget` AS `yearly_budget`,
+                    (
+                        SELECT
+                            sum(`tuba`.`program_budget`)
+                        FROM
+                            `doh_epabs`.`tbl_unit_budget_allocation` `tuba`
+                        WHERE
+                            `tuba`.`year_id` = `dataset2`.`year_id`
+                        AND `tuba`.`program_id` = `dataset2`.`program_id`
+                        AND `tuba`.`budget_line_item_id` = `dataset2`.`budget_line_item_id`
+                    ) AS `yearly_budget2`,
                     `dataset2`.`yearly_utilized` AS `yearly_utilized`
                 FROM
                     (
@@ -56,12 +67,13 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                                 `ry`.`id` AS `t1_year_id`,
                                 `u`.`id` AS `t1_user_id`,
                                 `u`.`name` AS `t1_name`,
+                                `u`.`role_id` AS `t1_role_id`,
                                 `up`.`designation` AS `t1_designation`,
                                 (
                                     SELECT
                                         count(0)
                                     FROM
-                                        `tbl_unit_budget_allocation` `tuba`
+                                        `doh_epabs`.`tbl_unit_budget_allocation` `tuba`
                                     WHERE
                                         `tuba`.`unit_id` = `t1_unit_id`
                                     AND `tuba`.`year_id` = `t1_year_id`
@@ -72,24 +84,33 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                                         (
                                             (
                                                 (
-                                                    `tbl_unit_program` `tup`
-                                                    JOIN `ref_year` `ry` ON (`ry`.`year` <> `tup`.`id`)
+                                                    `doh_epabs`.`tbl_unit_program` `tup`
+                                                    JOIN `doh_epabs`.`ref_year` `ry` ON (`ry`.`year` <> `tup`.`id`)
                                                 )
-                                                JOIN `ref_units` `ru` ON (`ru`.`id` = `tup`.`unit_id`)
+                                                JOIN `doh_epabs`.`ref_units` `ru` ON (`ru`.`id` = `tup`.`unit_id`)
                                             )
-                                            JOIN `users` `u` ON (`u`.`id` = `tup`.`user_id`)
+                                            JOIN `doh_epabs`.`users` `u` ON (`u`.`id` = `tup`.`user_id`)
                                         )
-                                        JOIN `users_profile` `up` ON (`up`.`user_id` = `u`.`id`)
+                                        JOIN `doh_epabs`.`users_profile` `up` ON (`up`.`user_id` = `u`.`id`)
                                     )
-                                    JOIN `ref_program` `rp` ON (
+                                    JOIN `doh_epabs`.`ref_program` `rp` ON (
                                         `rp`.`id` = `tup`.`program_id`
                                     )
                                 )
                         ) `dataset1`
-                        LEFT JOIN `vw_unit_budget_allocation_utilization` `dataset2` ON (
+                        LEFT JOIN `doh_epabs`.`vw_unit_budget_allocation_utilization` `dataset2` ON (
                             `dataset2`.`program_id` = `dataset1`.`t1_program_id`
                             AND `dataset2`.`year_id` = `dataset1`.`t1_year_id`
                         )
+                    )
+                WHERE
+                    `dataset1`.`t1_role_id` = (
+                        SELECT
+                            `tbr`.`role_id`
+                        FROM
+                            `doh_epabs`.`tbl_user_roles` `tbr`
+                        WHERE
+                            `tbr`.`roles` = "PROGRAM COORDINATOR"
                     )
             )');
     }
