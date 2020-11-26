@@ -13,6 +13,7 @@ use DB;
 use App\RefUnits;
 use App\UserProfile;
 use App\UserRoles;
+use Cache;
 class AuthController extends Controller
 {
     //
@@ -177,6 +178,7 @@ class AuthController extends Controller
     }
 
     public function logoutUser(){
+        Cache::forget('user-is-online-' . Auth::user()->id);
         Auth::logout();
         return redirect()->route('login');
     }

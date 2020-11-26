@@ -281,6 +281,9 @@
             });
         }
 
+        $("#kt_app_chat_toggle").on('click',function(){
+            fetchMessagesByUsers();
+        });
 
 
         function fetchInitContent(){
@@ -430,7 +433,7 @@
                                         <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
                                     </div>
                                     <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-end">
-                                        <span class="symbol-label font-size-h5">T.J</span>
+                                        <span class="symbol-label font-size-h5">YOU</span>
                                     </div>
                                     {{-- <div class="symbol symbol-circle symbol-35 ml-3">
                                         <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">

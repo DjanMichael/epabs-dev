@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Auth;
 use App\GlobalSystemSettings;
+use Cache;
 class User extends Authenticatable
 {
 
@@ -75,5 +76,10 @@ class User extends Authenticatable
         }else{
             return null;
         }
+    }
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
 }

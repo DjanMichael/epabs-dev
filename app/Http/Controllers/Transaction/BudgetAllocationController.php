@@ -30,9 +30,7 @@ class BudgetAllocationController extends Controller
         });
     }
 
-
     public function index(){
-
         // $check = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         // dd($data);
         return view('pages.transaction.budget_allocation.budget_allocation',['data'=>[]]);

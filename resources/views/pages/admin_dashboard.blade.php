@@ -101,7 +101,7 @@
 
 <!-- begin:dashboard planning -->
 <div class="row">
-    <div class="col-md-4 col-12">
+    <div class="col-md-3 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
             <!--begin::Body-->
             <div class="card-body">
@@ -116,14 +116,16 @@
                     </svg>
                     <!--end::Svg Icon-->
                 </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">1</span>
-                <span class="font-weight-bold text-muted font-size-sm">SUBMITTED</span>
+                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
+                    {{$data["wfp_not_submitted"]}}
+                </span>
+                <span class="font-weight-bold text-muted font-size-sm">NOT SUBMITTED</span>
             </div>
             <!--end::Body-->
         </div>
 
     </div>
-    <div class="col-md-4 col-12">
+    <div class="col-md-3 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
             <!--begin::Body-->
             <div class="card-body">
@@ -138,13 +140,15 @@
                     </svg>
                     <!--end::Svg Icon-->
                 </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">5</span>
-                <span class="font-weight-bold text-muted font-size-sm">REVISION</span>
+                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
+                    {{$data["wfp_submitted"]}}
+                </span>
+                <span class="font-weight-bold text-muted font-size-sm">SUBMITTED</span>
             </div>
             <!--end::Body-->
         </div>
     </div>
-    <div class="col-md-4 col-12">
+    <div class="col-md-3 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
             <!--begin::Body-->
             <div class="card-body">
@@ -159,8 +163,33 @@
                     </svg>
                     <!--end::Svg Icon-->
                 </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">33</span>
+                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
+                    {{$data["wfp_approved"]}}
+                </span>
                 <span class="font-weight-bold text-muted font-size-sm">APPROVED</span>
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
+            <!--begin::Body-->
+            <div class="card-body">
+                <span class="svg-icon svg-icon-2x svg-icon-info">
+                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24"></rect>
+                            <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"></path>
+                            <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"></path>
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
+                    {{$data["wfp_revision"]}}
+                </span>
+                <span class="font-weight-bold text-muted font-size-sm">REVISION</span>
             </div>
             <!--end::Body-->
         </div>
@@ -187,7 +216,7 @@
                             <div class="row align-items-center">
                                 <div class="col-md-8 my-2 my-md-0">
                                     <div class="input-icon">
-                                        <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
+                                        <input type="text" class="form-control" placeholder="Search..." id="search_query" />
                                         <span>
                                             <i class="flaticon2-search-1 text-muted"></i>
                                         </span>
@@ -196,8 +225,8 @@
                                 <div class="col-md-4 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                        <select class="form-control" id="status">
-                                            <option value="">All</option>
+                                        <select class="form-control" id="wfp_status">
+                                            <option value="">ALL</option>
                                             <option value="4">Approved</option>
                                             <option value="5">Revision</option>
                                             <option value="6">Submitted</option>
@@ -344,7 +373,6 @@
                     <!--begin::Body-->
                     <div class="card-body pt-2 pb-0 mt-n3">
                         <div class="tab-content mt-5" id="myTabTables5">
-
                             <!--begin::Tap pane-->
                             <div class="tab-pane fade show active" id="kt_tab_pane_5_3" role="tabpanel" aria-labelledby="kt_tab_pane_5_3">
                                 <!--begin::Table-->
@@ -359,177 +387,7 @@
                                                 <th class="p-0 min-w-50px"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="py-5 pl-0">
-                                                    <div class="symbol symbol-50 symbol-light mr-2">
-                                                        <span class="symbol-label">
-                                                            <img src="{{ asset('dist/assets/media/users/300_25.jpg') }}" class="h-50 align-self-center" alt="">
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#" class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Top Authors</a>
-                                                    <span class="text-muted font-weight-bold d-block">Successful Fellas</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="text-muted font-weight-500">ReactJs, HTML</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="label label-lg label-light-primary label-inline">Approved</span>
-                                                </td>
-                                                <td class="text-right pr-0">
-                                                    <a href="#" class="btn btn-icon btn-light btn-sm">
-                                                        <span class="svg-icon svg-icon-md svg-icon-success">
-                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1"></rect>
-                                                                    <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon-->
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pl-0 py-5">
-                                                    <div class="symbol symbol-50 symbol-light mr-2">
-                                                        <span class="symbol-label">
-                                                            <img src="{{ asset('dist/assets/media/users/300_25.jpg') }}" class="h-50 align-self-center" alt="">
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#" class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Popular Authors</a>
-                                                    <span class="text-muted font-weight-bold d-block">Most Successful</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="text-muted font-weight-500">Python, MySQL</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="label label-lg label-light-warning label-inline">In Progress</span>
-                                                </td>
-                                                <td class="text-right pr-0">
-                                                    <a href="#" class="btn btn-icon btn-light btn-sm">
-                                                        <span class="svg-icon svg-icon-md svg-icon-success">
-                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1"></rect>
-                                                                    <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon-->
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-5 pl-0">
-                                                    <div class="symbol symbol-50 symbol-light mr-2">
-                                                        <span class="symbol-label">
-                                                            <img src="{{ asset('dist/assets/media/users/300_25.jpg') }}" class="h-50 align-self-center" alt="">
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#" class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">New Users</a>
-                                                    <span class="text-muted font-weight-bold d-block">Awesome Users</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="text-muted font-weight-500">Laravel,Metronic</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="label label-lg label-light-success label-inline">Success</span>
-                                                </td>
-                                                <td class="text-right pr-0">
-                                                    <a href="#" class="btn btn-icon btn-light btn-sm">
-                                                        <span class="svg-icon svg-icon-md svg-icon-success">
-                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1"></rect>
-                                                                    <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon-->
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-5 pl-0">
-                                                    <div class="symbol symbol-50 symbol-light mr-2">
-                                                        <span class="symbol-label">
-                                                            <img src="{{ asset('dist/assets/media/users/300_25.jpg') }}" class="h-50 align-self-center" alt="">
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#" class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Active Customers</a>
-                                                    <span class="text-muted font-weight-bold d-block">Best Customers</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="text-muted font-weight-500">AngularJS, C#</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="label label-lg label-light-danger label-inline">Rejectedasd</span>
-                                                </td>
-                                                <td class="text-right pr-0">
-                                                    <a href="#!" class="btn btn-icon btn-light btn-sm" onclick="wfp_drawer_open()">
-                                                        <span class="svg-icon svg-icon-md svg-icon-success">
-                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1"></rect>
-                                                                    <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon-->
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-5 pl-0">
-                                                    <div class="symbol symbol-50 symbol-light mr-2">
-                                                        <span class="symbol-label">
-                                                            <img src="{{ asset('dist/assets/media/users/300_25.jpg') }}" class="h-50 align-self-center" alt="">
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#" class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Bestseller Theme</a>
-                                                    <span class="text-muted font-weight-bold d-block">Amazing Templates</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="text-muted font-weight-500">ReactJS, Ruby</span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <span class="label label-lg label-light-warning label-inline">In Progress</span>
-                                                </td>
-                                                <td class="text-right pr-0">
-                                                    <a href="#" class="btn btn-icon btn-light btn-sm">
-                                                        <span class="svg-icon svg-icon-md svg-icon-success">
-                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1"></rect>
-                                                                    <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon-->
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                        <tbody id="wfp_user_status_content">
                                         </tbody>
                                     </table>
                                 </div>
@@ -539,40 +397,6 @@
                         </div>
                     </div>
                     <!--end::Body-->
-
-
-                   <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="d-flex flex-wrap py-2 mr-3">
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-double-arrow-back icon-xs"></i></a>
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-arrow-back icon-xs"></i></a>
-
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">23</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary active mr-2 my-1">24</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">25</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">26</a>
-
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a>
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a>
-                    </div>
-                    <div class="d-flex align-items-center py-3">
-                        {{-- <div class="d-flex align-items-center">
-                            <div class="mr-2 text-muted">Loading...</div>
-                            <div class="spinner spinner-primary mr-10"></div>
-                        </div> --}}
-
-                        <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="text-muted">Displaying 10 of 230 records</span>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -649,7 +473,7 @@
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Type:</label>
 						<select class="form-control" id="kt_datatable_search_type_3">
-							<option value="">All</option>
+							<option value="">ALL</option>
 							<option value="1">Online</option>
 							<option value="2">Retail</option>
 							<option value="3">Direct</option>
@@ -685,14 +509,42 @@
 <script>
 
         $(document).ready(function(){
-            //remove parameter for duplicate events
+            //remove parameter for duplicate events for isMobile
             setTimeout(function(){
                 var newURL = location.href.split("?")[0];
                 window.history.pushState('object', document.title, newURL);
                 fetchAllSystemLogs();
+                fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
             },1500)
 
         });
+
+        function fetchhUserWfpStatusList(_page = null, _q = null,status = null){
+            var _url = "{{ route('get_program_wfp_status_list') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: { q : _q, status : status ,page:_page},
+                beforeSend:function(){
+                    KTApp.block('#user_table_body', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading..'
+                    });
+                },
+                success:function(data){
+                    document.getElementById('wfp_user_status_content').innerHTML = data;
+                },
+                complete:function(){
+                    $("#pagination_user_list .pagination a").on('click',function(e){
+                        e.preventDefault();
+                        fetchhUserWfpStatusList($(this).attr('href').split('page=')[1], $("#search_query").val(),$("#wfp_status option:selected").text())
+                    });
+                    KTApp.unblock('#user_table_body');
+                }
+            })
+        }
+
 
         function fetchAllSystemLogs(){
             var _url = "{{ route('get_system_logs') }}";
@@ -715,16 +567,7 @@
 
         $("#btn_search_user").on('click',function(e){
             e.preventDefault();
-
-            KTApp.block('#user_table_body', {
-                overlayColor: '#000000',
-                state: 'primary',
-                message: 'Processing...'
-                });
-
-            setTimeout(function() {
-                KTApp.unblock('#user_table_body');
-            }, 2000);
+            fetchhUserWfpStatusList(null, $("#search_query").val(),$("#wfp_status option:selected").text());
         });
 
 
