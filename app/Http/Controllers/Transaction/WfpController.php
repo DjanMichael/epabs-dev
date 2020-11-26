@@ -343,6 +343,8 @@ class WfpController extends Controller
             $program_budget = BudgetAllocationUtilization::where('budget_line_item_id',$req->bli_id)
                                                         ->where('program_id',$this->auth_user_program_id)
                                                         ->first();
+
+
             if($req->data["cost"] > $program_budget->utilized_pi_balance){
                 return 'exceeds bli budget';
             }
@@ -605,28 +607,28 @@ class WfpController extends Controller
 
     public function updatePerformanceIndicatorById(Request $req){
         if($req->ajax()){
-            // $code = Crypt::descrytString($req->pi["wfp_code"]);
-            // $bli_id =$req->bli_id;
-            // $pi_id = WfpPerformanceIndicator::where('id',$req->id)->first();
-            // $act_id = $pi_id->wfp_act_id;
-            // $sum_used_budget_bli  =0;
-            // $other_act_pi_cost = WfpPerformanceIndicator::where('id','!=',$req->id)
-            //                                             ->where('wfp_act_id',$act_id)
-            //                                             ->where('bli_id',$req->bli_id)
-            //                                             ->get();
-            // $wfp_act = WfpActivity::where('id',$act_id)->first();
+            $code = Crypt::decryptString($req->pi["wfp_code"]);
+            $bli_id =$req->bli_id;
+            $pi_id = WfpPerformanceIndicator::where('id',$req->id)->first();
+            $act_id = $pi_id->wfp_act_id;
+            $sum_used_budget_bli  =0;
+            $other_act_pi_cost = WfpPerformanceIndicator::where('id','!=',$req->id)
+                                                        ->where('wfp_act_id',$act_id)
+                                                        ->where('bli_id',$req->bli_id)
+                                                        ->get();
+            $wfp_act = WfpActivity::where('id',$act_id)->first();
 
-            // if(count($other_act_pi_cost) <> 0){
-            //     foreach ($other_act_pi_cost as $r){
-            //         $sum_used_budget_bli += $r["cost"];
-            //     }
-            // }
+            if(count($other_act_pi_cost) <> 0){
+                foreach ($other_act_pi_cost as $r){
+                    $sum_used_budget_bli += $r["cost"];
+                }
+            }
             // dd( $other_act_pi_cost);
 
-            // //if requested cost is  greater than the activity plan cost
-            // if(( $sum_used_budget_bli + $req->pi["cost"])  > $wfp_act->activity_cost){
-            //     return 'exceeds budget';
-            // }
+            //if requested cost is  greater than the activity plan cost
+            if(( $sum_used_budget_bli + $req->pi["cost"])  > $wfp_act->activity_cost){
+                return 'exceeds budget';
+            }
             $check_balance = BudgetAllocationUtilization::where('wfp_code',Crypt::decryptString($req->pi["wfp_code"]))
                                                         ->where('budget_line_item_id',$req->pi["budget_line_item_id"])
                                                         // ->where('balance_plan','>',$req->cost)
@@ -695,6 +697,7 @@ class WfpController extends Controller
             }
 
             // dd($total_act);
+            // dd($budget_allocation_program["yearly_budget"]);
             $maximum_cost_request = $budget_allocation_program["yearly_budget"] - $total_act;
             // dd($budget_allocation_program["yearly_budget"] - $total_act);
             // dd($req->wfp_act["act_cost"]);

@@ -5,8 +5,8 @@
             <th style="min-width: 150px">Office</th>
             <th style="min-width: 150px">Program</th>
             <th style="min-width: 150px">Allocation</th>
-            <th style="min-width: 150px">Utilized</th>
-            <th style="min-width: 150px">Balance</th>
+            <th style="min-width: 160px">Utilized</th>
+            <th style="min-width: 160px">Balance</th>
             <th class="pr-0 text-right" style="min-width: 150px">action</th>
         </tr>
     </thead>
