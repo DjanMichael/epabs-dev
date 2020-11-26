@@ -588,8 +588,8 @@
              </div>
             </div>
             <div class="card-body">
-                <div class="timeline timeline-5">
-                    <div class="timeline-items scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 300px" id="event_logs">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 300px">
+                    <div class="timeline-items "  id="event_logs">
                     </div>
                 </div>
             </div>

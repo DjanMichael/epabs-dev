@@ -134,7 +134,6 @@
             $("#bli_year_id").val(year_id);
             $("#bli_user_id").val(user_id);
             $("#bli_program_id").val(program_id);
-            alert(program_id);
 
             //clear fields
             $("#bli_name").val("");

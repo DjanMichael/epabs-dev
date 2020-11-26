@@ -1,12 +1,13 @@
+
 <!--begin::Messages-->
-<div class="messages" >
+<div class="messages h-100" >
     @forelse ($data["chat_user_content"] as $row)
         @if($row->user_from == Auth::user()->id)
                 <!--begin::Message Out-->
                 <div class="d-flex flex-column mb-5 align-items-end">
                     <div class="d-flex align-items-center">
                         <div>
-                            <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">{!! $row->message !!}</div>
+                            <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">{!! htmlentities($row->message, ENT_QUOTES, "UTF-8") !!}</div>
                             <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</span>
                         </div>
                         <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-end">
@@ -26,7 +27,7 @@
                             <span class="symbol-label font-size-h5">{{ Str::Title(Str::substr(Str::words($row->username,2),0,1)) }}</span>
                         </div>
                         <div>
-                            <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">{!! $row->message !!}</div>
+                            <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">{!! htmlentities($row->message, ENT_QUOTES, "UTF-8") !!}</div>
                             <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</span>
                         </div>
                     </div>
