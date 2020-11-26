@@ -176,6 +176,9 @@ class AuthController extends Controller
         }
     }
 
-
+    public function logoutUser(){
+        Auth::logout();
+        return redirect()->route('login');
+    }
 
 }

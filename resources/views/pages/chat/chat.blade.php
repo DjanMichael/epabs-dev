@@ -2,7 +2,7 @@
 @section('title','CHAT')
 @section('breadcrumb')
 <li class="breadcrumb-item">
-    <a href="" class="text-muted">Chat</a>
+    <span href="" class="text-muted">Conversation</span>
 </li>
 @endsection
 
@@ -34,9 +34,16 @@
             <!--begin::Card-->
             <div class="card card-custom">
                 <!--begin::Body-->
-                <div class="card-body h-100 m-0 p-0">
+                <div class="card-body h-100 m-0 p-0" >
+                    <div class="row mb-2 mt-2 p-3">
+                        <div class="col-6 font-size-h4 pt-2">User List</div>
+                        <div class="col-6 text-right">
+                            {{-- <button class="btn btn-primary"><i class="far fa-handshake mr-2"></i>Connect</button> --}}
+                        </div>
+                    </div>
                     <!--begin:Search-->
-                    <div class="input-group input-group-solid">
+                    <div class="p-5">
+                    <div class="input-group input-group-solid ">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
                                 <span class="svg-icon svg-icon-lg">
@@ -52,7 +59,8 @@
                                 </span>
                             </span>
                         </div>
-                        <input type="text" class="form-control py-4 h-auto" placeholder="Email">
+                        <input type="text" class="form-control py-4 h-auto" placeholder="Search User" id="searchUser">
+                    </div>
                     </div>
                     <!--end:Search-->
                     <!--begin:Users-->
@@ -90,7 +98,7 @@
 
                     </div>
                     <div class="text-center text-center font-weight-bold font-size-md" id="chat_convo_selected">
-                        NAME
+                        MESSAGES
                     </div>
                     <div class="text-right flex-grow-1">
                         <!--begin::Dropdown Menu-->
@@ -190,13 +198,15 @@
                 </div>
                 <!--end::Body-->
                 <!--begin::Footer-->
-                <textarea id="txtMessage"
+                {{-- <textarea id="txtMessage"
                         onkeyup="textAreaAdjust(this)"
                         style="overflow:hidden"
                         class="d-none form-control border-0 p-0"
                         rows="3"
                         placeholder="Type a message"
-                        data-emojiable="true"></textarea>
+                       ></textarea> --}}
+                <textarea id="txtMessage2" class="form-control border-0 p-0 c"></textarea>
+
                 <div class="card-footer align-items-center">
                     <!--begin::Compose-->
                     <div class="d-flex align-items-center justify-content-between mt-5">
@@ -209,7 +219,7 @@
                             </a> --}}
                         </div>
                         <div>
-                            <button type="button" id="btnSendMessage" class=" d-none btn btn-primary btn-md text-uppercase font-weight-bold py-2 px-6">Send</button>
+                            <button type="button" id="btnSendMessage" class=" d-none btn btn-primary  text-uppercase font-weight-bold py-2 px-6">Send</button>
                         </div>
                     </div>
                     <!--begin::Compose-->
@@ -228,6 +238,9 @@
 
     <script>
 
+        //https://github.com/mervick/emojionearea emoji reference
+        window.emojioneVersion = "3.1.2";
+        var _el_emoji;
         var _selected_convo_user_id;
 
 
@@ -238,31 +251,76 @@
 
         function fetchMessagesByUsers(){
             var _url = "{{ route('g_user_messages_byuser') }}";
+            var _data = { q: $("#searchUser").val() };
             $.ajax({
                 method:"GET",
+                data: _data,
                 url:_url ,
+                beforeSend:function(){
+                    KTApp.block('#chat_users_list', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Fetching Users'
+                    });
+                },
                 success:function(data){
                     document.getElementById('chat_users_list').innerHTML = data;
+                    KTApp.unblock('#chat_users_list');
+                },
+                error:function(xhr, textStatus, errorThrown){
+                    if (xhr.status == 401) {
+                        $.ajaxSetup().tryCount++;
+                        if($.ajaxSetup().tryCount != $.ajaxSetup().retryLimit)
+                        {
+                            setTimeout(function(){
+                                fetchMessagesByUsers();
+                            }, $.ajaxSetup().retryAfter);
+                        }
+                    }
                 }
             });
         }
+
+
 
         function fetchInitContent(){
             var _url = "{{ route('d_init_display_message_content') }}";
             $.ajax({
                 method:"GET",
                 url:_url ,
+                beforeSend:function(){
+                    KTApp.block('#content_chat', {
+                        overlayColor: '#000000',
+                        state: 'primary',
+                        message: 'Loading'
+                    });
+                },
                 success:function(data){
                     document.getElementById('content_chat').innerHTML = data;
+                    KTApp.unblock('#content_chat');
                 }
             });
         }
 
+        function readStatusUpdate(){
+            var _url = "{{ route('db_update_message_read') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                data: {from_id : _selected_convo_user_id},
+                success:function(data){
+                    $("#badge_unread_message_" + _selected_convo_user_id).addClass('d-none');
+                }
+            });
+        }
 
         function UserShowConvo(_id,_name,el){
             // Get the container element
             $("#btnSendMessage").removeClass('d-none');
-            $("#txtMessage").removeClass('d-none');
+            $("#txtMessage2").removeClass('d-none');
+            $(".emojionearea-editor").removeClass('d-none');
+
+            // alert(_el_emoji.data("emojioneArea").getText());
             $("#chat_convo_selected").html(_name);
             _selected_convo_user_id = _id;
             var mob_el = $("#offcanvas-mobile-overlay");
@@ -283,9 +341,9 @@
                         scrollTop: $(
                         '#content_chat').get(0).scrollHeight
                     }, 100);
+                    readStatusUpdate();
                 },
                 complete:function(){
-
                         var btnContainer = document.getElementById("chat_users_list");
                         // Get all buttons with class="btn" inside the container
                         // var btns = btnContainer.getElementById("chat_user_list_card");
@@ -313,30 +371,52 @@
         }
 
         $(document).ready(function(){
+
+            _el_emoji = $("#txtMessage2").emojioneArea({
+                search: false,
+                tones: false,
+                hideSource: true,
+                hidePickerOnBlur: false,
+                placeholder: "Type something here",
+                events: {
+                    keypress: function (ob, e){
+                        if(e.ctrlKey && e.keyCode == 13){
+
+                            console.log('click!');
+                            $("#btnSendMessage").trigger('click');
+                        }
+                    }
+                }
+            });
+
             fetchMessagesByUsers();
             setTimeout(function(){
                 fetchInitContent();
+                $(".emojionearea-editor").addClass('d-none');
             },1500);
 
-            $("#txtMessage").on('keyup',function(e){
-                e.preventDefault();
-                return true;
-            });
 
-            $('#txtMessage').on('keydown',function(e) {
-                var code = e.keyCode || e.which;
-                if(code == 13 && e.ctrlKey) { //Enter keycode
-                    $("#btnSendMessage").trigger('click');
-                }
-            })
+
+            // $("#txtMessage2").on('keyup',function(e){
+            //     e.preventDefault();
+            //     return true;
+            // });
+            $("#searchUser").on('keyup',function(){
+                fetchMessagesByUsers();
+            });
 
             $("#btnSendMessage").on('click',function(e){
                 e.preventDefault();
-                var _msg = $("#txtMessage").val();
+                // var _msg = $("#txtMessage2").val();
+
+                $(this).attr('disabled',true);
+                $(this).addClass('pr-15 spinner spinner-white spinner-right');
+
+                var _msg = $("#txtMessage2")[0].emojioneArea.getText();
                 _msg =  _msg.replace(/\n/gm, "<br>");
                 console.log(_msg);
                 var _url = "{{ route('db_send_chat_message_to_user') }}";
-                if($("#txtMessage").val() !='') {
+                if(_msg !='') {
                     $.ajax({
                         method:"GET",
                         url: _url,
@@ -365,8 +445,15 @@
                                 scrollTop: $(
                                 '#content_chat').get(0).scrollHeight
                             }, 2000);
-                            $("#txtMessage").val("");
-                        },error:function(e){
+                            $("#txtMessage2").val("");
+                            _el_emoji.data("emojioneArea").setText("");
+                            _el_emoji.data("emojioneArea").hidePicker();
+                        },
+                        complete:function(){
+                            $("#btnSendMessage").attr('disabled',false);
+                            $("#btnSendMessage").removeClass('pr-15 spinner spinner-white spinner-right');
+                        },
+                        error:function(e){
                             console.log(e.responseJSON.message);
                         }
                     })
@@ -380,6 +467,4 @@
         //end $(document)
     </script>
     <script src="{{ asset('dist/assets/js/pages/custom/chat/chat.js') }}"></script>
-
-
 @endpush

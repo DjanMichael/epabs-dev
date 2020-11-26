@@ -114,7 +114,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/', 'PageController@dashboard')->name('dashboard');
 
     //DASHBOARD
-    Route::get('/system/get/all/event_logs','PageController@gemtAllEventLogs')->name('get_system_logs');
+    Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
 
     //CHAT
     Route::get('/system/get/user/messages/details/chatapp','ChatController@index')->name('r_chat');
@@ -122,6 +122,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/get/chat/init/content','ChatController@getChatInitDisplayContent')->name('d_init_display_message_content');
     Route::get('/system/get/chat/users/content','ChatController@getChatConvoUsersById')->name('g_users_convo_by_id');
     Route::get('/user/chat/send/message','ChatController@sendMessageToUser')->name('db_send_chat_message_to_user');
+    Route::get('/user/chat/update/read/status','ChatController@updateUnreadMessageToRead')->name('db_update_message_read');
+
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 
@@ -131,11 +133,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
 });
 
-Route::get('/logout/session',function(){
-    Auth::logout();
-    return redirect()->route('login');
-})->name('Logout');
-
+Route::get('/logout/session','AuthController@logoutUser')->name('Logout');
 Route::get('/authentication','AuthController@index');
 Route::get('/authtentication/user/section','AuthController@getSection')->name('d_get_section');
 Route::get('/authtentication/user/section/division/id','AuthController@getUnitId')->name('d_auth_get_unit_id');

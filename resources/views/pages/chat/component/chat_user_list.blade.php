@@ -1,12 +1,18 @@
  @forelse($data["chat_user_list"] as $row)
  <!--begin:User-->
-<div id="chat_user_list_card" class=" d-flex align-items-center justify-content-between mb-0  pl-5 pr-5" style="cursor:pointer;" onclick="UserShowConvo('{{ $row->id }}','{{ $row->name }}',this)">
+<div id="chat_user_list_card" class=" d-flex align-items-center justify-content-between mb-0  pl-5 pr-5 pb-3" style="cursor:pointer;" onclick="UserShowConvo('{{ $row->id }}','{{ $row->name }}',this)">
     <div class="d-flex align-items-center ">
         <div class="symbol symbol-circle symbol-50 mr-3 ">
             {{-- <img alt="Pic" src="{{ asset('dist/assets/media/users/300_11.jpg') }}"> --}}
             <div class="symbol mt-4">
                 <span class="symbol-label font-size-h5 bg-gray-400">{{ Str::substr(Str::words($row->name,2),0,1) }}</span>
-                <span class="label label-sm label-danger" style="position:relative;top:-15px;">4</span>
+                <?php
+                    $ob = new App\UserChat;
+                    $c = $ob->countUnreadMessage($row->id);
+                ?>
+                @if($c != null || $c != 0)
+                <span id="badge_unread_message_{{ $row->id }}" class="label label-sm label-danger" style="position:relative;top:-15px;">{{ $c }}</span>
+                @endif
             </div>
         </div>
         <div class="d-flex flex-column">
