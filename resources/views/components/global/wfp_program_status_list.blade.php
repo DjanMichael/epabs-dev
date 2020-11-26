@@ -17,6 +17,9 @@
         </td>
     </tr>
 @empty
+<tr>
+    <td colspan="4" class="text-center"> NO WFP FOUND</td>
+</tr>
 @endforelse
 
 @if(count($data["wfp_user_list"]) > 0)
