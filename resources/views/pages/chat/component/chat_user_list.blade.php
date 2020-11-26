@@ -11,7 +11,10 @@
                     $c = $ob->countUnreadMessage($row->id);
                 ?>
                 @if($c != null || $c != 0)
-                <span id="badge_unread_message_{{ $row->id }}" class="label label-sm label-danger" style="position:relative;top:-15px;">{{ $c }}</span>
+                <span class="label label-danger label-sm pulse pulse-danger mr-10" style="top:-15px;"  id="badge_unread_message_{{ $row->id }}" >
+                    <span class="position-relative"  >{{ $c }}</span>
+                    <span class="pulse-ring"></span>
+                </span>
                 @endif
             </div>
         </div>
@@ -21,13 +24,18 @@
         </div>
     </div>
     <div class="d-flex flex-column align-items-end">
-        <span><span class="label label-dot label-danger text-dark-75 font-weight-bold font-size-md"></span> Active</span>
-        <span class="text-muted font-weight-bold font-size-sm">35 mins</span>
+        <?php
+        $user = \App\User::where('id',$row->id)->first();
+        ?>
+        @if($user->isOnline())
+            <span><span class="label label-dot label-success text-dark-75 font-weight-bold font-size-md"></span> Online</span>
+        @else
+            <span><span class="label label-dot label-danger text-dark-75 font-weight-bold font-size-md"></span> Offline</span>
+        @endif
     </div>
 </div>
 <!--end:User-->
 @empty
-
 <div class="d-flex align-items-center justify-content-center bg-dark-30" style="  width:100%;height:100%;" >
     <div class="row">
         <div class="col-12 text-center">

@@ -9,8 +9,16 @@ use App\GlobalSystemSettings;
 use Auth;
 use App\Events\LoginAuthenticationLog;
 use App\TableSystemEvents;
+use DB;
+use App\Views\ProgramsWfpStatus;
+use Illuminate\Support\Collection;
 class PageController extends Controller
 {
+    public $pagination_user_wfp_status;
+
+    public function __construct(){
+        $this->pagination_user_wfp_status = 5;
+    }
 
     public function redirectToSystemModule()
     {
@@ -30,9 +38,21 @@ class PageController extends Controller
                                                 ->where('year_id',$program->select_year)
                                                 ->groupBy('program_id','budget_line_item_id')
                                                 ->get()->toArray();
+
+            $data["wfp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
+            $data["wfp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
+            $data["wfp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
+            $data["wfp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
+
+
+
         }else{
             $data["user_info"] = null;
             $data["budget_allocation"] = null;
+            $data["wfp_not_submitted"] = null;
+            $data["wfp_submitted"] = null;
+            $data["wfp_approved"] = null;
+            $data["wfp_revision"] = null;
         }
         // dd($req->isMobile);
         if($req->isMobile != null){
@@ -41,6 +61,39 @@ class PageController extends Controller
 
         // dd($data);
         return view('pages.admin_dashboard',['data'=>$data]);
+    }
+
+    public function getProgramStatusList(Request $req){
+        if($req->ajax()){
+            $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            if(($req->q != '' || $req->q != null) && ($req->status != '' || $req->status != null) && ($req->status != 'ALL' )){
+                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                            ->where(fn($q) =>
+                                                                $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
+                                                                ->orWhere('program' , 'LIKE','%' . $req->q . '%')
+                                                            )
+                                                            ->where('wfp_status',$req->status)
+                                                            ->paginate($this->pagination_user_wfp_status);
+            }else if($req->q != '' || $req->q != null){
+                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                            ->where(fn($q) =>
+                                                                $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
+                                                                ->orWhere('program' , 'LIKE','%' . $req->q . '%')
+                                                            )
+                                                            ->paginate($this->pagination_user_wfp_status);
+            }else if($req->status != 'ALL'){
+                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                            ->where('wfp_status',$req->status)
+                                                            ->paginate($this->pagination_user_wfp_status);
+
+            }else{
+                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                            ->paginate($this->pagination_user_wfp_status);
+            }
+            return view('components.global.wfp_program_status_list',['data'=>$data]);
+        }else{
+            abort(403);
+        }
     }
 
     public function getAllEventLogs(Request $req){
