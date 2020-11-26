@@ -191,9 +191,9 @@
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
-                <div class="card-body" >
+                <div class="card-body" data-mobile-height="450" style="height: 650px;">
                     <!--begin::Scroll-->
-                    <div class="scroll scroll-pull" data-mobile-height="450" style="height: 450px; overflow: hidden;" id="content_chat">
+                    <div class="scroll scroll-pull h-100" data-mobile-height="450" style="overflow: hidden;" id="content_chat">
                     </div>
                 </div>
                 <!--end::Body-->
