@@ -568,7 +568,7 @@
 
             <?php
                 if(Auth::user()->role->roles =="PROGRAM COORDINATOR"){
-                    $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+                    $settings = \App\GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
                     if($settings){
                                 $data["notif"] = \App\TableSystemEvents::where('to_program_id',$settings->select_program_id)
                                                                 ->where('event_name','WFP Update')
@@ -1346,19 +1346,40 @@
                 {
                     if (_selected_convo_user_id != null || _selected_convo_user_id != undefined){
                         var template;
-                        template =`
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-45 mr-3">
-                                        <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
-                                    </div>
-                                    <div>
-                                        <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
-                                        <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        if(e.type == "GIF"){
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="col-12">
+                                                        <embed type="image/gif" src="`+ e.msg +`" class="w-100"/><br/>
+                                                    </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        `;
+                        }else{
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                        }
+
+
+
                         $(".messages").append(template);
                         $("#content_chat").animate({
                             scrollTop: $(
