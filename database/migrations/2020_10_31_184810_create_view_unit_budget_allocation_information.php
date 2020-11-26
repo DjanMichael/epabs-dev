@@ -55,6 +55,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                             `tw`.`user_id` = `up`.`user_id`
                         AND `tw`.`year_id` = `tuba`.`year_id`
                         AND `tw`.`unit_id` = `up`.`unit_id`
+                        AND `tw`.program_id =  `tuba`.program_id
                     ) AS `wfp_activity_count`,
                     (
                         SELECT
@@ -65,6 +66,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                             `tuba3`.`year_id` = `tuba`.`year_id`
                         AND `tuba3`.`unit_id` = `tuba`.`unit_id`
                         AND `tuba3`.`budget_line_item_id` = `tuba`.`budget_line_item_id`
+                        AND `tuba3`.`program_id` = `tup`.`program_id`
                     ) AS `program_budget`,
                     (
                         SELECT
@@ -98,6 +100,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                 `tw`.`user_id` = `up`.`user_id`
                             AND `tw`.`year_id` = `tuba`.`year_id`
                             AND `tw`.`unit_id` = `up`.`unit_id`
+                            AND `tw`.program_id =  `tuba`.program_id
                         ) AS DECIMAL (20, 2)
                     ) AS `utilized_pi_balance`,
                     COALESCE (
@@ -139,6 +142,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                 `tw`.`user_id` = `up`.`user_id`
                             AND `tw`.`year_id` = `tuba`.`year_id`
                             AND `tw`.`unit_id` = `up`.`unit_id`
+                            AND `tw`.program_id =  `tuba`.program_id
                         )
                     ) AS `ppmp_actual_balance`,
                     (
@@ -149,6 +153,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         WHERE
                             `tuba2`.`unit_id` = `tuba`.`unit_id`
                         AND `tuba2`.`year_id` = `tuba`.`year_id`
+                        AND `tuba2`.program_id =  `tuba`.program_id
                     ) AS `yearly_budget`,
                     (
                         SELECT
@@ -165,6 +170,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                     `tw`.`user_id` = `up`.`user_id`
                                 AND `tw`.`year_id` = `tuba`.`year_id`
                                 AND `tw`.`unit_id` = `up`.`unit_id`
+                                AND tw.program_id = tuba.program_id
                             )
                     ) AS `yearly_utilized`
                 FROM
@@ -201,7 +207,8 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                 GROUP BY
                     `tuba`.`year_id`,
                     `up`.`unit_id`,
-                    `tuba`.`budget_line_item_id`
+                    `tuba`.`budget_line_item_id`,
+                    `tup`.`program_id`
             )');
     }
 

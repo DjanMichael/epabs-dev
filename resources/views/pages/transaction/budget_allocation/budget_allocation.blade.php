@@ -99,6 +99,7 @@
                             var user_id = $("#edit_bli_user_id").val();
                             var year_id = $("#edit_bli_year_id").val();
                             var bli_id = $("#edit_bli_id").val();
+                            var program_id = $("#edit_program_id").val();
 
                             var _data = {
                                     q_bli_id : edit_bli,
@@ -106,7 +107,8 @@
                                     r_unit_id : unit_id,
                                     r_user_id : user_id,
                                     r_year_id : year_id,
-                                    r_bli_id  : bli_id
+                                    r_bli_id  : bli_id,
+                                    r_program_id : program_id
                                 };
 
                             var _url = "{{ route('db_budget_update_allocation_per_user') }}";
@@ -121,7 +123,7 @@
                                 },
                                 success:function(data){
                                     if(data =="success"){
-                                        toastr.success("Budget Allocation Sucessfully Save", "Good Job");
+                                        toastr.success("Budget Allocation Sucessfully Updated", "Good Job");
                                         getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,$("#bli_program_id").val());
                                         $("#bli_name").val("");
                                         $("#bli_amount").val("");
@@ -161,6 +163,7 @@
                         var user_id = $("#edit_bli_user_id").val();
                         var year_id = $("#edit_bli_year_id").val();
                         var bli_id = $("#edit_bli_id").val();
+                        var program_id = $("#edit_program_id").val();
 
                         var _data = {
                                 q_bli_id : edit_bli,
@@ -168,7 +171,8 @@
                                 r_unit_id : unit_id,
                                 r_user_id : user_id,
                                 r_year_id : year_id,
-                                r_bli_id  : bli_id
+                                r_bli_id  : bli_id,
+                                r_program_id  : program_id
                             };
 
                         var _url = "{{ route('db_budget_update_allocation_per_user') }}";
@@ -183,7 +187,7 @@
                             },
                             success:function(data){
                                 if(data =="success"){
-                                    toastr.success("Budget Allocation Sucessfully Save", "Good Job");
+                                    toastr.success("Budget Allocation Sucessfully Update", "Good Job");
                                     getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,$("#bli_program_id").val());
                                     $("#bli_name").val("");
                                     $("#bli_amount").val("");

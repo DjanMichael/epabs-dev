@@ -176,7 +176,6 @@
          FUNCTIONS
         */
 
-
         function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
             var _url = "{{ route('d_get_all_wfp_list') }}";
 
@@ -209,6 +208,17 @@
                             page_wfp = $(this).attr('href').split('page=')[1]
                             fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
                         });
+                    },
+                    error:function(xhr, textStatus, errorThrown){
+                        if (xhr.status == 401) {
+                            $.ajaxSetup().tryCount++;
+                            if($.ajaxSetup().tryCount != $.ajaxSetup().retryLimit)
+                            {
+                                setTimeout(function(){
+                                    fetch_wfp_list();
+                                }, $.ajaxSetup().retryAfter);
+                            }
+                        }
                     }
                 });
             }else{

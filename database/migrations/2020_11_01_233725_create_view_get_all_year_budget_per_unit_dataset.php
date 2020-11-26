@@ -42,6 +42,16 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                     `dataset2`.`utilized_pi` AS `utilized_plan`,
                     `dataset2`.`yearly_budget` - `dataset2`.`yearly_utilized` AS `yearly_balance`,
                     `dataset2`.`yearly_budget` AS `yearly_budget`,
+                    (
+                        SELECT
+                            sum(`tuba`.`program_budget`)
+                        FROM
+                            `doh_epabs`.`tbl_unit_budget_allocation` `tuba`
+                        WHERE
+                            `tuba`.`year_id` = `dataset2`.`year_id`
+                        AND `tuba`.`program_id` = `dataset2`.`program_id`
+                        AND `tuba`.`budget_line_item_id` = `dataset2`.`budget_line_item_id`
+                    ) AS `yearly_budget2`,
                     `dataset2`.`yearly_utilized` AS `yearly_utilized`
                 FROM
                     (

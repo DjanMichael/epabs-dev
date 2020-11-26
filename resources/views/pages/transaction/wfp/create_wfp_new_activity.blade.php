@@ -792,6 +792,11 @@
                             }else{
                                 toastr.error("Something Went Wrong!", "Opss");
                             }
+                        },
+                        complete:function(){
+                            $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_update_pi").html('Update');
+                            $("#btn_update_pi").attr('disabled',false);
                         }
                     })
                 }else{
@@ -1364,6 +1369,17 @@
                 data : {wfp_code: wfp, wfp_act_id : $("#wfp_act_id").val() },
                 success:function(data){
                     document.getElementById('pi_table').innerHTML = data;
+                },
+                error:function(xhr, textStatus, errorThrown){
+                    if (xhr.status == 401) {
+                        $.ajaxSetup().tryCount++;
+                        if($.ajaxSetup().tryCount != $.ajaxSetup().retryLimit)
+                        {
+                            setTimeout(function(){
+                                fetchMessagesByUsers();
+                            }, $.ajaxSetup().retryAfter);
+                        }
+                    }
                 }
             });
         }

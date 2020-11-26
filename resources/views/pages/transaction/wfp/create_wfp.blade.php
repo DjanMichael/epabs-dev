@@ -639,7 +639,7 @@
                 pi_data.batches = '';
                 delete pi_rules.batches
             }
-            console.log(pi_data);
+            // console.log(pi_data);
 
             let pi_validation = new Validator(pi_data, pi_rules, options);
 

@@ -76,6 +76,7 @@ class BudgetAllocationController extends Controller
     public function getBudgetAllocationPerBLIByUser(Request $req){
         $data = [];
 
+        // dd($req->all());
         $data["unit_per_user_budget"] = BudgetAllocationUtilization::where('user_id',$req->user_id)
                                                                     ->where('unit_id',$req->unit_id)
                                                                     ->where('year_id',$req->year_id)
@@ -113,9 +114,11 @@ class BudgetAllocationController extends Controller
     public function updateBudgetPerBLIByUser(Request $req){
 
         if($req->ajax()){
+            // dd($req->all());
             $edit_data = TableUnitBudgetAllocation::where('budget_line_item_id',$req->r_bli_id)
                                                 ->where('unit_id',$req->r_unit_id)
                                                 ->where('year_id',$req->r_year_id)
+                                                ->where('program_id',$req->r_program_id)
                                                 ->first();
             if($edit_data){
                 //update new data
