@@ -126,7 +126,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/chat/update/read/status','ChatController@updateUnreadMessageToRead')->name('db_update_message_read');
 
     //PURHASE REQUEST
-    Route::get('/user/create/pr','Transaction\PurchaseRequestController@index')->name('r_pr');
+    Route::get('/user/pr/list','Transaction\PurchaseRequestController@index')->name('r_pr');
+    Route::get('/user/pr/create','Transaction\PurchaseRequestController@redirectCreatePurchaseRequest')->name('r_pr_create');
 
 
     //Transaction/Activity Calendar
