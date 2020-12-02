@@ -87,6 +87,7 @@ class PpmpController extends Controller
         // if($a){
         //     $data["ppmp_items"] = $a->toArray();
         // }
+
         $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' ));
 
         return view('components.global.wfp_activity_cart_drawer',['data' => $data]);
@@ -127,6 +128,7 @@ class PpmpController extends Controller
                     }
                     $i++;
                 }
+
 
                 // $months_list = rtrim($months_list,', ');
 
@@ -316,7 +318,7 @@ class PpmpController extends Controller
         $data["ppmp_items"] = [];
         if ($req->batch_id != null)
         {
-            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch_id));
+            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : ''));
         }
 
         $data["catering_batch"] = TablePiCateringBatches::where('id',$req->batch_id)->first();

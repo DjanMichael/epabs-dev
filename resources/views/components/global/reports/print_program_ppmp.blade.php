@@ -131,7 +131,83 @@
             > --}}
     </div>
     <div class="footer">
-        FOOTER
+        <table style="width:100%">
+            <tr>
+                <td style="width:40%">
+                    Prepared By:
+                    <br><br><br><br>
+                    {{  $data["wfp_manager"]->name }}
+                    <br>
+                    {{  $data["wfp_manager"]->designation ?: 'NO DESIGNATION' }}
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Reviewed By:
+                    <br><br><br><br>
+                    ENGR. ARLENE D. SANTUA
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Recommending Approval:
+                    <br><br><br><br>
+                    DR. GERNA T. MANATAD
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Approved By:
+                    <br><br><br><br>
+                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    <br>
+                    DIRECTOR
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%">
+                    <br><br>
+                    Noted By:
+                    <br><br><br><br>
+                    <?php
+                        $division = $data["wfp_unit"]->division;
+                        $unit = $data["wfp_unit"]->section;
+                    ?>
+                    @if($division =="RD/ARD")
+                        @if($unit == "ARD")
+                            DR. GERNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                        @if($unit == "RD")
+                            DR. JOSE LLACUNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                    @endif
+
+                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                        AILEEN SACOL
+                        <br>
+                        ADMINISTRATIVE OFFICER V
+                    @endif
+
+                    @if($division == "LHS")
+                        DR. ERNESTO PAREJA
+                        <br>
+                        MEDICAL OFFICER V
+                    @endif
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+        </table>
     </div>
 
 

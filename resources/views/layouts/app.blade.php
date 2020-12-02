@@ -1131,12 +1131,23 @@
             $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     retryAfter:5000,
                     retryLimit:3,
                     tryCount:0
             });
+
+            var ajaxSetup1 = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers" : "Authorization",
+                    "Access-Control-Allow-Methods": "GET, POST"
+                }
+
+            }
 
             function getProgramsAssigned(){
                 var _url  ="{{ route('get_program_assigned') }}";
@@ -1256,7 +1267,6 @@
 
             Echo.private('system.events.logs')
             .listen('LoginAuthenticationLog', (e) => {
-
                 Promise.resolve(4)
                     .then(()=>{
                         if(!detectMob()){
@@ -1611,7 +1621,7 @@
             $("#kt_body").addClass('add_scroll');
             setTimeout(function(){
                 $(".page_loader").addClass('display-none');
-            },1300);
+            },1500);
         }
 
         function wfp_drawer_close(){
@@ -2057,9 +2067,33 @@
                 }
             });
         }
+        function sendSMS(to,msg){
+            var _url ="{{ route('save_sms_api') }}?To=" + to + "&Message=" + msg;
 
+            $.ajax({
+                method:"POST",
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods': 'GET,POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Authorization,X-Socket-Id'
+                },
+                crossDomain:true,
+                url:_url,
+                // beforeSend:function(){
+                //     this.headers.global = false;
+                // },
+                beforeSend: function() {},
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(e)
+                {
+                    console.log(e);
+                }
+            });
+
+        }
         function wfpApprove(_wfp_code){
-
             var _url = "{{ route('wfp_status_approve') }}";
             var _data = {
                 wfp_code : _wfp_code
@@ -2082,6 +2116,7 @@
                                     "Successfully Approved WFP",
                                     "success"
                                 )
+                                // sendSMS(data.send_to,data.send_msg);
                                 wfp_drawer_close();
                                 fetch_wfp_list();
                             }

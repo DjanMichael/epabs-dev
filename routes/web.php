@@ -125,6 +125,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/chat/send/message','ChatController@sendMessageToUser')->name('db_send_chat_message_to_user');
     Route::get('/user/chat/update/read/status','ChatController@updateUnreadMessageToRead')->name('db_update_message_read');
 
+    //PURHASE REQUEST
+    Route::get('/user/create/pr','Transaction\PurchaseRequestController@index')->name('r_pr');
+
+
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 
@@ -133,6 +137,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
 
 });
+//SMS
+Route::post('/sms/save/api','SMSController@sendMsgToUser')->name('save_sms_api');
+Route::get('/sms/get/list','SMSController@api_list_view');
+Route::get('/sms/update/list','SMSController@updateSMSStatus');
+
 
 Route::get('/logout/session','AuthController@logoutUser')->name('Logout');
 Route::get('/authentication','AuthController@index');

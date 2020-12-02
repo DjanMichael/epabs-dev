@@ -11,7 +11,7 @@
     <style>
            /* margin : top right bottom left */
         @page {
-            margin: 80px 30px 130px 30px;
+            margin: 80px 30px 120px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -78,13 +78,14 @@
                 bottom: -60px;
                 left: 0px;
                 right: 0px;
-                height: 50px;
-
+                height: 180px;
+                font-size:10px;
+                font-weight:bold;
                 /** Extra personal styles **/
-                background-color: #03a9f4;
+                /* background-color: #03a9f4;
                 color: white;
                 text-align: center;
-                line-height: 35px;
+                line-height: 35px; */
         }
         main{
             position: relative;
@@ -131,7 +132,83 @@
             > --}}
     </div>
     <div class="footer">
-        FOOTER
+        <table style="width:100%">
+            <tr>
+                <td style="width:40%">
+                    Prepared By:
+                    <br><br><br><br>
+                    {{  $data["wfp_manager"]->name }}
+                    <br>
+                    {{  $data["wfp_manager"]->designation ?: 'NO DESIGNATION' }}
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Reviewed By:
+                    <br><br><br><br>
+                    ENGR. ARLENE D. SANTUA
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Recommending Approval:
+                    <br><br><br><br>
+                    DR. GERNA T. MANATAD
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Approved By:
+                    <br><br><br><br>
+                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    <br>
+                    DIRECTOR
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%">
+                    <br><br>
+                    Noted By:
+                    <br><br><br><br>
+                    <?php
+                        $division = $data["wfp_unit"]->division;
+                        $unit = $data["wfp_unit"]->section;
+                    ?>
+                    @if($division =="RD/ARD")
+                        @if($unit == "ARD")
+                            DR. GERNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                        @if($unit == "RD")
+                            DR. JOSE LLACUNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                    @endif
+
+                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                        AILEEN SACOL
+                        <br>
+                        ADMINISTRATIVE OFFICER V
+                    @endif
+
+                    @if($division == "LHS")
+                        DR. ERNESTO PAREJA
+                        <br>
+                        MEDICAL OFFICER V
+                    @endif
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+        </table>
     </div>
 
     <?php
