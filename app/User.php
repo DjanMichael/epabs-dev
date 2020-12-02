@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return Cache::has('user-is-online-' . $this->id);
     }
+
+    public function getUserContact($user_id){
+        $contact = (\App\UserProfile::where('user_id',$user_id)->first())->contact != '' ? (\App\UserProfile::where('user_id',$user_id)->first())->contact : '';
+        return $contact;
+    }
 }

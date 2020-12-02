@@ -848,6 +848,8 @@
                                 "Item Added to Cart",
                                 "success"
                             )
+                            $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
+                            $("#btnSavePiCart").attr('disabled',false);
                             fetchPIDetails("ADDING_ITEM");
                         }else if(data == 'duplicate'){
                             $("#modal_qty_cart_item").modal('hide');
@@ -864,12 +866,14 @@
                                 "error"
                             )
                         }
+                        $("#btnSavePiCart").attr('disabled',false);
+                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
 
                     },complete:function(){
 
                         KTApp.unblock('#modal_qty_cart_item');
-                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
                         $("#btnSavePiCart").attr('disabled',false);
+                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
                     }
                 });
             }else if(is_catering == 'N'){
@@ -973,6 +977,8 @@
                 focus: true,
                 keyboard:false
             });
+            $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
+            $("#btnSavePiCart").attr('disabled',false);
             //set default 0
             $("#jan_cart").val(0);
             $("#feb_cart").val(0);

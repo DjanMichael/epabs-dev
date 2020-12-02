@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
@@ -28,6 +29,7 @@ use PDF;
 use App\User;
 use App\RefProgram;
 
+use App\ApiSMS;
 use App\Views\BudgetAllocationAllYearPerProgram;
 
 class WfpController extends Controller
@@ -766,6 +768,11 @@ class WfpController extends Controller
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
         event(new NotifyUserWfpStatus($wfp,'WFP Approve', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been approved','WFP Update'));
+        // dd($wfp->user_id);
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Approve ' . $program->program_name . ' Program ' . ' Wfp has been approved on ');
+        // return $data;
     }
 
 
@@ -779,6 +786,9 @@ class WfpController extends Controller
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
         broadcast(new NotifyUserWfpStatus($wfp,'WFP Submit', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been submitted','WFP Update'))->toOthers();
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Submitted ' . $program->program_name . ' Program ' . ' Wfp has been Submitted');
     }
 
     public function updateWfpRevise(Request $req){
@@ -791,6 +801,9 @@ class WfpController extends Controller
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
         event(new NotifyUserWfpStatus($wfp,'WFP Revise', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp needs to be revised','WFP Update'));
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Revised ' . $program->program_name . ' Program ' . ' Wfp has been Revised');
     }
 
     public function newWfpActivity(Request $req){

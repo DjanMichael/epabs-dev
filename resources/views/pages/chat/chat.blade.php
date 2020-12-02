@@ -26,6 +26,10 @@
 @endpush
 @section('content')
 
+<button  id="kt_app_chat_toggle" class="btn btn-icon btn-danger btn-circle btn-lg mr-4 offcanvas-mobile-on  d-lg-none" style="position:fixed;bottom:0; z-index:300;margin-bottom:20px;margin-left:20px;">
+    <i class="flaticon2-sms"></i>
+</button>
+
 <div class=" container  bgi-size-cover bgi-position-top bgi-no-repeat ml-0 p-0" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
     <!--begin::Chat-->
     <div class="d-flex flex-row">
@@ -274,6 +278,7 @@
                         {
                             setTimeout(function(){
                                 fetchMessagesByUsers();
+                                $(".emojionearea-editor").attr('rows','1');
                             }, $.ajaxSetup().retryAfter);
                         }
                     }

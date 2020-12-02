@@ -11,6 +11,7 @@ use App\UserProfile;
 use App\GlobalSystemSettings;
 use App\RefProgram;
 use App\WfpPerformanceIndicator;
+use App\User;
 use Illuminate\Support\Facades\Crypt;
 use PDF;
 use Auth;
@@ -29,7 +30,8 @@ class PDFController extends Controller
         $data["wfp_program"] = RefProgram::where('id', $data["wfp"]->program_id)->first();
         $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
-        $data["wfp_manager"] = UserProfile::where('user_id',$data["wfp"]->user_id)->first();
+        $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
+                                ->where('users.id',$data["wfp"]->user_id)->first();
         $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->get();
         $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->get();
         $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->get();
@@ -49,7 +51,8 @@ class PDFController extends Controller
 
         $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
-        $data["wfp_manager"] = UserProfile::where('user_id',$data["wfp"]->user_id)->first();
+        $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
+                                        ->where('users.id',$data["wfp"]->user_id)->first();
         $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->get();
         $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->get();
         $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->get();
@@ -66,7 +69,7 @@ class PDFController extends Controller
             // dd($req->all());
 
             $data["wfp"] = Wfp::where('code',$req->wfp_code)->first();
-            
+
             $data["wfp_program"] = RefProgram::where('id',$data["wfp"]->program_id)->first();
             $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
             $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
@@ -111,7 +114,7 @@ class PDFController extends Controller
                                         ->where($vw . '.classification','=','CATERING SERVICES')
                                         ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
 
-            
+
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($data);
             return PDF::loadView('components.global.reports.print_program_ppmp',['data' => $data])
