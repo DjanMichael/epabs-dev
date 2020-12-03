@@ -38,7 +38,7 @@ class PDFController extends Controller
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
-            ->setPaper('a4', 'landscape')
+            ->setPaper('legal', 'landscape')
             ->stream('WFPPRINT.pdf');
         // return $pdf->stream('document.pdf');
     }
@@ -48,7 +48,7 @@ class PDFController extends Controller
         $data = [];
 
         $data["wfp"] = Wfp::where('code',$code)->first();
-
+        $data["wfp_program"] = RefProgram::where('id',$data["wfp"]->program_id)->first();
         $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
         $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
@@ -59,7 +59,7 @@ class PDFController extends Controller
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
-            ->setPaper('a4', 'landscape')
+            ->setPaper('legal', 'landscape')
             ->download('WFP_' . $code .'.pdf');
         // $pdf = PDF::loadView('components.global.reports.print_unit_wfp', ['data' => $data] , [],$config);
         // return $pdf->stream('document.pdf');
@@ -118,7 +118,7 @@ class PDFController extends Controller
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($data);
             return PDF::loadView('components.global.reports.print_program_ppmp',['data' => $data])
-                ->setPaper('a4', 'landscape')
+                ->setPaper('legal', 'landscape')
                 ->stream('PPMP_'. $req->wfp_code .'.pdf');
                 // ->download('PPMP_' . $code .'.pdf');
     }

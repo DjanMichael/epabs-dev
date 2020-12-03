@@ -1,3 +1,11 @@
+<?php
+
+$log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
+                ->where('status','PPMP')
+                ->orderBy('id','DESC')
+                ->first();
+?>
+
 <div class="row">
     <div class="bg-dark text-light col-12 p-15"
     style="padding:10px;position:fixed;top:-10px;margin:0 auto;height:auto;width:100%;z-index:1000;
@@ -6,6 +14,7 @@
             <div class="row">
                 <div class="col-10">
                     <h1> <i class="fas fa-boxes icon-xl text-light"></i> PPMP </h1>
+                    <h5>{{ $log != null ? $log->remarks : "NOT YET SUBMITTED" }}</h5>
                 </div>
                 <div class="col-2 text-right">
                     <button class="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -13,20 +22,31 @@
                         style="position: relative;top:0px;right:0px;"><i class="flaticon-close"></i>
                     </button>
                 </div>
-
-
                 <div class="col-12 col-md-8">
                     <div class="row">
+                            @if($log)
+                                @if(Auth::user()->role->roles != "PROGRAM COORDINATOR")
+                                    @if($log->remarks =="SUBMITTED")
+                                        <button type="button" onclick="approvePPMP('{{ $data['wfp_code'] }}')" class="btn btn-transparent-success font-weight-bold  btn-block col-12 col-md-4 m-1"><i class="flaticon-like icon-md"></i>APPROVED PPMP</button>
+                                        <button type="button" onclick="revisePPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED PPMP</button>
+                                        <button type="button" onclick="commentPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="fa fa-comment-alt icon-md"></i>Commment PPMP</button>
+                                    @endif
 
-                        <div class="col-12 col-md-4">
-                            <button type="button"  class="btn btn-transparent-success font-weight-bold  btn-block"><i class="flaticon-like icon-md"></i>APPROVED PPMP</button>
-                            <button type="button"  class="btn btn-transparent-primary font-weight-bold  btn-block"><i class="flaticon2-send-1 icon-md"></i>SUBMIT PPMP</button>
-                            <button type="button"  class="btn btn-transparent-danger font-weight-bold  btn-block" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED PPMP</button>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <button type="button" class="btn btn-transparent-white font-weight-bold btn-block" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
-                        </div>
+                                    @if($log->remarks =="APPROVED")
+                                        <button type="button" onclick="revisePPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED PPMP</button>
+                                    @endif
+                                @else
+                                    @if($log->remarks =="SUBMITTED")
+                                        <button type="button" onclick="commentPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="fa fa-comment-alt icon-md"></i>Commment PPMP</button>
+                                    @endif
+                                    @if($log->remarks =="FOR REVISION")
+                                        <button type="button" onclick="submitPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-send-1 icon-md"></i>Submit PPMP</button>
+                                    @endif
+                                @endif
+                            @else
+                                <button type="button" onclick="submitPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-send-1 icon-md"></i>Submit PPMP</button>
+                            @endif
+                            <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
                         <div class="col-12 col-md-4">
                         </div>
                     </div>
@@ -86,11 +106,10 @@
                             <br>
                             <br>
                             <br>
-                            <?php 
+                            <?php
                                 $supplies = collect($data["ppmp_items"])->toArray();
-                            
                             ?>
-                                    <?php 
+                                    <?php
                                         //  dd($supplies);
                                         $arr = [];
                                         $arr_keys = [];
@@ -101,7 +120,7 @@
                                                         [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
                                                         );
                                         }
-                                
+
 
                                         $item_row = [];
 
@@ -172,14 +191,14 @@
                                     </tr>
                                     @endforeach
                                 @endforeach
-                             
+
                             @if(count($data["ppmp_catering"]) <> 0)
                                 <tr>
                                     <td colspan="18" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left">CATERING SERVICES</td>
                                 </tr>
                                 <?php $pi_ids= [] ?>
                                 @foreach($data["ppmp_catering"] as $key => $row)
-                                     
+
                                 <?php
 
                                     array_push($pi_ids,$key);
@@ -192,7 +211,7 @@
                                                                         ->get()->toArray();
                                 ?>
                                     @foreach($batch as $row3)
-                                        <?php   
+                                        <?php
                                         $vw = "vw_procurement_drum_supplies_items";
                                         $items = \DB::table('tbl_ppmp_items')
                                                         ->join($vw,function($q) use ($vw)
@@ -204,18 +223,18 @@
                                                         ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
                                                         ->where($vw . '.classification','=','CATERING SERVICES')
                                                         ->get()->toArray();
-                                        
+
                                         ?>
                                         <tr>
                                             <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left pl-4">
-                                                {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}} 
+                                                {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
                                             </td>
                                         </tr>
-                                    
+
                                         <tr>
                                             <?php $i1 =1; ?>
                                             @foreach( $items as $row4)
-                                                <?php $i1++; ?> 
+                                                <?php $i1++; ?>
                                             @endforeach
 
                                             @if(count($items) <> 0)
@@ -223,7 +242,7 @@
                                             @endif
                                             @foreach( $items as $row4)
                                                 <tr>
-                                                    <?php 
+                                                    <?php
                                                     $qty2 = $row4->jan + $row4->feb + $row4->mar + $row4->apr + $row4->may + $row4->june + $row4->july + $row4->aug + $row4->sept + $row4->oct + $row4->nov + $row4->dec;
                                                         $g_total += $qty2 * $row4->price;
                                                     ?>
@@ -245,7 +264,7 @@
                                                     <td style="border:1px solid black;padding:3px;">₱ {{ number_format($qty2 * $row4->price,2) }}</td>
                                                 </tr>
                                             @endforeach
-                                            
+
                                         </tr>
                                     @endforeach
                                 @endforeach

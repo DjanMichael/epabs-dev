@@ -12,6 +12,7 @@ use App\Views\ProcurementMedSupplies;
 use App\TablePiCateringBatches;
 use App\RefLocation;
 use DB;
+use App\ZWfpLogs;
 
 class PpmpController extends Controller
 {
@@ -45,6 +46,20 @@ class PpmpController extends Controller
         // dd($data);
 
         return view('pages.transaction.ppmp.ppmp',['data' => $data]);
+    }
+
+    public function product_item_index(){
+        $data=[];
+
+        $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->get()->toArray();
+        for($i =0 ; $i < count($data["ppmp_item_category"])  ; $i++ ){
+            $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
+        }
+
+      
+        // dd($data);
+
+        return view('pages.transaction.product_item.product_item',['data' => $data]);
     }
 
     public function getBatchesByPiId(Request $req){
@@ -192,7 +207,13 @@ class PpmpController extends Controller
                                                 $q->where('description','LIKE','%' . $req->q . '%')
                                             )->paginate($this->paginate_ppmp_item_list);
         }
-        return view('pages.transaction.ppmp.components.med_supplies_list',['data' => $data]);
+        //separate product viewing and  ppmp
+        if($req->has('action')){
+            $action = $req->action;
+        }else{
+            $action = "true";
+        }
+        return view('pages.transaction.ppmp.components.med_supplies_list',['data' => $data,'action'=>$action]);
     }
 
     public function addPPMPItemsByPI(Request $req){
@@ -254,7 +275,7 @@ class PpmpController extends Controller
     public function getPPMPView(Request $req){
         if($req->ajax()){
             // dd($req->all());
-            $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get()->toArray();
+            $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
 
             if(count($wfp_act_ids) > 0){
@@ -293,7 +314,7 @@ class PpmpController extends Controller
 
             $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
-            // dd($data);
+            // dd($req->wfp_code);
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
         }else{
             abort(403);
@@ -348,7 +369,14 @@ class PpmpController extends Controller
 
     public function updateStatusApprove(Request $req){
         if($req->ajax()){
+            $res;
+            $a = new ZWfpLogs;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->status = 'PPMP';
+            $a->remarks = 'APPROVED';
+            $res = $a->save() ? true : false;
 
+            return $res;
         }else{
             abort(403);
         }
@@ -356,7 +384,15 @@ class PpmpController extends Controller
 
     public function updateStatusSubmit(Request $req){
         if($req->ajax()){
+            $res;
+            dd(Crypt::decryptString($req->wfp_code));
+            $a = new ZWfpLogs;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->status = 'PPMP';
+            $a->remarks = 'SUBMITTED';
+            $res = $a->save() ? true : false;
 
+            return $res;
         }else{
             abort(403);
         }
@@ -364,7 +400,14 @@ class PpmpController extends Controller
 
     public function updateStatusRevise(Request $req){
         if($req->ajax()){
+            $res;
+            $a = new ZWfpLogs;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->status = 'PPMP';
+            $a->remarks = 'FOR REVISION';
+            $res = $a->save() ? true : false;
 
+            return $res;
         }else{
             abort(403);
         }

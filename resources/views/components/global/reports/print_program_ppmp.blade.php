@@ -10,7 +10,7 @@
   <style>
            /* margin : top right bottom left */
         @page {
-            margin: 90px 30px 130px 30px;
+            margin: 90px 30px 120px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -77,13 +77,14 @@
                 bottom: -60px;
                 left: 0px;
                 right: 0px;
-                height: 50px;
-
+                height: 180px;
+                font-size:10px;
+                font-weight:bold;
                 /** Extra personal styles **/
-                background-color: #03a9f4;
+                /* background-color: #03a9f4;
                 color: white;
                 text-align: center;
-                line-height: 35px;
+                line-height: 35px; */
         }
         main{
             position: relative;
@@ -102,14 +103,13 @@
 </head>
 <body>
  <div class="header" style="width:100%;">
-
     <div stlye="width:100%">
-        <div style="position: absolute;top:-10px;left:510px;">
+        <div style="position: absolute;top:-10px;left:47%;">
             ANNEX F.
         </div>
     </div>
     <div stlye="width:100%">
-        <div style="position: absolute;top:20px;left:420px;">
+        <div style="position: absolute;top:20px;left:40%;">
             PROJECT PROCUREMENT MANAGEMENT PLAN
         </div>
     </div>
