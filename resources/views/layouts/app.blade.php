@@ -724,7 +724,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ACTIVITY INFORMATION VIEWER</h5>
+                <h5 class="modal-title" id="exampleModalLabel">PERFORMANCE INDICATOR VIEWER</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -1234,7 +1234,7 @@
             "debug": false,
             "newestOnTop": true,
             "progressBar": true,
-            "positionClass": "toast-bottom-full-width",
+            "positionClass": "toast-bottom-right",
             "preventDuplicates": false,
             "onclick": null,
             "showDuration": "300",
@@ -1325,7 +1325,6 @@
                             document.getElementById('notification_sound').play();
                         }
                     }).then(() =>{
-
                         console.log(e);
                         // WFP STATUS
                         if(e.title == "WFP Submit"){
@@ -1346,6 +1345,42 @@
                 });
 
             });
+
+
+            Echo.private('wfp.notify.user.ppmp.{{ Auth::user()->getSelectedProgramId() != '' ? Auth::user()->getSelectedProgramId() : 0}}')
+            .listen('NotifyUserPpmpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+
+                        console.log(e);
+                        // WFP STATUS
+                        if(e.title == "PPMP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "PPMP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "PPMP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
 
 
             Echo.private('chat.user.{{ Auth::user()->id }}')
@@ -1809,9 +1844,10 @@
         }
 
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
-            if(_wfp_act_id != null || _wfp_code != null){
+            if(_wfp_code != null){
                 $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
                 $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
+                // wfp_drawer_close();
                 fetchPPMPViewer(_wfp_code,_wfp_act_id);
             }
         }
@@ -1897,6 +1933,7 @@
                 url: _url,
                 data: { wfp_code : _wfp_code },
                 success:function(data){
+                    console.log(data);
                     if(data == 'success'){
                         KTApp.block('#kt_body', {
                             overlayColor: '#000000',
@@ -2193,7 +2230,8 @@
 
             function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
                 var _url = "{{ route('d_get_all_wfp_list') }}";
-
+                var url_check = window.location.href;
+                url_check = url_check.split('?')[0];
                 var _data = {
                     page : _page,
                     q: _q,
@@ -2202,29 +2240,33 @@
                 };
                 if(settings.year != null || settings.year != undefined)
                 {
-                    $.ajax({
-                        method:"GET",
-                        url:_url,
-                        data:_data,
-                        beforeSend:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Retrieving WFP Data. . .'
-                            });
-                        },
-                        success:function(data){
-                            document.getElementById('wfp_list').innerHTML = data;
-                        },
-                        complete(){
-                            KTApp.unblock('#kt_body');
-                            $("#pagination_wfp_list .pagination a").on('click',function(e){
-                                e.preventDefault();
-                                page_wfp = $(this).attr('href').split('page=')[1]
-                                fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
-                            });
-                        }
-                    });
+                    if(url_check.search(/wfp/i) > 0)
+                    {
+                        $.ajax({
+                            method:"GET",
+                            url:_url,
+                            data:_data,
+                            beforeSend:function(){
+                                KTApp.block('#kt_body', {
+                                    overlayColor: '#000000',
+                                    state: 'primary',
+                                    message: 'Retrieving WFP Data. . .'
+                                });
+                            },
+                            success:function(data){
+                                document.getElementById('wfp_list').innerHTML = data;
+                            },
+                            complete(){
+                                KTApp.unblock('#kt_body');
+
+                                $("#pagination_wfp_list .pagination a").on('click',function(e){
+                                    e.preventDefault();
+                                    page_wfp = $(this).attr('href').split('page=')[1]
+                                    fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
+                                });
+                            }
+                        })
+                    }
                 }else{
                     swal.fire({
                             title:"Warning",
@@ -2256,9 +2298,18 @@
                 var _url ="{{ route('status_update_approve') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Approved!",
+                                "success"
+                            )
+                        }
                     }
                 });
             }
@@ -2267,9 +2318,18 @@
                 var _url ="{{ route('status_update_submit') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Submitted!",
+                                "success"
+                            )
+                        }
                     }
                 })
             }
@@ -2278,9 +2338,18 @@
                 var _url ="{{ route('status_update_revise') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Revise",
+                                "success"
+                            )
+                        }
                     }
                 });
             }

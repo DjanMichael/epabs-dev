@@ -1,15 +1,24 @@
 @extends('layouts.app')
 @section('title','PPMP')
 @section('content')
+<?php 
+
+    $ppmpApproved  = \App\ZWfplogs::where('wfp_code',$data['wfp_code'])
+                                            ->where('status','PPMP')
+                                            ->orderBy('id','DESC')
+                                            ->first(); 
+?>
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-    <span class="label label-rounded label-danger mr-2" style="position:absolute;left:0;top:0;" id="cart_count_badge">0</span>
-    <!--begin::Item-->
-<li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Show Selected Items">
-        <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
-            <i class="fas fa-shopping-cart text-primary"></i>
-        </button>
-    </li>
-    <!--end::Item-->
+    @if($ppmpApproved->remarks != "APPROVED")
+        <span class="label label-rounded label-danger mr-2" style="position:absolute;left:0;top:0;" id="cart_count_badge">0</span>
+        <!--begin::Item-->
+        <li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Show Selected Items">
+            <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
+                <i class="fas fa-shopping-cart text-primary"></i>
+            </button>
+        </li>
+        <!--end::Item-->
+    @endif
     <!--begin::Item-->
     <li class="nav-item mb-2"  onclick="wfp_drawer_open('{{ $data['wfp_code'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open Wfp Activity">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
@@ -18,7 +27,7 @@
     </li>
     <!--end::Item-->
      <!--begin::Item-->
-     <li class="nav-item mb-2"  onclick="wfp_ppmp_viewer_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open PPMP">
+     <li class="nav-item mb-2"  onclick="wfp_ppmp_viewer_drawer_open('{{ Crypt::encryptString($data['wfp_code']) }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open PPMP">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
             <i class="fas fa-boxes text-primary"></i>
         </button>
@@ -26,6 +35,7 @@
     <!--end::Item-->
 </ul>
 <div class="row">
+@if($ppmpApproved->remarks != "APPROVED")
     <div class="col-12 col-md-12">
         <div class="flex-column col-md-12">
             <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
@@ -156,7 +166,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12">
             <div class="card card-custom " id="table_ppmp">
                 <!--begin::Header-->
@@ -214,6 +223,13 @@
         <!-- end row-->
     </div>
     <!--end col-10 -->
+@endif
+
+
+
+</div>
+<!--end row -->
+
 
 <!-- Modal modal_qty_cart_item-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
@@ -410,9 +426,6 @@
     </div>
 </div>
 
-
-</div>
-<!--end row -->
 @endsection
 
 @push('scripts')

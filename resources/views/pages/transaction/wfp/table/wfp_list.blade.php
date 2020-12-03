@@ -15,7 +15,7 @@
                         <span class="ribbon-inner bg-warning"></span>
                         <?php
 
-                        $stat = App\ZWfpLogs::where('wfp_code',$row['wfp_code'])->orderBy('created_at','DESC')->first();
+                        $stat = App\ZWfpLogs::where('wfp_code',$row['wfp_code'])->where('status','WFP')->orderBy('created_at','DESC')->first();
 
                         echo $stat->remarks;
                         ?>

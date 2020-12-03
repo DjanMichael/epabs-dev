@@ -105,12 +105,12 @@
     <div class="header" style="width:100%;">
 
     <div stlye="width:100%">
-        <div style="position: absolute;top:-10px;left:510px;">
+        <div style="position: absolute;top:-10px;left:50%;">
             ANNEX F.
         </div>
     </div>
     <div stlye="width:100%">
-        <div style="position: absolute;top:20px;left:450px;">
+        <div style="position: absolute;top:20px;left:44%;">
             WORK AND FINANCIAL PLAN MATRIX
         </div>
     </div>
