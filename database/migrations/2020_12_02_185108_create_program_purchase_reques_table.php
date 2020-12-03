@@ -15,7 +15,6 @@ class CreateProgramPurchaseRequesTable extends Migration
     {
         Schema::create('tbl_pr', function (Blueprint $table) {
             $table->id();
-            $table->integer('ppmp_id')->nullable(false);
             $table->string('agency')->nullable(false);
             $table->string('division')->nullable(false);
             $table->string('office')->nullable(false);

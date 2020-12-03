@@ -2,17 +2,13 @@
 @section('title','DASHBOARD')
 @section('breadcrumb')
 <li class="breadcrumb-item">
-    <a href="" class="text-muted">Features</a>
+    <span class="text-muted">{{ Auth::user()->role->roles }}</span>
 </li>
-<li class="breadcrumb-item">
-    <a href="" class="text-muted">Icons</a>
-</li>
-<li class="breadcrumb-item">
-    <a href="" class="text-muted">Flaticon</a>
-</li>
+
 @endsection
 
 @section('content')
+@if(Auth::user()->role->roles == "PROGRAM COORDINATOR")
 <!-- begin:dashboard budget -->
 <div class="row">
     <div class="col-md-12 col-12">
@@ -98,8 +94,9 @@
     </div>
 </div>
 <!-- end:dashboard budget -->
-
+@endif
 <!-- begin:dashboard planning -->
+@if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR")
 <div class="row">
     <div class="col-md-3 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
@@ -378,12 +375,11 @@
                                 <!--begin::Table-->
                                 <div class="table-responsive">
                                     <table class="table table-borderless table-vertical-center">
-                                        <thead>
-                                            <tr>
-                                                <th class="p-0 w-50px"></th>
-                                                <th class="p-0 min-w-150px"></th>
-                                                <th class="p-0 min-w-140px"></th>
-                                                <th class="p-0 min-w-110px"></th>
+                                        <thead class="py-5">
+                                            <tr >
+                                                <th class="p-0 min-w-200px" colspan="2">PROGRAM MANAGER</th>
+                                                <th class="p-0 min-w-140px">PROGRAM</th>
+                                                <th class="p-0 min-w-110px">STATUS</th>
                                                 <th class="p-0 min-w-50px"></th>
                                             </tr>
                                         </thead>
@@ -421,8 +417,7 @@
 
     </div>
 </div>
-
-
+@endif
 
 
 
