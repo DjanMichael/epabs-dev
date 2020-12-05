@@ -84,8 +84,8 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#function_deliverables_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.class_sequence = $("#sequence").val();
-                data.function_class = $("#function_class").val();
+                data.class_sequence = $("#sequence").val().toUpperCase();
+                data.function_class = $("#function_class").val().toUpperCase();
 
                 let validation = new Validator(data, rules);
                 validation.setAttributeNames({ class_sequence: 'Class Sequence', function_class : 'Function Class' })

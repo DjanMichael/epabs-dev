@@ -82,7 +82,7 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#activity_category_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.category = $("#activity_category").val();
+                data.category = $("#activity_category").val().toUpperCase();
 
                 let validation = new Validator(data, rules);
                 validation.setAttributeNames({ category : 'Activity Category' })

@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title','Unit')
+@section('title','Item Unit')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
-        <a class="text-muted">Office Unit</a>
+        <a class="text-muted">Unit of Item</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Unit')
-    @section('panel-icon', 'flaticon2-group')
+    @section('panel-title', 'Item Unit')
+    @section('panel-icon', 'flaticon2-box')
     @include('pages.reference.component.panel')
 
 @endsection
@@ -29,14 +29,14 @@
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_office_unit') }}", "{{ route('d_get_office_unit_by_page') }}",
+            populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { division : '', section : '' };
+            let data = { unit_of_measure : '', unit_name : '' };
 
-            let rules = { division : 'required', section : 'required' };
+            let rules = { unit_of_measure : 'required', unit_name : 'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -52,23 +52,23 @@
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
                 KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
-                populateTableBySearch("{{ route('d_get_office_unit_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                populateTableBySearch("{{ route('d_get_item_unit_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                var division = $('#'+id).children('td[data-target=division]').text();
-                var section = $('#'+id).children('td[data-target=section]').text();
+                var measure = $('#'+id).children('td[data-target=measure]').text();
+                var name = $('#'+id).children('td[data-target=name]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
                  $.ajax({
-                    url: "{{ route('d_add_office_unit') }}",
+                    url: "{{ route('d_add_item_unit') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    $('#office_unit_id').val(id);
-                    $('#division').val(division);
-                    $('#section').val(section);
+                    $('#item_unit_id').val(id);
+                    $('#measure').val(measure);
+                    $('#name').val(name);
                     $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
@@ -82,24 +82,25 @@
 
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#office_unit_id").val();
+                var id = $("#item_unit_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.division = $("#division").val();
-                data.section = $("#section").val();
+                data.unit_of_measure = $("#measure").val().toUpperCase();
+                data.unit_name = $("#name").val().toUpperCase();
 
                 let validation = new Validator(data, rules);
+                validation.setAttributeNames({ unit_of_measure: 'Unit of Measure', unit_of_name : 'Unit Name' })
 
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_office_unit') }}",
+                        url: "{{ route('a_item_unit') }}",
                         method: 'POST',
                         data: {
-                            "id"        : id,
-                            "division"  : data.division,
-                            "section"   : data.section,
-                            "status"    : status
+                            "item_unit_id"      : id,
+                            "unit_of_measure"   : data.unit_of_measure,
+                            "unit_name"         : data.unit_name,
+                            "status"            : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -110,14 +111,12 @@
                             }, 1000);
                             if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_office_unit') }}", "{{ route('d_get_office_unit_by_page') }}",
-                                                    'table_populate', 'table_content', 'table_pagination');
+                                populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}", 'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
-                            }
-                            else if (result['type'] == 'update'){
+                            } else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=division]').html(data.division);
-                                $('#'+id).children('td[data-target=section]').html(data.section);
+                                $('#'+id).children('td[data-target=name]').html(data.unit_name);
+                                $('#'+id).children('td[data-target=measure]').html(data.unit_of_measure);
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }

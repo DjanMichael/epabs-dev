@@ -22,6 +22,8 @@ class ClassificationController extends Controller
         {
             $data = RefClassification::paginate(10);
             return view('pages.reference.classification.table.display_classification',['classification'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -36,6 +38,8 @@ class ClassificationController extends Controller
                 $data = RefClassification::paginate(10);
             }
             return view('pages.reference.classification.table.display_classification',['classification'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -45,25 +49,29 @@ class ClassificationController extends Controller
 
     public function store(Request $request) {
 
-        $check = RefClassification::find($request->classification_id)
-                    ? RefClassification::where('classification', $request->classification)->where('id', '<>', $request->classification_id)->first()
-                    : RefClassification::where('classification', $request->classification)->first();
+        if($request->ajax()) {
+            $check = RefClassification::find($request->classification_id)
+                        ? RefClassification::where('classification', $request->classification)->where('id', '<>', $request->classification_id)->first()
+                        : RefClassification::where('classification', $request->classification)->first();
 
-        if ($check) {
-            return response()->json(['message'=>'Classification '.$request->classification.' already exists!', 'type'=> 'info']);
-        } else {
-            $check = RefClassification::find($request->classification_id);
             if ($check) {
-                $check->update(['classification' => $request->classification, 'status' => $request->status]);
-                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                return response()->json(['message'=>'Classification '.$request->classification.' already exists!', 'type'=> 'info']);
+            } else {
+                $check = RefClassification::find($request->classification_id);
+                if ($check) {
+                    $check->update(['classification' => $request->classification, 'status' => $request->status]);
+                    return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                }
+                else if (empty($check)) {
+                    RefClassification::create($request->all());
+                    return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+                }
+                else {
+                    return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
+                }
             }
-            else if (empty($check)) {
-                RefClassification::create($request->all());
-                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
-            }
-            else {
-                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
-            }
+        } else {
+            abort(403);
         }
 
     }

@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title','Budget Item')
+@section('title','Unit')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
-        <a class="text-muted">Budget Line Item</a>
+        <a class="text-muted">Office Unit</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Budget Item')
-    @section('panel-icon', 'flaticon-notepad')
+    @section('panel-title', 'Unit')
+    @section('panel-icon', 'flaticon2-group')
     @include('pages.reference.component.panel')
 
 @endsection
@@ -24,19 +24,19 @@
     <script>
         $(document).ready(function() {
 
-            /*
+        /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+            populateTable("{{ route('d_office_unit') }}", "{{ route('d_get_office_unit_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { budget_item :'', year :'', amount :'' };
+            let data = { division : '', section : '' };
 
-            let rules = { budget_item :'required', year :'required', amount :'required'  };
+            let rules = { division : 'required', section : 'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -48,39 +48,29 @@
         */
             $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
 
-            $(document).on('keypress', '.number', function(event){
-                if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-                    event.preventDefault();
-                }
-            });
-
             // Search button event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
                 KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
-                populateTableBySearch("{{ route('d_get_budget_line_item_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                populateTableBySearch("{{ route('d_get_office_unit_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
-                var year = $('#'+id).children('td[data-target=year]').text();
-                var amount = $('#'+id).children('td[data-target=amount]').text();
+                var division = $('#'+id).children('td[data-target=division]').text();
+                var section = $('#'+id).children('td[data-target=section]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
-                $.ajax({
-                    url: "{{ route('d_add_budget_line_item') }}",
+                 $.ajax({
+                    url: "{{ route('d_add_office_unit') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    if (id) {
-                        $('#budget_item_id').val(id);
-                        $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
-                        $("#year option:contains(" + year +")").attr("selected", true);
-                        $('#amount').val(amount.replace(",", ""));
-                        $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
-                    }
+                    $('#office_unit_id').val(id);
+                    $('#division').val(division);
+                    $('#section').val(section);
                     $('.div_status').css("display", (id == null) ? 'none' : '');
+                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -92,27 +82,24 @@
 
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#budget_item_id").val();
+                var id = $("#office_unit_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                var year = $("#year option:selected").text();
-                data.budget_item = $("#budget_item").val();
-                data.year = $("#year").val();
-                data.amount = $("#amount").val();
+                data.division = $("#division").val().toUpperCase();
+                data.section = $("#section").val().toUpperCase();
 
                 let validation = new Validator(data, rules);
+
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_budget_line_item') }}",
+                        url: "{{ route('a_office_unit') }}",
                         method: 'POST',
                         data: {
-                            id                  : id,
-                            budget_item         : data.budget_item,
-                            year_id             : data.year,
-                            year                : year,
-                            amount              : data.amount,
-                            status              : status
+                            "id"        : id,
+                            "division"  : data.division,
+                            "section"   : data.section,
+                            "status"    : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -123,15 +110,14 @@
                             }, 1000);
                             if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+                                populateTable("{{ route('d_office_unit') }}", "{{ route('d_get_office_unit_by_page') }}",
                                                     'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
                             }
-                            else if (result['type'] == 'update') {
+                            else if (result['type'] == 'update'){
                                 $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
-                                $('#'+id).children('td[data-target=year]').html(year);
-                                $('#'+id).children('td[data-target=amount]').html(data.amount);
+                                $('#'+id).children('td[data-target=division]').html(data.division);
+                                $('#'+id).children('td[data-target=section]').html(data.section);
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }

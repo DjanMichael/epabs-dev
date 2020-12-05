@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title','Item Unit')
+@section('title','Budget Item')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
-        <a class="text-muted">Unit of Item</a>
+        <a class="text-muted">Budget Line Item</a>
     </li>
 @endsection
 
 @section('content')
-    @section('panel-title', 'Item Unit')
-    @section('panel-icon', 'fas fa-sitemap')
+    @section('panel-title', 'Budget Item')
+    @section('panel-icon', 'fas fa-piggy-bank')
     @include('pages.reference.component.panel')
 
 @endsection
@@ -24,19 +24,19 @@
     <script>
         $(document).ready(function() {
 
-        /*
+            /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
-            populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}",
+            populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { unit_of_measure : '', unit_name : '' };
+            let data = { budget_item :'', year :'', amount :'' };
 
-            let rules = { unit_of_measure : 'required', unit_name : 'required' };
+            let rules = { budget_item :'required', year :'required', amount :'required'  };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -48,29 +48,39 @@
         */
             $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
 
+            $(document).on('keypress', '.number', function(event){
+                if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+
             // Search button event
             $("#btn_search").on('click',function(){
                 var str = $("#query_search").val();
                 KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Searching...");
-                populateTableBySearch("{{ route('d_get_item_unit_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
+                populateTableBySearch("{{ route('d_get_budget_line_item_search') }}", str, 'table_populate', 'table_content', 'table_pagination');
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                var measure = $('#'+id).children('td[data-target=measure]').text();
-                var name = $('#'+id).children('td[data-target=name]').text();
+                var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
+                var year = $('#'+id).children('td[data-target=year]').text();
+                var amount = $('#'+id).children('td[data-target=amount]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
-                 $.ajax({
-                    url: "{{ route('d_add_item_unit') }}",
+                $.ajax({
+                    url: "{{ route('d_add_budget_line_item') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    $('#item_unit_id').val(id);
-                    $('#measure').val(measure);
-                    $('#name').val(name);
+                    if (id) {
+                        $('#budget_item_id').val(id);
+                        $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
+                        $("#year option:contains(" + year +")").attr("selected", true);
+                        $('#amount').val(amount.replace(",", ""));
+                        $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
+                    }
                     $('.div_status').css("display", (id == null) ? 'none' : '');
-                    $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -82,25 +92,27 @@
 
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#item_unit_id").val();
+                var id = $("#budget_item_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.unit_of_measure = $("#measure").val();
-                data.unit_name = $("#name").val();
+                var year = $("#year option:selected").text();
+                data.budget_item = $("#budget_item").val();
+                data.year = $("#year").val();
+                data.amount = $("#amount").val();
 
                 let validation = new Validator(data, rules);
-                validation.setAttributeNames({ unit_of_measure: 'Unit of Measure', unit_of_name : 'Unit Name' })
-
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
                     $.ajax({
-                        url: "{{ route('a_item_unit') }}",
+                        url: "{{ route('a_budget_line_item') }}",
                         method: 'POST',
                         data: {
-                            "item_unit_id"      : id,
-                            "unit_of_measure"   : data.unit_of_measure,
-                            "unit_name"         : data.unit_name,
-                            "status"            : status
+                            id                  : id,
+                            budget_item         : data.budget_item,
+                            year_id             : data.year,
+                            year                : year,
+                            amount              : data.amount,
+                            status              : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -111,12 +123,15 @@
                             }, 1000);
                             if (result['type'] == 'insert') {
                                 $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_item_unit') }}", "{{ route('d_get_item_unit_by_page') }}", 'table_populate', 'table_content', 'table_pagination');
+                                populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+                                                    'table_populate', 'table_content', 'table_pagination');
                                 toastr.success(result['message']);
-                            } else if (result['type'] == 'update') {
+                            }
+                            else if (result['type'] == 'update') {
                                 $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=name]').html(data.unit_name);
-                                $('#'+id).children('td[data-target=measure]').html(data.unit_of_measure);
+                                $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
+                                $('#'+id).children('td[data-target=year]').html(year);
+                                $('#'+id).children('td[data-target=amount]').html(data.amount);
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }

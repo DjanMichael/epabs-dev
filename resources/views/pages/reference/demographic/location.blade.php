@@ -90,9 +90,9 @@
                 var id = $("#location_id").val();
                 var outside = $("#chk_outside").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.region = $("#region").val();
-                data.province = $("#province").val();
-                data.city = $("#city").val();
+                data.region = $("#region").val().toUpperCase();
+                data.province = $("#province").val().toUpperCase();
+                data.city = $("#city").val().toUpperCase();
 
                 let validation = new Validator(data, rules);
 
