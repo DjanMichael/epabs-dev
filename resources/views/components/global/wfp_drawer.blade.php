@@ -10,7 +10,7 @@
     $ppmpApproved  = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($wfp_code))
                                             ->where('status','PPMP')
                                             ->orderBy('id','DESC')
-                                            ->first(); 
+                                            ->first();
 
     ?>
 <div class="row">
@@ -20,7 +20,10 @@
         <div class="" style="width:91.5%">
             <div class="row">
                 <div class="col-10">
-                    <h1>Work and Financial Plan  <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1>
+                    <h1>Work and Financial Plan  <button  type="button" class="btn btn-secondary" data-clipboard="true" data-clipboard-target="#kt_clipboard_1">
+                        <i class="la la-copy"></i>
+                    </button>
+                     <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1>
                     <h5 class="">{{ $log->remarks  }}</h5>
                 </div>
                 <div class="col-2 text-right">
@@ -34,14 +37,17 @@
         <div class="row" style="width:91%;" id="wfp_menu_drawer">
             <div class="col-12 col-md-8">
                 <div class="row">
-                    @if($ppmpApproved->remarks == "APPROVED" && $log->remarks =="APPROVED")
-                        <button   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
-                            style="position: relative;right:0;bottom:0;"
-                            data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
-                            onclick="wfp_ppmp_viewer_drawer_open('{{ $wfp_code }}','')">
-                            <i class="fas fa-boxes"></i> Open PPMP
-                        </button>
+                    @if($ppmpApproved)
+                         @if(($ppmpApproved->remarks == "SUBMITTED" || $ppmpApproved->remarks == "APPROVED")  && $log->remarks =="APPROVED")
+                            <button   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
+                                style="position: relative;right:0;bottom:0;"
+                                data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
+                                onclick="wfp_ppmp_viewer_drawer_open('{{ $wfp_code }}','')">
+                                <i class="fas fa-boxes"></i> Open PPMP
+                            </button>
+                        @endif
                     @endif
+
                     @if($log)
                         @if(Auth::user()->role->roles != "PROGRAM COORDINATOR")
                             @if($log->remarks =="SUBMITTED")
@@ -53,7 +59,7 @@
                                     <button type="button" onclick="wfpRevise('{{ $wfp_code }}')" class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
                             @endif
                         @else
-                            @if($log->remarks == "FOR REVISION")
+                            @if($log->remarks == "FOR REVISION" || $log->remarks == "NOT SUBMITTED")
                                 <button type="button" onclick="wfpSubmit('{{ $wfp_code }}')" class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"><i class="flaticon2-send-1 icon-md"></i>SUBMIT WFP</button>
                             @endif
                         @endif
@@ -138,23 +144,34 @@
                                                 data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
                                                 onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
                                             <i class="flaticon-medical"></i>
-                                            </button> 
+                                            </button>
                                         @endif
                                         <?php
                                             $CheckIfHasPi = \App\WfpPerformanceIndicator::where('wfp_code',request()->get('wfp_code'))
                                                                                         ->where('wfp_act_id',$row->twa_id)
                                                                                         ->first();
-                                      
+
                                         ?>
                                         @if($CheckIfHasPi && $log->remarks =="APPROVED")
-                                            @if($ppmpApproved->remarks == "APPROVED")
-                                                <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                                    style="position: relative;right:0;bottom:0;"
-                                                    data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
-                                                    onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
-                                                <i class="flaticon-medical"></i>
-                                                </button>
-                                            @else 
+                                            @if($ppmpApproved)
+                                                @if($ppmpApproved->remarks == "APPROVED")
+                                                    <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                        style="position: relative;right:0;bottom:0;"
+                                                        data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
+                                                        onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
+                                                    <i class="flaticon-medical"></i>
+                                                    </button>
+                                                @else
+                                                    @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
+                                                        <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                            style="position: relative;right:0;bottom:0;"
+                                                            data-toggle="tooltip" title="Go to PPMP" data-placement="right" data-original-title="PPMP"
+                                                            onclick="gotoPPMP('{{ $wfp_code }}',{{ $row->twa_id }})">
+                                                        <i class="fas fa-shopping-cart"></i>
+                                                        </button>
+                                                    @endif
+                                                @endif
+                                            @else
                                                 @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
                                                     <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                                         style="position: relative;right:0;bottom:0;"
@@ -176,6 +193,7 @@
                                                 onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}','{{ $row->twa_id }}')">
                                                 <i class="flaticon-comment"></i>
                                             </button>
+                                            @if($ppmpApproved)
                                                 @if($ppmpApproved->remarks == "APPROVED")
                                                     <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                                         style="position: relative;right:0;bottom:0;"
@@ -184,6 +202,7 @@
                                                     <i class="flaticon-medical"></i>
                                                     </button>
                                                 @endif
+                                            @endif
                                         </td>
                                     @endif
                                 @endif

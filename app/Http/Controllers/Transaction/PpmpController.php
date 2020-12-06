@@ -118,7 +118,8 @@ class PpmpController extends Controller
                 // $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
                 if($req->batch_id != null){
                     $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)
-                    ->where('batch_id',$req->batch_id)->get()->toArray();
+                    // ->where('batch_id',$req->batch_id)
+                    ->get()->toArray();
                 }else{
                     $data["ppmp_items"] = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi_id)->get()->toArray();
                 }
@@ -277,6 +278,7 @@ class PpmpController extends Controller
             // dd($req->all());
             $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
+            // dd($wfp_act_ids);
 
             if(count($wfp_act_ids) > 0){
                 $i =0;
@@ -315,6 +317,7 @@ class PpmpController extends Controller
             $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($req->wfp_code);
+            // dd($data);
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
         }else{
             abort(403);
@@ -385,7 +388,7 @@ class PpmpController extends Controller
     public function updateStatusSubmit(Request $req){
         if($req->ajax()){
             $res;
-            dd(Crypt::decryptString($req->wfp_code));
+            // dd(Crypt::decryptString($req->wfp_code));
             $a = new ZWfpLogs;
             $a->wfp_code = Crypt::decryptString($req->wfp_code);
             $a->status = 'PPMP';

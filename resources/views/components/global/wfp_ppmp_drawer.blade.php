@@ -194,7 +194,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 
                             @if(count($data["ppmp_catering"]) <> 0)
                                 <tr>
-                                    <td colspan="18" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left">CATERING SERVICES</td>
+                                    <td colspan="18" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left">CATERING SERVICES </td>
                                 </tr>
                                 <?php $pi_ids= [] ?>
                                 @foreach($data["ppmp_catering"] as $key => $row)

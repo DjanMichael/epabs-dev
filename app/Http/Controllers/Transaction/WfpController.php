@@ -537,7 +537,7 @@ class WfpController extends Controller
             return ['message'=> 'not enough budget'];
         }
 
-        if($req->id != null || $req->id != ''){
+        if($req->id > 0){
             //update
             $wfp_act = WfpActivity::where('id',$req->id)->first();
             $wfp_act->wfp_code = $wfp_code;
