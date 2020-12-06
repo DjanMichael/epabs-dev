@@ -380,37 +380,6 @@
         <!-- end::title -->
         <div class="row ml-1 mr-1">
             <div class="col-12 col-md-4">
-                <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                    <button onclick="window.location.href='{{ route('r_access_level') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-40 symbol-light-primary mr-5">
-                            <span class="symbol-label">
-                                <span class="svg-icon svg-icon-xl svg-icon-primary pl-3">
-                                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <mask fill="white">
-                                                <use xlink:href="#path-1"/>
-                                            </mask>
-                                            <g/>
-                                            <path d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z" fill="#000000"/>
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span>
-                            </span>
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Text-->
-                        <div class="d-flex flex-column font-weight-bold text-left">
-                            <a href="{{ route('r_access_level') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Access Level</a>
-                            <span class="text-muted">User Module Management</span>
-                        </div>
-                        <!--end::Text-->
-                   </button>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
              <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                  <button onclick="window.location.href='{{ route('r_procurement_supplies') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->

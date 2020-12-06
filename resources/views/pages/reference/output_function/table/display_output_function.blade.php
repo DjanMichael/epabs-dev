@@ -19,7 +19,7 @@
                 <td data-target="program">{{ $row["program_name"] }}</td>
                 <td data-target="coordinator">{{ $row["name"] }}</td>
                 <td>
-                    <a class="btn btn-icon btn-light-primary mr-2" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
+                    <a class="btn btn-icon btn-light-primary mr-2" data-toggle="tooltip" data-placement="bottom" title="Edit Details" data-role="edit" data-id="{{ $row["id"] }}">
                         <i class="flaticon-edit-1"></i>
                     </a>
                 </td>

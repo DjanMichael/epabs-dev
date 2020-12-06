@@ -163,18 +163,6 @@ Route::get('/users','AuthController@getAllUser')->name('g_users');
 |--------------------------------------------------------------------------
 */
 
-// Access Level Routes
-Route::get('/system/reference/access-level','Reference\AccessLevelController@index')->name('r_access_level');
-Route::get('/system/reference/access-level/all','Reference\AccessLevelController@getAccessLevel')->name('d_get_access_level');
-Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
-Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesBySearch')->name('d_get_procurement_supplies_search');
-Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
-Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
-Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
-Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
-Route::post('/system/reference/add-procurement-supplies-price','Reference\ProcurementSuppliesController@storePrice')->name('a_procurement_supplies_price');
-
-
 // Procurement Supplies Routes
 Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
 Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
