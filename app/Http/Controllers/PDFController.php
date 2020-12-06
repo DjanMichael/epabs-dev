@@ -12,6 +12,8 @@ use App\GlobalSystemSettings;
 use App\RefProgram;
 use App\WfpPerformanceIndicator;
 use App\User;
+use App\ProgramPurchaseRequest;
+use App\ProgramPurchaseRequestDetails;
 use Illuminate\Support\Facades\Crypt;
 use PDF;
 use Auth;
@@ -68,8 +70,7 @@ class PDFController extends Controller
     public function printProgramPPMP(Request $req){
             // dd($req->all());
 
-            $data["wfp"] = Wfp::where('code',$req->wfp_code)->first();
-
+            $data["wfp"] = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $data["wfp_program"] = RefProgram::where('id',$data["wfp"]->program_id)->first();
             $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
             $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
@@ -122,6 +123,18 @@ class PDFController extends Controller
                 ->stream('PPMP_'. $req->wfp_code .'.pdf');
                 // ->download('PPMP_' . $code .'.pdf');
     }
+
+
+    public function printPR(Request $req){
+        $data = [];
+        $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)->first();
+        $data["pr_details"] = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)->get()->groupBy('item_classification')->toArray();
+        return PDF::loadView('components.global.reports.print_program_pr',['data' => $data])
+                    ->setPaper('legal', 'portrait')
+                    ->stream('PR'. $req->pr_code .'.pdf');
+        // return view('components.global.reports.print_program_pr');
+    }
+
 
     public function activityTimeFrameConvertToMonths($txt){
         $arr = explode(',', $txt);

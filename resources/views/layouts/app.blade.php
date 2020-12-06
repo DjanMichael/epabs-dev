@@ -384,6 +384,18 @@
 <!-- end:wfp_ppmp_view -->
 
 
+<!-- begin:pr_drawer -->
+<div id="bg-drawer-pr" onclick="pr_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="pr_drawer">
+</div>
+<!-- end:pr_drawer -->
+
+
+
 <!-- begin::User Panel-->
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
 	<!--begin::Header-->
@@ -1109,7 +1121,8 @@
         <!--end::Global Theme Bundle-->
 
         <!--begin::Page Vendors(used by this page)-->
-                <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
+            {{-- <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/clipboard.js') }}"></script> --}}
+                {{-- <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script> --}}
                 {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
                 {{-- <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
         <!--end::Page Vendors-->
@@ -1148,6 +1161,10 @@
                 }
 
             }
+
+            // function copyWfpCode(code){
+            //     toastr.info("Wfp Code #"+ code +" Copied!");
+            // }
 
             function getProgramsAssigned(){
                 var _url  ="{{ route('get_program_assigned') }}";
@@ -1513,6 +1530,7 @@
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+
              $("#kt_quick_panel_toggle").on('click',function(){
                 fetchUserNotification();
             });
@@ -1811,6 +1829,11 @@
         //     alert(_ppmp_id);
         // }
 
+      function pr_drawer_close(){
+            $("#bg-drawer-pr").removeClass('bg-drawer');
+            $("#pr_drawer").removeClass('wrapper-drawer-on');
+        }
+
         function wfp_ppmp_viewer_drawer_close(){
             $("#bg-drawer-ppmp-drawer").removeClass('bg-drawer');
             $("#wfp_ppmp_viewer_drawer").removeClass('wrapper-drawer-on');
@@ -1841,6 +1864,20 @@
                     document.getElementById('wfp_act_cart_drawer').innerHTML = data;
                 }
             });
+        }
+
+        function pr_drawer_open(_pr_code){
+                $("#bg-drawer-pr").addClass('bg-drawer');
+                $("#pr_drawer").addClass('wrapper-drawer-on');
+                var _url = "{{ route('pr_view') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: { pr_code : _pr_code },
+                    success:function(data){
+                          document.getElementById('pr_drawer').innerHTML = data;
+                    }
+                })
         }
 
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
@@ -2293,6 +2330,7 @@
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
+
 
             function approvePPMP(_wfp_code){
                 var _url ="{{ route('status_update_approve') }}";

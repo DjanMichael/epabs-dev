@@ -15,13 +15,16 @@ class CreateProgramPurchaseRequesTable extends Migration
     {
         Schema::create('tbl_pr', function (Blueprint $table) {
             $table->id();
+            $table->string('pr_code')->nullable(false);
+            $table->integer('program_id')->nullable(false);
+            $table->integer('year_id')->nullable(false);
             $table->string('agency')->nullable(false);
             $table->string('division')->nullable(false);
             $table->string('office')->nullable(false);
             $table->date('sai_no')->nullable();
             $table->dateTime('sai_date')->nullable();
             $table->string('pr_no')->nullable();
-            $table->dateTime('pr_date')->nullable(false);
+            $table->dateTime('pr_date')->nullable();
             $table->string('pr_purpose')->nullable(false);
             $table->string('prepared_user_name')->nullable(false);
             $table->string('prepared_user_id')->nullable(false);

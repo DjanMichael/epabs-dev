@@ -70,6 +70,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');
     Route::get('/wfp/unit/download','PDFController@downloadUnitWFP')->name('wfp_unit_download');
     Route::get('/ppmp/program/print/','PDFController@printProgramPPMP')->name('ppmp_program_print');
+    Route::get('/user/pr/print','PDFController@printPR')->name('pr_prgoram_print');
 
     //PPMP
     Route::get('/unit/ppmp','Transaction\PpmpController@index')->name('r_ppmp');
@@ -129,8 +130,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     //PURHASE REQUEST
     Route::get('/user/pr/list','Transaction\PurchaseRequestController@index')->name('r_pr');
     Route::get('/user/pr/create','Transaction\PurchaseRequestController@redirectCreatePurchaseRequest')->name('r_pr_create');
-
-
+    Route::get('/user/view/pr','Transaction\PurchaseRequestController@openPrView')->name('pr_view');
+    Route::get('/user/approved/wfp/ppmp','Transaction\PurchaseRequestController@getApprovedWfp')->name('get_approved_wfp');
+    Route::get('/user/approved/wfp/activity/pr','Transaction\PurchaseRequestController@getWfpActivityByWfp')->name('get_pr_wfp_act_by_wfp');
+    Route::get('/user/wfp/activity/item/list','Transaction\PurchaseRequestController@getWfpActivityItems')->name('get_item_act');
+    Route::get('/user/wfp/activity/item/add/item/pr/details','Transaction\PurchaseRequestController@addItemToPrDetails')->name('add_item_pr_details');
+    Route::get('/user/wfp/activity/item/pr/details/delete','Transaction\PurchaseRequestController@delPrItem')->name('pr_del_item');
+    Route::get('/user/program/pr/edit','Transaction\PurchaseRequestController@editPr')->name('pr_program_edit');
+    Route::get('/user/program/pr/track','Transaction\PurchaseRequestController@getPrHistory')->name('pr_track_history');
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 
