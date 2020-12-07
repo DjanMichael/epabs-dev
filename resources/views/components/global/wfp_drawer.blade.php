@@ -20,9 +20,7 @@
         <div class="" style="width:91.5%">
             <div class="row">
                 <div class="col-10">
-                    <h1>Work and Financial Plan  <button  type="button" class="btn btn-secondary" data-clipboard="true" data-clipboard-target="#kt_clipboard_1">
-                        <i class="la la-copy"></i>
-                    </button>
+                    <h1>Work and Financial Plan
                      <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1>
                     <h5 class="">{{ $log->remarks  }}</h5>
                 </div>
