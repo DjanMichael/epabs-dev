@@ -130,10 +130,18 @@
             method:"GET",
             url : _url,
             data: { page: _page , q: _q },
+            beforeSend:function(){
+                KTApp.block('#pr_content_list', {
+                    overlayColor: '#000000',
+                    state: 'primary',
+                    message: 'Loading. . .'
+                });
+            },
             success:function(data){
                 document.getElementById('pr_content_list').innerHTML = data;
             },
             complete:function(){
+                KTApp.unblock('#pr_content_list');
                 $("#pagination_pr_list .pagination a").on('click',function(e){
                     e.preventDefault();
                     pr_list_page = $(this).attr('href').split('page=')[1];
