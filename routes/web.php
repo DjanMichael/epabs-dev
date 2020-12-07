@@ -138,6 +138,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/wfp/activity/item/pr/details/delete','Transaction\PurchaseRequestController@delPrItem')->name('pr_del_item');
     Route::get('/user/program/pr/edit','Transaction\PurchaseRequestController@editPr')->name('pr_program_edit');
     Route::get('/user/program/pr/track','Transaction\PurchaseRequestController@getPrHistory')->name('pr_track_history');
+    Route::get('/user/program/pr/list','Transaction\PurchaseRequestController@getPrList')->name('d_pr_list');
+    Route::get('/user/program/pr/delete','Transaction\PurchaseRequestController@deleteProgramPr')->name('del_program_pr');
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 

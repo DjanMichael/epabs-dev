@@ -21,7 +21,7 @@ $qty = $row["jan"] + $row["feb"] + $row["mar"] +
         <td>
         <button type="button" onclick="addItemToPr('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}','{{  $data['pr_code'] }}','{{ $row['item_type'] }}','{{ $row['item_id'] }}','{{ $qty }}','{{ $row['price'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-primary">
-                <i class="fas fa-history text-primary"></i>
+                <i class="fas fa-plus text-primary"></i>
             </span>
         </button>
         </td>
