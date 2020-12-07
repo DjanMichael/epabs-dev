@@ -29,9 +29,9 @@
                 @else
                 <div class="form-group col-12 col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="PR Code or Program Coordinator">
+                        <input type="text" class="form-control" id="query_search" placeholder="PR Code or Program Coordinator">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">Search</button>
+                            <button class="btn btn-primary" id="btnSearchPR" type="button">Search</button>
                         </div>
                     </div>
                 </div>
@@ -43,144 +43,19 @@
                     <tr class="text-left">
                         <th style="min-width: 50px">PR CODE#</th>
                         <th style="min-width: 200px">Program Coordinator</th>
-                        <th style="min-width: 150px">Office</th>
-                        <th style="min-width: 150px">Program</th>
+                        <th style="min-width: 50px">Office</th>
+                        <th style="min-width: 50px">Program</th>
                         <th style="min-width: 150px">Allocation</th>
-                        <th style="min-width: 150px">Status</th>
-                        <th class="pr-0 text-right" style="min-width: 150px">action</th>
+                        <th style="min-width: 50px">Status</th>
+                        <th class="pr-0 text-right" style="min-width: 200px">action</th>
                     </tr>
                 </thead>
-                <tbody>
-                @forelse($data["pr_list"] as $row)
+                <tbody id="pr_content_list">
 
-                    <tr>
-                        <td>
-                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["pr_code"] }}</span>
-                        </td>
-                        <td class="pl-0" style="float:left;width:100%">
-                            <div class="row">
-
-                                <div class="col-12 pt-2 pl-6">
-                                    <span class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg" style= "text-transform: capitalize;">{{ $row["name"] }}</span>
-                                    <span class="text-muted font-weight-bold text-muted d-block">{{ $row["designation"]  }}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["division"] }}</span>
-                            <span class="text-muted font-weight-bold">{{ $row["section"] }}</span>
-                        </td>
-                        <td>
-                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["program_name"] }}</span>
-                        </td>
-                        <td>
-                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row["pr_cost"],2) }}</span>
-                        </td>
-                        <td>
-                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["pr_status"] != null ? $row["pr_status"] : 'QUEUE'  }}</span>
-                        </td>
-                        <td class="pr-0 text-right">
-                            <button type="button" onclick="printPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
-                                <span class="svg-icon svg-icon-md svg-icon-primary">
-                                    <i class="fas fa-print text-primary"></i>
-                                </span>
-                            </button>
-                            <button type="button" onclick="editPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
-                                <span class="svg-icon svg-icon-md svg-icon-primary">
-                                   <i class="far fa-edit text-primary"></i>
-                                </span>
-                            </button>
-                            <button type="button" onclick="openModalPRTrack('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
-                                <span class="svg-icon svg-icon-md svg-icon-primary">
-                                   <i class="fas fa-history text-primary"></i>
-                                </span>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6">NO DATA</td>
-                    </tr>
-                @endforelse
                 </tbody>
                 </table>
             </div>
         </div>
-
-        <div class="card card-custom gutter-b col-12 col-md-12">
-            <div class="card-body">
-                {{ $data["pr_list"]->links('components.global.pagination') }}
-            </div>
-        </div>
-
-{{-- @if(count($data["unit_budget_allocation"]) != 0)
-<div id="pagination_budget_allocation">
-{{ $data["unit_budget_allocation"]->links('components.global.pagination') }}
-</div>
-@endif --}}
-
-
-            <!--begin::Card-->
-            {{-- <div class="card card-custom gutter-b card-stretch  ribbon ribbon-clip ribbon-right m-0 m-md-2"
-                style="height:250px;cursor:pointer;"
-                style="cursor:pointer;"
-               > --}}
-                <!--begin::Body-->
-                {{-- <div class="card-body"> --}}
-                    <!--begin::Section-->
-                    {{-- <div class="row mt-4">
-                        <div class="col-12 d-flex align-items-center"> --}}
-                            <!--begin::Info-->
-                            {{-- <div class="d-flex flex-column mr-auto"> --}}
-                                <!--begin: Title-->
-                                {{-- <span class="card-title text-hover-primary fnt-weight-bolder font-size-h5 text-dark mb-1">PR</span>
-                                <span class="text-muted font-weight-bold">Date Created</span>
-                                <span class="label label-inline font-weight-bolder mr-2" > asdasd</span> --}}
-                                <!--end::Title-->
-                            {{-- </div>
-                        </div>
-                    </div>
-                    <div class="separator separator-dashed separator-border-2 separator-secondary mb-3 mt-6"></div> --}}
-                    <!--end::Section-->
-                    <!--begin::Blog-->
-                    {{-- <div class="d-flex flex-wrap "> --}}
-                        <!--begin: Item-->
-                        {{-- <div class="mr-12 d-flex flex-column mb-7">
-                            <span class="font-weight-bolder mb-1 mt-5">PR</span>
-                            <span class="font-weight-bolder pt-1" style="font-size:13px">
-                                <span class="font-weight-bold text-dark-50">₱</span>
-                                asd
-                            </span>
-                        </div> --}}
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                        {{-- <div class=" d-flex flex-column mb-7">
-                            <span class="font-weight-bolder mb-1 mt-5">Balance</span>
-                            <span class="font-weight-bolder pt-1" style="font-size:13px">
-                                <span class="font-weight-bold text-dark-50">₱</span>
-                                asd
-                            </span>
-                        </div> --}}
-                        <!--end::Item-->
-                    {{-- </div> --}}
-                    <!--end::Blog-->
-                {{-- </div> --}}
-                <!--end::Body-->
-                <!--begin::Footer-->
-                {{-- <div class="card-footer row pt-3 pb-3 bg-dark m-0" style="height: 60px;wdith:100%">
-                    <div class="col-4">
-                        <span class="label label-inline font-weight-bolder mr-2 " >STATUS</span>
-                    </div>
-                    <div class="col-8 text-right">
-
-                        <button class="btn btn-transparent-primary btn-sm font-weight-bold mr-2">Edit</button>
-                        <button class="btn btn-transparent-white btn-sm font-weight-bold mr-2" onclick="printPR('1')">Print</button>
-                        <button class="btn btn-transparent-danger btn-sm font-weight-bold mr-2">Track</button>
-                    </div>
-                </div> --}}
-                <!--end::Footer-->
-            {{-- </div> --}}
-            <!--end::Card-->
         </div>
     </div>
 </div>
@@ -248,6 +123,50 @@
         window.location.href =_url;
     }
 
+    function fetchPRList(_page,_q)
+    {
+        var _url = "{{ route('d_pr_list') }}";
+        $.ajax({
+            method:"GET",
+            url : _url,
+            data: { page: _page , q: _q },
+            success:function(data){
+                document.getElementById('pr_content_list').innerHTML = data;
+            },
+            complete:function(){
+                $("#pagination_pr_list .pagination a").on('click',function(e){
+                    e.preventDefault();
+                    pr_list_page = $(this).attr('href').split('page=')[1];
+                    fetchPRList(pr_list_page, $("#query_search").val());
+                });
+            }
+        });
+    }
+
+    function deletePR(_pr_code){
+        var _url ="{{ route('del_program_pr') }}";
+        $.ajax({
+            method:"GET",
+            url:_url,
+            data: {pr_code: _pr_code},
+            success:function(data){
+                if(data =='success'){
+                    // alert('PR deleted!');
+                    swal.fire({
+                                title:"PR has been deleted!",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
+                    fetchPRList();
+                }
+            }
+        })
+    }
+
     function openModalPRTrack(_pr_code){
         $("#pr_tracking_no").html(_pr_code);
         $("#modal_track_pr").modal({
@@ -268,9 +187,16 @@
     }
 
     $(document).ready(function(){
+
         var a = localStorage.getItem('GLOBAL_SETTINGS');
         a = a ?  JSON.parse(a) : {} ;
         $("#year_selected").html(a["year_data"]);
+
+        fetchPRList();
+
+        $("#btnSearchPR").on('click',function(){
+            fetchPRList(1,$("#query_search").val());
+        })
 
         $("#btn_show_modal_pr").on('click',function(){
             $("#modal_create_pr").modal({

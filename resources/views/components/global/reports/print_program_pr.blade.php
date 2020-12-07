@@ -10,7 +10,7 @@
   <style>
            /* margin : top right bottom left */
         @page {
-            margin: 80px 30px 277.5px 30px;
+            margin: 80px 30px 120px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -129,7 +129,7 @@
         </tr>
    </table>
 </div>
-<div class="footer" style="margin-top:0px;padding-top:0px;">
+{{-- <div class="footer" style="margin-top:0px;padding-top:0px;">
     <table style="border :1px solid black;width:100%;padding-top:-5px;margin-top:-5px;padding:0px;">
         <tr class="t-row">
             <td class="t-d" style="width:72.8px;"></td>
@@ -140,7 +140,7 @@
                 <br><br><br><br>
                 <span style="font-weight:bold;">{{ $data["pr"]->prepared_user_name }}</span><br>
                 <?php
-                    $user = \App\UserProfile::where('user_id',$data["pr"]->prepared_user_id)->first();
+                    // $user = \App\UserProfile::where('user_id',$data["pr"]->prepared_user_id)->first();
                 ?>
                 {{ $user->designation }}
             </td>
@@ -169,7 +169,7 @@
             </td>
         </tr>
     </table>
-</div>
+</div> --}}
  <main>
  <table style="border :1px solid black;width:100%;margin:0px;padding:0px;">
     <tr>
@@ -182,7 +182,9 @@
     </tr>
     <?php
         //limit row
-        $row_limit = 47 ;
+        $row_limit = 57;
+        $total =0;
+        $row_count = 0;
     ?>
     <?php
     foreach($data["pr_details"] as $key => $value){
@@ -200,6 +202,9 @@
         @foreach( $value as $row)
         <?php
             $row_limit -= 1;
+            $row_count++;
+            $total += $row["item_qty"] * $row["item_price"];
+
         ?>
         <tr>
             <td class="t-h-d txt-center" style="font-weight:normal;"></td>
@@ -215,14 +220,23 @@
     //add extra rows
     for($i=0;$i<=$row_limit;$i++){
     ?>
-    <tr>
-    <td class="t-h-d txt-center"></td>
-            <td class="t-h-d txt-center"></td>
-            <td class="t-h-d"></td>
-            <td class="t-h-d txt-center"></td>
-            <td class="t-h-d txt-center"></td>
-            <td class="t-h-d txt-center"></td>
+
+    @if(($i + $row_count + count($data["pr_details"])) == 57){
+        <tr>
+            <td class="t-h-d" colspan="5">Total</td>
+            <td class="t-h-d">{{ number_format($total ,2) }}</td>
         </tr>
+    @else
+        <tr>
+        <td class="t-h-d txt-center"></td>
+                <td class="t-h-d txt-center"></td>
+                <td class="t-h-d"></td>
+                <td class="t-h-d txt-center"></td>
+                <td class="t-h-d txt-center"></td>
+                <td class="t-h-d txt-center"></td>
+            </tr>
+    @endif
+
     <?php
     }
     ?>

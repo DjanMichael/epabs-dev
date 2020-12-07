@@ -218,4 +218,50 @@ class PurchaseRequestController extends Controller
             abort(403);
         }
     }
+
+    public function getPrList(Request $req){
+        if($req->ajax()){
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            if(Auth::user()->role->roles == "ADMINISTRATOR" || Auth::user()->role->roles == "PROCUREMENT"){
+                $data["pr_list"] = PRList::where(fn($q) =>
+                                                    $q->orWhere('pr_code',$req->q)
+                                                    ->orWhere('division','LIKE','%'. $req->q . '%')
+                                                    ->orWhere('section','LIKE','%'. $req->q . '%')
+                                                    ->orWhere('program_name','LIKE','%'. $req->q . '%')
+                                                    ->orWhere('pr_status','LIKE','%'. (strtolower($req->q) =='created' ? '' : $req->q)  . '%')
+                                                    )
+                                                    ->paginate($this->pagination);
+            }else{
+                $data["pr_list"] = PRList::where('program_id',$settings->select_program_id)
+                                        ->where('year_id',$settings->select_year)
+                                        ->where(fn($q) =>
+                                                $q->orWhere('pr_code',$req->q)
+                                                ->orWhere('division','LIKE','%'. $req->q . '%')
+                                                ->orWhere('section','LIKE','%'. $req->q . '%')
+                                                ->orWhere('program_name','LIKE','%'. $req->q . '%')
+                                                ->orWhere('pr_status','LIKE','%'. (strtolower($req->q) =='created' ? '' : $req->q)  . '%')
+                                        )->paginate($this->pagination);
+            }
+            return view('pages.transaction.pr.components.pr_list',['data' =>$data]);
+        }else{
+            abort(403);
+        }
+    }
+
+    public function deleteProgramPr(Request $req){
+        if($req->ajax()){
+            try {
+                DB::beginTransaction();
+                $delPr =  ProgramPurchaseRequest::where('pr_code',$req->pr_code)->delete();
+                $delPrDetails =  ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)->delete();
+                DB::commit();
+                return  'success';
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        }else{
+            abort(403);
+        }
+    }
 }
