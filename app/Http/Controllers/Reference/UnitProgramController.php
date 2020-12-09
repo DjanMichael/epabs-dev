@@ -75,7 +75,9 @@ class UnitProgramController extends Controller
                                         ->orderBy('program_name', 'ASC')
                                         ->get();
         // $data['unit'] = RefUnits::where('status','ACTIVE')->where('id', '<>', '1')->get();
-        $data['coordinator'] = User::where('id', '<>', '1')->orderBy('name', 'ASC')->get();
+        $data['coordinator'] = User::where('id', '<>', '1')
+                                    ->where('role_id', '=', '3')
+                                    ->orderBy('name', 'ASC')->get();
         return view('pages.reference.unit_program.form.add_unit_program', ['data'=> $data]);
     }
 

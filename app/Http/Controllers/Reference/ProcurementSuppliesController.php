@@ -71,8 +71,8 @@ class ProcurementSuppliesController extends Controller
     }
 
     public function getAddForm(){
-        $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
-        $data['classification'] = RefClassification::where('status','ACTIVE')->get();
+        $data['unit'] = RefItemUnit::where('status','ACTIVE')->orderBy('unit_name', 'ASC')->get();
+        $data['classification'] = RefClassification::where('status','ACTIVE')->orderBy('classification', 'ASC')->get();
         return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data]);
     }
 
@@ -131,22 +131,24 @@ class ProcurementSuppliesController extends Controller
     public function storePrice(Request $request) {
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest) {
+            $date_string = explode("-", $request->effective_date);
+            $year = $date_string[0];
 
             $check = RefPrice::find($request->id)
                         ? RefPrice::where([
                                         ['procurement_item_id', $request->procurement_item_id],
                                         ['procurement_type', 'SUPPLIES'],
-                                        ['effective_date', $request->effective_date],
+                                        ['effective_date', 'LIKE', $year.'%'],
                                         ['id', '<>', $request->id]
                                         ])->first()
                         : RefPrice::where([
                                         ['procurement_item_id', $request->procurement_item_id],
                                         ['procurement_type', 'SUPPLIES'],
-                                        ['effective_date', $request->effective_date]
+                                        ['effective_date', 'LIKE', $year.'%']
                                         ])->first();
 
             if ($check) {
-                return response()->json(['message'=>'Data already exists!', 'type'=> 'info']);
+                return response()->json(['message'=>'Already set the price of this item for '.$year.'!', 'type'=> 'info']);
             }
             else {
                 $check = RefPrice::find($request->id);
