@@ -7,6 +7,8 @@ use App\Views\ReportAppCategory;
 use App\Views\ReportWFPBLI;
 use App\RefBudgetLineItem;
 use App\RefSourceOfFund;
+
+use App\RefActivityCategory;
 use PDF;
 class ReportsController extends Controller
 {
@@ -41,7 +43,7 @@ class ReportsController extends Controller
                         ];
         if($req->rep == "category"){
             if($req->rep_sub == "ALL"){
-                $data["app_category"] = ReportAppCategory::all()->toArray();
+                $data["app_category"] = RefActivityCategory::all()->toArray();
             }else{
                 $data["app_category"] = [$req->rep_sub];
             }
@@ -72,7 +74,7 @@ class ReportsController extends Controller
     {
         $data["years"] = \App\RefYear::all();
         $data["bli"] = RefBudgetLineItem::all();
-        $data["category"] = ReportAppCategory::select('classification')->get()->toArray();
+        $data["category"] = RefActivityCategory::select('category')->get()->toArray();
         return view('pages.reports.rep_consolidated_wfp',['data'=>$data]);
     }
 
@@ -99,6 +101,10 @@ class ReportsController extends Controller
         return $a->sof_classification ?: '';
     }
 
+    public function getActCategoryNameToId($name){
+        $a = RefActivityCategory::where('category',$name)->first();
+        return $a->id ?: '';
+    }
 }
 
 

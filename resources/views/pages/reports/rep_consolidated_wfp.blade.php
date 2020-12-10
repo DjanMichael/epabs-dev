@@ -25,7 +25,8 @@
                 <select class="form-control form-control-solid" id="report_wfp_sub_category">
                         <option value=""></option>
                     @forelse($data["category"] as $row)
-                        <option value="{{ $row["classification"] }}">{{ $row["classification"] }}</option>
+
+                        <option value="{{ $row["category"] }}">{{ $row["category"] }}</option>
                     @empty
                         <option value="">NO DATA</option>
                     @endforelse
