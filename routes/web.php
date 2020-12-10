@@ -140,6 +140,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/program/pr/track','Transaction\PurchaseRequestController@getPrHistory')->name('pr_track_history');
     Route::get('/user/program/pr/list','Transaction\PurchaseRequestController@getPrList')->name('d_pr_list');
     Route::get('/user/program/pr/delete','Transaction\PurchaseRequestController@deleteProgramPr')->name('del_program_pr');
+
+    // REPORTS
+    Route::get('/user/reports/app','ReportsController@redirectToAPP')->name('r_rep_app');
+    Route::get('/user/reports/bli','ReportsController@redirectToBLI')->name('r_rep_bli');
+    Route::get('/user/reports/wfp/consolidate','ReportsController@redirectToWfpConsolidated')->name('r_rep_wfp_consolidate');
+    Route::get('/user/generate/report/app','ReportsController@generateAPP')->name('generate_app_report');
+    Route::get('/user/generate/report/wfp','ReportsController@generateWFP')->name('generate_wfp_report');
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 

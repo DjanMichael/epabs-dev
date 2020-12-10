@@ -102,34 +102,35 @@
     </style>
 </head>
 <body>
- <div class="header" style="width:100%;">
-    <div stlye="width:100%">
-        <div style="position: absolute;top:-10px;left:47%;">
-            ANNEX F.
+    <div class="header" style="width:100%;">
+        <div stlye="width:100%">
+            <div style="position: absolute;top:-10px;left:47%;">
+                ANNEX F.
+            </div>
         </div>
-    </div>
-    <div stlye="width:100%">
-        <div style="position: absolute;top:20px;left:40%;">
-            PROJECT PROCUREMENT MANAGEMENT PLAN
+        <div stlye="width:100%">
+            <div style="position: absolute;top:20px;left:40%;">
+                PROJECT PROCUREMENT MANAGEMENT PLAN
+            </div>
         </div>
-    </div>
-    <div style="width:100%;">
-        <div style="position: absolute;top:0px;right:0;">PPMP Form 1</div>
+        <div style="width:100%;">
+            <div style="position: absolute;top:0px;right:0;">PPMP Form 1</div>
+        </div>
+
+        <div style="width:100%;">
+            <div style="position: absolute;top:50px;left:5;">DEPARTMENT OF HEALTH</div>
+            <div style="position: absolute;top:60px;left:5;">CENTER FOR HEALTH DEVELOPMENT - CARAGA</div>
+            <div style="position: absolute;top:80px;left:5;">PROGRAM: {{ $data["wfp_program"]->program_name }}  LOCATION: {{ $data["wfp_unit"]->division .' / '. $data["wfp_unit"]->section }}</div>
+        <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: {{ $data["wfp_year"]->year }}</div>
+        </div>
+                {{-- <img
+                src="{{ asset('dist/assets/media/logos/logo-letter-3.png') }}"
+                height="80px"
+                width="80px"
+                style="position:absolute;top:0;left:0;"
+                > --}}
     </div>
 
-    <div style="width:100%;">
-        <div style="position: absolute;top:50px;left:5;">DEPARTMENT OF HEALTH</div>
-        <div style="position: absolute;top:60px;left:5;">CENTER FOR HEALTH DEVELOPMENT - CARAGA</div>
-        <div style="position: absolute;top:80px;left:5;">PROGRAM: {{ $data["wfp_program"]->program_name }}  LOCATION: {{ $data["wfp_unit"]->division .' / '. $data["wfp_unit"]->section }}</div>
-    <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: {{ $data["wfp_year"]->year }}</div>
-    </div>
-            {{-- <img
-            src="{{ asset('dist/assets/media/logos/logo-letter-3.png') }}"
-            height="80px"
-            width="80px"
-            style="position:absolute;top:0;left:0;"
-            > --}}
-    </div>
     <div class="footer">
         <table style="width:100%">
             <tr>
@@ -249,10 +250,9 @@
                         //    $arr= $key;
                         array_push($arr_keys,$key);
                         array_push($arr,
-                                    [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
+                                        [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
                                     );
                     }
-
 
                     $item_row = [];
 

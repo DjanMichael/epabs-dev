@@ -78,7 +78,7 @@ class PDFController extends Controller
 
 
 
-            $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->get()->toArray();
+            $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
 
             if(count($wfp_act_ids) > 0){
