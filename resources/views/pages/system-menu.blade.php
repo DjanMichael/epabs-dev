@@ -261,7 +261,7 @@
     <div class="row ml-1 mr-1">
         <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                <button  onclick="window.location.href='{{ route('r_rep_wfp_consolidate') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -282,16 +282,16 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Consilidated WFP</a>
-                        <span class="text-muted">Generate Consolidated WFP</span>
+                        <a href="{{ route('r_rep_wfp_consolidate') }}" class="text-dark text-hover-primary mb-1 font-size-lg">WFP Consolidated</a>
+                        <span class="text-muted">Generate Per Catergory/Budget Line Item</span>
                     </div>
                     <!--end::Text-->
                </button>
             </div>
         </div>
-        <div class="col-12 col-md-4">
+        {{-- <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                <button onclick="window.location.href='{{ route('r_rep_bli') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -312,16 +312,16 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">Per Budget Line Item</a>
+                        <a href="{{ route('r_rep_bli') }}" class="text-dark text-hover-primary mb-1 font-size-lg">WFP Per Budget Line Item</a>
                         <span class="text-muted">Generate Consolidated B.L.I</span>
                     </div>
                     <!--end::Text-->
                </button>
             </div>
-        </div>
+        </div> --}}
         <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-                <button class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+            <button onclick="window.location.href='{{ route('r_rep_app') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                     <!--begin::Symbol-->
                     <div class="symbol symbol-40 symbol-light-primary mr-5">
                         <span class="symbol-label">
@@ -342,7 +342,7 @@
                     <!--end::Symbol-->
                     <!--begin::Text-->
                     <div class="d-flex flex-column font-weight-bold text-left">
-                        <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg">APP</a>
+                        <a href="{{ route('r_rep_app') }}" class="text-dark text-hover-primary mb-1 font-size-lg">APP</a>
                         <span class="text-muted">Generate Consolidated APP</span>
                     </div>
                     <!--end::Text-->
