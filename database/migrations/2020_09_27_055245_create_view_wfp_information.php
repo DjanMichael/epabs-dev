@@ -42,6 +42,8 @@ class CreateViewWfpInformation extends Migration
                 `twa`.`id` AS `twa_id`,
                 `twa`.`out_activity` AS `out_activity`,
                 `twa`.`out_function` AS `out_function`,
+                `twa`.activity_category_id ,
+                (SELECT rac.category FROM ref_activity_category  rac WHERE rac.id = twa.activity_category_id) as `category`,
                 (
                     SELECT
                         `taof`.`description`
@@ -72,13 +74,10 @@ class CreateViewWfpInformation extends Migration
                 (
                     (
                         (
-                            (
-                                `tbl_wfp` `tw`
-                                JOIN `tbl_wfp_activity` `twa` ON (
-                                    `twa`.`wfp_code` = `tw`.`code`
-                                )
+                            `tbl_wfp` `tw`
+                            JOIN `tbl_wfp_activity` `twa` ON (
+                                `twa`.`wfp_code` = `tw`.`code`
                             )
-
                         )
                         JOIN `ref_units` `ru` ON (`ru`.`id` = `tw`.`unit_id`)
                     )

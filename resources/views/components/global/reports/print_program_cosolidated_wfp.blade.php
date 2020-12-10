@@ -275,19 +275,19 @@
 
     @if($data["static"]["rep"] == "category")
         {{-- CATEGORY START --}}
-        {{ dd($data["app_category"]) }}
         @forelse ($data["app_category"] as $row)
         <?php $category_count++; ?>
+        @if($data["static"]["rep_sub"] == "ALL")
             <table style="width:100%;font-size:10px;font-weight:bold;">
                 <tr>
                     <td style="width:40%"></td>
                     <td style="text-align:left;width:60%;">WFP Form 1. WORK AND FINANCIAL PLAN MATRIX</td>
                 </tr>
                 <tr>
-                    <td style="height:0px;line-height:10px;margin-top:3px;">
+                    <td style="height:0px;line-height:13px;margin-top:3px;">
                         NAME OF DOH UNIT: CENTER OF HEALTH DEVELOPMENT - CARAGA <br>
-                        BUDGET LINE ITEM : {{ $row["classification"] }} <br>
-                        CALENDAR YEAR : {{ $row["year"] }}
+                        ACTIVITY CATEGORY : {{ $row["category"] }} <br>
+                        CALENDAR YEAR : {{ $data["static"]["year"] }}
                     </td>
                 </tr>
             </table>
@@ -314,7 +314,212 @@
                     <td class="t-h-d" style="text-align:center;">RESPONSIBLE PERSON</td>
                 </tr>
 
+
+
+                <tr>
+                    <td class="t-h-d" colspan="10">A. STRATEGIC FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$row["id"])->where('class_sequence','A')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                     <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+                <tr>
+                    <td class="t-h-d" colspan="10">B. CORE FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$row["id"])->where('class_sequence','B')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                    <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+
+                <tr>
+                    <td class="t-h-d" colspan="10">C. SUPPORT FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$row["id"])->where('class_sequence','C')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                    <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+                @if(count($data["app_category"]) != $category_count)
+                    <div class="page-break"></div>
+                @endif
             </table>
+        @else
+
+            <table style="width:100%;font-size:10px;font-weight:bold;">
+                <tr>
+                    <td style="width:40%"></td>
+                    <td style="text-align:left;width:60%;">WFP Form 1. WORK AND FINANCIAL PLAN MATRIX</td>
+                </tr>
+                <tr>
+                    <td style="height:0px;line-height:13px;margin-top:3px;">
+                        NAME OF DOH UNIT: CENTER OF HEALTH DEVELOPMENT - CARAGA <br>
+                        ACTIVITY CATEGORY : {{ $row }} <br>
+                        CALENDAR YEAR : {{ $data["static"]["year"] }}
+                    </td>
+                </tr>
+            </table>
+
+            <table style="width:100%;">
+                <tr>
+                    <td class="t-h-d" style="text-align:center;">(1)</td>
+                    <td class="t-h-d" style="text-align:center;">(2)</td>
+                    <td class="t-h-d" style="text-align:center;">(3)</td>
+                    <td class="t-h-d" style="text-align:center;" colspan="4">(4)TARGETS</td>
+                    <td class="t-h-d" style="text-align:center;" colspan="2">(5)</td>
+                    <td class="t-h-d" style="text-align:center;">(6)</td>
+                </tr>
+                <tr>
+                    <td class="t-h-d" style="text-align:center;">OUTPUT FUNCTIONS / DELIVERABLES</td>
+                    <td class="t-h-d" style="text-align:center;">ACTIVITIES FOR OUTPUTS</td>
+                    <td class="t-h-d" style="text-align:center;">TIMEFRAME</td>
+                    <td class="t-h-d" style="text-align:center;">Q1</td>
+                    <td class="t-h-d" style="text-align:center;">Q2</td>
+                    <td class="t-h-d" style="text-align:center;">Q3</td>
+                    <td class="t-h-d" style="text-align:center;">Q4</td>
+                    <td class="t-h-d" style="text-align:center;">COST</td>
+                    <td class="t-h-d" style="text-align:center;">SOURCE OF FUND</td>
+                    <td class="t-h-d" style="text-align:center;">RESPONSIBLE PERSON</td>
+                </tr>
+
+
+                <tr>
+                    <td class="t-h-d" colspan="10">A. STRATEGIC FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$a->getActCategoryNameToId($row))->where('class_sequence','A')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                    <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+
+
+                <tr>
+                    <td class="t-h-d" colspan="10">B. CORE FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$a->getActCategoryNameToId($row))->where('class_sequence','B')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                    <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+
+
+                <tr>
+                    <td class="t-h-d" colspan="10">C. SUPPORT FUNCTION</td>
+                </tr>
+                <?php
+                    $a = new \App\Http\Controllers\ReportsController;
+                    $twa =  \App\Views\WfpActivityInfo::where('activity_category_id',$a->getActCategoryNameToId($row))->where('class_sequence','C')->get()->toArray();
+                ?>
+                @forelse($twa as $row2)
+                <tr>
+                    <td class="t-d">{{ $row2["function_description"] }}</td>
+                    <td class="t-d">{{ $row2["out_activity"] }}</td>
+                    <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q1"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q2"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q3"] ?? 0 }}</td>
+                    <td class="t-d txt-center">{{ $row2["target_q4"] ?? 0 }}</td>
+                    <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right">&#8369;  {{ number_format($row2["activity_cost"],2) }}</td>
+                    <td class="t-d txt-center">{{ $row2["sof_classification"] }}</td>
+                    <td class="t-d txt-center">{{ $row2["responsible_person"] }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="t-d" colspan="10">NO DATA.</td>
+                </tr>
+                @endforelse
+
+                @if(count($data["app_category"]) != $category_count)
+                    <div class="page-break"></div>
+                @endif
+            </table>
+        @endif
         @empty
         @endforelse
     @endif
