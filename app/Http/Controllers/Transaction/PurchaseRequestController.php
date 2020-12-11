@@ -87,24 +87,32 @@ class PurchaseRequestController extends Controller
         if($req->ajax()){
             $data =[];
             $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-            $wfp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
-                                            ->where('tbl_wfp.program_id', $settings["select_program_id"])
-                                            ->where('z_wfp_logs.status','WFP')
-                                            ->where('z_wfp_logs.remarks','APPROVED')
-                                            ->orderBy('z_wfp_logs.id','DESC')
-                                            ->first();
-            $ppmp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
-                                            ->where('tbl_wfp.program_id', $settings["select_program_id"])
-                                            ->where('z_wfp_logs.status','PPMP')
-                                            ->where('z_wfp_logs.remarks','APPROVED')
-                                            ->orderBy('z_wfp_logs.id','DESC')
-                                            ->first();
-            if($wfp != null && $ppmp != null){
-                $data["wfp_approved"] = Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
-                                            ->groupBy('tbl_wfp.code')->get()->toArray();
-                return view('pages.transaction.pr.components.select_approved_wfp',['data'=>$data]);
+
+            if( $settings["select_program_id"] != 'null'){
+                $wfp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
+                                ->where('tbl_wfp.program_id', $settings["select_program_id"])
+                                ->where('z_wfp_logs.status','WFP')
+                                ->where('z_wfp_logs.remarks','APPROVED')
+                                ->orderBy('z_wfp_logs.id','DESC')
+                                ->first();
+                $ppmp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
+                                ->where('tbl_wfp.program_id', $settings["select_program_id"])
+                                ->where('z_wfp_logs.status','PPMP')
+                                ->where('z_wfp_logs.remarks','APPROVED')
+                                ->orderBy('z_wfp_logs.id','DESC')
+                                ->first();
+                if($wfp != null && $ppmp != null){
+                    $data["wfp_approved"] = Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
+                                ->groupBy('tbl_wfp.code')->get()->toArray();
+                    return view('pages.transaction.pr.components.select_approved_wfp',['data'=>$data]);
+                }else{
+                    $data["wfp_approved"] = [];
+                    return view('pages.transaction.pr.components.select_approved_wfp',['data'=>$data]);
+                }
+
             }else{
-                return view('pages.transaction.pr.components.select_approved_wfp',['data'=>null]);
+                $data["wfp_approved"] = [];
+                return view('pages.transaction.pr.components.select_approved_wfp',['data'=>$data]);
             }
 
         }else{
@@ -260,6 +268,19 @@ class PurchaseRequestController extends Controller
                 DB::rollBack();
                 return $e->getMessage();
             }
+        }else{
+            abort(403);
+        }
+    }
+
+    public function changeStatusPr(Request $req){
+        if($req->ajax()){
+            $b = new ProgramPurchaseRequestStatus;
+            $b->pr_code =  $req->pr_code;
+            $b->status = $req->status;
+            $b->entry_by = Auth::user()->id;
+            $b->save();
+            return 'success';
         }else{
             abort(403);
         }

@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-md-12 col-12">
     <!--begin::Card-->
@@ -148,6 +147,29 @@
             $("#edit_amount").val("");
 
             getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,program_id);
+        }
+
+        function convertBudgetToConapNextYear(unit_id1,year_id1,program_id1){
+            Swal.fire({
+                title: "Are you sure, You want to convert the remaining budget to Conap?",
+                text: "You won\'t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, convert it!",
+                cancelButtonText: "No, cancel!"
+            }).then(function(result) {
+                if (result.value) {
+
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Nothing Changes",
+                        "error"
+                    )
+                }
+            });
         }
 
         function deleteAllAllocation(unit_id1,year_id1,program_id1){

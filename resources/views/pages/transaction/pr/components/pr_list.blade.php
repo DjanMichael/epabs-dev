@@ -26,22 +26,39 @@
     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["pr_status"] != null ? $row["pr_status"] : 'QUEUE'  }}</span>
     </td>
     <td class="pr-0 text-right">
-        <button type="button" onclick="printPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+        @if(Auth::user()->role->roles == "ADMINISTRATOR" || Auth::user()->role->roles == "PROCUREMENT" )
+        <button type="button"
+            data-toggle="tooltip" title="PR STATUS" data-placement="bottom" data-original-title="PR STATUS"
+            onclick="showStatusChangeModal('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+            <span class="svg-icon svg-icon-md svg-icon-primary">
+                <i class="fas fa-truck-loading text-primary"></i>
+            </span>
+        </button>
+        @endif
+        <button type="button"
+            data-toggle="tooltip" title="PR PRINT" data-placement="bottom" data-original-title="PR PRINT"
+            onclick="printPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-primary">
                 <i class="fas fa-print text-primary"></i>
             </span>
         </button>
-        <button type="button" onclick="editPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+        <button type="button"
+            data-toggle="tooltip" title="EDIT PR" data-placement="bottom" data-original-title="EDIT PR"
+            onclick="editPR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-primary">
                <i class="far fa-edit text-primary"></i>
             </span>
         </button>
-        <button type="button" onclick="deletePR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+        <button type="button"
+            data-toggle="tooltip" title="DELETE PR" data-placement="bottom" data-original-title="DELETE PR"
+            onclick="deletePR('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-primary">
                <i class="fas fa-trash-alt text-primary"></i>
             </span>
         </button>
-        <button type="button" onclick="openModalPRTrack('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+        <button type="button"
+            data-toggle="tooltip" title="TRACK PR" data-placement="bottom" data-original-title="TRACK PR"
+            onclick="openModalPRTrack('{{ $row['pr_code'] }}')" class="btn btn-icon btn-light btn-hover-primary btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-primary">
                <i class="fas fa-history text-primary"></i>
             </span>

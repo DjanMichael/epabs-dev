@@ -85,7 +85,7 @@
                 <div class="card-header align-items-center px-4 py-3">
                     <div class="text-left flex-grow-1">
                         <!--begin::Aside Mobile Toggle-->
-                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
+                        {{-- <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
                             <span class="svg-icon svg-icon-lg">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Adress-book2.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -97,7 +97,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                        </button>
+                        </button> --}}
                         <!--end::Aside Mobile Toggle-->
 
                     </div>
