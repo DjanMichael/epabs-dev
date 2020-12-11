@@ -42,7 +42,7 @@
                                 You may change your <b>YEAR</b> thru  <br>
                                 Global Settings located on settings  <br>
                             </p>
-                            <button type="button" id="c" class="btn btn-danger font-weight-bold px-6 py-3">Create Report</a>
+                            <button type="button" id="btn_create_wfp_year" class="btn btn-danger font-weight-bold px-6 py-3">Create Report</a>
                         </div>
                     </div>
                     <!--end::Body-->

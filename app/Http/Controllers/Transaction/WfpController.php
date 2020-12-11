@@ -264,9 +264,9 @@ class WfpController extends Controller
                     ->where('unit_id',$unit_id)
                     ->where('year_id',$year_id)
                     ->where('program_id',$program_id)
-                    ->first();
+                    ->get()->toArray();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
-        if($check){
+        if(count($check) >= 2){
             return ['message'=>'duplicate'];
         }
 
