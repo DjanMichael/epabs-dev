@@ -89,6 +89,46 @@
 </div>
 
 
+<!-- Modal-->
+<div class="modal fade" id="modal_status_change" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_status_change" aria-hidden="true" style="z-index: 99999;">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-dark font-weight-bolder my-7">PR STATUS </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:0px;margin:0px;position:relative;top:30px;height:300px;">
+                <div class="card card-custom bgi-no-repeat gutter-b card-stretch" style="background-color: #1B283F; background-position:center right; background-size: 100% auto; background-image: url({{ asset('dist/assets/media/svg/patterns/rhone.svg') }})">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="" class="text-light">Status</label>
+                            <select id="pr_status" class="form-control mb-3">
+                                <option value="FOR CANVAS">FOR CANVASS</option>
+                                <option value="OPEN CALL">OPEN CALL</option>
+                                <option value="ABSTRACT">ABSTRACT</option>
+                                <option value="P.O">P.O</option>
+                                <option value="NTC">NTC</option>
+                                <option value="BIDDING">BIDDING</option>
+                                <option value="WAIVE">WAIVE</option>
+                                <option value="PS DBM">PS DBM</option>
+                                <option value="CANCEL">CANCEL</option>
+                                <option value="ON HOLD">ON HOLD</option>
+                                <option value="ADDITIONAL CANVASS">ADDITIONAL CANVASS</option>
+                                <option value="RE-CANVAS">RE-CANVASS</option>
+                            </select>
+                            <button type="button" id="btn_save_status" class="btn btn-primary" onclick="saveStatusPr()">Change</button>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal-->
 <div class="modal fade" id="modal_track_pr" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -113,6 +153,7 @@
 </div>
 @push('scripts')
 <script>
+    var select_for_update;
     function printPR(pr_code){
         var _url ="{{ route('pr_prgoram_print') }}" + '?pr_code=' + pr_code;
         window.open(_url,'_blank','menubar=0,titlebar=0');
@@ -150,6 +191,62 @@
             }
         });
     }
+
+
+
+    function showStatusChangeModal(_pr_code){
+        $("#modal_status_change").modal({
+            show:true,
+            backdrop:'static',
+            focus: true,
+            keyboard:false
+        });
+        select_for_update = _pr_code
+    }
+
+    function saveStatusPr(){
+        if($("#pr_status option:selected").val() != ""){
+            $("#btn_save_status").attr('disabled',true);
+            $("#btn_save_status").addClass('spinner spinner-white spinner-right');
+            var _url = "{{ route('pr_status_change') }}";
+            $.ajax({
+                method:"GET",
+                url:_url,
+                data: {pr_code: select_for_update, status : $("#pr_status option:selected").val() },
+                success:function(data){
+                    if(data == 'success'){
+                        swal.fire({
+                                title:"Good Job!",
+                                text: "PR Status Updated!" ,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
+                        $("#modal_status_change").modal('hide');
+                        fetchPRList();
+                    }
+                },complete:function(){
+                    $("#btn_save_status").attr('disabled',false);
+                    $("#btn_save_status").removeClass('spinner spinner-white spinner-right');
+                }
+            })
+        }else{
+            swal.fire({
+                    title:"Opps!",
+                    text: "Please select a status" ,
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok",
+                    customClass: {
+                        confirmButton: "btn font-weight-bold btn-light-primary"
+                    }
+            });
+        }
+
+        }
 
     function deletePR(_pr_code){
         var _url ="{{ route('del_program_pr') }}";
