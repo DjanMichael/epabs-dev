@@ -78,6 +78,10 @@
                 </div>
             </td>
             <td class="pr-0 text-right">
+                <button type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="convertBudgetToConapNextYear({{ $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_user_id"] }},{{ $row["t1_program_id"] }})">
+                    <i class="fas fa-recycle text-primary"></i>
+                </button>
+
                 <button type="button" onClick="showAddBudgetModal({{  $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_user_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                     <span class="svg-icon svg-icon-md svg-icon-primary">
                         <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/General/Settings-1.svg-->

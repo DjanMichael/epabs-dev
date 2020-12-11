@@ -120,6 +120,7 @@
 </div>
 <!--end row -->
 
+
 <input type="hidden" id="pr_code" value="{{ $data["ppmp_code"] }}">
 @push('scripts')
     <script>
@@ -171,7 +172,16 @@
                 data:{id:_id},
                 success:function(data){
                     if(data == 'success'){
-                        alert('del!');
+                        swal.fire({
+                                title:"Good Job!",
+                                text: "Successfully Deleted!" ,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                         fetchItemList();
                         pr_drawer_close();
                     }

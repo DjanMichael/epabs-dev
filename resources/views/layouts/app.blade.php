@@ -1213,6 +1213,30 @@
             // let src = "";
             // let notif_sound = new Audio(src);
 
+            if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Chrome") != -1 )
+            {
+
+            }
+            else if(navigator.userAgent.indexOf("Safari") != -1)
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Firefox") != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+            {
+                alert('please use other Chrome Browser');
+            }
+            else
+            {
+                alert('unknown');
+            }
 
 
 
@@ -1236,6 +1260,7 @@
                 document.getElementById('notification_sound').muted = true;
                 // document.getElementById('notification_sound').play();
             }else{
+
                 navigator.mediaDevices.getUserMedia({audio: true}).
                 then((stream) => {
                     document.getElementById('notification_sound').autoplay = true;
