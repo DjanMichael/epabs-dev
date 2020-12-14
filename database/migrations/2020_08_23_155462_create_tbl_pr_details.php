@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTablePrDetails extends Migration
+class CreateTblPrDetails extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,8 @@ class CreateTablePrDetails extends Migration
     {
         Schema::create('tbl_pr_details', function (Blueprint $table) {
             $table->id();
+            $table->string('wfp_code');
+            $table->integer('wfp_act');
             $table->string('pr_code');
             $table->integer('item_id');
             $table->string('item_type');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use DB as DB2;
-class CreateViewUnitBudgetAllocationInformation extends Migration
+class CreateVwUnitBudgetAllocationInformation extends Migration
 {
     /**
      * Run the migrations.

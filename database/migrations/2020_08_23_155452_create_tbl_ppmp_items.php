@@ -16,6 +16,7 @@ class CreateTblPpmpItems extends Migration
         Schema::create('tbl_ppmp_items', function (Blueprint $table) {
             $table->id();
             $table->integer('wfp_act_per_indicator_id');
+            $table->string('item_type');
             $table->integer('item_id');
             $table->decimal('price',10,2);
             $table->integer('jan')->default(0);

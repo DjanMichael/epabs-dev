@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnRoleIdOnTableUser extends Migration
+class CreateTblWfpLogs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddColumnRoleIdOnTableUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
-            $table->integer('role_id')->after('username');
+        Schema::create('z_wfp_logs', function (Blueprint $table) {
+            $table->id();
+            $table->string('wfp_code');
+            $table->string('status');
+            $table->string('remarks');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddColumnRoleIdOnTableUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function($table) {
-            $table->dropColumn('role_id');
-        });
+        Schema::dropIfExists('z_wfp_logs');
     }
 }
