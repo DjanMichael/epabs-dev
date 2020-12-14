@@ -2,7 +2,7 @@
 @section('title','WORK AND FINANCIAL PLAN')
 @section('content')
 
-<div class="row p-5">
+<div class="row p-5" style="min-height:400px;">
     <div class="col-12 col-md-4">
         <div class="form-group">
             <input class="form-control"  type="text" placeholder="Search Division, Section Program Manager Here.." id="query_search" >
