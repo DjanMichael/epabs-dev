@@ -251,7 +251,7 @@
                     <!--end::Svg Icon-->
                 </span>
                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_not_submitted"]}}
+                    {{$data["wfp_not_submitted"] ?? 0 }}
                 </span>
                 <span class="font-weight-bold text-muted font-size-sm">NOT SUBMITTED</span>
             </div>
@@ -275,7 +275,7 @@
                     <!--end::Svg Icon-->
                 </span>
                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_submitted"]}}
+                    {{$data["wfp_submitted"] ?? 0 }}
                 </span>
                 <span class="font-weight-bold text-muted font-size-sm">SUBMITTED</span>
             </div>
@@ -298,7 +298,7 @@
                     <!--end::Svg Icon-->
                 </span>
                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_approved"]}}
+                    {{$data["wfp_approved"] ?? 0 }}
                 </span>
                 <span class="font-weight-bold text-muted font-size-sm">APPROVED</span>
             </div>
@@ -321,7 +321,7 @@
                     <!--end::Svg Icon-->
                 </span>
                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_revision"]}}
+                    {{$data["wfp_revision"] ?? 0 }}
                 </span>
                 <span class="font-weight-bold text-muted font-size-sm">REVISION</span>
             </div>
