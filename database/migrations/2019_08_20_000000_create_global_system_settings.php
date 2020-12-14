@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableWfpComments extends Migration
+class CreateGlobalSystemSettings extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTableWfpComments extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_wfp_comments', function (Blueprint $table) {
+        Schema::create('global_system_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('wfp_code');
             $table->integer('user_id');
-            $table->string('comment');
+            $table->string('select_year')->nullable();
+            $table->string('select_program_id')->nullable();
+            $table->string('sms_notification')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateTableWfpComments extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_wfp_comments');
+        Schema::dropIfExists('global_system_settings');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblProgramActivityStatus extends Migration
+class CreateTblUnitBudgetAllocation extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,7 @@ class CreateTblProgramActivityStatus extends Migration
     {
         Schema::create('tbl_unit_budget_allocation', function (Blueprint $table) {
             $table->id();
+            $table->integer('program_id');
             $table->integer('unit_id');
             // $table->foreign('program_id')->references('id')->on('ref_programs');
             $table->integer('budget_line_item_id');

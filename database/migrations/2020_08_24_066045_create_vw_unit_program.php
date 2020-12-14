@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use DB as DB2;
 
-class CreateViewUnitProgram extends Migration
+class CreateVwUnitProgram extends Migration
 {
     /**
      * Run the migrations.

@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use DB as DB2;
 
-class CreateViewActivityOutputFunction extends Migration
+class CreateVwActivityOutputFunction extends Migration
 {
     /**
      * Run the migrations.

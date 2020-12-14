@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use DB as DB2;
-class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
+class CreateVwGetAllYearBudgetPerUnitDataset extends Migration
 {
     /**
      * Run the migrations.
@@ -40,7 +40,7 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                 `dataset2`.`wfp_code` AS `wfp_code`,
                 `dataset2`.`program_budget` AS `program_budget`,
                 `dataset2`.`utilized_pi` AS `utilized_plan`,
-                `dataset2`.`yearly_budget` - `dataset2`.`yearly_utilized` AS `yearly_balance`,
+                `dataset2`.`yearly_budget` - `dataset2`.`yearly_pi_utilized` AS `yearly_balance`,
                 `dataset2`.`yearly_budget` AS `yearly_budget`,
                 (
                     SELECT
@@ -52,7 +52,7 @@ class CreateViewGetAllYearBudgetPerUnitDataset extends Migration
                     AND `tuba`.`program_id` = `dataset2`.`program_id`
                     AND `tuba`.`budget_line_item_id` = `dataset2`.`budget_line_item_id`
                 ) AS `yearly_budget2`,
-                `dataset2`.`yearly_utilized` AS `yearly_utilized`,
+                `dataset2`.`yearly_pi_utilized` AS `yearly_pi_utilized`,
                 COALESCE (
                     (
                         SELECT

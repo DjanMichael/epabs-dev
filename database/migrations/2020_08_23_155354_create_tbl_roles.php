@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTableWfpComments extends Migration
+class CreateTblRoles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AlterTableWfpComments extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_wfp_comments', function (Blueprint $table) {
-            $table->integer('wfp_act_id')->after('wfp_code');
+        Schema::create('tbl_user_roles', function (Blueprint $table) {
+            $table->id();
+            $table->integer('role_id');
+            $table->string('roles');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AlterTableWfpComments extends Migration
      */
     public function down()
     {
-        Schema::table('tbl_wfp_comments', function (Blueprint $table) {
-            $table->dropColumn('wfp_act_id');
-        });
+        Schema::dropIfExists('tbl_user_roles');
     }
 }
