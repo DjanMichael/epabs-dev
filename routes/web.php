@@ -65,10 +65,15 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/budget/allocation/delete/byId','Transaction\BudgetAllocationController@deleteBudgetPerBLIByUser')->name('db_budget_delete_allocation_per_user');
     Route::get('/budget/allocation/search/qry','Transaction\BudgetAllocationController@searchBudgetAllocationByUnit')->name('sdb_budget_allocation_unit');
     Route::get('/budgetlineitem/amount/year/allocation','Transaction\BudgetAllocationController@getAmountByBliYear')->name('get_budget_amount_by_bli_and_year');
-
+    //CONAP
+    Route::get('/user/program/conap/save','Transaction\BudgetAllocationController@conapSave')->name('save_program_conap');
+    Route::get('/user/program/conap/rollback','Transaction\BudgetAllocationController@conapRollback')->name('rollback_program_conap');
     //AOP
     Route::get('/user/program/aop','Transaction\AopController@index')->name('r_aop');
     Route::get('/user/program/aop/list','Transaction\AopController@getAopList')->name('get_aop_list');
+
+
+
 
     //PRINTING
     Route::get('/wfp/unit/print','PDFController@printUnitWFP')->name('wfp_unit_print');

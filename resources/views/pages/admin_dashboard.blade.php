@@ -211,7 +211,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Total Budget Utilization</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0),2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_pi_utilized"] : 0),2) }}</span>
             </div>
         </div>
         <!--end: Item-->
@@ -223,49 +223,14 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_utilized"] : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_pi_utilized"] : 0) ,2) }}</span>
             </div>
         </div>
-        <!--end: Item-->
-        <!--begin: Item-->
-        {{-- <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-            <span class="mr-4">
-                <i class="flaticon-file-2 icon-2x text-muted font-weight-bold"></i>
-            </span>
-            <div class="d-flex flex-column flex-lg-fill">
-                <span class="text-dark-75 font-weight-bolder font-size-sm">73 Purchase Request</span>
-                <a href="#" class="text-primary font-weight-bolder">View</a>
-            </div>
-        </div> --}}
-        <!--end: Item-->
-        <!--begin: Item-->
-        {{-- <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-            <span class="mr-4">
-                <i class="flaticon-chat-1 icon-2x text-muted font-weight-bold"></i>
-            </span>
-            <div class="d-flex flex-column">
-                <span class="text-dark-75 font-weight-bolder font-size-sm">648 Comments</span>
-                <a href="#" class="text-primary font-weight-bolder">View</a>
-            </div>
-        </div> --}}
-        <!--end: Item-->
-        <!--begin: Item-->
-        {{-- <div class="d-flex align-items-center flex-lg-fill my-1">
-            <span class="mr-4">
-                <i class="flaticon-network icon-2x text-muted font-weight-bold"></i>
-            </span>
-           <div class="d-flex flex-column">
-                <span class="text-dark-75 font-weight-bolder font-size-sm">648 Programs Handled</span>
-                <a href="#" class="text-primary font-weight-bolder">View</a>
-            </div>
-        </div> --}}
         <!--end: Item-->
     </div>
     <!--begin: Items-->
 </div>
 </div>
-
-
 @endif
 <!-- begin:dashboard planning -->
 @if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR")

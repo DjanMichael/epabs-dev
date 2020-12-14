@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProgramAop extends Model
+class ProgramConap extends Model
 {
     //
-    protected $table = "tbl_aop";
+    protected $table ="tbl_program_conap";
+    protected $fillable = ['program_id','year_id','bli_distribution','amount'];
 }
