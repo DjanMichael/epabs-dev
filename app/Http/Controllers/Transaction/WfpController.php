@@ -255,7 +255,7 @@ class WfpController extends Controller
         $program_id = (GlobalSystemSettings::where('user_id',$user_id)->first())->select_program_id;
 
         if($program_id <= 0 ){
-            return ['message'=>'only program coordinator can generate wfp'];
+            return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
         }
 
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));

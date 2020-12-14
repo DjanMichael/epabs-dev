@@ -123,11 +123,11 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
-                    }else if(data.message == 'only program coordinator can generate wfp'){
+                    }else if(data.message == 'only program coordinator can generate wfp or you may update your settings'){
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
                                 title:"Opss!",
-                                text: "Only Program Coordinator Can Generate WFP",
+                                text: "Only Program Coordinator Can Generate WFP or Set your Program on Settings",
                                 icon: "error",
                                 buttonsStyling: false,
                                 confirmButtonText: "Ok, got it!",

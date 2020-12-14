@@ -22,8 +22,8 @@
         $used  = $row["yearly_pi_utilized"];
         // $used  = $row["actual_bal"];
         if (($hasBudget && $used != null) || ( $total != 0 && $used != null )){
-            $bal  = number_format((($total - $used) / $total) * 100,2);
-            $used = number_format(($used / $total) * 100,2);
+            $bal  = number_format((($total - $used) / $total) * 100);
+            $used = number_format(($used / $total) * 100);
         }else{
             $total =0;
             $used =0;
