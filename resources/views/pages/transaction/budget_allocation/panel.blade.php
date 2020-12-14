@@ -149,17 +149,81 @@
             getUnitYearlyBudgetPerBLI(unit_id,year_id,user_id,program_id);
         }
 
-        function convertBudgetToConapNextYear(unit_id1,year_id1,program_id1){
+        function rollbackBudgetToConapNextYear(_amount,_year_id,_program_id){
+            var _url ="{{ route('rollback_program_conap') }}";
+            var _data = {
+                program_id : _program_id,
+                year_id : _year_id,
+                amount : _amount
+            };
             Swal.fire({
-                title: "Are you sure, You want to convert the remaining budget to Conap?",
-                text: "You won\'t be able to revert this!",
+                title: "Are you sure, You want to rollback Conap?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Yes, convert it!",
                 cancelButtonText: "No, cancel!"
             }).then(function(result) {
                 if (result.value) {
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data: _data,
+                        success:function(data){
+                            if(data =="success"){
+                                Swal.fire(
+                                    "Good Job!",
+                                    "Successfully Rollback Budget",
+                                    "success"
+                                )
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
+                            }
+                        }
+                    })
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Nothing Changes",
+                        "error"
+                    )
+                }
+            });
 
+        }
+
+        function convertBudgetToConapNextYear(_amount,unit_id1,year_id1,program_id1){
+            var _url ="{{ route('save_program_conap') }}";
+            var _data = {
+                program_id : program_id1,
+                year_id : year_id1,
+                amount : _amount
+            };
+
+
+            Swal.fire({
+                title: "Are you sure, You want to convert the remaining budget to Conap?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, convert it!",
+                cancelButtonText: "No, cancel!"
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        method:"GET",
+                        url : _url,
+                        data: _data,
+                        success:function(data){
+                            if(data =="success"){
+                                Swal.fire(
+                                    "Good Job!",
+                                    "Budget Conversion Successfuly",
+                                    "success"
+                                )
+                                fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
+                            }
+                        }
+                    })
                     // result.dismiss can be "cancel", "overlay",
                     // "close", and "timer"
                 } else if (result.dismiss === "cancel") {

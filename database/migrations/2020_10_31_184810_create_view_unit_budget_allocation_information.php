@@ -38,6 +38,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                             `tw`.`user_id` = `up`.`user_id`
                         AND `tw`.`year_id` = `tuba`.`year_id`
                         AND `tw`.`unit_id` = `up`.`unit_id`
+                        AND `tw`.`program_id` = `tup`.`program_id`
                     ) AS `wfp_code`,
                     (
                         SELECT
@@ -55,7 +56,7 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                             `tw`.`user_id` = `up`.`user_id`
                         AND `tw`.`year_id` = `tuba`.`year_id`
                         AND `tw`.`unit_id` = `up`.`unit_id`
-                        AND `tw`.program_id =  `tuba`.program_id
+                        AND `tw`.`program_id` = `tuba`.`program_id`
                     ) AS `wfp_activity_count`,
                     (
                         SELECT
@@ -78,33 +79,36 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         AND `twapi`.`wfp_code` = `twapi`.`wfp_code`
                     ) AS `utilized_pi`,
                     cast(
-                        `tuba`.`program_budget` - (
-                            SELECT
-                                (
-                                    SELECT
-                                        COALESCE (sum(`twapi`.`cost`), 0)
-                                    FROM
-                                        (
-                                            `tbl_wfp_activity_per_indicator` `twapi`
-                                            JOIN `tbl_wfp_activity` `twa` ON (
-                                                `twa`.`id` = `twapi`.`wfp_act_id`
+                        `tuba`.`program_budget` - COALESCE (
+                            (
+                                SELECT
+                                    (
+                                        SELECT
+                                            COALESCE (sum(`twapi`.`cost`), 0)
+                                        FROM
+                                            (
+                                                `tbl_wfp_activity_per_indicator` `twapi`
+                                                JOIN `tbl_wfp_activity` `twa` ON (
+                                                    `twa`.`id` = `twapi`.`wfp_act_id`
+                                                )
                                             )
-                                        )
-                                    WHERE
-                                        `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
-                                    AND `twapi`.`wfp_code` = `tw`.`code`
-                                )
-                            FROM
-                                `tbl_wfp` `tw`
-                            WHERE
-                                `tw`.`user_id` = `up`.`user_id`
-                            AND `tw`.`year_id` = `tuba`.`year_id`
-                            AND `tw`.`unit_id` = `up`.`unit_id`
-                            AND `tw`.program_id =  `tuba`.program_id
+                                        WHERE
+                                            `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                                        AND `twapi`.`wfp_code` = `tw`.`code`
+                                    )
+                                FROM
+                                    `tbl_wfp` `tw`
+                                WHERE
+                                    `tw`.`user_id` = `up`.`user_id`
+                                AND `tw`.`year_id` = `tuba`.`year_id`
+                                AND `tw`.`unit_id` = `up`.`unit_id`
+                                AND `tw`.`program_id` = `tuba`.`program_id`
+                            ),
+                            0
                         ) AS DECIMAL (20, 2)
                     ) AS `utilized_pi_balance`,
                     COALESCE (
-                        `tuba`.`program_budget` - (
+                        (
                             SELECT
                                 (
                                     SELECT
@@ -142,7 +146,52 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                                 `tw`.`user_id` = `up`.`user_id`
                             AND `tw`.`year_id` = `tuba`.`year_id`
                             AND `tw`.`unit_id` = `up`.`unit_id`
-                            AND `tw`.program_id =  `tuba`.program_id
+                            AND `tw`.`program_id` = `tuba`.`program_id`
+                        )
+                    ) AS `utilized_ppmp_actual`,
+                    COALESCE (
+                        `tuba`.`program_budget` - COALESCE (
+                            (
+                                SELECT
+                                    (
+                                        SELECT
+                                            COALESCE (
+                                                sum(
+                                                    (
+                                                        SELECT
+                                                            (
+                                                                COALESCE (`tpi`.`jan`, 0) + COALESCE (`tpi`.`feb`, 0) + COALESCE (`tpi`.`mar`, 0) + COALESCE (`tpi`.`apr`, 0) + COALESCE (`tpi`.`may`, 0) + COALESCE (`tpi`.`june`, 0) + COALESCE (`tpi`.`july`, 0) + COALESCE (`tpi`.`aug`, 0) + COALESCE (`tpi`.`sept`, 0) + COALESCE (`tpi`.`oct`, 0) + COALESCE (`tpi`.`nov`, 0) + COALESCE (`tpi`.`dec`, 0)
+                                                            ) * `tpi`.`price`
+                                                        FROM
+                                                            `tbl_ppmp_items` `tpi3`
+                                                        WHERE
+                                                            `tpi3`.`id` = `tpi`.`id`
+                                                    )
+                                                ),
+                                                0
+                                            )
+                                        FROM
+                                            `tbl_ppmp_items` `tpi`
+                                        WHERE
+                                            `tpi`.`wfp_act_per_indicator_id` IN (
+                                                SELECT
+                                                    `twapi2`.`id`
+                                                FROM
+                                                    `tbl_wfp_activity_per_indicator` `twapi2`
+                                                WHERE
+                                                    `twapi2`.`wfp_code` = `tw`.`code`
+                                                AND `twapi2`.`bli_id` = `tuba`.`budget_line_item_id`
+                                            )
+                                    )
+                                FROM
+                                    `tbl_wfp` `tw`
+                                WHERE
+                                    `tw`.`user_id` = `up`.`user_id`
+                                AND `tw`.`year_id` = `tuba`.`year_id`
+                                AND `tw`.`unit_id` = `up`.`unit_id`
+                                AND `tw`.`program_id` = `tuba`.`program_id`
+                            ),
+                            0
                         )
                     ) AS `ppmp_actual_balance`,
                     (
@@ -153,26 +202,84 @@ class CreateViewUnitBudgetAllocationInformation extends Migration
                         WHERE
                             `tuba2`.`unit_id` = `tuba`.`unit_id`
                         AND `tuba2`.`year_id` = `tuba`.`year_id`
-                        AND `tuba2`.program_id =  `tuba`.program_id
+                        AND `tuba2`.`program_id` = `tuba`.`program_id`
                     ) AS `yearly_budget`,
-                    (
-                        SELECT
-                            sum(`twa2`.`activity_cost`)
-                        FROM
-                            `tbl_wfp_activity` `twa2`
-                        WHERE
-                            `twa2`.`wfp_code` = (
-                                SELECT
-                                    `tw`.`code`
-                                FROM
-                                    `tbl_wfp` `tw`
-                                WHERE
-                                    `tw`.`user_id` = `up`.`user_id`
-                                AND `tw`.`year_id` = `tuba`.`year_id`
-                                AND `tw`.`unit_id` = `up`.`unit_id`
-                                AND tw.program_id = tuba.program_id
-                            )
-                    ) AS `yearly_utilized`
+                    COALESCE (
+                        (
+                            SELECT
+                                sum(`twa2`.`activity_cost`)
+                            FROM
+                                `tbl_wfp_activity` `twa2`
+                            WHERE
+                                `twa2`.`wfp_code` = (
+                                    SELECT
+                                        `tw`.`code`
+                                    FROM
+                                        `tbl_wfp` `tw`
+                                    WHERE
+                                        `tw`.`user_id` = `up`.`user_id`
+                                    AND `tw`.`year_id` = `tuba`.`year_id`
+                                    AND `tw`.`unit_id` = `up`.`unit_id`
+                                    AND `tw`.`program_id` = `tuba`.`program_id`
+                                )
+                        ),
+                        0
+                    ) AS `yearly_pi_utilized`,
+                    COALESCE (
+                        (
+                            SELECT
+                                sum(
+                                    (
+                                        SELECT
+                                            COALESCE (
+                                                sum(
+                                                    (
+                                                        SELECT
+                                                            (
+                                                                COALESCE (`tpi`.`jan`, 0) + COALESCE (`tpi`.`feb`, 0) + COALESCE (`tpi`.`mar`, 0) + COALESCE (`tpi`.`apr`, 0) + COALESCE (`tpi`.`may`, 0) + COALESCE (`tpi`.`june`, 0) + COALESCE (`tpi`.`july`, 0) + COALESCE (`tpi`.`aug`, 0) + COALESCE (`tpi`.`sept`, 0) + COALESCE (`tpi`.`oct`, 0) + COALESCE (`tpi`.`nov`, 0) + COALESCE (`tpi`.`dec`, 0)
+                                                            ) * `tpi`.`price`
+                                                        FROM
+                                                            `tbl_ppmp_items` `tpi3`
+                                                        WHERE
+                                                            `tpi3`.`id` = `tpi`.`id`
+                                                    )
+                                                ),
+                                                0
+                                            )
+                                        FROM
+                                            `tbl_ppmp_items` `tpi`
+                                        WHERE
+                                            `tpi`.`wfp_act_per_indicator_id` IN (
+                                                SELECT
+                                                    `twapi2`.`id`
+                                                FROM
+                                                    `tbl_wfp_activity_per_indicator` `twapi2`
+                                                WHERE
+                                                    `twapi2`.`wfp_code` = `tw`.`code`
+                                            )
+                                    )
+                                )
+                            FROM
+                                `tbl_wfp` `tw`
+                            WHERE
+                                `tw`.`user_id` = `up`.`user_id`
+                            AND `tw`.`year_id` = `tuba`.`year_id`
+                            AND `tw`.`unit_id` = `up`.`unit_id`
+                            AND `tw`.`program_id` = `tuba`.`program_id`
+                        )
+                    ) AS `yearly_utilized_ppmp_actual`,
+                    COALESCE (
+                        (
+                            SELECT
+                                `tpc`.`amount`
+                            FROM
+                                `tbl_program_conap` `tpc`
+                            WHERE
+                                `tpc`.`year_id` = `tuba`.`year_id`
+                            AND `tpc`.`program_id` = `tuba`.`program_id`
+                        ),
+                        0
+                    ) AS `conap`
                 FROM
                     (
                         (
