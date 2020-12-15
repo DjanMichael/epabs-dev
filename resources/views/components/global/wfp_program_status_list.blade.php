@@ -1,4 +1,4 @@
-@forelse($data["wfp_user_list"] as $row)
+@forelse($data["wfp_user_list"] ?? [] as $row)
     <tr >
         <td class="pt-3 pb-0">
             <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-center">
@@ -22,7 +22,7 @@
 </tr>
 @endforelse
 
-@if(count($data["wfp_user_list"]) > 0)
+@if(count($data["wfp_user_list"] ?? []) > 0)
 <tr id="pagination_user_list">
     <td colspan="3">
         {{ $data["wfp_user_list"]->links('components.global.pagination') }}
