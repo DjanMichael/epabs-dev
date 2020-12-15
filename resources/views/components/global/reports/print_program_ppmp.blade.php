@@ -323,6 +323,10 @@
             @endforeach
 
         @if(count($data["ppmp_catering"]) <> 0)
+        <?php
+            // dd($data["ppmp_catering"]);
+            // dd($data["wfp"]->year_id);
+        ?>
             <tr>
                 <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="t-h-d">CATERING SERVICES</td>
             </tr>
@@ -340,6 +344,7 @@
             ?>
                 @foreach($batch as $row3)
                     <?php
+
                     $vw = "vw_procurement_drum_supplies_items";
                     $items = \DB::table('tbl_ppmp_items')
                                     ->join($vw,function($q) use ($vw)
@@ -347,6 +352,7 @@
                                         $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                         $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                     })
+                                    ->where('year_id',$data["wfp"]->year_id)
                                     ->where('tbl_ppmp_items.batch_id',$row3["batch_id"])
                                     ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
                                     ->where($vw . '.classification','=','CATERING SERVICES')

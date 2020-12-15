@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transaction;
 
+use App\GlobalSystemSettings;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
@@ -11,9 +12,10 @@ use App\WfpActivity;
 use App\Views\ProcurementMedSupplies;
 use App\TablePiCateringBatches;
 use App\RefLocation;
+use App\Wfp;
 use DB;
 use App\ZWfpLogs;
-
+use Auth;
 class PpmpController extends Controller
 {
     //
@@ -56,7 +58,7 @@ class PpmpController extends Controller
             $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
         }
 
-      
+
         // dd($data);
 
         return view('pages.transaction.product_item.product_item',['data' => $data]);
@@ -97,13 +99,9 @@ class PpmpController extends Controller
     public function getCartDetailsByWfpActivity(Request $req){
         $data =[];
         $data["ppmp_items"] = [];
-        // $a = PpmpItems::where('wfp_act_per_indicator_id',$req->pi_id)->get();
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
 
-        // if($a){
-        //     $data["ppmp_items"] = $a->toArray();
-        // }
-
-        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' ));
+        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' , $settings->select_year));
 
         return view('components.global.wfp_activity_cart_drawer',['data' => $data]);
     }
@@ -193,6 +191,7 @@ class PpmpController extends Controller
     }
 
     public function getAllPPMPItemList(Request $req){
+        $wfp = Wfp::where('code',$req->wfp_code)->first();
         if($req->has('sorted')){
             $i ;
             $arr = $req->sorted;
@@ -201,11 +200,13 @@ class PpmpController extends Controller
             }
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->whereIn('classification',$arr)
+                                            ->where('year_id',$wfp->year_id)
                                             ->paginate($this->paginate_ppmp_item_list);
         }else{
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->where(fn($q) =>
                                                 $q->where('description','LIKE','%' . $req->q . '%')
+                                            ->where('year_id',$wfp->year_id)
                                             )->paginate($this->paginate_ppmp_item_list);
         }
         //separate product viewing and  ppmp
@@ -219,14 +220,11 @@ class PpmpController extends Controller
 
     public function addPPMPItemsByPI(Request $req){
         if($req->ajax()){
-
-
             if($req->batch == null){
                 $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
                             ->where('item_type',$req->type)
                             ->where('item_id',$req->id)
                             ->where('price',$req->price)->first();
-                // dd($b);
             }else{
                 $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
                             ->where('item_type',$req->type)
@@ -275,27 +273,24 @@ class PpmpController extends Controller
 
     public function getPPMPView(Request $req){
         if($req->ajax()){
-            // dd($req->all());
             $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
-            // dd($wfp_act_ids);
-
             if(count($wfp_act_ids) > 0){
                 $i =0;
                 for ($i=0; $i < count($wfp_act_ids) ; $i++ ){
                     $pi_ids[$i] = $wfp_act_ids[$i]["id"];
                 }
             }
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $vw = "vw_procurement_drum_supplies_items";
-            // $data["category"] = \DB::table($vw)->get()->toArray();
-
+            // dd($wfp->year_id);
             $data["ppmp_items"] = \DB::table('tbl_ppmp_items')
                                         ->join($vw,function($q) use ($vw)
                                         {
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
-
                                         })
+                                        ->where('year_id',$wfp->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
@@ -309,15 +304,20 @@ class PpmpController extends Controller
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                         })
+                                        ->where('year_id',$wfp->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','=','CATERING SERVICES')
-                                        ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
+                                        ->get()
+                                        ->groupBy('wfp_act_per_indicator_id')
+                                        ->toArray();
+
 
             $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($req->wfp_code);
             // dd($data);
+
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
         }else{
             abort(403);
