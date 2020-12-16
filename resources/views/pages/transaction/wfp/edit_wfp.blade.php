@@ -464,8 +464,8 @@
             }
 
             let wfp_data = {
-                output_function: '',
-                output_function_id: '',
+                output_function: $("#selected_output_function_id").val(),
+                // output_function_id: '',
                 activity_output: '',
                 source_of_fund: '',
                 activity_categ: '',

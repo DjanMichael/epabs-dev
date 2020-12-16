@@ -95,7 +95,7 @@ class CreateVwProcurementDrumSuppliesItems extends Migration
                             )
                             JOIN `ref_year` `ry`
                         )
-            )");
+            )")
     }
 
     /**

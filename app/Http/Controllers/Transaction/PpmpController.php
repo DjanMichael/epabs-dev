@@ -310,7 +310,9 @@ class PpmpController extends Controller
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','=','CATERING SERVICES')
-                                        ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
+                                        ->get()
+                                        ->groupBy('wfp_act_per_indicator_id')
+                                        ->toArray();
 
             $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
