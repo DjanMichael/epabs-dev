@@ -2,26 +2,29 @@
 @section('title','WORK AND FINANCIAL PLAN')
 @section('content')
 
-<div class="row p-5" style="min-height:400px;">
-    <div class="col-12 col-md-4">
-        <div class="form-group">
-            <input class="form-control"  type="text" placeholder="Search Division, Section Program Manager Here.." id="query_search" >
+<div style="min-height:400px;">
+    <div class="row p-5" >
+        <div class="col-12 col-md-4">
+            <div class="form-group">
+                <input class="form-control"  type="text" placeholder="Search Division, Section Program Manager Here.." id="query_search" >
+            </div>
+        </div>
+        <div class="col-12 col-md-4"></div>
+        <div class="col-12 col-md-4 text-right">
+            <button type="button"  id="btn_search_wfp"
+            class="mb-1 btn btn-primary btn-shadow font-weight-bold mr-1 col-12 col-md-5">
+            <i class="icon-2x flaticon2-search mr-3"></i>Search
+            </button>
+            <button type="button"  id="btn_show_year_wfp"
+            class="btn btn-primary btn-shadow font-weight-bold col-12 col-md-5">
+                <i class="icon-2x flaticon-add mr-3"></i>Create
+            </button>
         </div>
     </div>
-    <div class="col-12 col-md-4"></div>
-    <div class="col-12 col-md-4 text-right">
-        <button type="button"  id="btn_search_wfp"
-        class="mb-1 btn btn-primary btn-shadow font-weight-bold mr-1 col-12 col-md-5">
-        <i class="icon-2x flaticon2-search mr-3"></i>Search
-        </button>
-        <button type="button"  id="btn_show_year_wfp"
-        class="btn btn-primary btn-shadow font-weight-bold col-12 col-md-5">
-            <i class="icon-2x flaticon-add mr-3"></i>Create
-        </button>
-    </div>
+
+    <div id="wfp_list" style="z-index: 1000;"></div>
 </div>
 
-<div id="wfp_list" style="z-index: 1000;"></div>
 
 <!-- Modal-->
 <div class="modal fade" id="modal_create_wfp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal_functions_delivery_search" aria-hidden="true" style="z-index: 99999;">
