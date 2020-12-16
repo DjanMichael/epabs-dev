@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','Product List')
 @section('content')
-<div class="row">
+<div class="row"  style="min-height:390px;">
     <div class="col-12 col-md-3">
         <div class="flex-column  col-md-12" id="kt_profile_aside">
             <!--begin::Forms Widget 15-->
@@ -148,7 +148,7 @@
         getAllPPMPItemsList();
     });
 
-    
+
     /*
         FUNCTIONS
     */
