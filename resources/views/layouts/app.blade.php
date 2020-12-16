@@ -122,17 +122,22 @@
         <span>
             <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
             {{-- style="position: relative;top:40px;left:0px;" --}}
-            style="position: absolute;top:30%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
+            style="position: absolute;top:25%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
             alt="">
         </span>
         <h1
-            style="position: relative;top:200px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            style="position: relative;top:35%;font-size:3rem;line-height:29px;margin-bottom:0px;"
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
-            ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
+            >
+            <span>
+                <b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }}
+            </span>
+
+            <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
-            style="position: relative;top:205px;font-size:1rem;line-height:10px;"
+            style="position: relative;top:35%;font-size:1rem;line-height:10px;"
         >{{ env('APP_CLIENT_NAME') }}</h5>
         <h5
             style="font-size:1rem;position: relative;top:-23px;left:-20px;"
@@ -152,7 +157,8 @@
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
 		<a href="{{ route('dashboard') }}" class="mr-7">
-			<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-30px"/>
+            <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-40px" />
+            <span style="color:white;font-size:20px;position:relative;top:5px;left:0px">EPABS</span>
 		</a>
 		<!--end::Logo-->
 	</div>
@@ -190,7 +196,8 @@
 			<div class="d-none d-lg-flex align-items-center mr-3">
 				<!--begin::Logo-->
 				<a href="index.html" class="mr-10">
-					<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-35px"/>
+                    <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-65px"/>
+                    <span style="color:white;font-size:40px;position:relative;top:10px;left:0px">EPABS</span>
 				</a>
 				<!--end::Logo-->
 			</div>
