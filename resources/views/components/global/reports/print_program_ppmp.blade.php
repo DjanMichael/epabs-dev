@@ -347,6 +347,7 @@
                                         $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                         $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                     })
+                                    ->where('year_id',$data["wfp"]->year_id)
                                     ->where('tbl_ppmp_items.batch_id',$row3["batch_id"])
                                     ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
                                     ->where($vw . '.classification','=','CATERING SERVICES')
