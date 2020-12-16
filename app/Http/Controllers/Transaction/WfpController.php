@@ -88,22 +88,20 @@ class WfpController extends Controller
 
     public function getOutputFunctions()
     {
-        $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
+        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getSearchOutputFunctions(Request $req)
     {
-        $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
         $q = $req->q;
 
         if($q !=''){
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->where('program_id',$settings->select_program_id)
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
             ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
             ->paginate($this->pi_table_paginate);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate($this->pi_table_paginate);
         }
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
@@ -111,14 +109,12 @@ class WfpController extends Controller
     public function getOutputFunctionByPage(Request $req){
         if($req->ajax())
         {
-            $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
             if ($req->q !=''){
                 $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
                                                 ->where('function_description','LIKE', '%' . $req->q . '%')
-                                                ->where('program_id',$settings->select_program_id)
                                                 ->paginate($this->pi_table_paginate);
             }else{
-                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
             }
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
@@ -243,6 +239,7 @@ class WfpController extends Controller
 
             $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->groupBy('wfp_act_id')
                                            ->get();
+
             return view('components.global.wfp_drawer',['data'=>$data,
                                                         'year' => $year->year ,
                                                         'user_id'=> (count($data["activities"]) <> 0 ? $data["activities"][0]["user_id"] : null),
