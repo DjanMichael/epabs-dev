@@ -15,14 +15,14 @@ use Auth;
 class UnitProgramController extends Controller
 {
     //
-    public function index(){ return view('pages.reference.unitprogram.unit_program'); }
+    public function index(){ return view('pages.reference.unit_program.unit_program'); }
 
     public function getUnitProgram(){
         $userRole = Auth::user()->role->roles;
         $data = ($userRole == 'ADMINISTRATOR')
                     ? UnitProgram::orderBy('id', 'ASC')->paginate(10)
                     : UnitProgram::where('user_id', '=', Auth::user()->id)->orderBy('id', 'ASC')->paginate(10);
-        return view('pages.reference.unitprogram.table.display_unit_program',['unit_program'=> $data]);
+        return view('pages.reference.unit_program.table.display_unit_program',['unit_program'=> $data]);
     }
 
     public function getUnitProgramByPage(Request $request) {
@@ -33,7 +33,7 @@ class UnitProgramController extends Controller
             $data = ($userRole == 'ADMINISTRATOR')
                         ? UnitProgram::orderBy('id', 'ASC')->paginate(10)
                         : UnitProgram::where('user_id', '=', Auth::user()->id)->orderBy('id', 'ASC')->paginate(10);
-            return view('pages.reference.unitprogram.table.display_unit_program',['unit_program'=> $data]);
+            return view('pages.reference.unit_program.table.display_unit_program',['unit_program'=> $data]);
         } else {
             abort(403);
         }
@@ -63,7 +63,7 @@ class UnitProgramController extends Controller
                         ? UnitProgram::paginate(10)
                         : UnitProgram::where('user_id', '=', Auth::user()->id)->paginate(10);
             }
-            return view('pages.reference.unitprogram.table.display_unit_program',['unit_program'=> $data]);
+            return view('pages.reference.unit_program.table.display_unit_program',['unit_program'=> $data]);
         } else {
             abort(403);
         }
@@ -75,8 +75,10 @@ class UnitProgramController extends Controller
                                         ->orderBy('program_name', 'ASC')
                                         ->get();
         // $data['unit'] = RefUnits::where('status','ACTIVE')->where('id', '<>', '1')->get();
-        $data['coordinator'] = User::where('id', '<>', '1')->orderBy('name', 'ASC')->get();
-        return view('pages.reference.unitprogram.form.add_unit_program', ['data'=> $data]);
+        $data['coordinator'] = User::where('id', '<>', '1')
+                                    ->where('role_id', '=', '3')
+                                    ->orderBy('name', 'ASC')->get();
+        return view('pages.reference.unit_program.form.add_unit_program', ['data'=> $data]);
     }
 
     public function store(Request $request) {

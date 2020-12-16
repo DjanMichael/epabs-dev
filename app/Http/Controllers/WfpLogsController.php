@@ -12,7 +12,9 @@ class WfpLogsController extends Controller
     public function getWfpStatusApproved(Request $req){
         if($req->ajax()){
             $wfp_code = Crypt::decryptString($req->wfp_code);
-            $a  = ZWfpLogs::where('wfp_code',  $wfp_code)->orderBy('created_at','DESC')->first();
+            $a  = ZWfpLogs::where('wfp_code',  $wfp_code)
+                            ->where('status','WFP')
+                            ->orderBy('created_at','DESC')->first();
             return $a->remarks == 'APPROVED' ? 'success' : 'failed';
         }else{
             abort(403);

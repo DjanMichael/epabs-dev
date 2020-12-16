@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-group">
-            <label>City<span class="text-danger">*</span></label>
+            <label>City/Municipality<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-location"></i></span></div>
                <input type="text" class="form-control" id="city"/>

@@ -22,6 +22,11 @@ Broadcast::channel('wfp.notify.user.{id}', function ($user, $id) {
     return $id != 0 ? true : false;
 });
 
+Broadcast::channel('wfp.notify.user.ppmp.{id}', function ($user, $id) {
+    return $id != 0 ? true : false;
+});
+
+
 Broadcast::channel('chat.user.{id}', function ($user, $id) {
     return true;
 });

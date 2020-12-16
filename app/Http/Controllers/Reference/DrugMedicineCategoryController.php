@@ -22,6 +22,8 @@ class DrugMedicineCategoryController extends Controller
         {
             $data = RefDMCategory::paginate(10);
             return view('pages.reference.dmcategory.table.display_drug_medicine_category',['category'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -36,6 +38,8 @@ class DrugMedicineCategoryController extends Controller
                 $data = RefDMCategory::paginate(10);
             }
             return view('pages.reference.dmcategory.table.display_drug_medicine_category',['category'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -45,25 +49,29 @@ class DrugMedicineCategoryController extends Controller
 
     public function store(Request $request) {
 
-        $check = RefDMCategory::find($request->id)
-                    ? RefDMCategory::where('category', $request->category)->where('id', '<>', $request->id)->first()
-                    : RefDMCategory::where('category', $request->category)->first();
+        if($request->ajax()) {
+            $check = RefDMCategory::find($request->id)
+                        ? RefDMCategory::where('category', $request->category)->where('id', '<>', $request->id)->first()
+                        : RefDMCategory::where('category', $request->category)->first();
 
-        if ($check) {
-            return response()->json(['message'=>'Category '.$request->category.' already exists!', 'type'=> 'info']);
-        } else {
-            $check = RefDMCategory::find($request->id);
             if ($check) {
-                $check->update(['category' => $request->category, 'status' => $request->status]);
-                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                return response()->json(['message'=>'Category '.$request->category.' already exists!', 'type'=> 'info']);
+            } else {
+                $check = RefDMCategory::find($request->id);
+                if ($check) {
+                    $check->update(['category' => $request->category, 'status' => $request->status]);
+                    return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                }
+                else if (empty($check)) {
+                    RefDMCategory::create($request->all());
+                    return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+                }
+                else {
+                    return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
+                }
             }
-            else if (empty($check)) {
-                RefDMCategory::create($request->all());
-                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
-            }
-            else {
-                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
-            }
+        } else {
+            abort(403);
         }
 
     }

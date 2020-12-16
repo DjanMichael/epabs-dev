@@ -18,6 +18,8 @@ class CreateRefBudgetLineItem extends Migration
             $table->string('budget_item');
             $table->integer('year_id')->default(0);
             $table->integer('allocation_amount')->default(0);
+            $table->enum('if_conap',['Y','N']);
+            $table->integer('conap_year_id')->default(0);
             $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });

@@ -14,6 +14,8 @@ use App\TableSystemEvents;
 use App\WfpComments;
 use Auth;
 use Illuminate\Support\Str;
+
+// use App\Jobs\JobEventQueue;
 class NotifyUserWfpStatus implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -35,18 +37,27 @@ class NotifyUserWfpStatus implements ShouldBroadcast
     public function __construct(Wfp $wfp,$title,$desc,$event_name)
     {
         $this->program_id = $wfp->program_id;
-
+        // $have_contact = Auth::user()->getUserContact() != '' ? true : false;
+        // $temp_sms = "";
+      
         if($event_name == "WFP Update"){
             if($title =="WFP Submit"){
                 $this->icon = 'flaticon2-file';
                 $this->icon_level = 'info';
+                // $temp_sms =env("SMS_TEXT_WFP_SUBMITTED");
             }elseif($title =="WFP Approve"){
                 $this->icon = 'flaticon2-file';
                 $this->icon_level = 'success';
+                // $temp_sms =env("SMS_TEXT_WFP_APPROVED");
             }elseif($title =="WFP Revise"){
                 $this->icon = 'flaticon2-file';
                 $this->icon_level = 'danger';
+                // $temp_sms =env("SMS_TEXT_WFP_REVISED");
             }
+            // if($have_contact){
+            //     dispatch(new JobEventQueue(Auth::user()->getUserContact(),$temp_sms));
+            //     // $sms->sendSMS(Auth::user()->getUserContact(),$temp_sms);
+            // }
 
             $this->title = $title;
             $this->desc = $desc;

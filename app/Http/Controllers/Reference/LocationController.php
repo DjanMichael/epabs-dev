@@ -22,13 +22,14 @@ class LocationController extends Controller
         {
             $data = RefLocation::paginate(10);
             return view('pages.reference.demographic.table.display_location',['location'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
     public function getLocationSearch(Request $request)
     {
-        if($request->ajax())
-        {
+        if($request->ajax()) {
             $query = $request->q;
             if($query != ''){
                 $data = RefLocation::where('region' ,'LIKE', '%'. $query .'%')
@@ -39,6 +40,8 @@ class LocationController extends Controller
                 $data = RefLocation::paginate(10);
             }
             return view('pages.reference.demographic.table.display_location',['location'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -47,8 +50,8 @@ class LocationController extends Controller
     }
 
     public function store(Request $request) {
-
-        $check = RefLocation::find($request->location_id)
+        if($request->ajax()) {
+            $check = RefLocation::find($request->location_id)
                         ? RefLocation::where([
                                             ['region', $request->region],
                                             ['province', $request->province],
@@ -61,23 +64,26 @@ class LocationController extends Controller
                                             ['city', $request->city]
                                             ])->first();
 
-        if ($check) {
-            return response()->json(['message'=>'Location already exists!', 'type'=> 'info']);
-        } else {
-            $check = RefLocation::find($request->location_id);
             if ($check) {
-                $check->update(['region' => $request->region, 'province' => $request->province,
-                                'city' => $request->city, 'outside' => $request->outside,
-                                'status' => $request->status]);
-                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                return response()->json(['message'=>'Location already exists!', 'type'=> 'info']);
+            } else {
+                $check = RefLocation::find($request->location_id);
+                if ($check) {
+                    $check->update(['region' => $request->region, 'province' => $request->province,
+                                    'city' => $request->city, 'outside' => $request->outside,
+                                    'status' => $request->status]);
+                    return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                }
+                else if (empty($check)) {
+                    RefLocation::create($request->all());
+                    return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+                }
+                else {
+                    return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
+                }
             }
-            else if (empty($check)) {
-                RefLocation::create($request->all());
-                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
-            }
-            else {
-                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
-            }
+        } else {
+            abort(403);
         }
 
     }

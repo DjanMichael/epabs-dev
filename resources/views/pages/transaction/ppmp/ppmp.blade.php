@@ -1,10 +1,17 @@
 @extends('layouts.app')
 @section('title','PPMP')
 @section('content')
+<?php 
+
+    $ppmpApproved  = \App\ZWfplogs::where('wfp_code',$data['wfp_code'])
+                                            ->where('status','PPMP')
+                                            ->orderBy('id','DESC')
+                                            ->first(); 
+?>
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
     <span class="label label-rounded label-danger mr-2" style="position:absolute;left:0;top:0;" id="cart_count_badge">0</span>
     <!--begin::Item-->
-<li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Show Selected Items">
+    <li class="nav-item mb-2"  onclick="wfp_act_cart_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Show Selected Items">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
             <i class="fas fa-shopping-cart text-primary"></i>
         </button>
@@ -18,7 +25,7 @@
     </li>
     <!--end::Item-->
      <!--begin::Item-->
-     <li class="nav-item mb-2"  onclick="wfp_ppmp_viewer_drawer_open('{{ $data['wfp_code'] }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open PPMP">
+     <li class="nav-item mb-2"  onclick="wfp_ppmp_viewer_drawer_open('{{ Crypt::encryptString($data['wfp_code']) }}','{{ $data['wfp_act_id'] }}')" data-toggle="tooltip" title="" data-placement="left" data-original-title="Open PPMP">
         <button type="button" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
             <i class="fas fa-boxes text-primary"></i>
         </button>
@@ -27,193 +34,199 @@
 </ul>
 <div class="row">
     <div class="col-12 col-md-12">
-        <div class="flex-column col-md-12">
-            <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
-                <div class="card-title p-5 bg-dark mb-0">
-                    <span class="card-label font-weight-bolder text-light">CREATE PPMP</span>
-                </div>
-                <!--begin::Body-->
-                <div class="card-body my-4">
-                    <div class="row">
-                        <div class="col-12 col-md-4 mb-2">
-                            <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Remaining Budget</span>
-                            <div class="font-weight-bold text-muted font-size-sm">
-                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="balance_amount">₱ 0.00</span> <span id="balance_percentage">0%</span></div>
-                            <div class="progress progress-xs mt-1 bg-info-o-60">
-                            <div class="progress-bar bg-info" id = "balance_progress" role="progressbar" style="width:0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="flex-column col-md-12">
+                <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
+                    <div class="card-title p-5 bg-dark mb-0">
+                        <span class="card-label font-weight-bolder text-light">CREATE PPMP</span>
+                    </div>
+                    <!--begin::Body-->
+                    <div class="card-body my-4">
+                        <div class="row">
+                            <div class="col-12 col-md-4 mb-2">
+                                <span class="card-title font-weight-bolder font-size-h6 mb-0 text-hover-state-dark d-block"><i class="fas fa-money-bill text-primary mr-2"></i>Remaining Budget</span>
+                                <div class="font-weight-bold text-muted font-size-sm">
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="balance_amount">₱ 0.00</span> <span id="balance_percentage">0%</span></div>
+                                <div class="progress progress-xs mt-1 bg-info-o-60">
+                                <div class="progress-bar bg-info" id = "balance_progress" role="progressbar" style="width:0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>Utilized</span>
+                                <div class="font-weight-bold text-muted font-size-sm">
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="utilize_amount">₱ 0.00</span> <span id="utilize_percentage">0%</span></div>
+                                <div class="progress progress-xs mt-1 bg-info-o-60">
+                                    <div class="progress-bar bg-danger" id= "utilize_progress" role="progressbar" style="width: 0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
                             </div>
-                            <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>Utilized</span>
-                            <div class="font-weight-bold text-muted font-size-sm">
-                            <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="utilize_amount">₱ 0.00</span> <span id="utilize_percentage">0%</span></div>
-                            <div class="progress progress-xs mt-1 bg-info-o-60">
-                                <div class="progress-bar bg-danger" id= "utilize_progress" role="progressbar" style="width: 0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <p class="font-weight-normal mb-0">Select Performance Indicator</p>
-                            <div class="form-group " style="">
-                                <select class="form-control form-control-solid" id="pi_ppmp_select">
-                                    <option value="" selected></option>
-                                    @foreach($data["wfp_act_pi"] as $row)
-                                        <option value="{{ $row["id"] }}">{{ $row["performance_indicator"] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <div id="batch_wrapper">
-                                        <p class="font-weight-normal mb-0">Select Batch No</p>
-                                        <div class="form-group" style="">
-                                            <select class="form-control form-control-solid" id="pi_batch_no">
-                                            </select>
+                            <div class="col-12 col-md-8">
+                                <p class="font-weight-normal mb-0">Select Performance Indicator</p>
+                                <div class="form-group " style="">
+                                    <select class="form-control form-control-solid" id="pi_ppmp_select">
+                                        <option value="" selected></option>
+                                        @foreach($data["wfp_act_pi"] as $row)
+                                            <option value="{{ $row["id"] }}">{{ $row["performance_indicator"] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div id="batch_wrapper">
+                                            <p class="font-weight-normal mb-0">Select Batch No</p>
+                                            <div class="form-group" style="">
+                                                <select class="form-control form-control-solid" id="pi_batch_no">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div id="pi_region_wrapper">
-                                        <p class="font-weight-normal mb-0">Select Region</p>
-                                        <div class="form-group" style="">
-                                            <select class="form-control form-control-solid" id="pi_region">
-                                            </select>
+                                    <div class="col-12 col-md-6">
+                                        <div id="pi_region_wrapper">
+                                            <p class="font-weight-normal mb-0">Select Region</p>
+                                            <div class="form-group" style="">
+                                                <select class="form-control form-control-solid" id="pi_region">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div id="pi_prov_wrapper">
-                                        <p class="font-weight-normal mb-0">Select Province</p>
-                                        <div class="form-group" style="">
-                                            <select class="form-control form-control-solid" id="pi_prov">
-                                                <option value="" selected></option>
+                                    <div class="col-12 col-md-6">
+                                        <div id="pi_prov_wrapper">
+                                            <p class="font-weight-normal mb-0">Select Province</p>
+                                            <div class="form-group" style="">
+                                                <select class="form-control form-control-solid" id="pi_prov">
+                                                    <option value="" selected></option>
 
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div id="pi_city_wrapper">
-                                        <p class="font-weight-normal mb-0">Select City</p>
-                                        <div class="form-group " style="">
-                                            <select class="form-control form-control-solid" id="pi_city">
-                                                <option value="" selected></option>
-                                            </select>
+                                    <div class="col-12 col-md-6">
+                                        <div id="pi_city_wrapper">
+                                            <p class="font-weight-normal mb-0">Select City</p>
+                                            <div class="form-group " style="">
+                                                <select class="form-control form-control-solid" id="pi_city">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <button type="button" class="btn btn-primary" id="btnSaveCateringDetails">Save</button>
+                                    <div class="col-12 col-md-6">
+                                        <button type="button" class="btn btn-primary" id="btnSaveCateringDetails">Save</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--end::Body-->
                 </div>
-                <!--end::Body-->
             </div>
+
+
+
         </div>
+        <div class="col-12 col-md-3">
+            <div class="flex-column  col-md-12" id="kt_profile_aside">
+                <!--begin::Forms Widget 15-->
+                <div class="card card-custom gutter-b">
+                    <!--begin::Body-->
+                    <div class="card-body">
 
-
-
-    </div>
-    <div class="col-12 col-md-3">
-        <div class="flex-column  col-md-12" id="kt_profile_aside">
-            <!--begin::Forms Widget 15-->
-            <div class="card card-custom gutter-b">
-                <!--begin::Body-->
-                <div class="card-body">
-
-                    <!--begin::Form-->
-                    <form id="side_isppmp">
-                        <!--begin::Categories-->
-                        <div class="form-group mb-11">
-                            <label class="font-size-h3 font-weight-bolder text-dark mb-7">Categories</label>
-                            <!--begin::Checkbox list-->
-                            <div class="checkbox-list">
-                                @foreach($data["ppmp_item_category"] as $row)
-                                    <label class="checkbox checkbox-lg mb-7" >
-                                    <input type="checkbox" value="false" id="sort_list_{{ str_replace(' ','_',$row['classification']) }}" onclick="ppmpItemSortedCategory('{{ $row['classification'] }}')" >
-                                        <span></span>
-                                        <div class="font-size-lg text-dark-75 font-weight-bold">{{ $row["classification"] }}</div>
-                                        <div class="ml-auto text-muted font-weight-bold">{{ $row["item_count"] }}</div>
-                                    </label>
-                                @endforeach
-                            </div>
-                            <!--end::Checkbox list-->
-                        </div>
-                        <!--end::Categories-->
-                    </form>
-                    <!--end::Form-->
-                </div>
-                <!--end::Body-->
-            </div>
-            <!--end::Forms Widget 15-->
-        </div>
-    </div>
-    <div class="col-12 col-md-9">
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-12 col-md-4">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12">
-            <div class="card card-custom " id="table_ppmp">
-                <!--begin::Header-->
-                <div class="card-header border-0 py-5 bg-dark">
-                    <div class="row w-100">
-                        <div class="col-12 col-md-6">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label font-weight-bolder text-light">Item List</span>
-                                <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item here.</span>
-                            </h3>
-                        </div>
-                        <div class="form-group col-12 col-md-6">
-                            <div class="row mt-3">
-                                <input type="text" class="form-control form-control-solid col-12 col-md-8 mb-3 mb-md-0" placeholder="Search Item" id="search_txt"/>
-                                <button class="btn btn-light-primary font-weight-bold col-12 col-md-3 ml-md-2" type="button" id="btnSearchItem">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- <div class="card-toolbar">
-                    </div> --}}
-                </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div class="card-body py-0">
-                    <!--begin::Table-->
-                    <div class="table-responsive">
-                        <table class="table table-head-custom table-vertical-center">
-                            <thead>
-                                <tr class="text-left">
-                                    {{-- <th class="pl-0" style="width: 30px">
-                                        <label class="checkbox checkbox-lg checkbox-inline mr-2">
-                                            <input type="checkbox" value="1">
+                        <!--begin::Form-->
+                        <form id="side_isppmp">
+                            <!--begin::Categories-->
+                            <div class="form-group mb-11">
+                                <label class="font-size-h3 font-weight-bolder text-dark mb-7">Categories</label>
+                                <!--begin::Checkbox list-->
+                                <div class="checkbox-list">
+                                    @foreach($data["ppmp_item_category"] as $row)
+                                        <label class="checkbox checkbox-lg mb-7" >
+                                        <input type="checkbox" value="false" id="sort_list_{{ str_replace(' ','_',$row['classification']) }}" onclick="ppmpItemSortedCategory('{{ $row['classification'] }}')" >
                                             <span></span>
+                                            <div class="font-size-lg text-dark-75 font-weight-bold">{{ $row["classification"] }}</div>
+                                            <div class="ml-auto text-muted font-weight-bold">{{ $row["item_count"] }}</div>
                                         </label>
-                                    </th> --}}
-                                    {{-- <th class="pl-0" style="min-width: 120px">ID</th> --}}
-                                    <th style="min-width: 110px">ITEM DESCRIPTION</th>
-                                    <th style="min-width: 120px">UNIT</th>
-                                    <th style="min-width: 110px">
-                                        <span>PRICE</span>
-                                    </th>
-                                    <th class="pr-0 text-right" style="min-width: 160px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ppmp_med_supplies_items">
-                            </tbody>
-                        </table>
+                                    @endforeach
+                                </div>
+                                <!--end::Checkbox list-->
+                            </div>
+                            <!--end::Categories-->
+                        </form>
+                        <!--end::Form-->
                     </div>
-                    <!--end::Table-->
+                    <!--end::Body-->
                 </div>
-                <!--end::Body-->
-            </div>
+                <!--end::Forms Widget 15-->
             </div>
         </div>
-        <!-- end row-->
-    </div>
-    <!--end col-10 -->
+        <div class="col-12 col-md-9">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                <div class="card card-custom " id="table_ppmp">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 py-5 bg-dark">
+                        <div class="row w-100">
+                            <div class="col-12 col-md-6">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label font-weight-bolder text-light">Item List</span>
+                                    <span class="text-muted mt-3 font-weight-bold font-size-sm">You may select Item here.</span>
+                                </h3>
+                            </div>
+                            <div class="form-group col-12 col-md-6">
+                                <div class="row mt-3">
+                                    <input type="text" class="form-control form-control-solid col-12 col-md-8 mb-3 mb-md-0" placeholder="Search Item" id="search_txt"/>
+                                    <button class="btn btn-light-primary font-weight-bold col-12 col-md-3 ml-md-2" type="button" id="btnSearchItem">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="card-toolbar">
+                        </div> --}}
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body py-0">
+                        <!--begin::Table-->
+                        <div class="table-responsive">
+                            <table class="table table-head-custom table-vertical-center">
+                                <thead>
+                                    <tr class="text-left">
+                                        {{-- <th class="pl-0" style="width: 30px">
+                                            <label class="checkbox checkbox-lg checkbox-inline mr-2">
+                                                <input type="checkbox" value="1">
+                                                <span></span>
+                                            </label>
+                                        </th> --}}
+                                        {{-- <th class="pl-0" style="min-width: 120px">ID</th> --}}
+                                        <th style="min-width: 110px">ITEM DESCRIPTION</th>
+                                        <th style="min-width: 120px">UNIT</th>
+                                        <th style="min-width: 110px">
+                                            <span>PRICE</span>
+                                        </th>
+                                        <th class="pr-0 text-right" style="min-width: 160px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ppmp_med_supplies_items">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                </div>
+            </div>
+            <!-- end row-->
+        </div>
+        <!--end col-10 -->
+
+
+
+
+</div>
+<!--end row -->
+
 
 <!-- Modal modal_qty_cart_item-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_qty_cart_item" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
@@ -410,9 +423,6 @@
     </div>
 </div>
 
-
-</div>
-<!--end row -->
 @endsection
 
 @push('scripts')
@@ -848,6 +858,8 @@
                                 "Item Added to Cart",
                                 "success"
                             )
+                            $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
+                            $("#btnSavePiCart").attr('disabled',false);
                             fetchPIDetails("ADDING_ITEM");
                         }else if(data == 'duplicate'){
                             $("#modal_qty_cart_item").modal('hide');
@@ -864,12 +876,14 @@
                                 "error"
                             )
                         }
+                        $("#btnSavePiCart").attr('disabled',false);
+                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
 
                     },complete:function(){
 
                         KTApp.unblock('#modal_qty_cart_item');
-                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
                         $("#btnSavePiCart").attr('disabled',false);
+                        $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
                     }
                 });
             }else if(is_catering == 'N'){
@@ -973,6 +987,8 @@
                 focus: true,
                 keyboard:false
             });
+            $("#btnSavePiCart").removeClass('spinner spinner-primary spinner-right');
+            $("#btnSavePiCart").attr('disabled',false);
             //set default 0
             $("#jan_cart").val(0);
             $("#feb_cart").val(0);

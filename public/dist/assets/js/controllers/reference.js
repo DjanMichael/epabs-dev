@@ -17,11 +17,6 @@ function switchChangeValue(ob, firstValue, secondValue){
     el.value = ($('#'+el.id).prop('checked') == true) ? firstValue : secondValue;
 }
 
-function create_table_row (item) {
-    var row = $('<tr><td>' + item.id + '</td><td>' + item.date + '</td></tr>');
-    return row;
-}
-
 // Populate Table
 function populateTable(populate_url, per_page_url, table, content, pagination){
     var _url = populate_url;
@@ -76,6 +71,64 @@ function populateTablePerPage(url, page, q1, table, content, pagination){
         }
     })
 }
+
+
+// Populate Table
+// function populateTable(populate_url, per_page_url, table, content, pagination){
+//     var _url = populate_url;
+//     $.ajax({
+//         method:"GET",
+//         url: _url,
+//         beforeSend:function(){
+//             KTApp.block('#'+table, {
+//                 overlayColor: '#000000',
+//                 state: 'primary',
+//                 message: 'Loading. . .'
+//             });
+//         },
+//         success:function(data){
+//             KTApp.unblock('#'+table);
+//             document.getElementById(content).innerHTML= data;
+//             $('.table').footable();
+//         },
+//         complete:function(){
+//             $("#" + pagination + " .pagination a").on('click',function(e){
+//                 e.preventDefault();
+//                 populateTablePerPage(per_page_url, $(this).attr('href').split('page=')[1], $("#query_search").val(), table, content, pagination)
+//             });
+//         }
+//     });
+// }
+
+
+// Populate Table with Pagination
+// function populateTablePerPage(url, page, q1, table, content, pagination){
+//     var _url = url;
+//     var _q = q1 == '' ? '' : q1;
+//     $.ajax({
+//         method:"GET",
+//         url: _url,
+//         data : { page: page, q : _q },
+//         beforeSend:function(){
+//             KTApp.block('#'+table, {
+//                 overlayColor: '#000000',
+//                 state: 'primary',
+//                 message: 'Loading. . .'
+//             });
+//         },
+//         success:function(data){
+//             KTApp.unblock('#'+table);
+//             document.getElementById(content).innerHTML= data;
+//             $('.table').footable();
+//         },
+//         complete:function(){
+//             $("#" + pagination + " .pagination a").on('click',function(e){
+//                 e.preventDefault();
+//                 populateTablePerPage(url, $(this).attr('href').split('page=')[1], $("#query_search").val(), table, content, pagination)
+//             });
+//         }
+//     })
+// }
 
 // Populate Table thru search
 function populateTableBySearch(url, query, table, content, pagination){

@@ -12,7 +12,7 @@ use Auth;
 class OutputFunctionController extends Controller
 {
     //
-    public function index(){ return view('pages.reference.outputfunction.output_function'); }
+    public function index(){ return view('pages.reference.output_function.output_function'); }
 
     public function fetchOutputFunction() {
         $data = (Auth::user()->role->roles == 'ADMINISTRATOR')
@@ -23,13 +23,13 @@ class OutputFunctionController extends Controller
     }
 
     public function getOutputFunction() {
-        return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
+        return view('pages.reference.output_function.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
     }
 
     public function getOutputFunctionByPage(Request $request) {
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest){
-            return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
+            return view('pages.reference.output_function.table.display_output_function',['output_function'=> $this->fetchOutputFunction()]);
         } else {
             abort(403);
         }
@@ -59,7 +59,7 @@ class OutputFunctionController extends Controller
             } else {
                 $data = $this->fetchOutputFunction();
             }
-            return view('pages.reference.outputfunction.table.display_output_function',['output_function'=> $data]);
+            return view('pages.reference.output_function.table.display_output_function',['output_function'=> $data]);
         } else {
             abort(403);
         }
@@ -68,7 +68,7 @@ class OutputFunctionController extends Controller
     public function getAddForm(){
         $data['function_deliverables'] = RefFunctionDeliverables::where('status','ACTIVE')->get();
         $data['program'] = UnitProgram::where('user_id', '=', Auth::user()->id)->where('program_status','ACTIVE')->get();
-        return view('pages.reference.outputfunction.form.add_output_function', ['data'=> $data]);
+        return view('pages.reference.output_function.form.add_output_function', ['data'=> $data]);
     }
 
     public function store(Request $request) {

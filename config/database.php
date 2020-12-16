@@ -61,6 +61,7 @@ return [
                 'dump_binary_path' => 'C:\xampp\mysql\bin',
                 'use_single_transaction',
                 'timeout' => 60 * 5, // 5 minute timeout
+                'add_extra_option' => '--skip-comments --routines',
             ],
             'modes' => [
                 //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column

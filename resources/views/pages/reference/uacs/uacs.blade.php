@@ -86,9 +86,9 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#uacs_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                data.category = $("#category").val();
-                data.subcategory = $("#subcategory").val();
-                data.title = $("#title").val();
+                data.category = $("#category").val().toUpperCase();
+                data.subcategory = $("#subcategory").val().toUpperCase();
+                data.title = $("#title").val().toUpperCase();
                 data.code = $("#code").val();
 
                 let validation = new Validator(data, rules);

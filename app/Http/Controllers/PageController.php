@@ -66,30 +66,36 @@ class PageController extends Controller
     public function getProgramStatusList(Request $req){
         if($req->ajax()){
             $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-            if(($req->q != '' || $req->q != null) && ($req->status != '' || $req->status != null) && ($req->status != 'ALL' )){
-                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                            ->where(fn($q) =>
-                                                                $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
-                                                                ->orWhere('program' , 'LIKE','%' . $req->q . '%')
-                                                            )
-                                                            ->where('wfp_status',$req->status)
-                                                            ->paginate($this->pagination_user_wfp_status);
-            }else if($req->q != '' || $req->q != null){
-                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                            ->where(fn($q) =>
-                                                                $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
-                                                                ->orWhere('program' , 'LIKE','%' . $req->q . '%')
-                                                            )
-                                                            ->paginate($this->pagination_user_wfp_status);
-            }else if($req->status != 'ALL'){
-                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                            ->where('wfp_status',$req->status)
-                                                            ->paginate($this->pagination_user_wfp_status);
 
+            if($program){
+                if(($req->q != '' || $req->q != null) && ($req->status != '' || $req->status != null) && ($req->status != 'ALL' )){
+                    $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                                ->where(fn($q) =>
+                                                                    $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
+                                                                    ->orWhere('program' , 'LIKE','%' . $req->q . '%')
+                                                                )
+                                                                ->where('wfp_status',$req->status)
+                                                                ->paginate($this->pagination_user_wfp_status);
+                }else if($req->q != '' || $req->q != null){
+                    $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                                ->where(fn($q) =>
+                                                                    $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
+                                                                    ->orWhere('program' , 'LIKE','%' . $req->q . '%')
+                                                                )
+                                                                ->paginate($this->pagination_user_wfp_status);
+                }else if($req->status != 'ALL'){
+                    $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                                ->where('wfp_status',$req->status)
+                                                                ->paginate($this->pagination_user_wfp_status);
+
+                }else{
+                    $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                                ->paginate($this->pagination_user_wfp_status);
+                }
             }else{
-                $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                            ->paginate($this->pagination_user_wfp_status);
+                $data["wfp_user_list"] =null;
             }
+
             return view('components.global.wfp_program_status_list',['data'=>$data]);
         }else{
             abort(403);

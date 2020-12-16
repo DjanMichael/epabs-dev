@@ -62,7 +62,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--begin::Login Sign in form-->
 			<div class="login-signin">
 				<div class="mb-20">
-					<h3>Sign In To Admin</h3>
+					<h3>Sign In To EPABS</h3>
 					<div class="text-muted font-weight-bold">Enter your details to login to your account:</div>
 				</div>
 				<form class="form" id="kt_login_signin_form">
@@ -75,13 +75,13 @@ License: You must have a valid license purchased only from themeforest(the above
 					</div>
 					<div class="form-group d-flex flex-wrap justify-content-between align-items-center">
 						<div class="checkbox-inline">
-							<label class="checkbox m-0 text-muted">
+							{{-- <label class="checkbox m-0 text-muted">
 								<input type="checkbox" name="remember" id="remember_me" />
 								<span></span>
 								Remember me
-							</label>
+							</label> --}}
 						</div>
-						<a href="javascript:;" id="kt_login_forgot" class="text-muted text-hover-primary">Forget Password ?</a>
+						{{-- <a href="javascript:;" id="kt_login_forgot" class="text-muted text-hover-primary">Forget Password ?</a> --}}
 					</div>
 					<button id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
 				</form>
@@ -351,8 +351,9 @@ License: You must have a valid license purchased only from themeforest(the above
 				});
 
 				var _url = "{{ route('send_login') }}";
-				var remember_me = document.getElementById('remember_me');
-				var _data = "username=" + $('#username').val() + '&password=' + $("#password").val() + '&remember_me=' + remember_me.checked ;
+				// var remember_me = document.getElementById('remember_me');
+				// var _data = "username=" + $('#username').val() + '&password=' + $("#password").val() + '&remember_me=' + remember_me.checked ;
+				var _data = "username=" + $('#username').val() + '&password=' + $("#password").val();
 
 				$.ajax({
 					method:"POST",
@@ -360,7 +361,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					timeout: 10000,
 					data: _data,
 					success:function(data){
-                        console.log(data);
+                        // console.log(data);
 						if(data.access_token != null)
 						{
 							sessionStorage.setItem('token',`Bearer ` + data.access_token);
@@ -520,7 +521,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									}
 								});
 							}else{
-								console.log(t);
+								// console.log(t);
 							}
 						}
 					});

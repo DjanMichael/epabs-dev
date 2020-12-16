@@ -122,17 +122,22 @@
         <span>
             <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
             {{-- style="position: relative;top:40px;left:0px;" --}}
-            style="position: absolute;top:30%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
+            style="position: absolute;top:25%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);"
             alt="">
         </span>
         <h1
-            style="position: relative;top:200px;font-size:3rem;line-height:29px;margin-bottom:0px;"
+            style="position: relative;top:35%;font-size:3rem;line-height:29px;margin-bottom:0px;"
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
-            ><b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }} <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
+            >
+            <span>
+                <b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }}
+            </span>
+
+            <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
-            style="position: relative;top:205px;font-size:1rem;line-height:10px;"
+            style="position: relative;top:35%;font-size:1rem;line-height:10px;"
         >{{ env('APP_CLIENT_NAME') }}</h5>
         <h5
             style="font-size:1rem;position: relative;top:-23px;left:-20px;"
@@ -152,7 +157,8 @@
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
 		<a href="{{ route('dashboard') }}" class="mr-7">
-			<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-30px"/>
+            <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-40px" />
+            <span style="color:white;font-size:20px;position:relative;top:5px;left:0px">EPABS</span>
 		</a>
 		<!--end::Logo-->
 	</div>
@@ -190,7 +196,8 @@
 			<div class="d-none d-lg-flex align-items-center mr-3">
 				<!--begin::Logo-->
 				<a href="index.html" class="mr-10">
-					<img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-35px"/>
+                    <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-65px"/>
+                    <span style="color:white;font-size:40px;position:relative;top:10px;left:0px">EPABS</span>
 				</a>
 				<!--end::Logo-->
 			</div>
@@ -384,6 +391,18 @@
 <!-- end:wfp_ppmp_view -->
 
 
+<!-- begin:pr_drawer -->
+<div id="bg-drawer-pr" onclick="pr_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="pr_drawer">
+</div>
+<!-- end:pr_drawer -->
+
+
+
 <!-- begin::User Panel-->
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
 	<!--begin::Header-->
@@ -568,7 +587,7 @@
 
             <?php
                 if(Auth::user()->role->roles =="PROGRAM COORDINATOR"){
-                    $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+                    $settings = \App\GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
                     if($settings){
                                 $data["notif"] = \App\TableSystemEvents::where('to_program_id',$settings->select_program_id)
                                                                 ->where('event_name','WFP Update')
@@ -724,7 +743,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ACTIVITY INFORMATION VIEWER</h5>
+                <h5 class="modal-title" id="exampleModalLabel">PERFORMANCE INDICATOR VIEWER</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -1109,7 +1128,8 @@
         <!--end::Global Theme Bundle-->
 
         <!--begin::Page Vendors(used by this page)-->
-                <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
+            {{-- <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/clipboard.js') }}"></script> --}}
+                {{-- <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script> --}}
                 {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
                 {{-- <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
         <!--end::Page Vendors-->
@@ -1131,12 +1151,27 @@
             $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     retryAfter:5000,
                     retryLimit:3,
                     tryCount:0
             });
+
+            var ajaxSetup1 = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers" : "Authorization",
+                    "Access-Control-Allow-Methods": "GET, POST"
+                }
+
+            }
+
+            // function copyWfpCode(code){
+            //     toastr.info("Wfp Code #"+ code +" Copied!");
+            // }
 
             function getProgramsAssigned(){
                 var _url  ="{{ route('get_program_assigned') }}";
@@ -1185,6 +1220,30 @@
             // let src = "";
             // let notif_sound = new Audio(src);
 
+            if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Chrome") != -1 )
+            {
+
+            }
+            else if(navigator.userAgent.indexOf("Safari") != -1)
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Firefox") != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+            {
+                alert('please use other Chrome Browser');
+            }
+            else
+            {
+                alert('unknown');
+            }
 
 
 
@@ -1208,6 +1267,7 @@
                 document.getElementById('notification_sound').muted = true;
                 // document.getElementById('notification_sound').play();
             }else{
+
                 navigator.mediaDevices.getUserMedia({audio: true}).
                 then((stream) => {
                     document.getElementById('notification_sound').autoplay = true;
@@ -1223,7 +1283,7 @@
             "debug": false,
             "newestOnTop": true,
             "progressBar": true,
-            "positionClass": "toast-bottom-full-width",
+            "positionClass": "toast-bottom-right",
             "preventDuplicates": false,
             "onclick": null,
             "showDuration": "300",
@@ -1256,7 +1316,6 @@
 
             Echo.private('system.events.logs')
             .listen('LoginAuthenticationLog', (e) => {
-
                 Promise.resolve(4)
                     .then(()=>{
                         if(!detectMob()){
@@ -1315,7 +1374,6 @@
                             document.getElementById('notification_sound').play();
                         }
                     }).then(() =>{
-
                         console.log(e);
                         // WFP STATUS
                         if(e.title == "WFP Submit"){
@@ -1338,6 +1396,42 @@
             });
 
 
+            Echo.private('wfp.notify.user.ppmp.{{ Auth::user()->getSelectedProgramId() != '' ? Auth::user()->getSelectedProgramId() : 0}}')
+            .listen('NotifyUserPpmpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+
+                        console.log(e);
+                        // WFP STATUS
+                        if(e.title == "PPMP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "PPMP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "PPMP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+
             Echo.private('chat.user.{{ Auth::user()->id }}')
             .listen('ChatUserSendReceive', (e) => {
                 var url = window.location.href;
@@ -1346,19 +1440,40 @@
                 {
                     if (_selected_convo_user_id != null || _selected_convo_user_id != undefined){
                         var template;
-                        template =`
-                            <div class="d-flex flex-column mb-5 align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-45 mr-3">
-                                        <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
-                                    </div>
-                                    <div>
-                                        <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
-                                        <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        if(e.type == "GIF"){
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="col-12">
+                                                        <embed type="image/gif" src="`+ e.msg +`" class="w-100"/><br/>
+                                                    </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        `;
+                        }else{
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                        }
+
+
+
                         $(".messages").append(template);
                         $("#content_chat").animate({
                             scrollTop: $(
@@ -1447,6 +1562,7 @@
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+
              $("#kt_quick_panel_toggle").on('click',function(){
                 fetchUserNotification();
             });
@@ -1590,7 +1706,7 @@
             $("#kt_body").addClass('add_scroll');
             setTimeout(function(){
                 $(".page_loader").addClass('display-none');
-            },1300);
+            },1500);
         }
 
         function wfp_drawer_close(){
@@ -1745,6 +1861,11 @@
         //     alert(_ppmp_id);
         // }
 
+      function pr_drawer_close(){
+            $("#bg-drawer-pr").removeClass('bg-drawer');
+            $("#pr_drawer").removeClass('wrapper-drawer-on');
+        }
+
         function wfp_ppmp_viewer_drawer_close(){
             $("#bg-drawer-ppmp-drawer").removeClass('bg-drawer');
             $("#wfp_ppmp_viewer_drawer").removeClass('wrapper-drawer-on');
@@ -1777,10 +1898,25 @@
             });
         }
 
+        function pr_drawer_open(_pr_code){
+                $("#bg-drawer-pr").addClass('bg-drawer');
+                $("#pr_drawer").addClass('wrapper-drawer-on');
+                var _url = "{{ route('pr_view') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: { pr_code : _pr_code },
+                    success:function(data){
+                          document.getElementById('pr_drawer').innerHTML = data;
+                    }
+                })
+        }
+
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
-            if(_wfp_act_id != null || _wfp_code != null){
+            if(_wfp_code != null){
                 $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
                 $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
+                // wfp_drawer_close();
                 fetchPPMPViewer(_wfp_code,_wfp_act_id);
             }
         }
@@ -1866,6 +2002,7 @@
                 url: _url,
                 data: { wfp_code : _wfp_code },
                 success:function(data){
+                    console.log(data);
                     if(data == 'success'){
                         KTApp.block('#kt_body', {
                             overlayColor: '#000000',
@@ -2036,9 +2173,33 @@
                 }
             });
         }
+        function sendSMS(to,msg){
+            var _url ="{{ route('save_sms_api') }}?To=" + to + "&Message=" + msg;
 
+            $.ajax({
+                method:"POST",
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods': 'GET,POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Authorization,X-Socket-Id'
+                },
+                crossDomain:true,
+                url:_url,
+                // beforeSend:function(){
+                //     this.headers.global = false;
+                // },
+                beforeSend: function() {},
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(e)
+                {
+                    console.log(e);
+                }
+            });
+
+        }
         function wfpApprove(_wfp_code){
-
             var _url = "{{ route('wfp_status_approve') }}";
             var _data = {
                 wfp_code : _wfp_code
@@ -2061,6 +2222,7 @@
                                     "Successfully Approved WFP",
                                     "success"
                                 )
+                                // sendSMS(data.send_to,data.send_msg);
                                 wfp_drawer_close();
                                 fetch_wfp_list();
                             }
@@ -2137,7 +2299,8 @@
 
             function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
                 var _url = "{{ route('d_get_all_wfp_list') }}";
-
+                var url_check = window.location.href;
+                url_check = url_check.split('?')[0];
                 var _data = {
                     page : _page,
                     q: _q,
@@ -2146,29 +2309,33 @@
                 };
                 if(settings.year != null || settings.year != undefined)
                 {
-                    $.ajax({
-                        method:"GET",
-                        url:_url,
-                        data:_data,
-                        beforeSend:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Retrieving WFP Data. . .'
-                            });
-                        },
-                        success:function(data){
-                            document.getElementById('wfp_list').innerHTML = data;
-                        },
-                        complete(){
-                            KTApp.unblock('#kt_body');
-                            $("#pagination_wfp_list .pagination a").on('click',function(e){
-                                e.preventDefault();
-                                page_wfp = $(this).attr('href').split('page=')[1]
-                                fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
-                            });
-                        }
-                    });
+                    if(url_check.search(/wfp/i) > 0)
+                    {
+                        $.ajax({
+                            method:"GET",
+                            url:_url,
+                            data:_data,
+                            beforeSend:function(){
+                                KTApp.block('#kt_body', {
+                                    overlayColor: '#000000',
+                                    state: 'primary',
+                                    message: 'Retrieving WFP Data. . .'
+                                });
+                            },
+                            success:function(data){
+                                document.getElementById('wfp_list').innerHTML = data;
+                            },
+                            complete(){
+                                KTApp.unblock('#kt_body');
+
+                                $("#pagination_wfp_list .pagination a").on('click',function(e){
+                                    e.preventDefault();
+                                    page_wfp = $(this).attr('href').split('page=')[1]
+                                    fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
+                                });
+                            }
+                        })
+                    }
                 }else{
                     swal.fire({
                             title:"Warning",
@@ -2196,13 +2363,23 @@
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 
+
             function approvePPMP(_wfp_code){
                 var _url ="{{ route('status_update_approve') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Approved!",
+                                "success"
+                            )
+                        }
                     }
                 });
             }
@@ -2211,9 +2388,18 @@
                 var _url ="{{ route('status_update_submit') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Submitted!",
+                                "success"
+                            )
+                        }
                     }
                 })
             }
@@ -2222,9 +2408,18 @@
                 var _url ="{{ route('status_update_revise') }}";
                 $.ajax({
                     method:"GET",
+                    url:_url,
                     data:{ wfp_code : _wfp_code },
                     success:function(data){
-
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Revise",
+                                "success"
+                            )
+                        }
                     }
                 });
             }

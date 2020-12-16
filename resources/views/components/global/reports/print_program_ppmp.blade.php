@@ -10,7 +10,7 @@
   <style>
            /* margin : top right bottom left */
         @page {
-            margin: 90px 30px 130px 30px;
+            margin: 90px 30px 120px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -77,13 +77,14 @@
                 bottom: -60px;
                 left: 0px;
                 right: 0px;
-                height: 50px;
-
+                height: 180px;
+                font-size:10px;
+                font-weight:bold;
                 /** Extra personal styles **/
-                background-color: #03a9f4;
+                /* background-color: #03a9f4;
                 color: white;
                 text-align: center;
-                line-height: 35px;
+                line-height: 35px; */
         }
         main{
             position: relative;
@@ -101,37 +102,113 @@
     </style>
 </head>
 <body>
- <div class="header" style="width:100%;">
-
-    <div stlye="width:100%">
-        <div style="position: absolute;top:-10px;left:510px;">
-            ANNEX F.
+    <div class="header" style="width:100%;">
+        <div stlye="width:100%">
+            <div style="position: absolute;top:-10px;left:47%;">
+                ANNEX F.
+            </div>
         </div>
-    </div>
-    <div stlye="width:100%">
-        <div style="position: absolute;top:20px;left:420px;">
-            PROJECT PROCUREMENT MANAGEMENT PLAN
+        <div stlye="width:100%">
+            <div style="position: absolute;top:20px;left:40%;">
+                PROJECT PROCUREMENT MANAGEMENT PLAN
+            </div>
         </div>
-    </div>
-    <div style="width:100%;">
-        <div style="position: absolute;top:0px;right:0;">PPMP Form 1</div>
+        <div style="width:100%;">
+            <div style="position: absolute;top:0px;right:0;">PPMP Form 1</div>
+        </div>
+
+        <div style="width:100%;">
+            <div style="position: absolute;top:50px;left:5;">DEPARTMENT OF HEALTH</div>
+            <div style="position: absolute;top:60px;left:5;">CENTER FOR HEALTH DEVELOPMENT - CARAGA</div>
+            <div style="position: absolute;top:80px;left:5;">PROGRAM: {{ $data["wfp_program"]->program_name }}  LOCATION: {{ $data["wfp_unit"]->division .' / '. $data["wfp_unit"]->section }}</div>
+        <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: {{ $data["wfp_year"]->year }}</div>
+        </div>
+                {{-- <img
+                src="{{ asset('dist/assets/media/logos/logo-letter-3.png') }}"
+                height="80px"
+                width="80px"
+                style="position:absolute;top:0;left:0;"
+                > --}}
     </div>
 
-    <div style="width:100%;">
-        <div style="position: absolute;top:50px;left:5;">DEPARTMENT OF HEALTH</div>
-        <div style="position: absolute;top:60px;left:5;">CENTER FOR HEALTH DEVELOPMENT - CARAGA</div>
-        <div style="position: absolute;top:80px;left:5;">PROGRAM: {{ $data["wfp_program"]->program_name }}  LOCATION: {{ $data["wfp_unit"]->division .' / '. $data["wfp_unit"]->section }}</div>
-    <div style="position: absolute;top:90px;left:5;">CALENDAR YEAR: {{ $data["wfp_year"]->year }}</div>
-    </div>
-            {{-- <img
-            src="{{ asset('dist/assets/media/logos/logo-letter-3.png') }}"
-            height="80px"
-            width="80px"
-            style="position:absolute;top:0;left:0;"
-            > --}}
-    </div>
     <div class="footer">
-        FOOTER
+        <table style="width:100%">
+            <tr>
+                <td style="width:40%">
+                    Prepared By:
+                    <br><br><br><br>
+                    {{  $data["wfp_manager"]->name }}
+                    <br>
+                    {{  $data["wfp_manager"]->designation ?: 'NO DESIGNATION' }}
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Reviewed By:
+                    <br><br><br><br>
+                    ENGR. ARLENE D. SANTUA
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Recommending Approval:
+                    <br><br><br><br>
+                    DR. GERNA T. MANATAD
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Approved By:
+                    <br><br><br><br>
+                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    <br>
+                    DIRECTOR
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%">
+                    <br><br>
+                    Noted By:
+                    <br><br><br><br>
+                    <?php
+                        $division = $data["wfp_unit"]->division;
+                        $unit = $data["wfp_unit"]->section;
+                    ?>
+                    @if($division =="RD/ARD")
+                        @if($unit == "ARD")
+                            DR. GERNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                        @if($unit == "RD")
+                            DR. JOSE LLACUNA
+                            <br>
+                            MEDICAL OFFICER V
+                        @endif
+                    @endif
+
+                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                        AILEEN SACOL
+                        <br>
+                        ADMINISTRATIVE OFFICER V
+                    @endif
+
+                    @if($division == "LHS")
+                        DR. ERNESTO PAREJA
+                        <br>
+                        MEDICAL OFFICER V
+                    @endif
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+        </table>
     </div>
 
 
@@ -173,10 +250,9 @@
                         //    $arr= $key;
                         array_push($arr_keys,$key);
                         array_push($arr,
-                                    [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
+                                        [$key => collect($supplies[$key])->groupBy('item_id','item_type') ]
                                     );
                     }
-
 
                     $item_row = [];
 
@@ -271,6 +347,7 @@
                                         $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                         $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                     })
+                                    ->where('year_id',$data["wfp"]->year_id)
                                     ->where('tbl_ppmp_items.batch_id',$row3["batch_id"])
                                     ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
                                     ->where($vw . '.classification','=','CATERING SERVICES')

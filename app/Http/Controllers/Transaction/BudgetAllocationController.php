@@ -13,6 +13,7 @@ use Auth;
 use App\RefYear;
 use App\TableUnitBudgetAllocation;
 use App\Views\BudgetAllocationAllYearPerProgram;
+use App\ProgramConap;
 class BudgetAllocationController extends Controller
 {
 
@@ -193,6 +194,43 @@ class BudgetAllocationController extends Controller
             ];
 
             return $data;
+        }else{
+            abort(403);
+        }
+    }
+
+    public function conapSave(Request $req){
+        if($req->ajax()){
+            $data = [];
+            $bli = [];
+            $bli_headers = ["bli_id","bli_name","balance"];
+            $bli_data = BudgetAllocationUtilization::where('program_id',$req->program_id)
+                                                ->where('year_id',$req->year_id)
+                                                ->select('budget_line_item_id','budget_item','ppmp_actual_balance')
+                                                ->get()->toArray();
+            foreach ($bli_data as $row){
+                array_push($bli,array_combine($bli_headers,$row));
+            }
+            $data = [
+                'program_id' => $req->program_id,
+                'year_id' => $req->year_id,
+                'amount' => $req->amount,
+                'bli_distribution' => json_encode($bli)
+            ];
+            $check = ProgramConap::where('program_id',$req->program_id)->where('year_id', $req->year_id)->first();
+            return $check ?? ProgramConap::create($data) ? 'success': 'failed';
+        }else{
+            abort(403);
+        }
+    }
+
+    public function conapRollback(Request $req){
+        if($req->ajax()){
+            $conap = ProgramConap::where('program_id',$req->program_id)
+                                ->where('year_id', $req->year_id)
+                                ->where('amount',$req->amount)
+                                ->first();
+            return $conap->delete() ? 'success' : 'failed';
         }else{
             abort(403);
         }

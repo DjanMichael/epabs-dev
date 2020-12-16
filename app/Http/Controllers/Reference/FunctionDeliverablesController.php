@@ -22,6 +22,8 @@ class FunctionDeliverablesController extends Controller
         {
             $data = RefFunctionDeliverables::paginate(10);
             return view('pages.reference.deliverables.table.display_function_deliverables',['deliverables'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -38,6 +40,8 @@ class FunctionDeliverablesController extends Controller
                 $data = RefFunctionDeliverables::paginate(10);
             }
             return view('pages.reference.deliverables.table.display_function_deliverables',['deliverables'=> $data]);
+        } else {
+            abort(403);
         }
     }
 
@@ -47,31 +51,35 @@ class FunctionDeliverablesController extends Controller
 
     public function store(Request $request) {
 
-        $check = RefFunctionDeliverables::find($request->id)
-                        ? RefFunctionDeliverables::where([
-                                            ['function_class', $request->function_class],
-                                            ['id', '<>', $request->id]
-                                            ])->first()
-                        : RefFunctionDeliverables::where([
-                                            ['function_class', $request->function_class],
-                                            ])->first();
+        if($request->ajax()) {
+            $check = RefFunctionDeliverables::find($request->id)
+                            ? RefFunctionDeliverables::where([
+                                                ['function_class', $request->function_class],
+                                                ['id', '<>', $request->id]
+                                                ])->first()
+                            : RefFunctionDeliverables::where([
+                                                ['function_class', $request->function_class],
+                                                ])->first();
 
-        if ($check) {
-            return response()->json(['message'=>$request->function_class.' already exists!', 'type'=> 'info']);
-        } else {
-            $check = RefFunctionDeliverables::find($request->id);
             if ($check) {
-                $check->update(['class_sequence' => $request->class_sequence, 'function_class' => $request->function_class,
-                                'status' => $request->status]);
-                return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                return response()->json(['message'=>'Function class '.$request->function_class.' already exists!', 'type'=> 'info']);
+            } else {
+                $check = RefFunctionDeliverables::find($request->id);
+                if ($check) {
+                    $check->update(['class_sequence' => $request->class_sequence, 'function_class' => $request->function_class,
+                                    'status' => $request->status]);
+                    return response()->json(['message'=>'Successfully updated data','type'=>'update']);
+                }
+                else if (empty($check)) {
+                    RefFunctionDeliverables::create($request->all());
+                    return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
+                }
+                else {
+                    return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
+                }
             }
-            else if (empty($check)) {
-                RefFunctionDeliverables::create($request->all());
-                return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
-            }
-            else {
-                return response()->json(['message'=>'Sorry, looks like there are some errors detected, please try again.', 'type'=>'error']);
-            }
+        } else {
+            abort(403);
         }
 
     }

@@ -26,6 +26,10 @@
 @endpush
 @section('content')
 
+<button  id="kt_app_chat_toggle" class="btn btn-icon btn-danger btn-circle btn-lg mr-4 offcanvas-mobile-on  d-lg-none" style="position:fixed;bottom:0; z-index:300;margin-bottom:20px;margin-left:20px;">
+    <i class="flaticon2-sms"></i>
+</button>
+
 <div class=" container  bgi-size-cover bgi-position-top bgi-no-repeat ml-0 p-0" style="background-image: url('{{ asset('dist/assets/media/bg/bg-3.jpg') }}');">
     <!--begin::Chat-->
     <div class="d-flex flex-row">
@@ -81,7 +85,7 @@
                 <div class="card-header align-items-center px-4 py-3">
                     <div class="text-left flex-grow-1">
                         <!--begin::Aside Mobile Toggle-->
-                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
+                        {{-- <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
                             <span class="svg-icon svg-icon-lg">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Adress-book2.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -93,7 +97,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                        </button>
+                        </button> --}}
                         <!--end::Aside Mobile Toggle-->
 
                     </div>
@@ -191,9 +195,9 @@
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
-                <div class="card-body" >
+                <div class="card-body" data-mobile-height="450" style="height: 650px;">
                     <!--begin::Scroll-->
-                    <div class="scroll scroll-pull" data-mobile-height="450" style="height: 450px; overflow: hidden;" id="content_chat">
+                    <div class="scroll scroll-pull h-100" data-mobile-height="450" style="overflow: hidden;" id="content_chat">
                     </div>
                 </div>
                 <!--end::Body-->
@@ -274,6 +278,7 @@
                         {
                             setTimeout(function(){
                                 fetchMessagesByUsers();
+                                $(".emojionearea-editor").attr('rows','1');
                             }, $.ajaxSetup().retryAfter);
                         }
                     }
@@ -382,10 +387,60 @@
                 hidePickerOnBlur: false,
                 placeholder: "Type something here",
                 events: {
-                    keypress: function (ob, e){
-                        if(e.ctrlKey && e.keyCode == 13){
+                    keydown: function (ob, e){
 
-                            console.log('click!');
+                        var _url = "{{ route('db_send_chat_message_to_user') }}";
+                        var expression =/https:/;
+                        // var expression_remove_links = /(?:(?:(?:[A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)(?:(?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+                        var _msg =  $("#txtMessage2")[0].emojioneArea.getText();
+
+                        var gif_src = _msg.match(expression);
+                        // _msg = _msg.replace(expression_remove_links,"");
+
+                        if(gif_src != null){
+                            $.ajax({
+                                method:"GET",
+                                url: _url,
+                                data : { send_to : _selected_convo_user_id, msg:_msg , msg_type :'GIF'},
+                                success:function(data){
+                                    var template =`
+                                    <div class="d-flex flex-column mb-5 align-items-end">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="col-12">
+                                                    <embed type="image/gif" src="`+ _msg +`" class="w-100"/><br/>
+                                                </div>
+                                                <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                            </div>
+                                            <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-end">
+                                                <span class="symbol-label font-size-h5">YOU</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    `;
+
+                                    $(".messages").append(template);
+
+                                    $("#content_chat").animate({
+                                        scrollTop: $(
+                                        '#content_chat').get(0).scrollHeight
+                                    }, 2000);
+                                    $("#txtMessage2").val("");
+                                    _el_emoji.data("emojioneArea").setText("");
+                                    _el_emoji.data("emojioneArea").hidePicker();
+                                },
+                                complete:function(){
+                                    $("#btnSendMessage").attr('disabled',false);
+                                    $("#btnSendMessage").removeClass('pr-15 spinner spinner-white spinner-right');
+                                },
+                                error:function(e){
+                                    console.log(e.responseJSON.message);
+                                }
+                            });
+                        }
+
+                        if(e.ctrlKey && e.keyCode == 13){
                             $("#btnSendMessage").trigger('click');
                         }
                     }
@@ -412,32 +467,35 @@
                 e.preventDefault();
                 // var _msg = $("#txtMessage2").val();
 
+                var expression =/(?:(?:(?:[A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)(?:(?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)(?:jpg|gif|png)/;
+                // var expression_remove_links = /(?:(?:(?:[A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)(?:(?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+                var _msg = $("#txtMessage2")[0].emojioneArea.getText();
+                // var _ext =  _msg.match(/.gif/gm);
+                // var gif_src = _msg.match(expression);
+                 _msg = _msg.replace(expression,"");
+                // _msg = _msg.replace(expression_remove_links,"");
+                // _msg =  _msg.replace(/\n/gm, "<br>");
+
                 $(this).attr('disabled',true);
                 $(this).addClass('pr-15 spinner spinner-white spinner-right');
 
-                var _msg = $("#txtMessage2")[0].emojioneArea.getText();
-                _msg =  _msg.replace(/\n/gm, "<br>");
-                console.log(_msg);
                 var _url = "{{ route('db_send_chat_message_to_user') }}";
                 if(_msg !='') {
                     $.ajax({
                         method:"GET",
                         url: _url,
-                        data : { send_to : _selected_convo_user_id, msg:_msg },
+                        data : { send_to : _selected_convo_user_id, msg:_msg  , msg_type :'TEXT'},
                         success:function(data){
                             var template =`
                             <div class="d-flex flex-column mb-5 align-items-end">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">`+ _msg +`</div>
+                                        <div class="mt-2 rounded p-5 bg-primary text-light  font-weight-bold font-size-lg text-right max-w-400px">`+ _msg.replace(expression,"") +`</div>
                                         <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
                                     </div>
                                     <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-end">
                                         <span class="symbol-label font-size-h5">YOU</span>
                                     </div>
-                                    {{-- <div class="symbol symbol-circle symbol-35 ml-3">
-                                        <img alt="Pic" src="/metronic/theme/html/demo12/dist/assets/media/users/300_21.jpg">
-                                    </div> --}}
                                 </div>
                             </div>
                             `;
@@ -459,9 +517,9 @@
                         error:function(e){
                             console.log(e.responseJSON.message);
                         }
-                    })
+                    });
                 }else{
-                    alert('type something!');
+                    alert('type something');
                 }
 
             });

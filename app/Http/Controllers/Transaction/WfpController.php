@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\RefActivityOutputFunctions;
 use App\RefActivityCategory;
 use App\RefSourceOfFund;
@@ -28,6 +29,7 @@ use PDF;
 use App\User;
 use App\RefProgram;
 
+use App\ApiSMS;
 use App\Views\BudgetAllocationAllYearPerProgram;
 
 class WfpController extends Controller
@@ -86,20 +88,25 @@ class WfpController extends Controller
 
     public function getOutputFunctions()
     {
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
+        $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
+        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getSearchOutputFunctions(Request $req)
     {
+        $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
         $q = $req->q;
 
         if($q !=''){
             $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
-            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
-            ->paginate($this->pi_table_paginate);
+                                            ->where('program_id',$settings->select_program_id)
+                                            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
+                                            ->paginate($this->pi_table_paginate);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)->paginate($this->pi_table_paginate);
+            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
+                                            ->where('program_id',$settings->select_program_id)
+                                            ->paginate($this->pi_table_paginate);
         }
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
@@ -112,7 +119,9 @@ class WfpController extends Controller
                                                 ->where('function_description','LIKE', '%' . $req->q . '%')
                                                 ->paginate($this->pi_table_paginate);
             }else{
-                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->paginate($this->pi_table_paginate);
+                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
+                                                ->where('program_id',$settings->select_program_id)
+                                                ->paginate($this->pi_table_paginate);
             }
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
@@ -204,36 +213,36 @@ class WfpController extends Controller
             $year_id = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
             $year_id = $year_id->select_year;
             $year = RefYear::where('id',$year_id)->first();
-            $status = ZWfpLogs::where('wfp_code',$req->wfp_code)->orderBy('created_at','DESC')->first();
+            // $status = ZWfpLogs::where('wfp_code',$req->wfp_code)->orderBy('created_at','DESC')->first();
 
-            if($status["status"] =='WFP' ){
-                if($status["remarks"] =='SUBMITTED')
-                {
-                    $cmd["EDIT"] = 0;
-                    $cmd["DEL"] = 0;
-                    $cmd["VIEW"] = 0;
-                    $cmd["PPMP"] = 0;
-                    $cmd["COMMENT"] = 1;
-                }else if($status["remarks"] == 'APPROVED'){
-                    $cmd["EDIT"] = 0;
-                    $cmd["DEL"] = 0;
-                    $cmd["VIEW"] = 0;
-                    $cmd["PPMP"] = 1;
-                    $cmd["COMMENT"] = 0;
-                }else if ($status["remarks"] == 'FOR REVISION'){
-                    $cmd["EDIT"] = 1;
-                    $cmd["DEL"] = 1;
-                    $cmd["VIEW"] = 1;
-                    $cmd["PPMP"] = 0;
-                    $cmd["COMMENT"] = 0;
-                }else if($status["remarks"] == 'NOT SUBMITTED'){
-                    $cmd["EDIT"] = 1;
-                    $cmd["DEL"] = 1;
-                    $cmd["VIEW"] = 1;
-                    $cmd["PPMP"] = 0;
-                    $cmd["COMMENT"] = 0;
-                }
-            }
+            // if($status["status"] =='WFP' ){
+            //     if($status["remarks"] =='SUBMITTED')
+            //     {
+            //         $cmd["EDIT"] = 0;
+            //         $cmd["DEL"] = 0;
+            //         $cmd["VIEW"] = 0;
+            //         $cmd["PPMP"] = 0;
+            //         $cmd["COMMENT"] = 1;
+            //     }else if($status["remarks"] == 'APPROVED'){
+            //         $cmd["EDIT"] = 0;
+            //         $cmd["DEL"] = 0;
+            //         $cmd["VIEW"] = 0;
+            //         $cmd["PPMP"] = 1;
+            //         $cmd["COMMENT"] = 0;
+            //     }else if ($status["remarks"] == 'FOR REVISION'){
+            //         $cmd["EDIT"] = 1;
+            //         $cmd["DEL"] = 1;
+            //         $cmd["VIEW"] = 1;
+            //         $cmd["PPMP"] = 0;
+            //         $cmd["COMMENT"] = 0;
+            //     }else if($status["remarks"] == 'NOT SUBMITTED'){
+            //         $cmd["EDIT"] = 1;
+            //         $cmd["DEL"] = 1;
+            //         $cmd["VIEW"] = 1;
+            //         $cmd["PPMP"] = 0;
+            //         $cmd["COMMENT"] = 0;
+            //     }
+            // }
 
             $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->groupBy('wfp_act_id')
                                            ->get();
@@ -241,8 +250,8 @@ class WfpController extends Controller
             return view('components.global.wfp_drawer',['data'=>$data,
                                                         'year' => $year->year ,
                                                         'user_id'=> (count($data["activities"]) <> 0 ? $data["activities"][0]["user_id"] : null),
-                                                        'wfp_code'=> ($req->wfp_code != null ? Crypt::encryptString($req->wfp_code) : null),
-                                                        'cmd' => $cmd ]);
+                                                        'wfp_code'=> ($req->wfp_code != null ? Crypt::encryptString($req->wfp_code) : null)
+                                                        ]);
         }
     }
 
@@ -253,7 +262,7 @@ class WfpController extends Controller
         $program_id = (GlobalSystemSettings::where('user_id',$user_id)->first())->select_program_id;
 
         if($program_id <= 0 ){
-            return ['message'=>'only program coordinator can generate wfp'];
+            return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
         }
 
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
@@ -262,9 +271,9 @@ class WfpController extends Controller
                     ->where('unit_id',$unit_id)
                     ->where('year_id',$year_id)
                     ->where('program_id',$program_id)
-                    ->first();
+                    ->get()->toArray();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
-        if($check){
+        if(count($check) >= 2){
             return ['message'=>'duplicate'];
         }
 
@@ -442,7 +451,7 @@ class WfpController extends Controller
             $a->wfp_act_id = $req->twa_id;
             if( $a->save())
             {
-                event(new NotifyUserWfpStatus($wfp,'Comment',$req->twa_id,'WFP Comment'));
+                broadcast(new NotifyUserWfpStatus($wfp,'Comment',$req->twa_id,'WFP Comment'))->toOthers();
                 return 'success';
             }else{
                 return 'failed';
@@ -535,7 +544,7 @@ class WfpController extends Controller
             return ['message'=> 'not enough budget'];
         }
 
-        if($req->id != null || $req->id != ''){
+        if($req->id > 0){
             //update
             $wfp_act = WfpActivity::where('id',$req->id)->first();
             $wfp_act->wfp_code = $wfp_code;
@@ -742,7 +751,7 @@ class WfpController extends Controller
                                             ->where('wfp_code',$code)
                                             ->where('wfp_act_id',$req->wfp_act_id)
                                             ->get()->toArray();
-
+            // dd($data);
             return view('pages.transaction.wfp.table.wfp_act_view_pi_ppmp',['data'=>$data]);
         }else{
             abort(403);
@@ -766,6 +775,11 @@ class WfpController extends Controller
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
         event(new NotifyUserWfpStatus($wfp,'WFP Approve', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been approved','WFP Update'));
+        // dd($wfp->user_id);
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Approve ' . $program->program_name . ' Program ' . ' Wfp has been approved on ');
+        // return $data;
     }
 
 
@@ -778,7 +792,11 @@ class WfpController extends Controller
         $a->save();
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
+
         broadcast(new NotifyUserWfpStatus($wfp,'WFP Submit', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp has been submitted','WFP Update'))->toOthers();
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Submitted ' . $program->program_name . ' Program ' . ' Wfp has been Submitted');
     }
 
     public function updateWfpRevise(Request $req){
@@ -791,6 +809,9 @@ class WfpController extends Controller
         $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
         $program = RefProgram::where('id',$wfp->program_id)->first();
         event(new NotifyUserWfpStatus($wfp,'WFP Revise', '<b>'  . $program->program_name . ' Program</b>' . ' Wfp needs to be revised','WFP Update'));
+        $u = new User;
+        $sms = new ApiSMS;
+        $sms->sendSMS($u->getUserContact($wfp->user_id),'WFP Revised ' . $program->program_name . ' Program ' . ' Wfp has been Revised');
     }
 
     public function newWfpActivity(Request $req){

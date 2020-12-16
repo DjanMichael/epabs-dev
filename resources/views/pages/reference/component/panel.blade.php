@@ -1,15 +1,16 @@
 <!--begin::Card-->
 <div class="row">
     <div class="col-md-12 col-12">
-        <div class="card card-custom gutter-b" style="background-position: right top; background-size: 40% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
-            <div class="card-header">
+        {{-- <div class="card card-custom gutter-b" style="background-position: right top; background-size: 40% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})"> --}}
+        <div class="card card-custom gutter-b">
+                <div class="card-header">
                 <div class="card-title">
                     <span class="card-icon"><i class="@yield('panel-icon') text-primary"></i></span>
                     <h3 class="card-label">@yield('panel-title')</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
-                    <div class="dropdown dropdown-inline mr-2">
+                    {{-- <div class="dropdown dropdown-inline mr-2">
                         <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -65,7 +66,7 @@
                             <!--end::Navigation-->
                         </div>
                         <!--end::Dropdown Menu-->
-                    </div>
+                    </div> --}}
                     <!--end::Dropdown-->
         <!-- Button trigger modal-->
                     <!--begin::Button-->
@@ -92,7 +93,7 @@
             </div>
             <div class="card-body" id="user_table_body">
                 <!--begin::Search Form-->
-                <div class="mb-7">
+                <div class="mb-7 search-form">
                     <div class="row align-items-center">
                         <div class="col-lg-9 col-xl-8">
                             <div class="row align-items-center">
@@ -129,7 +130,7 @@
                         <div class="table-responsive" id="table_populate">
                             <div id="table_content"></div>
                         </div>
-
+                        <div id="content"></div>
                     </div>
                     <!--end::Body-->
                 </div>

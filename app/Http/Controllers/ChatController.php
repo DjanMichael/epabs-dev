@@ -119,7 +119,7 @@ class ChatController extends Controller
 
         if($req->ajax()){
             //send to receipient and not going to push to origin for duplicate pushing. using ->toOthers()
-            broadcast(new ChatUserSendReceive($req->send_to,$req->msg))->toOthers();
+            broadcast(new ChatUserSendReceive($req->send_to,$req->msg,$req->msg_type))->toOthers();
         }else{
             abort(403);
         }
