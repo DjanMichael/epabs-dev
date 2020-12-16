@@ -13,7 +13,7 @@ use App\TablePiCateringBatches;
 use App\RefLocation;
 use DB;
 use App\ZWfpLogs;
-
+use Auth
 class PpmpController extends Controller
 {
     //
@@ -56,7 +56,7 @@ class PpmpController extends Controller
             $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
         }
 
-      
+
         // dd($data);
 
         return view('pages.transaction.product_item.product_item',['data' => $data]);
@@ -97,13 +97,8 @@ class PpmpController extends Controller
     public function getCartDetailsByWfpActivity(Request $req){
         $data =[];
         $data["ppmp_items"] = [];
-        // $a = PpmpItems::where('wfp_act_per_indicator_id',$req->pi_id)->get();
-
-        // if($a){
-        //     $data["ppmp_items"] = $a->toArray();
-        // }
-
-        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' ));
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '' , $settings->select_year));
 
         return view('components.global.wfp_activity_cart_drawer',['data' => $data]);
     }
@@ -201,12 +196,15 @@ class PpmpController extends Controller
             }
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->whereIn('classification',$arr)
+                                            ->where('year_id',$wfp->year_id)
                                             ->paginate($this->paginate_ppmp_item_list);
         }else{
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->where(fn($q) =>
                                                 $q->where('description','LIKE','%' . $req->q . '%')
-                                            )->paginate($this->paginate_ppmp_item_list);
+                                            )
+                                            ->where('year_id',$wfp->year_id)
+                                            ->paginate($this->paginate_ppmp_item_list);
         }
         //separate product viewing and  ppmp
         if($req->has('action')){
@@ -286,9 +284,8 @@ class PpmpController extends Controller
                     $pi_ids[$i] = $wfp_act_ids[$i]["id"];
                 }
             }
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $vw = "vw_procurement_drum_supplies_items";
-            // $data["category"] = \DB::table($vw)->get()->toArray();
-
             $data["ppmp_items"] = \DB::table('tbl_ppmp_items')
                                         ->join($vw,function($q) use ($vw)
                                         {
@@ -296,6 +293,7 @@ class PpmpController extends Controller
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
 
                                         })
+                                        ->where('year_id',$wfp->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
