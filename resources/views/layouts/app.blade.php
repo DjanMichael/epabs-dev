@@ -3,7 +3,7 @@
 <html lang="en" >
     <!--begin::Head-->
     <head><base href="../../">
-                <meta charset="utf-8"/>
+    <meta charset="utf-8"/>
     <title> {{ env('APP_NAME') . ' ' . env('APP_Version') }} |  @yield('title') </title>
         <meta name="description" content="Page with empty content"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -27,9 +27,12 @@
 
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
-
-        <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
+         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
+
+
+
+        <link rel="stylesheet" href="{{  asset('src/plugins/emoji/emojionearea.css') }}">
 
         {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
 
@@ -50,8 +53,13 @@
             .modal-backdrop {
             z-index: 1000;
             }
-
-
+            ._bg-hover-gray{
+                transition: background-color 0.6s ease;
+                background-color:white;
+            }
+            ._bg-hover-gray:hover{
+                background-color: #d9ddff;
+            }
             .page_loader{
                 z-index: 100000;
                 position: fixed;
@@ -133,7 +141,13 @@
     </div>
 
     <!--begin::Main-->
-	<!--begin::Header Mobile-->
+    <!--begin::Header Mobile-->
+
+
+
+
+
+
 <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed " >
 	<div class="d-flex align-items-center">
 		<!--begin::Logo-->
@@ -185,18 +199,19 @@
 			<!--begin::Topbar-->
 			<div class="topbar">
 
-
-
         <!--begin::Quick panel-->
-			        <div class="topbar-item">
+			        <div class="topbar-item ">
 			            <div class="btn btn-icon btn-lg mr-1" id="kt_quick_panel_toggle">
-			                <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
-        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>			            </div>
+                            <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                        <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                        </div>
 			        </div>
 			        <!--end::Quick panel-->
                         <!--begin::User-->
@@ -212,7 +227,7 @@
 							</div>
 			            </div>
 			            <!--end::User-->
-			        			    			</div>
+                </div>
 			<!--end::Topbar-->
 		</div>
 		<!--end::Container-->
@@ -369,6 +384,18 @@
 <!-- end:wfp_ppmp_view -->
 
 
+<!-- begin:pr_drawer -->
+<div id="bg-drawer-pr" onclick="pr_drawer_close()"></div>
+<div class="wrapper-drawer scroll scroll-pull"
+        data-scroll="true"
+        data-wheel-propagation="true"
+        style="height: 100%;"
+        id="pr_drawer">
+</div>
+<!-- end:pr_drawer -->
+
+
+
 <!-- begin::User Panel-->
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
 	<!--begin::Header-->
@@ -435,7 +462,7 @@
 		<!--begin::Nav-->
 		<div class="navi navi-spacer-x-0 p-0">
 		    <!--begin::Item-->
-		    <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
+		    {{-- <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
 		        <div class="navi-link">
 		            <div class="symbol symbol-40 bg-light mr-3">
 		                <div class="symbol-label">
@@ -445,7 +472,7 @@
         <path d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z" fill="#000000"/>
         <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5"/>
     </g>
-</svg><!--end::Svg Icon--></span>						</div>
+</svg></span>						</div>
 		            </div>
 		            <div class="navi-text">
 		                <div class="font-weight-bold">
@@ -457,11 +484,11 @@
 		                </div>
 		            </div>
 		        </div>
-		    </a>
+		    </a> --}}
 		    <!--end:Item-->
 
 		    <!--begin::Item-->
-		    <a href="custom/apps/user/profile-3.html"  class="navi-item">
+            <a href="{{ route('r_chat') }}"  class="navi-item">
 		        <div class="navi-link">
 					<div class="symbol symbol-40 bg-light mr-3">
 						<div class="symbol-label">
@@ -480,7 +507,7 @@
 		                    My Messages
 		                </div>
 		                <div class="text-muted">
-		                    Inbox and tasks
+		                    Chat Messages
 		                </div>
 		            </div>
 		        </div>
@@ -488,7 +515,7 @@
 		    <!--end:Item-->
 
 		    <!--begin::Item-->
-		    <a href="custom/apps/user/profile-2.html"  class="navi-item">
+		    {{-- <a href="custom/apps/user/profile-2.html"  class="navi-item">
 		        <div class="navi-link">
 					<div class="symbol symbol-40 bg-light mr-3">
 						<div class="symbol-label">
@@ -498,7 +525,7 @@
         <path d="M4.85714286,1 L11.7364114,1 C12.0910962,1 12.4343066,1.12568431 12.7051108,1.35473959 L17.4686994,5.3839416 C17.8056532,5.66894833 18,6.08787823 18,6.52920201 L18,19.0833333 C18,20.8738751 17.9795521,21 16.1428571,21 L4.85714286,21 C3.02044787,21 3,20.8738751 3,19.0833333 L3,2.91666667 C3,1.12612489 3.02044787,1 4.85714286,1 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
         <path d="M6.85714286,3 L14.7364114,3 C15.0910962,3 15.4343066,3.12568431 15.7051108,3.35473959 L20.4686994,7.3839416 C20.8056532,7.66894833 21,8.08787823 21,8.52920201 L21,21.0833333 C21,22.8738751 20.9795521,23 19.1428571,23 L6.85714286,23 C5.02044787,23 5,22.8738751 5,21.0833333 L5,4.91666667 C5,3.12612489 5.02044787,3 6.85714286,3 Z M8,12 C7.44771525,12 7,12.4477153 7,13 C7,13.5522847 7.44771525,14 8,14 L15,14 C15.5522847,14 16,13.5522847 16,13 C16,12.4477153 15.5522847,12 15,12 L8,12 Z M8,16 C7.44771525,16 7,16.4477153 7,17 C7,17.5522847 7.44771525,18 8,18 L11,18 C11.5522847,18 12,17.5522847 12,17 C12,16.4477153 11.5522847,16 11,16 L8,16 Z" fill="#000000" fill-rule="nonzero"/>
     </g>
-</svg><!--end::Svg Icon--></span>						</div>
+</svg></span>						</div>
 				   	</div>
 		            <div class="navi-text">
 		                <div class="font-weight-bold">
@@ -509,11 +536,11 @@
 		                </div>
 		            </div>
 		        </div>
-		    </a>
+		    </a> --}}
 		    <!--end:Item-->
 
 		    <!--begin::Item-->
-		    <a href="custom/apps/userprofile-1/overview.html" class="navi-item">
+		    {{-- <a href="custom/apps/userprofile-1/overview.html" class="navi-item">
 		        <div class="navi-link">
 					<div class="symbol symbol-40 bg-light mr-3">
 						<div class="symbol-label">
@@ -523,7 +550,7 @@
         <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"/>
         <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"/>
     </g>
-</svg><!--end::Svg Icon--></span>						</div>
+</svg></span>						</div>
 				   	</div>
 		            <div class="navi-text">
 		                <div class="font-weight-bold">
@@ -534,7 +561,7 @@
 		                </div>
 		            </div>
 		        </div>
-		    </a>
+		    </a> --}}
 		    <!--end:Item-->
 		</div>
 		<!--end::Nav-->
@@ -547,89 +574,52 @@
 		<div>
 			<!--begin:Heading-->
         	<h5 class="mb-5">
-            	Recent Notifications
+            	WFP Recent Notifications
         	</h5>
-			<!--end:Heading-->
+            <!--end:Heading-->
 
-			<!--begin::Item-->
-	        <div class="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
-	            <span class="svg-icon svg-icon-warning mr-5">
-	                <span class="svg-icon svg-icon-lg"><!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000"/>
-        <rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519) " x="16.3255682" y="2.94551858" width="3" height="18" rx="1"/>
-    </g>
-</svg><!--end::Svg Icon--></span>	            </span>
+            <?php
+                if(Auth::user()->role->roles =="PROGRAM COORDINATOR"){
+                    $settings = \App\GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+                    if($settings){
+                                $data["notif"] = \App\TableSystemEvents::where('to_program_id',$settings->select_program_id)
+                                                                ->where('event_name','WFP Update')
+                                                                ->orderBy('created_at','DESC')->limit(10)->get()->toArray();
+                    }else{
+                            $data["notif"]  = [];
+                    }
+                }else{
+                        $data["notif"] = \App\TableSystemEvents::where('event_name','WFP Update')->orderBy('created_at','DESC')->limit(10)->get()->toArray();
+                }
+            ?>
+            @forelse($data["notif"] as $row)
+                <div class="d-flex align-items-center w-100 bg-light-warning rounded p-5 mb-2 bg-hover-warning " style="cursor: pointer;" onclick="show_wfp_drawer_from_notification('{{ $row['id'] }}','{{ json_decode($row['payload'])->wfp_code }}')">
+                    <div class="row">
+                        <div class="col-2 col-md-2">
+                            <div class="symbol symbol-40 symbol-light-primary mr-5">
+                            <div class="symbol-label"><i class="{{ $row["icon"] }} text-{{ $row["icon_level"] }} icon-lg"></i></div>
+                            </div>
+                        </div>
+                        <div class="col-10 col-md-10">
+                            <div class="d-flex flex-column font-weight-bold">
+                                <span  class="text-dark mb-0 font-size-lg">{{ $row["event_title"] }}</span>
+                                <span class="text-dark font-size-xs">{!! $row["event_description"] !!}</span>
+                                <span class="text-dark font-size-xs"><i class="flaticon-time-1 font-size-xs mr-2 text-dark"></i>{{ Carbon\Carbon::parse($row["created_at"])->diffForHumans() }}</span>
+                            </div>
+                        </div>
 
-	            <div class="d-flex flex-column flex-grow-1 mr-2">
-	                <a href="#" class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1">Another purpose persuade</a>
-	                <span class="text-muted font-size-sm">Due in 2 Days</span>
-	            </div>
+                        {{-- <div class="col-3 col-md-2 mt-3">
+                        @if($row["isRead"] == "N")
+                                <span class="label label-danger label-pill label-inline ml-0">New</span>
+                        @endif
+                        </div> --}}
+                    </div>
+                </div>
+            @empty
+                <div style="width:100%;height:300px;text-align:center;"> NO NOTIFICATION </div>
+            @endforelse
 
-	            <span class="font-weight-bolder text-warning py-1 font-size-lg">+28%</span>
-	        </div>
-	        <!--end::Item-->
 
-	        <!--begin::Item-->
-	        <div class="d-flex align-items-center bg-light-success rounded p-5 gutter-b">
-	            <span class="svg-icon svg-icon-success mr-5">
-	                <span class="svg-icon svg-icon-lg"><!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) "/>
-        <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>	            </span>
-	            <div class="d-flex flex-column flex-grow-1 mr-2">
-	                <a href="#" class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1">Would be to people</a>
-	                <span class="text-muted font-size-sm">Due in 2 Days</span>
-	            </div>
-
-	            <span class="font-weight-bolder text-success py-1 font-size-lg">+50%</span>
-	        </div>
-	        <!--end::Item-->
-
-	        <!--begin::Item-->
-	        <div class="d-flex align-items-center bg-light-danger rounded p-5 gutter-b">
-	            <span class="svg-icon svg-icon-danger mr-5">
-	                <span class="svg-icon svg-icon-lg"><!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group-chat.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z" fill="#000000"/>
-        <path d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z" fill="#000000" opacity="0.3"/>
-    </g>
-</svg><!--end::Svg Icon--></span>	            </span>
-	            <div class="d-flex flex-column flex-grow-1 mr-2">
-	                <a href="#" class="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1">Purpose would be to persuade</a>
-	                <span class="text-muted font-size-sm">Due in 2 Days</span>
-	            </div>
-
-	            <span class="font-weight-bolder text-danger py-1 font-size-lg">-27%</span>
-	        </div>
-	        <!--end::Item-->
-
-	        <!--begin::Item-->
-	        <div class="d-flex align-items-center bg-light-info rounded p-5">
-	            <span class="svg-icon svg-icon-info mr-5">
-	                <span class="svg-icon svg-icon-lg"><!--begin::Svg Icon | path:assets/media/svg/icons/General/Attachment2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect x="0" y="0" width="24" height="24"/>
-        <path d="M11.7573593,15.2426407 L8.75735931,15.2426407 C8.20507456,15.2426407 7.75735931,15.6903559 7.75735931,16.2426407 C7.75735931,16.7949254 8.20507456,17.2426407 8.75735931,17.2426407 L11.7573593,17.2426407 L11.7573593,18.2426407 C11.7573593,19.3472102 10.8619288,20.2426407 9.75735931,20.2426407 L5.75735931,20.2426407 C4.65278981,20.2426407 3.75735931,19.3472102 3.75735931,18.2426407 L3.75735931,14.2426407 C3.75735931,13.1380712 4.65278981,12.2426407 5.75735931,12.2426407 L9.75735931,12.2426407 C10.8619288,12.2426407 11.7573593,13.1380712 11.7573593,14.2426407 L11.7573593,15.2426407 Z" fill="#000000" opacity="0.3" transform="translate(7.757359, 16.242641) rotate(-45.000000) translate(-7.757359, -16.242641) "/>
-        <path d="M12.2426407,8.75735931 L15.2426407,8.75735931 C15.7949254,8.75735931 16.2426407,8.30964406 16.2426407,7.75735931 C16.2426407,7.20507456 15.7949254,6.75735931 15.2426407,6.75735931 L12.2426407,6.75735931 L12.2426407,5.75735931 C12.2426407,4.65278981 13.1380712,3.75735931 14.2426407,3.75735931 L18.2426407,3.75735931 C19.3472102,3.75735931 20.2426407,4.65278981 20.2426407,5.75735931 L20.2426407,9.75735931 C20.2426407,10.8619288 19.3472102,11.7573593 18.2426407,11.7573593 L14.2426407,11.7573593 C13.1380712,11.7573593 12.2426407,10.8619288 12.2426407,9.75735931 L12.2426407,8.75735931 Z" fill="#000000" transform="translate(16.242641, 7.757359) rotate(-45.000000) translate(-16.242641, -7.757359) "/>
-        <path d="M5.89339828,3.42893219 C6.44568303,3.42893219 6.89339828,3.87664744 6.89339828,4.42893219 L6.89339828,6.42893219 C6.89339828,6.98121694 6.44568303,7.42893219 5.89339828,7.42893219 C5.34111353,7.42893219 4.89339828,6.98121694 4.89339828,6.42893219 L4.89339828,4.42893219 C4.89339828,3.87664744 5.34111353,3.42893219 5.89339828,3.42893219 Z M11.4289322,5.13603897 C11.8194565,5.52656326 11.8194565,6.15972824 11.4289322,6.55025253 L10.0147186,7.96446609 C9.62419433,8.35499039 8.99102936,8.35499039 8.60050506,7.96446609 C8.20998077,7.5739418 8.20998077,6.94077682 8.60050506,6.55025253 L10.0147186,5.13603897 C10.4052429,4.74551468 11.0384079,4.74551468 11.4289322,5.13603897 Z M0.600505063,5.13603897 C0.991029355,4.74551468 1.62419433,4.74551468 2.01471863,5.13603897 L3.42893219,6.55025253 C3.81945648,6.94077682 3.81945648,7.5739418 3.42893219,7.96446609 C3.0384079,8.35499039 2.40524292,8.35499039 2.01471863,7.96446609 L0.600505063,6.55025253 C0.209980772,6.15972824 0.209980772,5.52656326 0.600505063,5.13603897 Z" fill="#000000" opacity="0.3" transform="translate(6.014719, 5.843146) rotate(-45.000000) translate(-6.014719, -5.843146) "/>
-        <path d="M17.9142136,15.4497475 C18.4664983,15.4497475 18.9142136,15.8974627 18.9142136,16.4497475 L18.9142136,18.4497475 C18.9142136,19.0020322 18.4664983,19.4497475 17.9142136,19.4497475 C17.3619288,19.4497475 16.9142136,19.0020322 16.9142136,18.4497475 L16.9142136,16.4497475 C16.9142136,15.8974627 17.3619288,15.4497475 17.9142136,15.4497475 Z M23.4497475,17.1568542 C23.8402718,17.5473785 23.8402718,18.1805435 23.4497475,18.5710678 L22.0355339,19.9852814 C21.6450096,20.3758057 21.0118446,20.3758057 20.6213203,19.9852814 C20.2307961,19.5947571 20.2307961,18.9615921 20.6213203,18.5710678 L22.0355339,17.1568542 C22.4260582,16.76633 23.0592232,16.76633 23.4497475,17.1568542 Z M12.6213203,17.1568542 C13.0118446,16.76633 13.6450096,16.76633 14.0355339,17.1568542 L15.4497475,18.5710678 C15.8402718,18.9615921 15.8402718,19.5947571 15.4497475,19.9852814 C15.0592232,20.3758057 14.4260582,20.3758057 14.0355339,19.9852814 L12.6213203,18.5710678 C12.2307961,18.1805435 12.2307961,17.5473785 12.6213203,17.1568542 Z" fill="#000000" opacity="0.3" transform="translate(18.035534, 17.863961) scale(1, -1) rotate(45.000000) translate(-18.035534, -17.863961) "/>
-    </g>
-</svg><!--end::Svg Icon--></span>	            </span>
-
-	            <div class="d-flex flex-column flex-grow-1 mr-2">
-	                <a href="#" class="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1">The best product</a>
-	                <span class="text-muted font-size-sm">Due in 2 Days</span>
-	            </div>
-
-	            <span class="font-weight-bolder text-info py-1 font-size-lg">+8%</span>
-	        </div>
-	        <!--end::Item-->
 		</div>
 		<!--end::Notifications-->
     </div>
@@ -646,7 +636,6 @@
 			{{-- <li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_logs" >Audit Logs</a>
 			</li> --}}
-
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_notifications" >Notifications</a>
 			</li>
@@ -663,240 +652,20 @@
 	<!--end::Header-->
 
 	<!--begin::Content-->
-	<div class="offcanvas-content px-10">
+	<div class="offcanvas-content">
 		<div class="tab-content">
 			<!--begin::Tabpane-->
 			<div class="tab-pane fade show pt-2 pr-5 mr-n5 active" id="kt_quick_panel_notifications" role="tabpanel">
 				<!--begin::Nav-->
-				<div class="navi navi-icon-circle navi-spacer-x-0">
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold font-size-lg">
-									5 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-psd text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									79 PSD files generated
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-safe-shield-protection text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									3 Defence alerts
-								</div>
-								<div class="text-muted">
-									40% less alerts thar last week
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-notepad text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									Avarage 4 blog posts per author
-								</div>
-								<div class="text-muted">
-									Most posted 12 time
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-users-1 text-warning icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									16 authors joined last week
-								</div>
-								<div class="text-muted">
-									9 photodrapehrs, 7 designer
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-box text-info icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2 new items have been submited
-								</div>
-								<div class="text-muted">
-									by Grog John
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-download text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									2.8 GB-total downloads size
-								</div>
-								<div class="text-muted">
-									Mostly PSD end  AL concepts
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon2-supermarket text-danger icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									$2900 worth producucts sold
-								</div>
-								<div class="text-muted">
-									Total 234 items
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-bell text-primary icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									7 new user generated report
-								</div>
-								<div class="text-muted">
-									Reports based on sales
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<a href="#" class="navi-item">
-						<div class="navi-link rounded">
-							<div class="symbol symbol-50 mr-3">
-								<div class="symbol-label"><i class="flaticon-paper-plane-1 text-success icon-lg"></i></div>
-							</div>
-							<div class="navi-text">
-								<div class="font-weight-bold  font-size-lg">
-									4.5h-avarage response time
-								</div>
-								<div class="text-muted">
-									Fostest is Barry
-								</div>
-							</div>
-						</div>
-					</a>
-					<!--end::Item-->
+				<div class="navi navi-icon-circle navi-spacer-x-0 h-100"  id="topbar_notifications_notifications_content">
+
 				</div>
 				<!--end::Nav-->
 			</div>
 			<!--end::Tabpane-->
 			<!--begin::Tabpane-->
-			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel">
-				<form class="form">
+			<div class="tab-pane fade pt-3 pr-5 mr-n5" id="kt_quick_panel_settings" role="tabpanel" >
+				<form class="form" style="padding:20px;">
 					<!--begin::Section-->
 					<div>
 						<h5 class="font-weight-bold mb-3">System</h5>
@@ -941,6 +710,7 @@
                             </div>
                             <input type="hidden" id="wfp_ref" value="">
                             <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                            <input type="hidden" id="wfp_comment_wfp_act_id" value="">
                         </div>
                     </div>
                     <div class="col-12">
@@ -959,52 +729,14 @@
     </div>
 </div>
 
-<!-- Modal modal_wfp_ppmp_comments-->
-<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_ppmp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Write a comment </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form">
-                            <div class="form-group">
-                                <textarea id="wfp_comment_ppmp_data" cols="30" rows="10" class="form-control" placeholder="Write your Comment. . . "></textarea>
-                            </div>
-                            <input type="hidden" id="wfp_ppmp_ref" value="">
-                            <input type="hidden" id="wfp_comment_ppmp_user_id_send_to" value="">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_wfp_ppmp_comment">Save Comment </button>
-                    </div>
-                    <div class="col-12">
-                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" style="float:left">
 
 
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Modal modal_wfp_ppmp-->
+<!-- Modal modal_wfp_comments-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_act_viewer_pi_ppmp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ACTIVITY INFORMATION VIEWER</h5>
+                <h5 class="modal-title" id="exampleModalLabel">PERFORMANCE INDICATOR VIEWER</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -1311,7 +1043,8 @@
 </svg><!--end::Svg Icon--></span>
 </div>
 <!--end::Scrolltop-->
-
+<audio id="notification_sound" src="{{ asset('dist/assets/media/sounds/apple.mp3') }}" ></audio>
+{{-- <audio id="notification_sound" src="{{ asset('dist/assets/media/sounds/notif_sound.mp3') }}" ></audio> --}}
 
 {{-- </div>
 </div> --}}
@@ -1388,7 +1121,8 @@
         <!--end::Global Theme Bundle-->
 
         <!--begin::Page Vendors(used by this page)-->
-                <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
+            {{-- <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/clipboard.js') }}"></script> --}}
+                {{-- <script src="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script> --}}
                 {{-- <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script> --}}
                 {{-- <script src="{{ asset('dist/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
         <!--end::Page Vendors-->
@@ -1400,14 +1134,37 @@
 
         <script src="{{ asset('dist/assets/js/controllers/custom.js')}}"></script>
         <script src="{{ asset('dist/assets/js/controllers/main.js')}}"></script>
+        <script src="{{ asset('js/app.js')}}"></script>
+
+
+        <script type="text/javascript" src="{{  asset('src/plugins/emoji/emojionearea.js') }}"></script>
+
 
         <script>
             $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    }
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    retryAfter:5000,
+                    retryLimit:3,
+                    tryCount:0
             });
+
+            var ajaxSetup1 = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers" : "Authorization",
+                    "Access-Control-Allow-Methods": "GET, POST"
+                }
+
+            }
+
+            // function copyWfpCode(code){
+            //     toastr.info("Wfp Code #"+ code +" Copied!");
+            // }
 
             function getProgramsAssigned(){
                 var _url  ="{{ route('get_program_assigned') }}";
@@ -1416,6 +1173,10 @@
                     url: _url,
                     success:function(data){
                         document.getElementById('GLOBAL_PROGRAM').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getProgramsAssigned()
+                        },1000);
                     }
                 });
             }
@@ -1427,13 +1188,21 @@
                     url: _url,
                     success:function(data){
                         document.getElementById('GLOBAL_YEAR').innerHTML = data;
+                    },error:function(){
+                        setTimeout(function(){
+                            getYear()
+                        },1000);
                     }
                 });
             }
 
 
+
+
+
         var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
         var page_wfp;
+
 
         $(document).ready(function(){
             /***************************************************
@@ -1441,20 +1210,74 @@
              *      INITIALIZE
              *
              * **************************************************/
+            // let src = "";
+            // let notif_sound = new Audio(src);
 
-            setTimeout(function(){
-                getYear();
-                getProgramsAssigned();
-            },1000);
+            if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Chrome") != -1 )
+            {
+
+            }
+            else if(navigator.userAgent.indexOf("Safari") != -1)
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if(navigator.userAgent.indexOf("Firefox") != -1 )
+            {
+                alert('please use other Chrome Browser');
+            }
+            else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+            {
+                alert('please use other Chrome Browser');
+            }
+            else
+            {
+                alert('unknown');
+            }
+
+
+
+             function detectMob() {
+                const toMatch = [
+                    /Android/i,
+                    /webOS/i,
+                    /iPhone/i,
+                    /iPad/i,
+                    /iPod/i,
+                    /BlackBerry/i,
+                    /Windows Phone/i
+                ];
+
+                return toMatch.some((toMatchItem) => {
+                    return navigator.userAgent.match(toMatchItem);
+                });
+            }
+
+            if(detectMob()){
+                document.getElementById('notification_sound').muted = true;
+                // document.getElementById('notification_sound').play();
+            }else{
+
+                navigator.mediaDevices.getUserMedia({audio: true}).
+                then((stream) => {
+                    document.getElementById('notification_sound').autoplay = true;
+                    document.getElementById('notification_sound').muted = true;
+                });
+            }
+
+
             $('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
             toastr.options = {
-            "closeButton": false,
+            "closeButton": true,
             "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-center",
-            "preventDuplicates": true,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
@@ -1466,7 +1289,212 @@
             "hideMethod": "fadeOut"
             };
 
+            // toastr.options = {
+            //     "closeButton": true,
+            //     "debug": false,
+            //     "newestOnTop": true,
+            //     "progressBar": true,
+            //     "positionClass": "toast-top-right",
+            //     "preventDuplicates": false,
+            //     "onclick": null,
+            //     "showDuration": "300",
+            //     "hideDuration": "1000",
+            //     "timeOut": "5000",
+            //     "extendedTimeOut": "1000",
+            //     "showEasing": "swing",
+            //     "hideEasing": "linear",
+            //     "showMethod": "fadeIn",
+            //     "hideMethod": "fadeOut"
+            // };
 
+            Echo.private('system.events.logs')
+            .listen('LoginAuthenticationLog', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        // console.log(window.location.href.slice(0, -1));
+                        // console.log(window.location.origin);
+                        if(window.location.origin == window.location.href.slice(0, -1))
+                        {
+                            var template =`
+                            <div class="timeline-item" id="logs_item">
+                                <div class="timeline-media bg-light-primary">
+                                    <span class="svg-icon svg-icon-primary">
+                                    <i class ="` + e.icon + ` ` + e.icon_level + `"></i>
+                                    </span>
+                                </div>
+
+                                <div class="timeline-info h-100">
+                                    <span class="text-muted mr-2"><i class="`+  JSON.parse(e.payload).device +`"></i></span><span class="font-weight-bold text-primary">{{ Carbon\Carbon::parse(` + e.created_at + `)->diffForHumans() }}</span>
+                                    <p class="font-weight-normal text-dark-50 pb-2">
+                                        ` +  e.desc + `
+                                    </p>
+                                </div>
+
+                            </div>
+                            `;
+
+                            $("#event_logs").prepend(template);
+                        }
+
+                        toastr.info(e.desc, "Authentication");
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+
+
+            Echo.private('wfp.notify.user.{{ Auth::user()->getSelectedProgramId() != '' ? Auth::user()->getSelectedProgramId() : 0}}')
+            .listen('NotifyUserWfpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+                        console.log(e);
+                        // WFP STATUS
+                        if(e.title == "WFP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "WFP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "WFP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+            Echo.private('wfp.notify.user.ppmp.{{ Auth::user()->getSelectedProgramId() != '' ? Auth::user()->getSelectedProgramId() : 0}}')
+            .listen('NotifyUserPpmpStatus', (e) => {
+                Promise.resolve(4)
+                    .then(()=>{
+                        if(!detectMob()){
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }else{
+                            document.getElementById('notification_sound').muted = false;
+                            document.getElementById('notification_sound').play();
+                        }
+                    }).then(() =>{
+
+                        console.log(e);
+                        // WFP STATUS
+                        if(e.title == "PPMP Submit"){
+                            toastr.info(e.desc, "Notification");
+                        }else if(e.title == "PPMP Approve"){
+                            toastr.success(e.desc, "Notification");
+                        }else if(e.title == "PPMP Revise"){
+                            toastr.warning(e.desc, "Notification");
+                        }
+
+                        //WFP COMMENT
+                        if(e.title == "Comment"){
+                            toastr.info(e.desc, "Notification");
+                        }
+                    })
+                    .then((err)=>{
+                        return Promise.reject(err);
+                });
+
+            });
+
+
+
+            Echo.private('chat.user.{{ Auth::user()->id }}')
+            .listen('ChatUserSendReceive', (e) => {
+                var url = window.location.href;
+
+                if(url.search(/chatapp/i) > 0)
+                {
+                    if (_selected_convo_user_id != null || _selected_convo_user_id != undefined){
+                        var template;
+                        if(e.type == "GIF"){
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="col-12">
+                                                        <embed type="image/gif" src="`+ e.msg +`" class="w-100"/><br/>
+                                                    </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        `;
+                        }else{
+                            template =`
+                                        <div class="d-flex flex-column mb-5 align-items-start">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-45 mr-3">
+                                                    <span class="symbol-label font-size-h5">`+ e.name_1 +`</span>
+                                                </div>
+                                                <div>
+                                                    <div class="mt-4 rounded p-5 bg-light  font-weight-bold font-size-lg text-right max-w-400px">` + e.msg + ` </div>
+                                                    <span class="text-muted font-size-sm" style="position:relative;top:0px;right:0px;">{{ Carbon\Carbon::parse(`+ Date.now() +`)->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                        }
+
+
+
+                        $(".messages").append(template);
+                        $("#content_chat").animate({
+                            scrollTop: $(
+                            '#content_chat').get(0).scrollHeight
+                        }, 2000);
+                    }else{
+                        console.log('add tag badge +1');
+                    }
+
+
+                }else{
+                    toastr.info(e.msg, "<b>" + e.name_1  + "</b>" + " send you a message");
+                }
+                //for fun
+                // if(e.msg.search(/sex/i) > 0){
+                //     document.getElementById('notification_sound').setAttribute('src', "{{ asset('dist/assets/media/sounds/yamete.mp3') }}");
+                // }else{
+                //     document.getElementById('notification_sound').setAttribute('src', "{{ asset('dist/assets/media/sounds/moan.mp3') }}");
+                // }
+
+                if(!detectMob()){
+                    document.getElementById('notification_sound').muted = false;
+                    document.getElementById('notification_sound').play();
+                }else{
+                    document.getElementById('notification_sound').muted = false;
+                    document.getElementById('notification_sound').play();
+                }
+            });
 
             /***************************************************
              *
@@ -1475,7 +1503,6 @@
              * **************************************************/
 
             $("#global_settings_tab").on('click',function(){
-
                 if(localStorage.hasOwnProperty('GLOBAL_SETTINGS'))
                 {
                     var settings = JSON.parse(localStorage.getItem('GLOBAL_SETTINGS'));
@@ -1483,6 +1510,7 @@
                     $("#GLOBAL_PROGRAM").val(settings.program);
                 }else{
                     getUserYear();
+                    getUserPrograms();
                 }
             });
 
@@ -1520,11 +1548,42 @@
             });
 
 
+
+
               /***************************************************
              *
              *      FUNCTIONS / REUSABLE
              *
              * **************************************************/
+
+             $("#kt_quick_panel_toggle").on('click',function(){
+                fetchUserNotification();
+            });
+             function fetchUserNotification(){
+                var _url ="{{ route('get_user_notification') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    beforeSend:function(){
+                        KTApp.block('#kt_quick_panel_notifications', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading . . .'
+                        });
+                    },
+                    success:function(data){
+                        KTApp.unblock('#kt_quick_panel_notifications');
+                        $("#new_notif_count").html(data.count);
+                        document.getElementById('topbar_notifications_notifications_content').innerHTML = data;
+                    },error:function(e){
+                       console.log(e.message)
+                    }
+                });
+            }
+
+            function test(id){
+                alert(id);
+            }
 
             function updateUserGlobalSettingsProgramsSelected(){
                 var _url = "{{ route('u_global_user_program') }}";
@@ -1596,16 +1655,38 @@
                     method:"GET",
                     url: _url,
                     success:function(data){
-                        var a = localStorage.getItem('GLOBAL_SETTINGS');
-                        a = a ? JSON.parse(a) : {};
-
-                        a['year'] = data.data.select_year;
-
-                        localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
-                        $("#GLOBAL_YEAR").val(data.data.select_year);
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['year'] = data.data.select_year;
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_year);
+                        }
                     }
                 });
             }
+
+            function getUserPrograms(){
+                var _url = "{{ route('d_get_programs') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    success:function(data){
+                        if(data.data != null){
+                            var a = localStorage.getItem('GLOBAL_SETTINGS');
+                            a = a ? JSON.parse(a) : {};
+                            a['program'] = data.data.select_program_id;
+                            localStorage.setItem('GLOBAL_SETTINGS', JSON.stringify(a));
+                            $("#GLOBAL_YEAR").val(data.data.select_program_id);
+                        }
+                    }
+                });
+            }
+
+            setTimeout(function(){
+                getYear();
+                getProgramsAssigned();
+            },1000);
 
             loader_page();
 
@@ -1618,7 +1699,7 @@
             $("#kt_body").addClass('add_scroll');
             setTimeout(function(){
                 $(".page_loader").addClass('display-none');
-            },1300);
+            },1500);
         }
 
         function wfp_drawer_close(){
@@ -1645,14 +1726,14 @@
                     success:function(data){
                         document.getElementById('wfp_drawer').innerHTML = data;
                         KTApp.unblock('#wfp_drawer');
-                        var url = window.location.href;
+                        // var url = window.location.href;
                         // alert(url.search(/ppmp/i));
-                        if(url.search(/ppmp/i) > 0)
-                        {
-                            $("#wfp_menu_drawer").addClass('d-none');
-                        }else{
-                            $("#wfp_menu_drawer").removeClass('d-none');
-                        }
+                        // if(url.search(/ppmp/i) > 0)
+                        // {
+                        //     $("#wfp_menu_drawer").addClass('d-none');
+                        // }else{
+                        //     $("#wfp_menu_drawer").removeClass('d-none');
+                        // }
                     }
                 });
             }else{
@@ -1664,6 +1745,102 @@
             }
         }
 
+        function updateNotifToRead(_id){
+            var _url ="{{ route('db_update_notif_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function updateCommentToRead(_id){
+            var _url ="{{ route('db_update_comment_status_to_read') }}";
+            $.ajax({
+                method:"GET",
+                url : _url,
+                data: {id : _id},
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+        function wfp_drawer_on_comment_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateCommentToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function wfp_drawer_on_notification_open(notif_id,id){
+            if(id != null || id != undefined){
+                $("#bg-drawer").addClass('bg-drawer');
+                $("#wfp_drawer").addClass('wrapper-drawer-on');
+                var _url ="{{ route('d_wfp_view') }}" ;
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: { wfp_code : id },
+                    beforeSend:function(){
+                        KTApp.block('#wfp_drawer', {
+                            overlayColor: '#000000',
+                            state: 'primary',
+                            message: 'Loading. . .'
+                        });
+                    },
+                    success:function(data){
+                        updateNotifToRead(notif_id);
+                        document.getElementById('wfp_drawer').innerHTML = data;
+                        KTApp.unblock('#wfp_drawer');
+                    }
+                });
+            }else{
+                Swal.fire(
+                    "Opss!",
+                    "No WFP found",
+                    "error"
+                )
+            }
+        }
+
+        function show_wfp_drawer_from_notification(notif_id,id){
+            wfp_drawer_on_notification_open(notif_id,id);
+            document.getElementById('kt_quick_panel_close').click();
+            document.getElementById('kt_quick_user_close').click();
+        }
+
+        function show_wfp_drawer_from_comment(notif_id,id){
+            wfp_drawer_on_comment_open(notif_id,id);
+            document.getElementById('kt_quick_panel_close').click();
+        }
 
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
@@ -1676,6 +1853,11 @@
         //     // var ppmp = $("#qty_" + _ppmp_id).val();
         //     alert(_ppmp_id);
         // }
+
+      function pr_drawer_close(){
+            $("#bg-drawer-pr").removeClass('bg-drawer');
+            $("#pr_drawer").removeClass('wrapper-drawer-on');
+        }
 
         function wfp_ppmp_viewer_drawer_close(){
             $("#bg-drawer-ppmp-drawer").removeClass('bg-drawer');
@@ -1691,10 +1873,11 @@
         function fetchCartPPMPItems(_wfp_code,_wfp_act_id){
             var _url = "{{ route('wfp_act_cart_view') }}";
             var _pi_select = $("#pi_ppmp_select option:selected").val();
+            var _batch = $("#pi_batch_no").val()  != null ? $("#pi_batch_no").val() : '' ;
             $.ajax({
                 method:"GET",
                 url:_url,
-                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select},
+                data: { wfp_code : _wfp_code, wfp_act_id : _wfp_act_id , pi_id : _pi_select, batch : _batch},
                 beforeSend:function(){
                     KTApp.block('#wfp_act_cart_drawer', {
                         overlayColor: '#000000',
@@ -1708,15 +1891,32 @@
             });
         }
 
+        function pr_drawer_open(_pr_code){
+                $("#bg-drawer-pr").addClass('bg-drawer');
+                $("#pr_drawer").addClass('wrapper-drawer-on');
+                var _url = "{{ route('pr_view') }}";
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: { pr_code : _pr_code },
+                    success:function(data){
+                          document.getElementById('pr_drawer').innerHTML = data;
+                    }
+                })
+        }
+
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
-            if(_wfp_act_id != null || _wfp_code != null){
+            if(_wfp_code != null){
                 $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
                 $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
+                // wfp_drawer_close();
                 fetchPPMPViewer(_wfp_code,_wfp_act_id);
             }
         }
 
-        function fetchPPMPViewer(_wfp_code,_wfp_act_id){
+
+
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id = null){
             var _url = "{{ route('wfp_ppmp_view') }}";
 
             $.ajax({
@@ -1765,35 +1965,17 @@
                 fetch_output_function($(this).attr('href').split('page=')[1])
             });
 
-        function showModalComment(user_id,wfp_code){
+        function showModalComment(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_comments").modal({
                 show:true,
                 backdrop:'static',
                 focus: true,
                 keyboard:false
             });
-
             $("#wfp_ref").val(wfp_code);
             $("#wfp_comment_user_id_send_to").val(user_id);
+            $("#wfp_comment_wfp_act_id").val(wfp_act_id);
         }
-
-        function commentPPMP(user_id,wfp_code){
-
-            $("#modal_wfp_ppmp_comments").modal({
-                show:true,
-                backdrop:'static',
-                focus: true,
-                keyboard:false
-            });
-            $("#wfp_ppmp_ref").val(wfp_code);
-            $("#wfp_comment_ppmp_user_id_send_to").val(user_id);
-        }
-
-        $("#btn_save_wfp_ppmp_comment").on('click',function(){
-            $("#modal_wfp_ppmp_comments").modal('hide');
-            alert('save!');
-        });
-
 
         function showWfpActivityModal(user_id,wfp_code,wfp_act_id){
             $("#modal_wfp_act_viewer_pi_ppmp").modal({
@@ -1813,6 +1995,7 @@
                 url: _url,
                 data: { wfp_code : _wfp_code },
                 success:function(data){
+                    console.log(data);
                     if(data == 'success'){
                         KTApp.block('#kt_body', {
                             overlayColor: '#000000',
@@ -1831,8 +2014,6 @@
                 }
             });
         }
-
-
 
         function deletePPMPItem(_ppmp_id){
             Swal.fire({
@@ -1884,13 +2065,15 @@
 
         $("#btn_save_wfp_comment").on('click',function(){
             var _user_id = $("#wfp_comment_user_id_send_to").val();
+            var _twa_id = $("#wfp_comment_wfp_act_id").val();
             var _wfp = $("#wfp_ref").val();
             var _comment = $("#wfp_comment_data").val();
             var _url = "{{ route('db_save_wfp_comment') }}";
             var _data = {
                 user_id : _user_id,
                 wfp_code : _wfp,
-                comment : _comment
+                comment : _comment,
+                twa_id : _twa_id
             }
             $.ajax({
                 method:"GET",
@@ -1898,6 +2081,20 @@
                 data : _data,
                 success:function(data){
                     console.log(data);
+                    $("#modal_wfp_comments").modal('hide');
+                    if(data =="success"){
+                        Swal.fire(
+                                    "Good Job!",
+                                    "Comment Successfully!",
+                                    "success"
+                                )
+                    }else{
+                        Swal.fire(
+                                    "Something went wrong!",
+                                    "",
+                                    "error"
+                                )
+                    }
 
                 }
             });
@@ -1969,9 +2166,33 @@
                 }
             });
         }
+        function sendSMS(to,msg){
+            var _url ="{{ route('save_sms_api') }}?To=" + to + "&Message=" + msg;
 
+            $.ajax({
+                method:"POST",
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods': 'GET,POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Authorization,X-Socket-Id'
+                },
+                crossDomain:true,
+                url:_url,
+                // beforeSend:function(){
+                //     this.headers.global = false;
+                // },
+                beforeSend: function() {},
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(e)
+                {
+                    console.log(e);
+                }
+            });
+
+        }
         function wfpApprove(_wfp_code){
-
             var _url = "{{ route('wfp_status_approve') }}";
             var _data = {
                 wfp_code : _wfp_code
@@ -1994,6 +2215,7 @@
                                     "Successfully Approved WFP",
                                     "success"
                                 )
+                                // sendSMS(data.send_to,data.send_msg);
                                 wfp_drawer_close();
                                 fetch_wfp_list();
                             }
@@ -2014,7 +2236,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Revise it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({
@@ -2046,7 +2268,7 @@
                         text: "You won\'t be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Yes, approve it!"
+                        confirmButtonText: "Yes, Submit it!"
                     }).then(function(result) {
                         if (result.value) {
                             $.ajax({
@@ -2070,7 +2292,8 @@
 
             function fetch_wfp_list(_page =null,_q =null,_sort_by=null){
                 var _url = "{{ route('d_get_all_wfp_list') }}";
-
+                var url_check = window.location.href;
+                url_check = url_check.split('?')[0];
                 var _data = {
                     page : _page,
                     q: _q,
@@ -2079,29 +2302,33 @@
                 };
                 if(settings.year != null || settings.year != undefined)
                 {
-                    $.ajax({
-                        method:"GET",
-                        url:_url,
-                        data:_data,
-                        beforeSend:function(){
-                            KTApp.block('#kt_body', {
-                                overlayColor: '#000000',
-                                state: 'primary',
-                                message: 'Retrieving WFP Data. . .'
-                            });
-                        },
-                        success:function(data){
-                            document.getElementById('wfp_list').innerHTML = data;
-                        },
-                        complete(){
-                            KTApp.unblock('#kt_body');
-                            $("#pagination_wfp_list .pagination a").on('click',function(e){
-                                e.preventDefault();
-                                page_wfp = $(this).attr('href').split('page=')[1]
-                                fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
-                            });
-                        }
-                    });
+                    if(url_check.search(/wfp/i) > 0)
+                    {
+                        $.ajax({
+                            method:"GET",
+                            url:_url,
+                            data:_data,
+                            beforeSend:function(){
+                                KTApp.block('#kt_body', {
+                                    overlayColor: '#000000',
+                                    state: 'primary',
+                                    message: 'Retrieving WFP Data. . .'
+                                });
+                            },
+                            success:function(data){
+                                document.getElementById('wfp_list').innerHTML = data;
+                            },
+                            complete(){
+                                KTApp.unblock('#kt_body');
+
+                                $("#pagination_wfp_list .pagination a").on('click',function(e){
+                                    e.preventDefault();
+                                    page_wfp = $(this).attr('href').split('page=')[1]
+                                    fetch_wfp_list(page_wfp, $("#query_search").val(),$("#query_sort_by").val())
+                                });
+                            }
+                        })
+                    }
                 }else{
                     swal.fire({
                             title:"Warning",
@@ -2126,6 +2353,72 @@
 
             function printWfp(_wfp_code){
                 var _url ="{{ route('wfp_unit_print') }}" + '?wfp_code=' + _wfp_code;
+                window.open(_url,'_blank','menubar=0,titlebar=0');
+            }
+
+
+            function approvePPMP(_wfp_code){
+                var _url ="{{ route('status_update_approve') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Approved!",
+                                "success"
+                            )
+                        }
+                    }
+                });
+            }
+
+            function submitPPMP(_wfp_code){
+                var _url ="{{ route('status_update_submit') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Successfully Submitted!",
+                                "success"
+                            )
+                        }
+                    }
+                })
+            }
+
+            function revisePPMP(_wfp_code){
+                var _url ="{{ route('status_update_revise') }}";
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data:{ wfp_code : _wfp_code },
+                    success:function(data){
+                        if(data)
+                        {
+                            wfp_ppmp_viewer_drawer_close();
+                            Swal.fire(
+                                "Good Job!",
+                                "PPMP Revise",
+                                "success"
+                            )
+                        }
+                    }
+                });
+            }
+
+            function printPpmp(_wfp_code){
+                var _url ="{{ route('ppmp_program_print') }}" + '?wfp_code=' + _wfp_code;
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 
@@ -2200,11 +2493,6 @@
                         }
                     }
                 })
-
-
-
-
-
 
             }
         </script>

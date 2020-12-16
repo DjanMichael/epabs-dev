@@ -9,7 +9,7 @@
 </li>
 @endsection
 @section('content')
-
+{{-- {{ dd($data) }} --}}
 <div class="card card-custom gutter-b">
     <div class="card-header  bg-dark">
         <h3 class="card-title text-light">Edit Work and Financial Plan</h3>
@@ -42,9 +42,8 @@
                             <span class="text-danger">*</span>
                         </label>
                         <div class="row">
-
                             <div class="col-9 col-md-11">
-                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->function_description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
                             <input type="hidden" id="selected_output_function_id" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->out_function : '' }}" >
                             </div>
                             <div class="col-3 col-md-1 text-right">
@@ -465,8 +464,8 @@
             }
 
             let wfp_data = {
-                output_function: $("#selected_output_function_id").val(),
-                // output_function_id: '',
+                output_function: '',
+                output_function_id: '',
                 activity_output: '',
                 source_of_fund: '',
                 activity_categ: '',
@@ -918,7 +917,7 @@
             if(wfp_validation.passes()){
                 var _data = { wfp_code : $("#wfp_code").val() };
                 var _url = "{{ route('db_update_wfp_activity') }}";
-                console.log(wfp_data);
+
                 $.ajax({
                     method:"GET",
                     url : _url,
