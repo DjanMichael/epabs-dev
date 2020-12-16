@@ -74,9 +74,8 @@ class PDFController extends Controller
             $data["wfp_program"] = RefProgram::where('id',$data["wfp"]->program_id)->first();
             $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
             $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
-            $data["wfp_manager"] = UserProfile::where('user_id',$data["wfp"]->user_id)->first();
-
-
+            $data["wfp_manager"] = UserProfile::join('users','users.id','users_profile.user_id')
+                                                ->where('user_id',$data["wfp"]->user_id)->first();
 
             $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
@@ -97,6 +96,7 @@ class PDFController extends Controller
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
 
                                         })
+                                        ->where('year_id',$data["wfp"]->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
@@ -109,7 +109,7 @@ class PDFController extends Controller
                                         {
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
-                                        })
+                                        })->where('year_id',$data["wfp"]->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','=','CATERING SERVICES')
