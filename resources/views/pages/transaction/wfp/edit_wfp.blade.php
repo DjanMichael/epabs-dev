@@ -43,7 +43,7 @@
                         </label>
                         <div class="row">
                             <div class="col-9 col-md-11">
-                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->function_description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
+                            <input type="text" id="selected_output_function" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->description : '' }}" class="form-control" placeholder="Select Output Function/Deliverables" readonly="true">
                             <input type="hidden" id="selected_output_function_id" value="{{ $data["wfp_act"][0] !=null ? $data["wfp_act"][0]->out_function : '' }}" >
                             </div>
                             <div class="col-3 col-md-1 text-right">
