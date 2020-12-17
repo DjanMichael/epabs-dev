@@ -1267,12 +1267,15 @@
                 document.getElementById('notification_sound').muted = true;
                 // document.getElementById('notification_sound').play();
             }else{
-
-                navigator.mediaDevices.getUserMedia({audio: true}).
-                then((stream) => {
-                    document.getElementById('notification_sound').autoplay = true;
+                document.getElementById('notification_sound').autoplay = true;
                     document.getElementById('notification_sound').muted = true;
-                });
+                // navigator.mediaDevices.getUserMedia({audio: true}).
+                // then((stream) => {
+                //     document.getElementById('notification_sound').autoplay = true;
+                //     document.getElementById('notification_sound').muted = true;
+                // }).err((str)=> {
+                //     console.log(str);
+                // });
             }
 
 

@@ -47,6 +47,7 @@ class CreateVwProgramsWfpStatus extends Migration
                                 `z_wfp_logs` `zwl`
                             WHERE
                                 `zwl`.`wfp_code` = `zwl`.`wfp_code`
+                                    AND zwl.`status` ='WFP'
                             ORDER BY
                                 `zwl`.`id` DESC
                             LIMIT 1
@@ -55,7 +56,26 @@ class CreateVwProgramsWfpStatus extends Migration
                         `tbl_unit_program` `tup`
                     WHERE
                         `tup`.`program_id` = substr(`wfp_code`, 10, 3)
-                ) AS `wfp_status`
+                ) AS `wfp_status`,
+                (
+                    SELECT
+                        (
+                            SELECT
+                                `zwl`.`remarks`
+                            FROM
+                                `z_wfp_logs` `zwl`
+                            WHERE
+                                `zwl`.`wfp_code` = `zwl`.`wfp_code`
+                                AND zwl.`status` ='PPMP'
+                            ORDER BY
+                                `zwl`.`id` DESC
+                            LIMIT 1
+                        )
+                    FROM
+                        `tbl_unit_program` `tup`
+                    WHERE
+                        `tup`.`program_id` = substr(`wfp_code`, 10, 3)
+                ) AS `ppmp_status`
             FROM
                 (
                     (

@@ -27,9 +27,9 @@ class ProcurementMedicineController extends Controller
         $isAjaxRequest = $request->ajax();
         $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->where('year_id',$settings->select_year)->first();
         if($isAjaxRequest) {
-            $data = ProcurementMedSupplies::where('item_type', 'DRUM')->paginate(10);
+            $data = ProcurementMedSupplies::where('item_type', 'DRUM')->where('year_id',$settings->select_year)->paginate(10);
             return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
-        } else {
+        }else{
             abort(403);
         }
     }
@@ -38,15 +38,18 @@ class ProcurementMedicineController extends Controller
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest) {
             $query = $request->q;
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+
             if($query != ''){
                 $data = ProcurementMedSupplies::where('item_type', 'DRUM')
                                                 ->where(function ($sql) use ($query) {
                                                     $sql->where('description', 'LIKE', '%'. $query .'%')
                                                         ->orWhere('classification' ,'LIKE', '%'. $query .'%');
                                                 })
+                                                ->where('year_id',$settings->select_year)
                                                 ->paginate(10);
             } else {
-                $data = ProcurementMedSupplies::where('item_type', 'DRUM')->paginate(10);
+                $data = ProcurementMedSupplies::where('item_type', 'DRUM')->where('year_id',$settings->select_year)->paginate(10);
             }
             return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         } else {
