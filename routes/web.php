@@ -150,6 +150,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/program/pr/list','Transaction\PurchaseRequestController@getPrList')->name('d_pr_list');
     Route::get('/user/program/pr/delete','Transaction\PurchaseRequestController@deleteProgramPr')->name('del_program_pr');
     Route::get('/user/program/pr/status/update','Transaction\PurchaseRequestController@changeStatusPr')->name('pr_status_change');
+
     // REPORTS
     Route::get('/user/reports/app','ReportsController@redirectToAPP')->name('r_rep_app');
     Route::get('/user/reports/bli','ReportsController@redirectToBLI')->name('r_rep_bli');
@@ -157,15 +158,160 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/generate/report/app','ReportsController@generateAPP')->name('generate_app_report');
     Route::get('/user/generate/report/wfp','ReportsController@generateWFP')->name('generate_wfp_report');
 
-
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
 
-    //Transaction/Activity Calendar
-    Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
+    /*
+    |--------------------------------------------------------------------------
+    | REFERENCE ROUTES
+    |--------------------------------------------------------------------------
+    */
 
+    // Procurement Supplies Routes
+    Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
+    Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
+    Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
+    Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesBySearch')->name('d_get_procurement_supplies_search');
+    Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
+    Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
+    Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
+    Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
+    Route::post('/system/reference/add-procurement-supplies-price','Reference\ProcurementSuppliesController@storePrice')->name('a_procurement_supplies_price');
+
+    // Procurement Medicine Routes
+    Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
+    Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMedicineController@getProcurementMedicine')->name('d_get_procurement_medicine');
+    Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
+    Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineBySearch')->name('d_get_procurement_medicine_search');
+    Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
+    Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
+    Route::get('/system/reference/procurement-medicine-price/all','Reference\ProcurementMedicineController@getProcurementMedicinePrice')->name('d_get_procurement_medicine_price');
+    Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
+    Route::post('/system/reference/add-procurement-medicine-price','Reference\ProcurementMedicineController@storePrice')->name('a_procurement_medicine_price');
+
+    // User Routes
+    Route::get('/system/reference/user','UserController@index')->name('r_user');
+    Route::get('/system/reference/user/all','UserController@getUser')->name('d_user');
+    Route::get('/system/reference/user/pagination','UserController@getUserByPage')->name('d_get_user_by_page');
+    Route::get('/system/reference/user/search','UserController@getUserBySearch')->name('d_get_user_search');
+    Route::post('/system/reference/change-account-status','UserController@changeAccountStatus')->name('u_account_status');
+    Route::post('/system/reference/reset-password','UserController@resetPassword')->name('u_reset_password');
+
+    // Unified Accounts Code Structure Routes
+    Route::get('/system/reference/unified-accounts-code-structure','Reference\UacsController@index')->name('r_uacs');
+    Route::get('/system/reference/unified-accounts-code-structure/all','Reference\UacsController@getUacs')->name('d_uacs');
+    Route::get('/system/reference/unified-accounts-code-structure/pagination','Reference\UacsController@getUacsByPage')->name('d_get_uacs_by_page');
+    Route::get('/system/reference/unified-accounts-code-structure/search','Reference\UacsController@getUacsSearch')->name('d_get_uacs_search');
+    Route::get('/system/reference/unified-accounts-code-structure/add-form','Reference\UacsController@getAddForm')->name('d_add_uacs');
+    Route::post('/system/reference/add-unified-accounts-code-structure','Reference\UacsController@store')->name('a_uacs');
+
+    // Drugs and Medicine Routes
+    Route::get('/system/reference/drug-medicine-category','Reference\DrugMedicineCategoryController@index')->name('r_dm_category');
+    Route::get('/system/reference/drug-medicine-category/all','Reference\DrugMedicineCategoryController@getCategory')->name('d_dm_category');
+    Route::get('/system/reference/drug-medicine-category/pagination','Reference\DrugMedicineCategoryController@getCategoryByPage')->name('d_get_dm_category_by_page');
+    Route::get('/system/reference/drug-medicine-category/search','Reference\DrugMedicineCategoryController@getCategorySearch')->name('d_get_dm_category_search');
+    Route::get('/system/reference/drug-medicine-category/add-form','Reference\DrugMedicineCategoryController@getAddForm')->name('d_add_dm_category');
+    Route::post('/system/reference/add-drug-medicine-category','Reference\DrugMedicineCategoryController@store')->name('a_dm_category');
+
+    // Program Routes
+    Route::get('/system/reference/program','Reference\ProgramController@index')->name('r_program');
+    Route::get('/system/reference/program/all','Reference\ProgramController@getProgram')->name('d_program');
+    Route::get('/system/reference/program/pagination','Reference\ProgramController@getProgramByPage')->name('d_get_program_by_page');
+    Route::get('/system/reference/program/search','Reference\ProgramController@getProgramSearch')->name('d_get_program_search');
+    Route::get('/system/reference/program/add-form','Reference\ProgramController@getAddForm')->name('d_add_program');
+    Route::post('/system/reference/add-program','Reference\ProgramController@store')->name('a_program');
+
+    // Unit Program Routes
+    Route::get('/system/reference/unit-program','Reference\UnitProgramController@index')->name('r_unit_program');
+    Route::get('/system/reference/unit-program/all','Reference\UnitProgramController@getUnitProgram')->name('d_unit_program');
+    Route::get('/system/reference/unit-program/pagination','Reference\UnitProgramController@getUnitProgramByPage')->name('d_get_unit_program_by_page');
+    Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramBySearch')->name('d_get_unit_program_search');
+    Route::get('/system/reference/unit-program/add-form','Reference\UnitProgramController@getAddForm')->name('d_add_unit_program');
+    Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
+    Route::post('/system/reference/remove-unit-program','Reference\UnitProgramController@removeAssignment')->name('del_unit_program');
+
+    // Budget Line Item Routes
+    Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
+    Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
+    Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLineItemController@getBudgetLineItemByPage')->name('d_get_budget_line_item_by_page');
+    Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
+    Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
+    Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
+
+    // Output Function Routes
+    Route::get('/system/reference/output-function','OutputFunctionController@index')->name('r_output_function');
+    Route::get('/system/reference/output-function/all','OutputFunctionController@getOutputFunction')->name('d_output_function');
+    Route::get('/system/reference/output-function/pagination','OutputFunctionController@getOutputFunctionByPage')->name('d_get_output_function_by_page');
+    Route::get('/system/reference/output-function/search','OutputFunctionController@getOutputFunctionBySearch')->name('d_get_output_function_search');
+    Route::get('/system/reference/output-function/add-form','OutputFunctionController@getAddForm')->name('d_add_output_function');
+    Route::post('/system/reference/add-output-function','OutputFunctionController@store')->name('a_output_function');
+
+    // Office Unit Routes
+    Route::get('/system/reference/office-unit','Reference\OfficeUnitController@index')->name('r_office_unit');
+    Route::get('/system/reference/office-unit/all','Reference\OfficeUnitController@getOfficeUnit')->name('d_office_unit');
+    Route::get('/system/reference/office-unit/pagination','Reference\OfficeUnitController@getOfficeUnitByPage')->name('d_get_office_unit_by_page');
+    Route::get('/system/reference/office-unit/search','Reference\OfficeUnitController@getOfficeUnitSearch')->name('d_get_office_unit_search');
+    Route::get('/system/reference/office-unit/add-form','Reference\OfficeUnitController@getAddForm')->name('d_add_office_unit');
+    Route::post('/system/reference/add-office-unit','Reference\OfficeUnitController@store')->name('a_office_unit');
+
+    // Activity Category Routes
+    Route::get('/system/reference/activity-category','Reference\ActivityCategoryController@index')->name('r_activity_category');
+    Route::get('/system/reference/activity-category/all','Reference\ActivityCategoryController@getActivityCategory')->name('d_activity_category');
+    Route::get('/system/reference/activity-category/pagination','Reference\ActivityCategoryController@getActivityCategoryByPage')->name('d_get_activity_category_by_page');
+    Route::get('/system/reference/activity-category/search','Reference\ActivityCategoryController@getActivityCategorySearch')->name('d_get_activity_category_search');
+    Route::get('/system/reference/activity-category/add-form','Reference\ActivityCategoryController@getAddForm')->name('d_add_activity_category');
+    Route::post('/system/reference/add-activity-category','Reference\ActivityCategoryController@store')->name('a_activity_category');
+
+    // Classification Routes
+    Route::get('/system/reference/classification','Reference\ClassificationController@index')->name('r_classification');
+    Route::get('/system/reference/classification/all','Reference\ClassificationController@getClassification')->name('d_classification');
+    Route::get('/system/reference/classification/pagination','Reference\ClassificationController@getClassificationByPage')->name('d_get_classification_by_page');
+    Route::get('/system/reference/classification/search','Reference\ClassificationController@getClassificationSearch')->name('d_get_classification_search');
+    Route::get('/system/reference/classification/add-form','Reference\ClassificationController@getAddForm')->name('d_add_classification');
+    Route::post('/system/reference/add-classification','Reference\ClassificationController@store')->name('a_classification');
+
+    // Function Deliverable Routes
+    Route::get('/system/reference/function-deliverables','Reference\FunctionDeliverablesController@index')->name('r_function_deliverables');
+    Route::get('/system/reference/function-deliverables/all','Reference\FunctionDeliverablesController@getFunctionDeliverables')->name('d_function_deliverables');
+    Route::get('/system/reference/function-deliverables/pagination','Reference\FunctionDeliverablesController@getFunctionDeliverablesByPage')->name('d_get_function_deliverables_by_page');
+    Route::get('/system/reference/function-deliverables/search','Reference\FunctionDeliverablesController@getFunctionDeliverablesSearch')->name('d_get_function_deliverables_search');
+    Route::get('/system/reference/function-deliverables/add-form','Reference\FunctionDeliverablesController@getAddForm')->name('d_add_function_deliverables');
+    Route::post('/system/reference/add-function-deliverables','Reference\FunctionDeliverablesController@store')->name('a_function_deliverables');
+
+    // Item Unit Routes
+    Route::get('/system/reference/item-unit','Reference\ItemUnitController@index')->name('r_item_unit');
+    Route::get('/system/reference/item-unit/all','Reference\ItemUnitController@getItemUnit')->name('d_item_unit');
+    Route::get('/system/reference/item-unit/pagination','Reference\ItemUnitController@getItemUnitByPage')->name('d_get_item_unit_by_page');
+    Route::get('/system/reference/item-unit/search','Reference\ItemUnitController@getItemUnitSearch')->name('d_get_item_unit_search');
+    Route::get('/system/reference/item-unit/add-form','Reference\ItemUnitController@getAddForm')->name('d_add_item_unit');
+    Route::post('/system/reference/add-item-unit','Reference\ItemUnitController@store')->name('a_item_unit');
+
+    // Demographic Routes
+    Route::get('/system/reference/demographic','Reference\LocationController@index')->name('r_location');
+    Route::get('/system/reference/demographic/all','Reference\LocationController@getLocation')->name('d_location');
+    Route::get('/system/reference/demographic/pagination','Reference\LocationController@getLocationByPage')->name('d_get_location_by_page');
+    Route::get('/system/reference/demographic/search','Reference\LocationController@getLocationSearch')->name('d_get_location_search');
+    Route::get('/system/reference/demographic/add-form','Reference\LocationController@getAddForm')->name('d_add_location');
+    Route::post('/system/reference/add-demographic','Reference\LocationController@store')->name('a_location');
+
+    // Source of Fund Routes
+    Route::get('/system/reference/source-of-funds','Reference\SourceOfFundController@index')->name('r_sof');
+    Route::get('/system/reference/source-of-funds/all','Reference\SourceOfFundController@getFundSource')->name('d_sof');
+    Route::get('/system/reference/source-of-funds/pagination','Reference\SourceOfFundController@getFundSourceByPage')->name('d_get_sof_by_page');
+    Route::get('/system/reference/source-of-funds/search','Reference\SourceOfFundController@getFundSourceSearch')->name('d_get_sof_search');
+    Route::get('/system/reference/source-of-funds/add-form','Reference\SourceOfFundController@getAddForm')->name('d_add_sof');
+    Route::post('/system/reference/add-source-of-funds','Reference\SourceOfFundController@store')->name('a_sof');
+
+    // Year Routes
+    Route::get('/system/reference/year','YearsController@index')->name('r_year');
+    Route::get('/system/reference/year/all','YearsController@getYear')->name('d_year');
+    Route::get('/system/reference/year/pagination','YearsController@getYearByPage')->name('d_get_year_by_page');
+    Route::get('/system/reference/year/search','YearsController@getYearSearch')->name('d_get_year_search');
+    Route::get('/system/reference/year/add-form','YearsController@getAddForm')->name('d_add_year');
+    Route::post('/system/reference/add-year','YearsController@store')->name('a_year');
 
 });
+
 //SMS
 Route::post('/sms/save/api','SMSController@sendMsgToUser')->name('save_sms_api');
 Route::get('/sms/get/list','SMSController@api_list_view');
@@ -190,145 +336,3 @@ Route::get('/users','AuthController@getAllUser')->name('g_users');
 |--------------------------------------------------------------------------
 */
 
-// Procurement Supplies Routes
-Route::get('/system/reference/procurement-supplies','Reference\ProcurementSuppliesController@index')->name('r_procurement_supplies');
-Route::get('/system/reference/procurement-supplies/all','Reference\ProcurementSuppliesController@getProcurementSupplies')->name('d_get_procurement_supplies');
-Route::get('/system/reference/procurement-supplies/pagination','Reference\ProcurementSuppliesController@getProcurementSuppliesByPage')->name('d_get_procurement_supplies_by_page');
-Route::get('/system/reference/procurement-supplies/search','Reference\ProcurementSuppliesController@getProcurementSuppliesBySearch')->name('d_get_procurement_supplies_search');
-Route::get('/system/reference/procurement-supplies/add-form','Reference\ProcurementSuppliesController@getAddForm')->name('d_add_procurement_supplies');
-Route::post('/system/reference/add-procurement-supplies','Reference\ProcurementSuppliesController@store')->name('a_procurement_supplies');
-Route::get('/system/reference/procurement-supplies-price/all','Reference\ProcurementSuppliesController@getProcurementSuppliesPrice')->name('d_get_procurement_supplies_price');
-Route::get('/system/reference/procurement-supplies/change-price-form','Reference\ProcurementSuppliesController@getChangePriceForm')->name('d_change_price_procurement_supplies');
-Route::post('/system/reference/add-procurement-supplies-price','Reference\ProcurementSuppliesController@storePrice')->name('a_procurement_supplies_price');
-
-// Procurement Medicine Routes
-Route::get('/system/reference/procurement-medicine','Reference\ProcurementMedicineController@index')->name('r_procurement_medicine');
-Route::get('/system/reference/procurement-medicine/all','Reference\ProcurementMedicineController@getProcurementMedicine')->name('d_get_procurement_medicine');
-Route::get('/system/reference/procurement-medicine/pagination','Reference\ProcurementMedicineController@getProcurementMedicineByPage')->name('d_get_procurement_medicine_by_page');
-Route::get('/system/reference/procurement-medicine/search','Reference\ProcurementMedicineController@getProcurementMedicineBySearch')->name('d_get_procurement_medicine_search');
-Route::get('/system/reference/procurement-medicine/add-form','Reference\ProcurementMedicineController@getAddForm')->name('d_add_procurement_medicine');
-Route::post('/system/reference/add-procurement-medicine','Reference\ProcurementMedicineController@store')->name('a_procurement_medicine');
-Route::get('/system/reference/procurement-medicine-price/all','Reference\ProcurementMedicineController@getProcurementMedicinePrice')->name('d_get_procurement_medicine_price');
-Route::get('/system/reference/procurement-medicine/change-price-form','Reference\ProcurementMedicineController@getChangePriceForm')->name('d_change_price_procurement_medicine');
-Route::post('/system/reference/add-procurement-medicine-price','Reference\ProcurementMedicineController@storePrice')->name('a_procurement_medicine_price');
-
-// User Routes
-Route::get('/system/reference/user','UserController@index')->name('r_user');
-Route::get('/system/reference/user/all','UserController@getUser')->name('d_user');
-Route::get('/system/reference/user/pagination','UserController@getUserByPage')->name('d_get_user_by_page');
-Route::get('/system/reference/user/search','UserController@getUserBySearch')->name('d_get_user_search');
-Route::post('/system/reference/change-account-status','UserController@changeAccountStatus')->name('u_account_status');
-Route::post('/system/reference/reset-password','UserController@resetPassword')->name('u_reset_password');
-
-// Unified Accounts Code Structure Routes
-Route::get('/system/reference/unified-accounts-code-structure','Reference\UacsController@index')->name('r_uacs');
-Route::get('/system/reference/unified-accounts-code-structure/all','Reference\UacsController@getUacs')->name('d_uacs');
-Route::get('/system/reference/unified-accounts-code-structure/pagination','Reference\UacsController@getUacsByPage')->name('d_get_uacs_by_page');
-Route::get('/system/reference/unified-accounts-code-structure/search','Reference\UacsController@getUacsSearch')->name('d_get_uacs_search');
-Route::get('/system/reference/unified-accounts-code-structure/add-form','Reference\UacsController@getAddForm')->name('d_add_uacs');
-Route::post('/system/reference/add-unified-accounts-code-structure','Reference\UacsController@store')->name('a_uacs');
-
-// Drugs and Medicine Routes
-Route::get('/system/reference/drug-medicine-category','Reference\DrugMedicineCategoryController@index')->name('r_dm_category');
-Route::get('/system/reference/drug-medicine-category/all','Reference\DrugMedicineCategoryController@getCategory')->name('d_dm_category');
-Route::get('/system/reference/drug-medicine-category/pagination','Reference\DrugMedicineCategoryController@getCategoryByPage')->name('d_get_dm_category_by_page');
-Route::get('/system/reference/drug-medicine-category/search','Reference\DrugMedicineCategoryController@getCategorySearch')->name('d_get_dm_category_search');
-Route::get('/system/reference/drug-medicine-category/add-form','Reference\DrugMedicineCategoryController@getAddForm')->name('d_add_dm_category');
-Route::post('/system/reference/add-drug-medicine-category','Reference\DrugMedicineCategoryController@store')->name('a_dm_category');
-
-// Program Routes
-Route::get('/system/reference/program','Reference\ProgramController@index')->name('r_program');
-Route::get('/system/reference/program/all','Reference\ProgramController@getProgram')->name('d_program');
-Route::get('/system/reference/program/pagination','Reference\ProgramController@getProgramByPage')->name('d_get_program_by_page');
-Route::get('/system/reference/program/search','Reference\ProgramController@getProgramSearch')->name('d_get_program_search');
-Route::get('/system/reference/program/add-form','Reference\ProgramController@getAddForm')->name('d_add_program');
-Route::post('/system/reference/add-program','Reference\ProgramController@store')->name('a_program');
-
-// Unit Program Routes
-Route::get('/system/reference/unit-program','Reference\UnitProgramController@index')->name('r_unit_program');
-Route::get('/system/reference/unit-program/all','Reference\UnitProgramController@getUnitProgram')->name('d_unit_program');
-Route::get('/system/reference/unit-program/pagination','Reference\UnitProgramController@getUnitProgramByPage')->name('d_get_unit_program_by_page');
-Route::get('/system/reference/unit-program/search','Reference\UnitProgramController@getUnitProgramBySearch')->name('d_get_unit_program_search');
-Route::get('/system/reference/unit-program/add-form','Reference\UnitProgramController@getAddForm')->name('d_add_unit_program');
-Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
-Route::post('/system/reference/remove-unit-program','Reference\UnitProgramController@removeAssignment')->name('del_unit_program');
-
-// Budget Line Item Routes
-Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
-Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
-Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLineItemController@getBudgetLineItemByPage')->name('d_get_budget_line_item_by_page');
-Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
-Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
-Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
-
-// Output Function Routes
-Route::get('/system/reference/output-function','OutputFunctionController@index')->name('r_output_function');
-Route::get('/system/reference/output-function/all','OutputFunctionController@getOutputFunction')->name('d_output_function');
-Route::get('/system/reference/output-function/pagination','OutputFunctionController@getOutputFunctionByPage')->name('d_get_output_function_by_page');
-Route::get('/system/reference/output-function/search','OutputFunctionController@getOutputFunctionBySearch')->name('d_get_output_function_search');
-Route::get('/system/reference/output-function/add-form','OutputFunctionController@getAddForm')->name('d_add_output_function');
-Route::post('/system/reference/add-output-function','OutputFunctionController@store')->name('a_output_function');
-
-// Office Unit Routes
-Route::get('/system/reference/office-unit','Reference\OfficeUnitController@index')->name('r_office_unit');
-Route::get('/system/reference/office-unit/all','Reference\OfficeUnitController@getOfficeUnit')->name('d_office_unit');
-Route::get('/system/reference/office-unit/pagination','Reference\OfficeUnitController@getOfficeUnitByPage')->name('d_get_office_unit_by_page');
-Route::get('/system/reference/office-unit/search','Reference\OfficeUnitController@getOfficeUnitSearch')->name('d_get_office_unit_search');
-Route::get('/system/reference/office-unit/add-form','Reference\OfficeUnitController@getAddForm')->name('d_add_office_unit');
-Route::post('/system/reference/add-office-unit','Reference\OfficeUnitController@store')->name('a_office_unit');
-
-// Activity Category Routes
-Route::get('/system/reference/activity-category','Reference\ActivityCategoryController@index')->name('r_activity_category');
-Route::get('/system/reference/activity-category/all','Reference\ActivityCategoryController@getActivityCategory')->name('d_activity_category');
-Route::get('/system/reference/activity-category/pagination','Reference\ActivityCategoryController@getActivityCategoryByPage')->name('d_get_activity_category_by_page');
-Route::get('/system/reference/activity-category/search','Reference\ActivityCategoryController@getActivityCategorySearch')->name('d_get_activity_category_search');
-Route::get('/system/reference/activity-category/add-form','Reference\ActivityCategoryController@getAddForm')->name('d_add_activity_category');
-Route::post('/system/reference/add-activity-category','Reference\ActivityCategoryController@store')->name('a_activity_category');
-
-// Classification Routes
-Route::get('/system/reference/classification','Reference\ClassificationController@index')->name('r_classification');
-Route::get('/system/reference/classification/all','Reference\ClassificationController@getClassification')->name('d_classification');
-Route::get('/system/reference/classification/pagination','Reference\ClassificationController@getClassificationByPage')->name('d_get_classification_by_page');
-Route::get('/system/reference/classification/search','Reference\ClassificationController@getClassificationSearch')->name('d_get_classification_search');
-Route::get('/system/reference/classification/add-form','Reference\ClassificationController@getAddForm')->name('d_add_classification');
-Route::post('/system/reference/add-classification','Reference\ClassificationController@store')->name('a_classification');
-
-// Function Deliverable Routes
-Route::get('/system/reference/function-deliverables','Reference\FunctionDeliverablesController@index')->name('r_function_deliverables');
-Route::get('/system/reference/function-deliverables/all','Reference\FunctionDeliverablesController@getFunctionDeliverables')->name('d_function_deliverables');
-Route::get('/system/reference/function-deliverables/pagination','Reference\FunctionDeliverablesController@getFunctionDeliverablesByPage')->name('d_get_function_deliverables_by_page');
-Route::get('/system/reference/function-deliverables/search','Reference\FunctionDeliverablesController@getFunctionDeliverablesSearch')->name('d_get_function_deliverables_search');
-Route::get('/system/reference/function-deliverables/add-form','Reference\FunctionDeliverablesController@getAddForm')->name('d_add_function_deliverables');
-Route::post('/system/reference/add-function-deliverables','Reference\FunctionDeliverablesController@store')->name('a_function_deliverables');
-
-// Item Unit Routes
-Route::get('/system/reference/item-unit','Reference\ItemUnitController@index')->name('r_item_unit');
-Route::get('/system/reference/item-unit/all','Reference\ItemUnitController@getItemUnit')->name('d_item_unit');
-Route::get('/system/reference/item-unit/pagination','Reference\ItemUnitController@getItemUnitByPage')->name('d_get_item_unit_by_page');
-Route::get('/system/reference/item-unit/search','Reference\ItemUnitController@getItemUnitSearch')->name('d_get_item_unit_search');
-Route::get('/system/reference/item-unit/add-form','Reference\ItemUnitController@getAddForm')->name('d_add_item_unit');
-Route::post('/system/reference/add-item-unit','Reference\ItemUnitController@store')->name('a_item_unit');
-
-// Demographic Routes
-Route::get('/system/reference/demographic','Reference\LocationController@index')->name('r_location');
-Route::get('/system/reference/demographic/all','Reference\LocationController@getLocation')->name('d_location');
-Route::get('/system/reference/demographic/pagination','Reference\LocationController@getLocationByPage')->name('d_get_location_by_page');
-Route::get('/system/reference/demographic/search','Reference\LocationController@getLocationSearch')->name('d_get_location_search');
-Route::get('/system/reference/demographic/add-form','Reference\LocationController@getAddForm')->name('d_add_location');
-Route::post('/system/reference/add-demographic','Reference\LocationController@store')->name('a_location');
-
-// Source of Fund Routes
-Route::get('/system/reference/source-of-funds','Reference\SourceOfFundController@index')->name('r_sof');
-Route::get('/system/reference/source-of-funds/all','Reference\SourceOfFundController@getFundSource')->name('d_sof');
-Route::get('/system/reference/source-of-funds/pagination','Reference\SourceOfFundController@getFundSourceByPage')->name('d_get_sof_by_page');
-Route::get('/system/reference/source-of-funds/search','Reference\SourceOfFundController@getFundSourceSearch')->name('d_get_sof_search');
-Route::get('/system/reference/source-of-funds/add-form','Reference\SourceOfFundController@getAddForm')->name('d_add_sof');
-Route::post('/system/reference/add-source-of-funds','Reference\SourceOfFundController@store')->name('a_sof');
-
-// Year Routes
-Route::get('/system/reference/year','YearsController@index')->name('r_year');
-Route::get('/system/reference/year/all','YearsController@getYear')->name('d_year');
-Route::get('/system/reference/year/pagination','YearsController@getYearByPage')->name('d_get_year_by_page');
-Route::get('/system/reference/year/search','YearsController@getYearSearch')->name('d_get_year_search');
-Route::get('/system/reference/year/add-form','YearsController@getAddForm')->name('d_add_year');
-Route::post('/system/reference/add-year','YearsController@store')->name('a_year');
