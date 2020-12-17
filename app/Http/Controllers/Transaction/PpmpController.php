@@ -14,6 +14,9 @@ use App\RefLocation;
 use DB;
 use App\ZWfpLogs;
 use Auth;
+use App\Wfp;
+use App\GlobalSystemSettings;
+
 class PpmpController extends Controller
 {
     //
@@ -188,22 +191,24 @@ class PpmpController extends Controller
     }
 
     public function getAllPPMPItemList(Request $req){
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         if($req->has('sorted')){
             $i ;
+
             $arr = $req->sorted;
             for($i = 0; $i < count($arr); $i++){
                 $arr[$i] = str_replace('_',' ',$arr[$i]);
             }
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->whereIn('classification',$arr)
-                                            ->where('year_id',$wfp->year_id)
+                                            ->where('year_id',$settings->select_year)
                                             ->paginate($this->paginate_ppmp_item_list);
         }else{
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->where(fn($q) =>
                                                 $q->where('description','LIKE','%' . $req->q . '%')
                                             )
-                                            ->where('year_id',$wfp->year_id)
+                                            ->where('year_id',$settings->select_year)
                                             ->paginate($this->paginate_ppmp_item_list);
         }
         //separate product viewing and  ppmp
@@ -217,7 +222,6 @@ class PpmpController extends Controller
 
     public function addPPMPItemsByPI(Request $req){
         if($req->ajax()){
-
 
             if($req->batch == null){
                 $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
