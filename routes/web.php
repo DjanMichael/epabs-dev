@@ -151,6 +151,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/program/pr/list','Transaction\PurchaseRequestController@getPrList')->name('d_pr_list');
     Route::get('/user/program/pr/delete','Transaction\PurchaseRequestController@deleteProgramPr')->name('del_program_pr');
     Route::get('/user/program/pr/status/update','Transaction\PurchaseRequestController@changeStatusPr')->name('pr_status_change');
+    // Route::get('/user/pr/get/pi','Transaction\PurchaseRequestController@getWfpActPi')->name('get_pr_wfp_act_pi');
     // REPORTS
     Route::get('/user/reports/app','ReportsController@redirectToAPP')->name('r_rep_app');
     Route::get('/user/reports/bli','ReportsController@redirectToBLI')->name('r_rep_bli');

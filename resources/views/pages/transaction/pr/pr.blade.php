@@ -317,7 +317,7 @@
             KTApp.block('#kt_body', {
                 overlayColor: '#000000',
                 state: 'primary',
-                message: '<i class="fas fa-file-alt mr-2 text-primary"></i>Creating Purchase Order'
+                message: '<i class="fas fa-file-alt mr-2 text-primary"></i>Creating Purchase Request'
             });
 
             setTimeout(() => {

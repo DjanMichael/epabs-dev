@@ -28,7 +28,7 @@
                     <!--begin::Body-->
                     <div class="card-body my-4">
                         <div class="row">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-3">
                                 <p class="font-weight-normal mb-0">Select Approved WFP</p>
                                 <div class="form-group " style="">
                                     <select class="form-control form-control-solid" id="wfp_select">
@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-9">
                                 <p class="font-weight-normal mb-0">Select Activity</p>
                                 <div class="form-group " style="">
                                     <select class="form-control form-control-solid" id="wfp_activity_select">
@@ -145,6 +145,16 @@
                 success:function(data){
                     if(data == 'success'){
                         fetchItemList();
+                        swal.fire({
+                                title:"Good Job!",
+                                text: "Successfully Added to Purchase Request!" ,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                     }
                 }
             })
