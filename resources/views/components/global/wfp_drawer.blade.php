@@ -36,7 +36,7 @@
             <div class="col-12 col-md-8">
                 <div class="row">
                     @if($ppmpApproved)
-                         @if(($ppmpApproved->remarks == "SUBMITTED" || $ppmpApproved->remarks == "APPROVED")  && $log->remarks =="APPROVED")
+                         @if(($ppmpApproved->remarks == "SUBMITTED" || $ppmpApproved->remarks == "APPROVED" || $ppmpApproved->remarks == "FOR REVISION")  && $log->remarks =="APPROVED")
                             <button   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
                                 style="position: relative;right:0;bottom:0;"
                                 data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
@@ -160,6 +160,7 @@
                                                     <i class="flaticon-medical"></i>
                                                     </button>
                                                 @else
+                                                @if($ppmpApproved->remarks == "FOR REVISION")
                                                     @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
                                                         <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                                             style="position: relative;right:0;bottom:0;"
@@ -168,6 +169,8 @@
                                                         <i class="fas fa-shopping-cart"></i>
                                                         </button>
                                                     @endif
+                                                @endif
+
                                                 @endif
                                             @else
                                                 @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")

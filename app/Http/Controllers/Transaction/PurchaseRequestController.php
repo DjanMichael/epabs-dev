@@ -10,6 +10,7 @@ use App\ProgramPurchaseRequestStatus;
 use App\GlobalSystemSettings;
 use App\Wfp;
 use App\WfpActivity;
+use App\WfpPerformanceIndicator;
 use App\PpmpItems;
 use App\TableUnitProgram;
 use App\RefUnits;
@@ -129,12 +130,27 @@ class PurchaseRequestController extends Controller
         }
     }
 
+    // public function getWfpActPi(Request $req){
+    //     if($req->ajax()){
+    //         $data["pi"] = WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)->where('wfp_act_id',$req->wfp_act_id)->get()->toArray() ?? null;
+    //         return view('pages.transaction.pr.components.select_approved_wfp_act_pi',['data'=>$data]);
+    //     }else{
+    //         abort(403);
+    //     }
+    // }
+
     public function getWfpActivityItems(Request $req){
         if($req->ajax()){
             $vw = "vw_procurement_drum_supplies_items";
             $data["pr_code"] = $req->pr_code;
             $data["wfp_act_id"] = $req->wfp_act_id;
             $data["wfp_code"] = $req->wfp_code;
+            $wfp = Wfp::where('code',$req->wfp_code)->first();
+
+            $pi_ids =  WfpPerformanceIndicator::where('wfp_code',$req->wfp_code)
+                                                ->where('wfp_act_id',$req->wfp_act_id)
+                                                ->select('id')
+                                                ->get()->toArray();
             //get all remaining items to be PR
             $pr_exist_item_ids_supplies = ProgramPurchaseRequestDetails::where('wfp_code',$req->wfp_code)
                                                                         ->where('wfp_act',$req->wfp_act_id)
@@ -152,20 +168,96 @@ class PurchaseRequestController extends Controller
                                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                                         })
+                                                        ->where('year_id',$wfp->year_id)
                                                         ->whereNotIn('item_id', $pr_exist_item_ids_supplies)
-                                                        ->where('wfp_act_per_indicator_id',$req->wfp_act_id)
+                                                        ->whereIn('wfp_act_per_indicator_id', $pi_ids)
                                                         ->where('tbl_ppmp_items.item_type','SUPPLIES')
-                                                        ->get()->toArray();
+                                                        ->get()->groupBy('item_id','item_type');
+            $temp = ($data["wfp_act_item_supplies"]);
+            // dd($temp->toArray());
+            $hold = [];
+            //classification
+            foreach ($temp as $a){
+                //item_distinct
+                    $qty =  collect($a)->sum('jan') +  collect($a)->sum('feb') +  collect($a)->sum('mar') +
+                            collect($a)->sum('apr') +  collect($a)->sum('may') +  collect($a)->sum('june') +
+                            collect($a)->sum('july') +  collect($a)->sum('aug') +  collect($a)->sum('sept') +
+                            collect($a)->sum('oct') +  collect($a)->sum('nov') +  collect($a)->sum('dec');
+                    array_push($hold ,[
+                        "classification" => collect($a)->first()->classification,
+                        "uacs_id" => collect($a)->first()->uacs_id,
+                        "item_id"=> collect($a)->first()->item_id,
+                        "item_type"=> collect($a)->first()->item_type,
+                        "description" => collect($a)->first()->description ,
+                        "unit_name" => collect($a)->first()->unit_name,
+                        "jan" => collect($a)->sum('jan'),
+                        "feb" => collect($a)->sum('feb'),
+                        "mar" => collect($a)->sum('mar'),
+                        "apr" => collect($a)->sum('apr'),
+                        "may" => collect($a)->sum('may'),
+                        "june" => collect($a)->sum('june'),
+                        "july" => collect($a)->sum('july'),
+                        "aug" => collect($a)->sum('aug'),
+                        "sept" => collect($a)->sum('sept'),
+                        "oct" => collect($a)->sum('oct'),
+                        "nov" => collect($a)->sum('nov'),
+                        "dec" => collect($a)->sum('dec'),
+                        "qty" => $qty,
+                        "price" => collect($a)->first()->price,
+                        "total_price" =>  $qty * collect($a)->first()->price
+                    ]);
+            }
+
+
+            $data["wfp_act_item_supplies"]  = $hold;
             $data["wfp_act_item_drum"] = PpmpItems::join($vw,function($q) use ($vw)
                                                     {
                                                         $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                                         $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
 
                                                     })
+                                                    ->where('year_id',$wfp->year_id)
                                                     ->whereNotIn('item_id', $pr_exist_item_ids_drum)
-                                                    ->where('wfp_act_per_indicator_id',$req->wfp_act_id)
+                                                    ->whereIn('wfp_act_per_indicator_id',$pi_ids)
                                                     ->where('tbl_ppmp_items.item_type','DRUM')
-                                                    ->get()->toArray();
+                                                    ->get()->groupBy('item_id','item_type');
+
+            $temp2 = ($data["wfp_act_item_drum"]);
+            // dd($temp2);
+            $hold2 = [];
+            foreach ($temp2 as $key2 => $row){
+                $a = $temp2[$key2];
+                // dd($a);
+                $qty2 =  collect($a)->sum('jan') +  collect($a)->sum('feb') +  collect($a)->sum('mar') +
+                        collect($a)->sum('apr') +  collect($a)->sum('may') +  collect($a)->sum('june') +
+                        collect($a)->sum('july') +  collect($a)->sum('aug') +  collect($a)->sum('sept') +
+                        collect($a)->sum('oct') +  collect($a)->sum('nov') +  collect($a)->sum('dec');
+                array_push($hold2 ,[
+                    "classification" => collect($a)->first()->classification,
+                    "uacs_id" => collect($a)->first()->uacs_id,
+                    "item_id"=> collect($a)->first()->item_id,
+                    "item_type"=> collect($a)->first()->item_type,
+                    "description" => collect($a)->first()->description,
+                    "unit_name" => collect($a)->first()->unit_name,
+                    "jan" => collect($a)->sum('jan'),
+                    "feb" => collect($a)->sum('feb'),
+                    "mar" => collect($a)->sum('mar'),
+                    "apr" => collect($a)->sum('apr'),
+                    "may" => collect($a)->sum('may'),
+                    "june" => collect($a)->sum('june'),
+                    "july" => collect($a)->sum('july'),
+                    "aug" => collect($a)->sum('aug'),
+                    "sept" => collect($a)->sum('sept'),
+                    "oct" => collect($a)->sum('oct'),
+                    "nov" => collect($a)->sum('nov'),
+                    "dec" => collect($a)->sum('dec'),
+                    "qty" => $qty2,
+                    "price" => collect($a)->first()->price,
+                    "total_price" =>  $qty2 * collect($a)->first()->price
+                ]);
+            }
+            // dd($hold2);
+            $data["wfp_act_item_drum"]  = $hold2;
 
             return view('pages.transaction.pr.components.items_activity',['data'=>$data]);
         }else{
@@ -180,22 +272,19 @@ class PurchaseRequestController extends Controller
             $duplicate = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)
                                                         ->where('item_id',$req->item_id)
                                                         ->where('item_type',$req->item_type)->first();
-            if($duplicate){
-                return 'duplicate';
-            }else{
-                $a = new ProgramPurchaseRequestDetails;
-                $a->wfp_code = $req->wfp_code;
-                $a->wfp_act = $req->wfp_act_id;
-                $a->pr_code = $req->pr_code;
-                $a->item_id = $req->item_id;
-                $a->item_type = $req->item_type;
-                $a->item_unit = $item->unit_name;
-                $a->item_description = $item->description;
-                $a->item_classification = $item->classification;
-                $a->item_qty = $req->qty;
-                $a->item_price = $req->price;
-                return $a->save() ? 'success':'failed';
-            }
+
+            $a = new ProgramPurchaseRequestDetails;
+            $a->wfp_code = $req->wfp_code;
+            $a->wfp_act = $req->wfp_act_id;
+            $a->pr_code = $req->pr_code;
+            $a->item_id = $req->item_id;
+            $a->item_type = $req->item_type;
+            $a->item_unit = $item->unit_name;
+            $a->item_description = $item->description;
+            $a->item_classification = $item->classification;
+            $a->item_qty = $req->qty;
+            $a->item_price = $req->price;
+            return $a->save() ? 'success':'failed';
 
         }else{
             abort(403);
