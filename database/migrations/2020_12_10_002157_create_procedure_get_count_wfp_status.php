@@ -34,17 +34,33 @@ class CreateProcedureGetCountWfpStatus extends Migration
                                 SELECT zwl.remarks
                                 FROM z_wfp_logs zwl
                                 WHERE zwl.wfp_code =  tw.`code`
+                                                                AND zwl.`status`='WFP'
                                 ORDER BY zwl.id DESC LIMIT 1
                             )
                         FROM tbl_wfp tw
                         WHERE tw.program_id = tuba.program_id
                         AND tw.year_id = year_id)
                     , 'NO WFP CREATED')
-                ) as `wfp_status`
-            FROM tbl_unit_budget_allocation tuba
-            JOIN tbl_unit_program tup ON tup.program_id = tuba.program_id
-            GROUP BY tuba.program_id;
-        END;
+                ) as `wfp_status`,
+                (
+                    COALESCE(
+                        (SELECT
+                            (
+                                SELECT zwl.remarks
+                                FROM z_wfp_logs zwl
+                                WHERE zwl.wfp_code =  tw.`code`
+                                                                AND zwl.`status`='PPMP'
+                                ORDER BY zwl.id DESC LIMIT 1
+                            )
+                        FROM tbl_wfp tw
+                        WHERE tw.program_id = tuba.program_id
+                        AND tw.year_id = year_id)
+                    , 'NO PPMP CREATED')
+                                ) as `ppmp_status`
+                FROM tbl_unit_budget_allocation tuba
+                JOIN tbl_unit_program tup ON tup.program_id = tuba.program_id
+                GROUP BY tuba.program_id;
+            END;
         ");
     }
 

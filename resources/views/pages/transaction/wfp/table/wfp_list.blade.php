@@ -52,7 +52,7 @@
                                 <span class="font-weight-bolder mb-1 mt-5">Utilized</span>
                                 <span class="font-weight-bolder pt-1" style="font-size:13px">
                                     <span class="font-weight-bold text-dark-50">₱</span>
-                                    {{ $row["yearly_utilized"] != null ? number_format($row["yearly_utilized"],2) : '0.00' }}
+                                    {{ $row["yearly_pi_utilized"] != null ? number_format($row["yearly_pi_utilized"],2) : '0.00' }}
                                 </span>
                             </div>
                             <!--end::Item-->
@@ -61,7 +61,7 @@
                                 <span class="font-weight-bolder mb-1 mt-5">Balance</span>
                                 <span class="font-weight-bolder pt-1" style="font-size:13px">
                                     <span class="font-weight-bold text-dark-50">₱</span>
-                                    {{ number_format($row["yearly_budget"] - $row["yearly_utilized"],2) }}
+                                    {{ number_format($row["yearly_budget"] - $row["yearly_pi_utilized"],2) }}
                                 </span>
                             </div>
                             <!--end::Item-->

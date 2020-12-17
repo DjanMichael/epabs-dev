@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title','PPMP')
 @section('content')
-<?php 
+<?php
 
     $ppmpApproved  = \App\ZWfplogs::where('wfp_code',$data['wfp_code'])
                                             ->where('status','PPMP')
                                             ->orderBy('id','DESC')
-                                            ->first(); 
+                                            ->first();
 ?>
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
     <span class="label label-rounded label-danger mr-2" style="position:absolute;left:0;top:0;" id="cart_count_badge">0</span>
@@ -37,7 +37,7 @@
             <div class="flex-column col-md-12">
                 <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
                     <div class="card-title p-5 bg-dark mb-0">
-                        <span class="card-label font-weight-bolder text-light">CREATE PPMP</span>
+                        <span class="card-label font-weight-bolder text-light">CREATE PPMP  -  ACTIVITY #{{ Str::padLeft($data["wfp_act_id"],5,'0') }}</span>
                     </div>
                     <!--begin::Body-->
                     <div class="card-body my-4">
@@ -1059,7 +1059,7 @@
         var qty = getTotalQty();
         var price =  $("#item_price_input").val();
         var budget = $("#balance_amount_input").val();
-        budget = budget.replace(',','');
+        budget =  budget.replace(/,/g, '');
         var deducted = budget - (qty * price);
 
         $("#lbl_balance").html('₱ ' +  nf.format(deducted));

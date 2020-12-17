@@ -4,6 +4,7 @@
         <tr >
             <th scope="col"></th>
             <th scope="col" class="text-center">Output Functions</th>
+            <th scope="col" class="text-center">Classification</th>
         </tr>
     </thead>
     <tbody>
@@ -13,6 +14,8 @@
         <button class="btn btn-block btn-primary" onClick="select_output_functions('{{ $row->id }}','{{$row->description}}')" >SELECT</button>
         </td>
         <td>{{ $row->description }}</td>
+        <td style="min-width:80px;">{{ $row->function_class }}</td>
+
     </tr>
     @empty
         <tr>

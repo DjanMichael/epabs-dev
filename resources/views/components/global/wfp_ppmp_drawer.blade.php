@@ -13,7 +13,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
         <div class="" style="width:91.5%">
             <div class="row">
                 <div class="col-10">
-                    <h1> <i class="fas fa-boxes icon-xl text-light"></i> PPMP </h1>
+                    <h1> <i class="fas fa-boxes icon-xl text-light"></i> PPMP  </h1>
                     <h5>{{ $log != null ? $log->remarks : "NOT YET SUBMITTED" }}</h5>
                 </div>
                 <div class="col-2 text-right">
@@ -198,17 +198,14 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                                 <tr>
                                     <td colspan="18" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left">CATERING SERVICES </td>
                                 </tr>
-                                <?php $pi_ids= [] ?>
                                 @foreach($data["ppmp_catering"] as $key => $row)
 
                                 <?php
 
-                                    array_push($pi_ids,$key);
-
                                     $t = "tbl_wfp_activity_per_indicator";
                                     $batch = \App\TablePiCateringBatches::join('ref_location','ref_location.id','tbl_pi_catering_batches.batch_location')
                                                                         ->join($t,$t .'.id','tbl_pi_catering_batches.pi_id')
-                                                                        ->where('pi_id',collect($pi_ids)->flatten()->toArray())
+                                                                        ->where('pi_id',$key)
                                                                         ->select('pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
                                                                         ->get()->toArray();
                                 ?>

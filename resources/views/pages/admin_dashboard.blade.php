@@ -97,7 +97,7 @@
             <div class="symbol symbol-50 symbol-lg-120">
               <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words( $data["user_info"] != null ? $data["user_info"][0]["name"] : 'NO USER INFO',2),0,1)) }}</span>
             </div>
-            <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
+            <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none ">
                 <span class="font-size-h3 symbol-label font-weight-boldest">JM</span>
             </div>
         </div>
@@ -233,102 +233,139 @@
 </div>
 @endif
 <!-- begin:dashboard planning -->
-@if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR")
+@if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR" )
 <div class="row">
-    <div class="col-md-3 col-12">
-        <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
-            <!--begin::Body-->
-            <div class="card-body">
-                <span class="svg-icon svg-icon-2x svg-icon-info">
-                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"></rect>
-                            <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"></path>
-                            <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"></path>
-                        </g>
-                    </svg>
-                    <!--end::Svg Icon-->
-                </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_not_submitted"] ?? 0 }}
-                </span>
-                <span class="font-weight-bold text-muted font-size-sm">NOT SUBMITTED</span>
+    <div class="col-12 col-md-6">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                    <h1> WFP STATUS</h1>
+                    <div id="wfp_chart"></div>
+                    <div class="separator separator-solid my-7"></div>
+                        <div class="d-flex align-items-center flex-wrap">
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-clock icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">NOT SUBMITTED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="wfp_notsubmitted">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-list icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">SUBMITTED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="wfp_submitted">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-like icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">APPROVED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="wfp_approved">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">REVISION</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="wfp_revision">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--end::Body-->
-        </div>
-
-    </div>
-    <div class="col-md-3 col-12">
-        <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
-            <!--begin::Body-->
-            <div class="card-body">
-                <span class="svg-icon svg-icon-2x svg-icon-info">
-                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"></rect>
-                            <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"></path>
-                            <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"></path>
-                        </g>
-                    </svg>
-                    <!--end::Svg Icon-->
-                </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_submitted"] ?? 0 }}
-                </span>
-                <span class="font-weight-bold text-muted font-size-sm">SUBMITTED</span>
-            </div>
-            <!--end::Body-->
-        </div>
-    </div>
-    <div class="col-md-3 col-12">
-        <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
-            <!--begin::Body-->
-            <div class="card-body">
-                <span class="svg-icon svg-icon-2x svg-icon-info">
-                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"></rect>
-                            <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"></path>
-                            <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"></path>
-                        </g>
-                    </svg>
-                    <!--end::Svg Icon-->
-                </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_approved"] ?? 0 }}
-                </span>
-                <span class="font-weight-bold text-muted font-size-sm">APPROVED</span>
-            </div>
-            <!--end::Body-->
         </div>
     </div>
-    <div class="col-md-3 col-12">
-        <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('dist/assets/media/svg/shapes/abstract-1.svg') }})">
-            <!--begin::Body-->
-            <div class="card-body">
-                <span class="svg-icon svg-icon-2x svg-icon-info">
-                    <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Communication/Mail-opened.svg-->
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"></rect>
-                            <path d="M6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 Z M7.5,5 C7.22385763,5 7,5.22385763 7,5.5 C7,5.77614237 7.22385763,6 7.5,6 L13.5,6 C13.7761424,6 14,5.77614237 14,5.5 C14,5.22385763 13.7761424,5 13.5,5 L7.5,5 Z M7.5,7 C7.22385763,7 7,7.22385763 7,7.5 C7,7.77614237 7.22385763,8 7.5,8 L10.5,8 C10.7761424,8 11,7.77614237 11,7.5 C11,7.22385763 10.7761424,7 10.5,7 L7.5,7 Z" fill="#000000" opacity="0.3"></path>
-                            <path d="M3.79274528,6.57253826 L12,12.5 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 Z" fill="#000000"></path>
-                        </g>
-                    </svg>
-                    <!--end::Svg Icon-->
-                </span>
-                <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block">
-                    {{$data["wfp_revision"] ?? 0 }}
-                </span>
-                <span class="font-weight-bold text-muted font-size-sm">REVISION</span>
+    <div class="col-12 col-md-6">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        <h1>PPMP STATUS</h1>
+                        <div id="ppmp_chart"></div>
+                        <div class="separator separator-solid my-7"></div>
+                        <div class="d-flex align-items-center flex-wrap">
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-clock icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">NOT SUBMITTED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="ppmp_notsubmitted">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-list icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">SUBMITTED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="ppmp_submitted">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-like icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">APPROVED</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="ppmp_approved">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
+                                    <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">REVISION</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="ppmp_revision">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--end::Body-->
         </div>
     </div>
 </div>
+
+
 <!-- end:dashboard planning -->
 <div class="row">
     <div class="col-md-8 col-12">
@@ -545,13 +582,12 @@
              </div>
             </div>
             <div class="card-body">
-                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 300px">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 700px">
                     <div class="timeline-items "  id="event_logs">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 @endif
@@ -639,7 +675,11 @@
 @push('scripts')
 <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
 <script>
-
+const primary = "#6993FF"
+  , success = "#1BC5BD"
+  , info = "#8950FC"
+  , warning = "#FFA800"
+  , danger = "#F64E60";
         $(document).ready(function(){
             //remove parameter for duplicate events for isMobile
             setTimeout(function(){
@@ -649,7 +689,119 @@
                 fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
             },1500)
 
+            fetchStatusData();
         });
+
+        function fetchStatusData(){
+            var _url ="{{ route('get_dstat_data') }}";
+            $.ajax({
+                method:"GET",
+                url: _url,
+                success:function(data){
+                    // data.wfp
+                    // submited,approved,revision,not submitted
+                    var options = {
+                        series: [
+                                data.wfp.wfp_submitted,
+                                data.wfp.wfp_approved,
+                                data.wfp.wfp_revision,
+                                data.programs_count - data.wfp.wfp_submitted - data.wfp.wfp_approved - data.wfp.wfp_revision
+                            ],
+                        chart: {
+                            width: 470,
+                            type: "pie"
+                        },
+                        labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
+                        responsive: [
+                        {
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 300
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        },
+                        {
+                            breakpoint: 320,
+                            options: {
+                                chart: {
+                                    width: 100
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        }
+                        ],
+                        colors: [primary, success, warning, danger]
+                    }
+
+                    var options2 = {
+                        series: [
+                                data.ppmp.ppmp_submitted,
+                                data.ppmp.ppmp_approved,
+                                data.ppmp.ppmp_revision,
+                               data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision
+                        ],
+                        chart: {
+                            width:470,
+                            type: "pie"
+                        },
+                        labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
+                        responsive: [
+                        {
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 300
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        },
+                        {
+                            breakpoint: 320,
+                            options: {
+                                chart: {
+                                    width: 100
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        }
+                        ],
+                        colors: [primary, success, warning, danger]
+                    }
+
+
+                    var chart = new ApexCharts(document.querySelector('#wfp_chart'), options);
+                    chart.render();
+
+                    $("#wfp_submitted").html(data.wfp.wfp_submitted);
+                    $("#wfp_approved").html(data.wfp.wfp_approved);
+                    $("#wfp_revision").html(data.wfp.wfp_revision);
+                    $("#wfp_notsubmitted").html( data.programs_count - data.wfp.wfp_submitted - data.wfp.wfp_approved - data.wfp.wfp_revision);
+
+
+                    var chart2 = new ApexCharts(document.querySelector('#ppmp_chart'), options2);
+                    chart2.render();
+
+
+                    $("#ppmp_submitted").html(data.ppmp.ppmp_submitted);
+                    $("#ppmp_approved").html(data.ppmp.ppmp_approved);
+                    $("#ppmp_revision").html(data.ppmp.ppmp_revision);
+                    $("#ppmp_notsubmitted").html( data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision);
+
+
+
+                }
+            });
+        }
 
         function fetchhUserWfpStatusList(_page = null, _q = null,status = null){
             var _url = "{{ route('get_program_wfp_status_list') }}";

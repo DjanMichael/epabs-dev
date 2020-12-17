@@ -9,20 +9,23 @@ use App\RefClassification;
 use App\RefPrice;
 use App\TableProcurementSupplies;
 use App\Views\ProcurementMedSupplies;
-
+use App\GlobalSystemSettings;
+use Auth;
 class ProcurementSuppliesController extends Controller
 {
     public function index(){ return view('pages.reference.procurement.procurement_supplies'); }
 
     public function getProcurementSupplies() {
-        $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->paginate(10);
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->where('year_id',$settings->select_year)->paginate(10);
         return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
     }
 
     public function getProcurementSuppliesByPage(Request $request){
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest) {
-            $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->paginate(10);
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->where('year_id',$settings->select_year)->paginate(10);
             return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         } else {
             abort(403);
@@ -34,11 +37,13 @@ class ProcurementSuppliesController extends Controller
         if($isAjaxRequest) {
             $query = $request->q;
             if($query != '') {
+                $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
                 $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')
                                                 ->where(function ($sql) use ($query) {
                                                     $sql->where('description', 'LIKE', '%'. $query .'%')
                                                         ->orWhere('classification' ,'LIKE', '%'. $query .'%');
                                                 })
+                                                ->where('year_id',$settings->select_year)
                                                 ->paginate(10);
             } else {
                 $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->paginate(10);

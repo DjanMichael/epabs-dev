@@ -280,7 +280,7 @@ class PpmpController extends Controller
             // dd($req->all());
             $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
-            // dd($wfp_act_ids);
+
 
             if(count($wfp_act_ids) > 0){
                 $i =0;
@@ -311,15 +311,17 @@ class PpmpController extends Controller
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                         })
+                                        ->where('year_id',$wfp->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','=','CATERING SERVICES')
                                         ->get()
                                         ->groupBy('wfp_act_per_indicator_id')
                                         ->toArray();
-
+            // dd($data["ppmp_catering"]);
             $data["wfp_code"] = $req->wfp_code;
             // $pi_ids = Arr::flatten($pi_ids);
+            // dd($pi_ids);
             // dd($req->wfp_code);
             // dd($data);
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
@@ -344,9 +346,10 @@ class PpmpController extends Controller
         // dd($req->all());
         $data =[];
         $data["ppmp_items"] = [];
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         if ($req->batch_id != null)
         {
-            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : ''));
+            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '', $settings->select_year));
         }
 
         $data["catering_batch"] = TablePiCateringBatches::where('id',$req->batch_id)->first();

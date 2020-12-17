@@ -538,8 +538,9 @@
                 fourthQuarterHasValue();
             });
 
-            $("#output_function_search").on('keyup',function(){
+            $("#output_function_search").on('keyup',function(e){
                 var str = $("#output_function_search").val();
+                console.log(e.keyCode);
                 populateOutputFunctionsSearch(str);
             });
 
