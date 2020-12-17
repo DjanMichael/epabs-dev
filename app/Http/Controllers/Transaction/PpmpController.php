@@ -13,7 +13,7 @@ use App\TablePiCateringBatches;
 use App\RefLocation;
 use DB;
 use App\ZWfpLogs;
-use Auth
+use Auth;
 class PpmpController extends Controller
 {
     //
