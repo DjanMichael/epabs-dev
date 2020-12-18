@@ -405,8 +405,10 @@ class WfpController extends Controller
         $settings = GlobalSystemSettings::where('user_id',$user_id)->first();
         $user_role = (Auth::user()->role)->roles;
         if($settings){
+            // dd($user_id);
             if($req->q != null){
                 if($user_role != "PROGRAM COORDINATOR"){
+
                     $qry = $req->q;
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
