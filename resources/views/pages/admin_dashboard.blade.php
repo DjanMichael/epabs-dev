@@ -138,6 +138,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
+
                         </span>{{ $data["user_info"] == null ? 'NO DESIGNATION' : $data["user_info"][0]["designation"] }}</a>
                         <a href="#" class="text-muted text-hover-primary font-weight-bold">
                         <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
@@ -241,7 +242,7 @@
                 <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
                     <!--begin::Body-->
                     <div class="card-body">
-                    <h1> WFP STATUS</h1>
+                    <h1> WFP STATUS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
                     <div id="wfp_chart"></div>
                     <div class="separator separator-solid my-7"></div>
                         <div class="d-flex align-items-center flex-wrap">
@@ -305,7 +306,7 @@
                 <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
                     <!--begin::Body-->
                     <div class="card-body">
-                        <h1>PPMP STATUS</h1>
+                        <h1>PPMP STATUS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
                         <div id="ppmp_chart"></div>
                         <div class="separator separator-solid my-7"></div>
                         <div class="d-flex align-items-center flex-wrap">
@@ -374,7 +375,7 @@
              <div class="card-title">
               <h3 class="card-label">
                WFP Status
-               <small></small>
+               <small>{{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</small>
               </h3>
              </div>
             </div>
@@ -553,7 +554,8 @@
                                             <tr >
                                                 <th class="p-0 min-w-200px" colspan="2">PROGRAM MANAGER</th>
                                                 <th class="p-0 min-w-140px">PROGRAM</th>
-                                                <th class="p-0 min-w-110px">STATUS</th>
+                                                <th class="p-0 min-w-110px text-center ">WFP STATUS</th>
+                                                <th class="p-0 min-w-110px text-center ">PPMP STATUS</th>
                                                 <th class="p-0 min-w-50px"></th>
                                             </tr>
                                         </thead>
