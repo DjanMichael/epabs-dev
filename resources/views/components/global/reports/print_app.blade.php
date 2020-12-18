@@ -198,7 +198,9 @@
                 <?php
                     $inventory = \App\Views\ReportAppDetails::where('classification',$row["classification"])
                                                             ->where('year_id',$data["static"]["year_id"])
+                                                            ->groupBy('id','item_type')
                                                             ->get()->toArray();
+
                     $i=1;
                 ?>
                 <tr>
@@ -208,6 +210,7 @@
                         <tr>
                             <td style="width:10px;text-align:center">{{ $i }}</td>
                             <td colspan="2" style="width:230px">{{ $row2["description"] }}</td>
+                            {{-- <td colspan="2" style="width:230px">{{ print_r($row2) }}</td> --}}
                             <td style="text-align:center;">{{ $row2["unit_name"] }}</td>
                             <td style="text-align:center;">{{ $row2["jan"] }}</td>
                             <td style="text-align:center;">{{ $row2["feb"] }}</td>
