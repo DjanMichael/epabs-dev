@@ -157,10 +157,15 @@
                                             ->where('ref_function_deliverables.function_class','STRATEGIC FUNCTION')->get()->toArray();
 
                     // dd($wfp_details);
+                 $first_row =1;
+
                 ?>
                 @forelse($wfp_details as $row2)
                 <tr>
-                    <td class="t-d">{{ $row2["description"] }}</td>
+                    @if($first_row == 1)
+                        <td class="t-d" rowspan="{{ count($wfp_details) }}">{{ $row2["description"] }} </td>
+                    @endif
+                    <?php $first_row =0;?>
                     <td class="t-d">{{ $row2["out_activity"] }}</td>
                     <td class="t-d">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
                     <td class="t-d">{{ $row2["target_q1"] ?: 0 }}</td>
@@ -195,10 +200,15 @@
                                             ->where('ref_function_deliverables.function_class','CORE FUNCTION')->get()->toArray();
 
                     // dd($wfp_details);
+                    $first_row =1;
+
                 ?>
                 @forelse($wfp_details as $row2)
                 <tr>
-                    <td class="t-d">{{ $row2["description"] }}</td>
+                    @if($first_row == 1)
+                        <td class="t-d" rowspan="{{ count($wfp_details) }}">{{ $row2["description"] }} </td>
+                    @endif
+                    <?php $first_row =0;?>
                     <td class="t-d">{{ $row2["out_activity"] }}</td>
                     <td class="t-d">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
                     <td class="t-d">{{ $row2["target_q1"] ?: 0 }}</td>
@@ -232,11 +242,15 @@
                                             ->where('ref_budget_line_item.budget_item',$row["budget_item"])
                                             ->where('ref_function_deliverables.function_class','SUPPORT FUNCTION')->get()->toArray();
 
-                    // dd($wfp_details);
+                  $first_row =1;
+
                 ?>
                 @forelse($wfp_details as $row2)
                 <tr>
-                    <td class="t-d">{{ $row2["description"] }}</td>
+                    @if($first_row == 1)
+                        <td class="t-d" rowspan="{{ count($wfp_details) }}">{{ $row2["description"] }}</td>
+                    @endif
+                    <?php $first_row =0;?>
                     <td class="t-d">{{ $row2["out_activity"] }}</td>
                     <td class="t-d">{{ $a->activityTimeFrameConvertToMonths($row2["activity_timeframe"]) }}</td>
                     <td class="t-d">{{ $row2["target_q1"] ?: 0 }}</td>
