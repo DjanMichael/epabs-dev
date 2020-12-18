@@ -192,7 +192,6 @@
                 <?php
                     // $i =1;
                     $f_a = 0;
-
                 ?>
                 @foreach($data["app_category"] as $row)
                 <?php
