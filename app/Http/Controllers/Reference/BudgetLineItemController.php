@@ -44,7 +44,7 @@ class BudgetLineItemController extends Controller
                                         ->where('budget_item' ,'LIKE', '%'. $query .'%')
                                         ->orWhere('year', 'LIKE', '%'. $query .'%')
                                         ->paginate(10);
-            }else{
+            } else {
                 $data = $this->fetchBudgetLineItem();
             }
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $data]);

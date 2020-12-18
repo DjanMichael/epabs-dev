@@ -27,8 +27,8 @@ class ActivityCalendarController extends Controller
                                 "12" => "December"
                             );
         // return dd($data['activity_list']);
-        // return dd($data['activity_list'][0]['activity_timeframe']);
-        return view('pages.transaction.activity_calendar.activities_calendar', ['data'=> $data]);
+        return dd($data['activity_list'][0]['activity_timeframe']);
+        // return view('pages.transaction.activity_calendar.activities_calendar', ['data'=> $data]);
     }
 
 }
