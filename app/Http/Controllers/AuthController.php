@@ -138,7 +138,7 @@ class AuthController extends Controller
                 $data['name']    = $req->name;
                 $data['username'] = $req->username;
                 $data['password'] = bcrypt($req->password);
-                $data['role_id'] = '3';
+                $data['role_id'] = $req->role_id;
 
                 $user = User::create($data);
 
