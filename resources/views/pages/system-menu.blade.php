@@ -407,7 +407,9 @@
             </div>
         </div>
         <!-- end::title -->
+
         <div class="row ml-1 mr-1">
+        @if (Auth::user()->role->roles == 'ADMINISTRATOR')
             <div class="col-12 col-md-4">
              <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                  <button onclick="window.location.href='{{ route('r_procurement_supplies') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
@@ -640,6 +642,9 @@
                    </button>
                 </div>
             </div>
+
+        @endif
+        @if (Auth::user()->role->roles == "ADMINISTRATOR" Or  Auth::user()->role->roles == "PROGRAM COORDINATOR")
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                     <button onclick="window.location.href='{{ route('r_output_function') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
@@ -670,6 +675,8 @@
                    </button>
                 </div>
             </div>
+        @endif
+        @if (Auth::user()->role->roles == "ADMINISTRATOR")
             <div class="col-12 col-md-4">
                 <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                     <button onclick="window.location.href='{{ route('r_office_unit') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
@@ -905,6 +912,7 @@
                    </button>
                 </div>
             </div>
+    @endif
          </div>
          <!-- end::row-->
          {{-- <div class="row  ml-0  mr-0 p-3 mb-10 bg-radial-gradient-dark">
