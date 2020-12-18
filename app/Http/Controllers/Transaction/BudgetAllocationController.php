@@ -63,7 +63,9 @@ class BudgetAllocationController extends Controller
                                                                                 ->where(fn($q) =>
                                                                                 $q->orWhere('t1_division','LIKE','%' . $req->q . '%')
                                                                                   ->orWhere('t1_section','LIKE','%' . $req->q . '%')
-                                                                                  ->orWhere('t1_name','LIKE','%' . $req->q . '%'))
+                                                                                  ->orWhere('t1_name','LIKE','%' . $req->q . '%')
+                                                                                  ->orWhere('t1_program_name','LIKE','%' . $req->q . '%')
+                                                                                  )
                                                                                 ->orderBy($req->sort != '' ? $req->sort : 't1_year_id' )
                                                                                 ->paginate($this->budget_allocation_pagination);
 

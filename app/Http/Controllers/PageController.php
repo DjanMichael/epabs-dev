@@ -100,7 +100,8 @@ class PageController extends Controller
                                                                     $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
                                                                     ->orWhere('program' , 'LIKE','%' . $req->q . '%')
                                                                 )
-                                                                ->where('wfp_status',$req->status)
+                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
                 }else if($req->q != '' || $req->q != null){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
@@ -111,7 +112,8 @@ class PageController extends Controller
                                                                 ->paginate($this->pagination_user_wfp_status);
                 }else if($req->status != 'ALL'){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                                ->where('wfp_status',$req->status)
+                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
 
                 }else{
