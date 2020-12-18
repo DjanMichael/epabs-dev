@@ -106,6 +106,15 @@ License: You must have a valid license purchased only from themeforest(the above
 					</div>
 					<div class="form-group mb-5">
 						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Email" name="email" id="email" autocomplete="off" />
+                    </div>
+                    <div class="form-group mb-5">
+                        <label for="" style="float:left;font-size:12px;">Phone No.</label>
+                        <input class="form-control h-auto form-control-solid py-4 px-8" id="kt_inputmask_3" type="text" inputmode="text" name="contactno">
+                        <span class="form-text text-muted">Phone number format:
+                        <code>09XX-XXX-XXXX</code></span>
+                    </div>
+                    <div class="form-group mb-5">
+						<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Designation" name="designation" id="designation"/>
 					</div>
 					<div class="form-group mb-5">
                         <label for="" style="float:left;font-size:12px;">Division</label>
@@ -267,6 +276,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
                     <!--begin::Page Scripts(used by this page)-->
                             <script src="{{ asset('dist/assets/js/pages/custom/login/login-general.js')}}"></script>
+                            <script src="{{ asset('dist/assets/js/pages/crud/forms/widgets/input-mask.js') }}"></script>
 					<!--end::Page Scripts-->
 
 
@@ -459,7 +469,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					});
 
 					var _url ="{{ route('send_signup') }}";
-					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val();
+					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val() +"&contactno=" + ($("input[name=contactno]").val()).replace(/-/g,'') + "&designation=" + $("input[name=designation]").val();
 					// alert($("#unit_id").val());
 
 					$.ajax({
@@ -528,11 +538,8 @@ License: You must have a valid license purchased only from themeforest(the above
 				}
 
 			});
-
-			window.addEventListener('load', function() {
-
-
-			//checker network online offline
+	    //checker network online offline
+        window.addEventListener('load', function() {
 			toastr.options = {
 				"debug": false,
 				"newestOnTop": false,
@@ -550,10 +557,8 @@ License: You must have a valid license purchased only from themeforest(the above
 				"hideMethod": "fadeOut"
 			};
 
-
 				function updateOnlineStatus(event) {
 					var condition = navigator.onLine ? "online" : "offline";
-
 
 					if (condition == "online")
 					{
@@ -561,19 +566,13 @@ License: You must have a valid license purchased only from themeforest(the above
 					}else{
 						toastr.error("No Internet Connection", "Error");
 					}
-
-
 				}
-
 				window.addEventListener('online',  updateOnlineStatus);
 				window.addEventListener('offline', updateOnlineStatus);
 			});
-
-
 			</script>
 
 			<script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
-
-            </body>
+        </body>
     <!--end::Body-->
 </html>

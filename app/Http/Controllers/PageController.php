@@ -12,6 +12,7 @@ use App\TableSystemEvents;
 use DB;
 use App\Views\ProgramsWfpStatus;
 use Illuminate\Support\Collection;
+use App\RefYear;
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -63,6 +64,7 @@ class PageController extends Controller
 
 
         if($program){
+            $data["year"] = RefYear::where('id',$program->select_year)->first();
             $data["user_info"] = UserInfo::where('program_id', $program->select_program_id)
                                         ->where('year_id',$program->select_year)
                                         ->groupBy('program_id')
@@ -71,7 +73,9 @@ class PageController extends Controller
                                                                     ->where('year_id',$program->select_year)
                                                                     ->groupBy('program_id','budget_line_item_id')
                                                                     ->get()->toArray();
+
         }else{
+            $data["year"] = null;
             $data["user_info"] = null;
             $data["budget_allocation"] = null;
         }

@@ -1,7 +1,7 @@
 // Class definition
 
 var KTInputmask = function () {
-    
+
     // Private functions
     var demos = function () {
         // date format
@@ -10,15 +10,15 @@ var KTInputmask = function () {
             autoUnmask: true
         });
 
-        // custom placeholder        
+        // custom placeholder
         $("#kt_inputmask_2").inputmask("99/99/9999", {
             "placeholder": "mm/dd/yyyy",
         });
-        
+
         // phone number format
         $("#kt_inputmask_3").inputmask("mask", {
-            "mask": "(999) 999-9999"
-        }); 
+            "mask": "9999-999-9999"
+        });
 
         // empty placeholder
         $("#kt_inputmask_4").inputmask({
@@ -32,12 +32,12 @@ var KTInputmask = function () {
             "repeat": 10,
             "greedy": false
         }); // ~ mask "9" or mask "99" or ... mask "9999999999"
-        
+
         // decimal format
         $("#kt_inputmask_6").inputmask('decimal', {
             rightAlignNumerics: false
-        }); 
-        
+        });
+
         // currency format
         $("#kt_inputmask_7").inputmask('€ 999.999.999,99', {
             numericInput: true
@@ -46,7 +46,7 @@ var KTInputmask = function () {
         //ip address
         $("#kt_inputmask_8").inputmask({
             "mask": "999.999.999.999"
-        });  
+        });
 
         //email address
         $("#kt_inputmask_9").inputmask({
@@ -63,13 +63,13 @@ var KTInputmask = function () {
                     casing: "lower"
                 }
             }
-        });        
+        });
     }
 
     return {
         // public functions
         init: function() {
-            demos(); 
+            demos();
         }
     };
 }();
