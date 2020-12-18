@@ -469,7 +469,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					});
 
 					var _url ="{{ route('send_signup') }}";
-					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val() +"&contactno=" + ($("input[name=contactno]").val()).replace(/-/g,'') + "&designation=" + $("input[name=designation]").val();
+					var _data = "name=" + $("#fullname").val() + "&username=" + $("#reg_username").val() + "&email=" + $("#email").val() + "&password=" + $("#reg_password").val() +"&unit_id="+ $("#unit_id").val() +"&contactno=" + ($("input[name=contactno]").val()).replace(/-/g,'') + "&designation=" + $("input[name=designation]").val() + "&role_id=" + $("#select_role option:selected").val();
 					// alert($("#unit_id").val());
 
 					$.ajax({
