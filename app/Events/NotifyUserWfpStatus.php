@@ -39,7 +39,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
         $this->program_id = $wfp->program_id;
         // $have_contact = Auth::user()->getUserContact() != '' ? true : false;
         // $temp_sms = "";
-      
+
         if($event_name == "WFP Update"){
             if($title =="WFP Submit"){
                 $this->icon = 'flaticon2-file';
@@ -78,7 +78,7 @@ class NotifyUserWfpStatus implements ShouldBroadcast
             $e->isRead = $this->isRead;
             $e->save();
         }else if($event_name ="WFP Comment"){
-            $wfp_act_id = $desc; // param wfp_act_id
+            $wfp_act_id = $desc;
 
             $this->icon = 'flaticon-chat';
             $this->icon_level = 'primary';

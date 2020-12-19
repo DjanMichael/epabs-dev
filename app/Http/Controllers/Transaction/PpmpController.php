@@ -16,6 +16,8 @@ use App\ZWfpLogs;
 use Auth;
 use App\Wfp;
 use App\GlobalSystemSettings;
+use App\Events\NotifyUserPpmpStatus;
+use App\PpmpComments;
 
 class PpmpController extends Controller
 {
@@ -320,6 +322,8 @@ class PpmpController extends Controller
                                         ->toArray();
             // dd($data["ppmp_catering"]);
             $data["wfp_code"] = $req->wfp_code;
+
+            $data["ppmp_comments"] = PpmpComments::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($pi_ids);
             // dd($req->wfp_code);
@@ -379,13 +383,14 @@ class PpmpController extends Controller
 
     public function updateStatusApprove(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             $a = new ZWfpLogs;
             $a->wfp_code = Crypt::decryptString($req->wfp_code);
             $a->status = 'PPMP';
             $a->remarks = 'APPROVED';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Approve','Your PPMP has been approved','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -394,6 +399,7 @@ class PpmpController extends Controller
 
     public function updateStatusSubmit(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             // dd(Crypt::decryptString($req->wfp_code));
             $a = new ZWfpLogs;
@@ -401,7 +407,7 @@ class PpmpController extends Controller
             $a->status = 'PPMP';
             $a->remarks = 'SUBMITTED';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Submit','Your PPMP has been submitted','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -410,13 +416,14 @@ class PpmpController extends Controller
 
     public function updateStatusRevise(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             $a = new ZWfpLogs;
             $a->wfp_code = Crypt::decryptString($req->wfp_code);
             $a->status = 'PPMP';
             $a->remarks = 'FOR REVISION';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Revise','Your PPMP is subject for revision','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -425,5 +432,28 @@ class PpmpController extends Controller
     public function activityTimeFrameConvertToMonths($i){
         $month = ["January","Febuary","March","April","May","June","July","August","September","October","November","December"];
         return $month[$i-1];
+    }
+
+    public function ppmpComment(Request $req){
+        if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
+            $res;
+            $a = new ZWfpLogs;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->status = 'PPMP';
+            $a->remarks = 'FOR REVISION';
+            $res = $a->save() ? 'success' : 'failed';
+
+            $b = new PpmpComments;
+            $b->wfp_code = Crypt::decryptString($req->wfp_code);
+            $b->user_id = Auth::user()->id;
+            $b->comment = $req->comment;
+            $b->save();
+
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Comment','','PPMP Comment'))->toOthers();
+            return $res;
+        }else{
+            abort(403);
+        }
     }
 }

@@ -540,7 +540,7 @@
 
             $("#output_function_search").on('keyup',function(e){
                 var str = $("#output_function_search").val();
-                console.log(e.keyCode);
+
                 populateOutputFunctionsSearch(str);
             });
 
@@ -793,8 +793,13 @@
                             }else{
                                 toastr.error("Something Went Wrong!", "Opss");
                             }
+                        },complete:function(){
+                            $("#btn_update_pi").removeClass('spinner spinner-white spinner-right');
+                            $("#btn_update_pi").html('Update');
+                            $("#btn_update_pi").attr('disabled',false);
                         }
-                    })
+                    });
+
                 }else{
                     $.each(pi_validation.errors.all(),function(key,value){
                             // console.log('key:' + key , 'value:' + value);
@@ -812,8 +817,6 @@
                     }
 
             });
-
-
             // end for $(document).ready()
         });
 
