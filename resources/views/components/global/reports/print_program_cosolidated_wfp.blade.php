@@ -144,8 +144,8 @@
                 <?php
                     $a = new \App\Http\Controllers\ReportsController;
                     $wfp_details = \App\Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
-                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_wfp_activity.out_function')
                                             ->join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
                                             ->join('tbl_wfp_activity_per_indicator',function($q){
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_code','=','tbl_wfp_activity.wfp_code');
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_act_id','=','tbl_wfp_activity.id');
@@ -154,9 +154,9 @@
                                             ->groupBy('tbl_wfp_activity_per_indicator.wfp_act_id')
                                             ->where('tbl_wfp.year_id',$row["year_id"])
                                             ->where('ref_budget_line_item.budget_item',$row["budget_item"])
-                                            ->where('ref_function_deliverables.function_class','STRATEGIC FUNCTION')->get()->toArray();
+                                            ->where('ref_function_deliverables.function_class','STRATEGIC FUNCTION')
+                                            ->get()->toArray();
 
-                    // dd($wfp_details);
                  $first_row =1;
 
                 ?>
@@ -187,8 +187,8 @@
                 <?php
 
                     $wfp_details = \App\Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
-                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_wfp_activity.out_function')
                                             ->join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
                                             ->join('tbl_wfp_activity_per_indicator',function($q){
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_code','=','tbl_wfp_activity.wfp_code');
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_act_id','=','tbl_wfp_activity.id');
@@ -197,9 +197,9 @@
                                             ->groupBy('tbl_wfp_activity_per_indicator.wfp_act_id')
                                             ->where('tbl_wfp.year_id',$row["year_id"])
                                             ->where('ref_budget_line_item.budget_item',$row["budget_item"])
-                                            ->where('ref_function_deliverables.function_class','CORE FUNCTION')->get()->toArray();
+                                            ->where('ref_function_deliverables.function_class','CORE FUNCTION')
+                                            ->get()->toArray();
 
-                    // dd($wfp_details);
                     $first_row =1;
 
                 ?>
@@ -230,8 +230,8 @@
                 <?php
                     $a = new \App\Http\Controllers\ReportsController;
                     $wfp_details = \App\Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
-                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_wfp_activity.out_function')
                                             ->join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
+                                            ->join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
                                             ->join('tbl_wfp_activity_per_indicator',function($q){
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_code','=','tbl_wfp_activity.wfp_code');
                                                 $q->on('tbl_wfp_activity_per_indicator.wfp_act_id','=','tbl_wfp_activity.id');
@@ -240,8 +240,8 @@
                                             ->groupBy('tbl_wfp_activity_per_indicator.wfp_act_id')
                                             ->where('tbl_wfp.year_id',$row["year_id"])
                                             ->where('ref_budget_line_item.budget_item',$row["budget_item"])
-                                            ->where('ref_function_deliverables.function_class','SUPPORT FUNCTION')->get()->toArray();
-
+                                            ->where('ref_function_deliverables.function_class','SUPPORT FUNCTION')
+                                            ->get()->toArray();
                   $first_row =1;
 
                 ?>
