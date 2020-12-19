@@ -36,8 +36,8 @@
             <div class="col-12 col-md-8">
                 <div class="row">
                     @if($ppmpApproved)
-                         @if(($ppmpApproved->remarks == "SUBMITTED" || $ppmpApproved->remarks == "APPROVED" || $ppmpApproved->remarks == "FOR REVISION")  && $log->remarks =="APPROVED")
-                            <button   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
+                        @if(($ppmpApproved->remarks == "SUBMITTED" || $ppmpApproved->remarks == "APPROVED" || $ppmpApproved->remarks == "FOR REVISION")  && $log->remarks =="APPROVED")
+                            <button  class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
                                 style="position: relative;right:0;bottom:0;"
                                 data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
                                 onclick="wfp_ppmp_viewer_drawer_open('{{ $wfp_code }}','')">
@@ -119,30 +119,41 @@
                         <?php
                             $total_cost = 0.00;
                         ?>
-                        @forelse ($data["activities"] as $row)
+                        @forelse($data["activities"] as $row)
                             <tr class="wfp_table_row">
                                 @if($log)
                                     @if($log->remarks != "SUBMITTED")
                                     <td scope="row text-center" style="width:130px;">
                                         @if($log->remarks == "FOR REVISION" || $log->remarks == "NOT SUBMITTED")
-                                            <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                            @if(Auth::user()->role->roles =="ADMINISTRATOR")
+                                                <button  id="wfp_comment_act" type="button"
+                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                    style="position: relative;bottom:0px;right:0;"
+                                                    data-toggle="tooltip" title="Comment" data-placement="right" data-original-title="Comment"
+                                                    onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}','{{ $row->twa_id }}')">
+                                                    <i class="flaticon-comment"></i>
+                                                </button>
+                                            @else
+                                                <button  id="wfp_edit_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                        style="position: relative;right:0;bottom:0;"
+                                                        data-toggle="tooltip" title="Edit" data-placement="right" data-original-title="Edit"
+                                                        onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
+                                                    <i class="flaticon-edit"></i>
+                                                </button>
+                                                <button id="wfp_del_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                        style="position: relative;right:0;bottom:0;"
+                                                        data-toggle="tooltip" title="Delete" data-placement="right" data-original-title="Delete"
+                                                        onclick="deleteWfp('{{ $row->twa_id }}')">
+                                                    <i class="flaticon2-trash"></i>
+                                                </button>
+                                                <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                                     style="position: relative;right:0;bottom:0;"
-                                                    data-toggle="tooltip" title="Edit" data-placement="right" data-original-title="Edit"
-                                                    onclick="editWfp('{{ $wfp_code }}','{{ $row->twa_id }}')">
-                                                <i class="flaticon-edit"></i>
-                                            </button>
-                                            <button id="wfp_del_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                                    style="position: relative;right:0;bottom:0;"
-                                                    data-toggle="tooltip" title="Delete" data-placement="right" data-original-title="Delete"
-                                                    onclick="deleteWfp('{{ $row->twa_id }}')">
-                                                <i class="flaticon2-trash"></i>
-                                            </button>
-                                            <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                                style="position: relative;right:0;bottom:0;"
-                                                data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
-                                                onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
-                                            <i class="flaticon-medical"></i>
-                                            </button>
+                                                    data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
+                                                    onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
+                                                <i class="flaticon-medical"></i>
+                                                </button>
+                                            @endif
+
                                         @endif
                                         <?php
                                             $CheckIfHasPi = \App\WfpPerformanceIndicator::where('wfp_code',request()->get('wfp_code'))
@@ -160,17 +171,16 @@
                                                     <i class="flaticon-medical"></i>
                                                     </button>
                                                 @else
-                                                @if($ppmpApproved->remarks == "FOR REVISION")
-                                                    @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
-                                                        <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                                            style="position: relative;right:0;bottom:0;"
-                                                            data-toggle="tooltip" title="Go to PPMP" data-placement="right" data-original-title="PPMP"
-                                                            onclick="gotoPPMP('{{ $wfp_code }}',{{ $row->twa_id }})">
-                                                        <i class="fas fa-shopping-cart"></i>
-                                                        </button>
+                                                    @if($ppmpApproved->remarks == "FOR REVISION")
+                                                        @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
+                                                            <button  id="btn_ppmp" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                                style="position: relative;right:0;bottom:0;"
+                                                                data-toggle="tooltip" title="Go to PPMP" data-placement="right" data-original-title="PPMP"
+                                                                onclick="gotoPPMP('{{ $wfp_code }}',{{ $row->twa_id }})">
+                                                            <i class="fas fa-shopping-cart"></i>
+                                                            </button>
+                                                        @endif
                                                     @endif
-                                                @endif
-
                                                 @endif
                                             @else
                                                 @if(Auth::user()->role->roles == "PROGRAM COORDINATOR" || Auth::user()->role->roles != "ADMINISTRATOR")
@@ -193,6 +203,12 @@
                                                 data-toggle="tooltip" title="Comment" data-placement="right" data-original-title="Comment"
                                                 onclick="showModalComment('{{ $user_id }}','{{ $wfp_code }}','{{ $row->twa_id }}')">
                                                 <i class="flaticon-comment"></i>
+                                            </button>
+                                            <button  id="wfp_showpi_act" class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                style="position: relative;right:0;bottom:0;"
+                                                data-toggle="tooltip" title="Performance Indicator" data-placement="right" data-original-title="Performance Indicator"
+                                                onclick="showWfpActivityModal('{{ $user_id }}','{{ $wfp_code }}',{{ $row->twa_id }})">
+                                            <i class="flaticon-medical"></i>
                                             </button>
                                             @if($ppmpApproved)
                                                 @if($ppmpApproved->remarks == "APPROVED")
@@ -218,12 +234,10 @@
                                 <td>{{ number_format($row->activity_cost, 2, '.', ',') }}</td>
                                 <td>{{ $row->responsible_person }}</td>
                                 <td>{{ $row->name }}</td>
-
                             </tr>
                             <?php
                                 $total_cost = $total_cost +  (float)$row->activity_cost;
                             ?>
-
                         @empty
                             <div class="row"  style="height:100%;width:100%; ">
                                 <div class="col-12 text-center" style="height:100%;width:100%;">

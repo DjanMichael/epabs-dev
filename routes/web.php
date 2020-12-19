@@ -101,6 +101,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/ppmp/status/update/submit','Transaction\PpmpController@updateStatusSubmit')->name('status_update_submit');
     Route::get('/ppmp/status/update/revise','Transaction\PpmpController@updateStatusRevise')->name('status_update_revise');
     Route::get('/product_item/','Transaction\PpmpController@product_item_index')->name('r_product_item');
+    Route::get('/ppmp/program/comment','Transaction\PpmpController@ppmpComment')->name('ppmp_comment');
 
     //WFP STATUS
     Route::get('/wfp/check/status/approve','WfpLogsController@getWfpStatusApproved')->name('check_if_wfp_is_approve');

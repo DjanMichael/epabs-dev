@@ -730,10 +730,44 @@
         </div>
     </div>
 </div>
+<!-- Modal modal_ppmp_comments-->
+<div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_ppmp_comments" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write a comment </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form">
+                            <div class="form-group">
+                                <textarea id="ppmp_comment_data" cols="30" rows="10" class="form-control" placeholder="Write your Comment. . . "></textarea>
+                                <input type="hidden" id="ppmp_comment_wfp_code" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary font-weight-bold" id="btn_save_ppmp_comment">Save Comment </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="float:left">
 
 
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Modal modal_wfp_comments-->
+
+<!-- Modal modal_wfp_act_viewer_pi_ppmp-->
 <div class="modal fade modal-sticky modal-sticky-bottom-center" id="modal_wfp_act_viewer_pi_ppmp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true" style="z-index:1095" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -1406,9 +1440,8 @@
                             document.getElementById('notification_sound').play();
                         }
                     }).then(() =>{
-
                         console.log(e);
-                        // WFP STATUS
+                        // PPMP STATUS
                         if(e.title == "PPMP Submit"){
                             toastr.info(e.desc, "Notification");
                         }else if(e.title == "PPMP Approve"){
@@ -1416,16 +1449,14 @@
                         }else if(e.title == "PPMP Revise"){
                             toastr.warning(e.desc, "Notification");
                         }
-
                         //WFP COMMENT
-                        if(e.title == "Comment"){
+                        if(e.title == "PPMP Comment"){
                             toastr.info(e.desc, "Notification");
                         }
                     })
                     .then((err)=>{
                         return Promise.reject(err);
                 });
-
             });
 
 
@@ -2361,6 +2392,39 @@
                 window.open(_url,'_blank','menubar=0,titlebar=0');
             }
 
+            function ppmpCommentSave(_wfp_code){
+                var _url ="{{ route('ppmp_comment') }}";
+                var _data = {wfp_code:_wfp_code , comment: $("#ppmp_comment_data").val()};
+                $.ajax({
+                    method:"GET",
+                    url:_url,
+                    data: _data,
+                    success:function(data){
+                        if(data=='success'){
+                            $("#modal_ppmp_comments").modal('hide');
+                            Swal.fire(
+                                "Good Job!",
+                                "Comment Successfuly Save!",
+                                "success"
+                            )
+
+                        }
+                    }
+                });
+            }
+            $("#btn_save_ppmp_comment").on('click',function(){
+                ppmpCommentSave($("#ppmp_comment_wfp_code").val());
+            });
+
+            function commentPPMP(_wfp_code){
+                $("#modal_ppmp_comments").modal({
+                    show:true,
+                    backdrop:'static',
+                    focus: true,
+                    keyboard:false
+                });
+                $("#ppmp_comment_wfp_code").val(_wfp_code);
+            }
 
             function approvePPMP(_wfp_code){
                 var _url ="{{ route('status_update_approve') }}";

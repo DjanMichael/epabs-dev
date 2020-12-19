@@ -14,7 +14,7 @@ class CreateProcedureGetPpmpPiItems extends Migration
     public function up()
     {
         DB2::unprepared("DROP PROCEDURE IF EXISTS GET_PPMP_PI_ITEMS;
-                        CREATE PROCEDURE GET_PPMP_PI_ITEMS(twapi_id INT(11),batch_id VARCHAR(11))
+                        CREATE PROCEDURE GET_PPMP_PI_ITEMS(twapi_id INT(11),batch_id VARCHAR(11),_year_id INT(11))
                         IF(batch_id = '') THEN
                                     SELECT
                                             tpi.*,

@@ -283,6 +283,78 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
         </div>
 </div>
 
+@if(count($data["ppmp_comments"]) <> 0)
+<div class="row">
+    <div class="col-12 p-5">
+        <h3 class="display-5"><i class="flaticon-chat text-primary mr-2"></i>Comment Section</h3>
+        <div class="separator separator-dashed separator-border-3"></div>
+    </div>
+</div>
+@endif
+<div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle row" id="comments">
+@forelse($data["ppmp_comments"] as $row)
+  <!--begin::Item-->
+  <div class="card border-top-0 col-12">
+
+    <!--begin::Body-->
+    <div >
+        <div class="card-body text-dark-50 font-size-lg pl-12 ">
+            <?php
+                $comments = \App\PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
+                                            ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
+                                            ->where('wfp_code',$row["wfp_code"])
+                                            ->orderBy('created_at','DESC')
+                                            ->get();
+            ?>
+                @foreach($comments as $row2)
+                <div class="mb-3">
+                    <!--begin::Section-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-50 symbol-light mr-5">
+                            <span class="symbol-label font-size-h1">
+                                 {{ strtoupper(Str::substr(Str::words($row2["name"],2),0,1)) }}
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column flex-grow-1">
+                            <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">{{ $row2["name"] }}</div>
+                            <span class="text-muted font-weight-normal"><i class="
+                                flaticon-time-1 mr-2"></i>{{ Carbon\Carbon::parse($row2["created_at"])->diffForHumans() }}</span>
+                        </div>
+                        <!--end::Text-->
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Desc-->
+                    <p class="text-dark-50 m-0 p-5 font-weight-bold bg-gray-200 rounded-lg mt-1"> {{ $row2["comment"] }}</p>
+                    <!--end::Desc-->
+                </div>
+                    {{-- <div class="row">
+                        <div class="col-3 ">
+                            <div class="symbol symbol-50 ">
+                                <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words($row2["name"],2),0,1)) }}</span>
+                            </div>
+                            asd
+                        </div>
+                        <div class="col-9 ">
+                                {{ $row2["comment"] }} <br><span>{{ Carbon\Carbon::parse($row2["created_at"])->diffForHumans() }}</span>
+                        </div>
+                    </div> --}}
+
+                @endforeach
+            </div>
+
+    </div>
+    <!--end::Body-->
+</div>
+<!--end::Item-->
+
+
+@empty
+
+@endforelse
+</div>
 
 
 
