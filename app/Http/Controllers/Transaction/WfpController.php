@@ -416,7 +416,9 @@ class WfpController extends Controller
                                             $q->where('name','LIKE', '%' . $qry .'%')
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
-                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%')
+                                            ->orWhere('wfp_code','LIKE','%' . $qry .'%')
+                                        )
                                         ->groupBy(['unit_id','year_id','user_id','program_id'])
                                         ->paginate($this->wfp_list_paginate);
                 }else{

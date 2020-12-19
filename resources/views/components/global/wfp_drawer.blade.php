@@ -22,7 +22,7 @@
                 <div class="col-10">
                     <h1>Work and Financial Plan
                      <small class="text-muted font-size-sm ml-2"> YEAR {{ $year != '' ? $year : ''  }}</small></h1>
-                    <h5 class="">{{ $log->remarks  }}</h5>
+                    <h5 class="">{{ Crypt::decryptString($wfp_code) .' - '. $log->remarks  }}</h5>
                 </div>
                 <div class="col-2 text-right">
                     <button class="btn btn-icon btn-light btn-hover-danger btn-sm"
