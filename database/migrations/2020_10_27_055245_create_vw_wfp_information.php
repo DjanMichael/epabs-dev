@@ -15,7 +15,6 @@ class CreateVwWfpInformation extends Migration
     {
        DB2::statement('
         CREATE VIEW vw_wfp_activity_information AS (
-            CREATE VIEW vw_wfp_activity_information AS (
                 SELECT
                     `tw`.`code` AS `code`,
                     `tw`.`unit_id` AS `unit_id`,

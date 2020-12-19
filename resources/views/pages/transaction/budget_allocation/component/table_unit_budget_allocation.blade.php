@@ -91,16 +91,16 @@
             </td>
             <td class="pr-0 text-right">
                 @if($row["conap"] == 0)
-                    <button type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="convertBudgetToConapNextYear('{{ $row["actual_bal"] }}',{{ $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_program_id"] }})">
+                    <button data-toggle="tooltip" title="Convert to CONAP" data-placement="bottom" data-original-title="Convert to CONAP" type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="convertBudgetToConapNextYear('{{ $row["actual_bal"] }}',{{ $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_program_id"] }})">
                         <i class="fas fa-recycle text-primary"></i>
                     </button>
                 @else
-                    <button type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="rollbackBudgetToConapNextYear('{{ $row["conap"] }}',{{  $row["t1_year_id"] }},{{ $row["t1_program_id"] }})">
+                    <button  data-toggle="tooltip" title="Rollback CONAP" data-placement="bottom" data-original-title="Rollback CONAP"  type="button" class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="rollbackBudgetToConapNextYear('{{ $row["conap"] }}',{{  $row["t1_year_id"] }},{{ $row["t1_program_id"] }})">
                         <i class="fas fa-redo text-primary"></i>
                     </button>
                 @endif
                 @if($row["conap"] == 0)
-                    <button type="button" onClick="showAddBudgetModal({{  $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_user_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                    <button data-toggle="tooltip" title="Add Budget" data-placement="bottom" data-original-title="Add Budget" type="button" onClick="showAddBudgetModal({{  $row["t1_unit_id"] }},{{  $row["t1_year_id"] }},{{ $row["t1_user_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                         <span class="svg-icon svg-icon-md svg-icon-primary">
                             <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/General/Settings-1.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -114,7 +114,7 @@
                         </span>
                     </button>
                     @if($hasBudget)
-                        <button type="button" onClick="deleteAllAllocation({{  $row["t1_unit_id"] }},{{ $row["t1_year_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                        <button data-toggle="tooltip" title="Delete All Budget" data-placement="bottom" data-original-title="Delete All Budget" type="button" onClick="deleteAllAllocation({{  $row["t1_unit_id"] }},{{ $row["t1_year_id"] }},{{ $row["t1_program_id"] }})" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/General/Trash.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

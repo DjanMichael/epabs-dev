@@ -8,14 +8,14 @@
                     <span class="card-icon"><i class="@yield('panel-icon') text-primary"></i></span>
                     <h3 class="card-label">@yield('panel-title')</h3>
                 </div>
-                <div class="card-toolbar">awdwad</div>
+                <div class="card-toolbar">No Year Selected</div>
             </div>
             <div class="card-body">
                 <div class="accordion" id="accordionExample1">
                     @forelse ($data['months'] as $key => $value)
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title" style="color: black;" data-toggle="collapse" data-target="#collapse{{ $key }}">
+                                <div class="card-title" style="color: black;" data-toggle="" data-target="#collapse{{ $key }}">
                                     {{ $value }}
                                 </div>
                             </div>

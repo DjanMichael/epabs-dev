@@ -13,7 +13,12 @@ use App\TablePiCateringBatches;
 use App\RefLocation;
 use DB;
 use App\ZWfpLogs;
-use Auth
+use Auth;
+use App\Wfp;
+use App\GlobalSystemSettings;
+use App\Events\NotifyUserPpmpStatus;
+use App\PpmpComments;
+
 class PpmpController extends Controller
 {
     //
@@ -188,22 +193,24 @@ class PpmpController extends Controller
     }
 
     public function getAllPPMPItemList(Request $req){
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         if($req->has('sorted')){
             $i ;
+
             $arr = $req->sorted;
             for($i = 0; $i < count($arr); $i++){
                 $arr[$i] = str_replace('_',' ',$arr[$i]);
             }
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->whereIn('classification',$arr)
-                                            ->where('year_id',$wfp->year_id)
+                                            ->where('year_id',$settings->select_year)
                                             ->paginate($this->paginate_ppmp_item_list);
         }else{
             $data = ProcurementMedSupplies::where('price','!=',0)
                                             ->where(fn($q) =>
                                                 $q->where('description','LIKE','%' . $req->q . '%')
                                             )
-                                            ->where('year_id',$wfp->year_id)
+                                            ->where('year_id',$settings->select_year)
                                             ->paginate($this->paginate_ppmp_item_list);
         }
         //separate product viewing and  ppmp
@@ -217,7 +224,6 @@ class PpmpController extends Controller
 
     public function addPPMPItemsByPI(Request $req){
         if($req->ajax()){
-
 
             if($req->batch == null){
                 $b = PpmpItems::where('wfp_act_per_indicator_id',$req->twapi)
@@ -276,7 +282,7 @@ class PpmpController extends Controller
             // dd($req->all());
             $wfp_act_ids = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             $pi_ids = [];
-            // dd($wfp_act_ids);
+
 
             if(count($wfp_act_ids) > 0){
                 $i =0;
@@ -307,15 +313,19 @@ class PpmpController extends Controller
                                             $q->on($vw . '.item_type','=','tbl_ppmp_items.item_type');
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
                                         })
+                                        ->where('year_id',$wfp->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','=','CATERING SERVICES')
                                         ->get()
                                         ->groupBy('wfp_act_per_indicator_id')
                                         ->toArray();
-
+            // dd($data["ppmp_catering"]);
             $data["wfp_code"] = $req->wfp_code;
+
+            $data["ppmp_comments"] = PpmpComments::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             // $pi_ids = Arr::flatten($pi_ids);
+            // dd($pi_ids);
             // dd($req->wfp_code);
             // dd($data);
             return view('components.global.wfp_ppmp_drawer',['data'=>$data]);
@@ -340,9 +350,10 @@ class PpmpController extends Controller
         // dd($req->all());
         $data =[];
         $data["ppmp_items"] = [];
+        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         if ($req->batch_id != null)
         {
-            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : ''));
+            $data["ppmp_items"] = DB::select('CALL GET_PPMP_PI_ITEMS(?,?,?)' , array($req->pi_id,$req->batch != null ? $req->batch : '', $settings->select_year));
         }
 
         $data["catering_batch"] = TablePiCateringBatches::where('id',$req->batch_id)->first();
@@ -372,13 +383,14 @@ class PpmpController extends Controller
 
     public function updateStatusApprove(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             $a = new ZWfpLogs;
             $a->wfp_code = Crypt::decryptString($req->wfp_code);
             $a->status = 'PPMP';
             $a->remarks = 'APPROVED';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Approve','Your PPMP has been approved','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -387,6 +399,7 @@ class PpmpController extends Controller
 
     public function updateStatusSubmit(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             // dd(Crypt::decryptString($req->wfp_code));
             $a = new ZWfpLogs;
@@ -394,7 +407,7 @@ class PpmpController extends Controller
             $a->status = 'PPMP';
             $a->remarks = 'SUBMITTED';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Submit','Your PPMP has been submitted','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -403,13 +416,14 @@ class PpmpController extends Controller
 
     public function updateStatusRevise(Request $req){
         if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
             $res;
             $a = new ZWfpLogs;
             $a->wfp_code = Crypt::decryptString($req->wfp_code);
             $a->status = 'PPMP';
             $a->remarks = 'FOR REVISION';
             $res = $a->save() ? true : false;
-
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Revise','Your PPMP is subject for revision','PPMP Update'))->toOthers();
             return $res;
         }else{
             abort(403);
@@ -418,5 +432,28 @@ class PpmpController extends Controller
     public function activityTimeFrameConvertToMonths($i){
         $month = ["January","Febuary","March","April","May","June","July","August","September","October","November","December"];
         return $month[$i-1];
+    }
+
+    public function ppmpComment(Request $req){
+        if($req->ajax()){
+            $wfp = Wfp::where('code',Crypt::decryptString($req->wfp_code))->first();
+            $res;
+            $a = new ZWfpLogs;
+            $a->wfp_code = Crypt::decryptString($req->wfp_code);
+            $a->status = 'PPMP';
+            $a->remarks = 'FOR REVISION';
+            $res = $a->save() ? 'success' : 'failed';
+
+            $b = new PpmpComments;
+            $b->wfp_code = Crypt::decryptString($req->wfp_code);
+            $b->user_id = Auth::user()->id;
+            $b->comment = $req->comment;
+            $b->save();
+
+            broadcast(new NotifyUserPpmpStatus($wfp,'PPMP Comment','','PPMP Comment'))->toOthers();
+            return $res;
+        }else{
+            abort(403);
+        }
     }
 }

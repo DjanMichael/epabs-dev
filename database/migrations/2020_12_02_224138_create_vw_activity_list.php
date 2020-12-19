@@ -35,6 +35,7 @@ class CreateVwActivityList extends Migration
                     twapi.performance_indicator,
                     twapi.is_catering,
                     twapi.batch,
+                    tpcb.pi_id,
                     tpcb.batch_no,
                     tpcb.batch_location,
                     rl.city,

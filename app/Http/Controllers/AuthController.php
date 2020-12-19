@@ -131,7 +131,6 @@ class AuthController extends Controller
             //     return response()->json(['message'=>'Program Manager is already registered']);
             // }
 
-
             try {
                 DB::beginTransaction();
 
@@ -139,15 +138,15 @@ class AuthController extends Controller
                 $data['name']    = $req->name;
                 $data['username'] = $req->username;
                 $data['password'] = bcrypt($req->password);
-                $data['role_id'] = '3';
+                $data['role_id'] = $req->role_id;
 
                 $user = User::create($data);
 
                 $data2["user_id"] = $user->id;
                 $data2["unit_id"] = $req->unit_id;
-                $data2["contact"] ='';
+                $data2["contact"] = $req->contactno;
                 $data2["pic"] = '';
-                $data2["designation"] = '';
+                $data2["designation"] = $req->designation;
 
                 UserProfile::create($data2);
                 // $c = UserProfile::where('unit_id',$req->unit_id)->first();

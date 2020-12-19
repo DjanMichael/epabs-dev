@@ -15,10 +15,13 @@
         <td class="text-right">
             <span class="label label-lg label-light-primary label-inline">{{ $row->wfp_status != '' ? strtoupper($row->wfp_status) : 'NOT FOUND' }}</span>
         </td>
+        <td class="text-right">
+            <span class="label label-lg label-light-primary label-inline">{{ $row->ppmp_status != '' ? strtoupper($row->ppmp_status) : 'NOT FOUND' }}</span>
+        </td>
     </tr>
 @empty
 <tr>
-    <td colspan="4" class="text-center"> NO WFP FOUND</td>
+    <td colspan="4" class="text-center"> NO STATUS FOUND</td>
 </tr>
 @endforelse
 

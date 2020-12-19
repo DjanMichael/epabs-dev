@@ -27,7 +27,7 @@ return [
             'name' => env('APP_NAME'),
             'key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
-            'path' => env('PUSHER_APP_PATH'),
+            // 'path' => env('PUSHER_APP_PATH'),
             'capacity' => null,
             'enable_client_messages' => true,
             'enable_statistics' => true,
@@ -54,7 +54,7 @@ return [
     /*
      * The maximum request size in kilobytes that is allowed for an incoming WebSocket request.
      */
-    'max_request_size_in_kb' => 250,
+    'max_request_size_in_kb' => 500,
 
     /*
      * This path will be used to register the necessary routes for the package.
@@ -104,7 +104,7 @@ return [
          * Use an DNS resolver to make the requests to the statistics logger
          * default is to resolve everything to 127.0.0.1.
          */
-        'perform_dns_lookup' => env("APP_URL"),
+        'perform_dns_lookup' => '1.1.1.1',
     ],
 
     /*

@@ -89,7 +89,11 @@ class WfpController extends Controller
     public function getOutputFunctions()
     {
         $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
-        $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
+        $t = "tbl_activity_output_function";
+        $res = RefActivityOutputFunctions::join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
+                                            ->select($t .'.id',$t .'.description','ref_function_deliverables.function_class')
+                                            ->where('user_id' , $this->auth_user_id)
+                                            ->where('program_id',$settings->select_program_id)->paginate($this->pi_table_paginate);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
@@ -97,32 +101,44 @@ class WfpController extends Controller
     {
         $settings = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
         $q = $req->q;
-
+        $t = "tbl_activity_output_function";
         if($q !=''){
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
+            $res = RefActivityOutputFunctions::join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
+                                            ->select($t .'.id',$t .'.description','ref_function_deliverables.function_class')
+                                            ->where('user_id', $this->auth_user_id)
                                             ->where('program_id',$settings->select_program_id)
-                                            ->where(fn($query) => $query->where('function_description' ,'LIKE', '%'. $q .'%'))
+                                            ->where(fn($query) => $query->where('description' ,'LIKE', '%'. $q .'%'))
                                             ->paginate($this->pi_table_paginate);
         }else{
-            $res = RefActivityOutputFunctions::where('user_id', $this->auth_user_id)
+            $res = RefActivityOutputFunctions::join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
+                                            ->select($t .'.id',$t .'.description','ref_function_deliverables.function_class')
+                                            ->where('user_id', $this->auth_user_id)
                                             ->where('program_id',$settings->select_program_id)
                                             ->paginate($this->pi_table_paginate);
         }
+        // dd($res);
         return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
     }
 
     public function getOutputFunctionByPage(Request $req){
         if($req->ajax())
         {
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            $t = "tbl_activity_output_function";
             if ($req->q !=''){
-                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
-                                                ->where('function_description','LIKE', '%' . $req->q . '%')
+                $res = RefActivityOutputFunctions::join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
+                                                ->select($t .'.id',$t .'.description','ref_function_deliverables.function_class')
+                                                ->where('user_id' , $this->auth_user_id)
+                                                ->where('description','LIKE', '%' . $req->q . '%')
                                                 ->paginate($this->pi_table_paginate);
             }else{
-                $res = RefActivityOutputFunctions::where('user_id' , $this->auth_user_id)
+                $res = RefActivityOutputFunctions::join('ref_function_deliverables','ref_function_deliverables.id','tbl_activity_output_function.output_function_id')
+                                                ->select($t .'.id',$t .'.description','ref_function_deliverables.function_class')
+                                                ->where('user_id' , $this->auth_user_id)
                                                 ->where('program_id',$settings->select_program_id)
                                                 ->paginate($this->pi_table_paginate);
             }
+            // dd($res);
             return view('pages.transaction.wfp.table.output_functions',['output_functions'=> $res]);
         }
     }
@@ -389,8 +405,10 @@ class WfpController extends Controller
         $settings = GlobalSystemSettings::where('user_id',$user_id)->first();
         $user_role = (Auth::user()->role)->roles;
         if($settings){
+            // dd($user_id);
             if($req->q != null){
                 if($user_role != "PROGRAM COORDINATOR"){
+
                     $qry = $req->q;
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
@@ -398,7 +416,9 @@ class WfpController extends Controller
                                             $q->where('name','LIKE', '%' . $qry .'%')
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
-                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%')
+                                            ->orWhere('wfp_code',)
+                                        )
                                         ->groupBy(['unit_id','year_id','user_id','program_id'])
                                         ->paginate($this->wfp_list_paginate);
                 }else{

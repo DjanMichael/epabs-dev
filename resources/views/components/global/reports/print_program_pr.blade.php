@@ -108,7 +108,7 @@
    <table style="border :1px solid black;width:100%;margin:0px;padding-left:0px;">
         <tr>
             <td style="height:10px;text-align:center;" colspan="5">
-                    <span style="font-weight:bold;margin-top:2px">PURCHASE REQUEST</span><br>
+                    <span style="font-weight:bold;margin-top:2px">PURCHASE REQUEST  #{{ $data["pr"]->pr_code }}</span><br>
                     <span>DOH-REGIONAL OFFICE XIII</span><br>
                     <span><i>AGENCY</i></span>
             </td>
@@ -182,14 +182,18 @@
     </tr>
     <?php
         //limit row
-        $row_limit = 57;
+        $row_limit = 56;
         $total =0;
         $row_count = 0;
+        //skip adding rows
+        $skip=1;
     ?>
     <?php
     foreach($data["pr_details"] as $key => $value){
         $row_limit -= 1;
         // $row = $data["pr_details"][$i-1];
+        // dd(collect($value)->groupBy('item_id','item_type'));
+        $value = collect($value)->groupBy('item_id','item_type');
     ?>
     <tr>
         <td class="t-h-d txt-center"></td>
@@ -199,47 +203,58 @@
         <td class="t-h-d txt-center"></td>
         <td class="t-h-d txt-center"></td>
     </tr>
-        @foreach( $value as $row)
+        @foreach($value as $key2 => $val)
+
         <?php
+            // dd(collect($row)->sum('item_qty'));
+            $row = $val;
             $row_limit -= 1;
             $row_count++;
-            $total += $row["item_qty"] * $row["item_price"];
+            $total +=collect($row)->sum('item_qty') * collect($row)->sum('item_price');
+            // dd(collect($row));
+            // dd((collect($row)->first())["item_description"]);
 
         ?>
         <tr>
             <td class="t-h-d txt-center" style="font-weight:normal;"></td>
-            <td class="t-h-d txt-center" style="font-weight:normal;">{{ $row["item_unit"] }}</td>
-            <td class="t-h-d" style="font-weight:normal;">{{ $row["item_description"] }}</td>
-            <td class="t-h-d txt-center" style="font-weight:normal;">{{ number_format($row["item_qty"]) }}</td>
-            <td class="t-h-d " style="font-weight:normal;text-align:right;">{{ number_format($row["item_price"],2) }}</td>
-            <td class="t-h-d " style="font-weight:normal;text-align:right;">{{ number_format($row["item_qty"] * $row["item_price"],2) }}</td>
+            <td class="t-h-d txt-center" style="font-weight:normal;">{{ (collect($row)->first())["item_unit"] }}</td>
+            <td class="t-h-d" style="font-weight:normal;">{{ (collect($row)->first())["item_description"]}}</td>
+            <td class="t-h-d txt-center" style="font-weight:normal;">{{ number_format(collect($row)->sum('item_qty')) }}</td>
+            <td class="t-h-d " style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format(collect($row)->sum('item_price'),2) }}</td>
+            <td class="t-h-d " style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format(collect($row)->sum('item_qty') * collect($row)->sum('item_price'),2) }}</td>
         </tr>
+
         @endforeach
     <?php
     }
-    //add extra rows
-    for($i=0;$i<=$row_limit;$i++){
     ?>
 
-    @if(($i + $row_count + count($data["pr_details"])) == 57){
-        <tr>
-            <td class="t-h-d" colspan="5">Total</td>
-            <td class="t-h-d">{{ number_format($total ,2) }}</td>
-        </tr>
+    @if($skip == 0){
+        {{-- //add extra rows --}}
+        @for($i=0;$i<=$row_limit;$i++){
+
+            @if(($i + $row_count + count($data["pr_details"])) == 56){
+                <tr>
+                    <td class="t-h-d" colspan="5">Total</td>
+                    <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
+                </tr>
+            @else
+                <tr>
+                <td class="t-h-d txt-center"></td>
+                        <td class="t-h-d txt-center"></td>
+                        <td class="t-h-d"></td>
+                        <td class="t-h-d txt-center"></td>
+                        <td class="t-h-d txt-center"></td>
+                        <td class="t-h-d txt-center"></td>
+                    </tr>
+            @endif
+        @endfor
     @else
         <tr>
-        <td class="t-h-d txt-center"></td>
-                <td class="t-h-d txt-center"></td>
-                <td class="t-h-d"></td>
-                <td class="t-h-d txt-center"></td>
-                <td class="t-h-d txt-center"></td>
-                <td class="t-h-d txt-center"></td>
-            </tr>
+            <td class="t-h-d" colspan="5">Total</td>
+            <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
+        </tr>
     @endif
-
-    <?php
-    }
-    ?>
 
 
 </table>

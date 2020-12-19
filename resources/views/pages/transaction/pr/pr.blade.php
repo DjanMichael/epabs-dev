@@ -78,7 +78,7 @@
                                 You may change your <b>YEAR</b> thru  <br>
                                 Global Settings located on settings  <br>
                             </p>
-                            <button type="button" id="btn_create_pr" class="btn btn-danger font-weight-bold px-6 py-3">Create Report</a>
+                            <button type="button" id="btn_create_pr" class="btn btn-danger font-weight-bold px-6 py-3">Create Purchase Request</a>
                         </div>
                     </div>
                     <!--end::Body-->
@@ -317,7 +317,7 @@
             KTApp.block('#kt_body', {
                 overlayColor: '#000000',
                 state: 'primary',
-                message: '<i class="fas fa-file-alt mr-2 text-primary"></i>Creating Purchase Order'
+                message: '<i class="fas fa-file-alt mr-2 text-primary"></i>Creating Purchase Request'
             });
 
             setTimeout(() => {

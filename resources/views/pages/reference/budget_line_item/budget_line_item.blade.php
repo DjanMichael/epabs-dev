@@ -77,7 +77,7 @@
                         $('#budget_item_id').val(id);
                         $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
                         $("#year option:contains(" + year +")").attr("selected", true);
-                        $('#amount').val(amount.replace(",", ""));
+                        $('#amount').val(amount.replace(/,/g,''));
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
                     $('.div_status').css("display", (id == null) ? 'none' : '');

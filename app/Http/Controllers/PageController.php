@@ -12,6 +12,7 @@ use App\TableSystemEvents;
 use DB;
 use App\Views\ProgramsWfpStatus;
 use Illuminate\Support\Collection;
+use App\RefYear;
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -25,35 +26,60 @@ class PageController extends Controller
         return view('pages.system-menu');
     }
 
+    public function getStatusData(Request $req){
+        if($req->ajax()){
+            $data = [];
+            $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+            if($program){
+                $data["programs_count"] = BudgetAllocationUtilization::where('year_id',$program->select_year)->get()->groupBy('program_id')->count();
+
+                $data["wfp"]["wfp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
+                $data["wfp"]["wfp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
+                $data["wfp"]["wfp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
+                $data["wfp"]["wfp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
+
+                $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
+                $data["ppmp"]["ppmp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
+                $data["ppmp"]["ppmp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
+                $data["ppmp"]["ppmp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
+            }else{
+
+                $data["wfp"]["wfp_not_submitted"] = null;
+                $data["wfp"]["wfp_submitted"] = null;
+                $data["wfp"]["wfp_approved"] = null;
+                $data["wfp"]["wfp_revision"] = null;
+                $data["ppmp"]["ppmp_not_submitted"] = null;
+                $data["ppmp"]["ppmp_submitted"] = null;
+                $data["ppmp"]["ppmp_approved"] = null;
+                $data["ppmp"]["ppmp_revision"] = null;
+            }
+            return $data;
+        }else{
+            abort(403);
+        }
+    }
     public function dashboard(Request $req){
         $data =[];
         $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
 
+
         if($program){
+            $data["year"] = RefYear::where('id',$program->select_year)->first();
             $data["user_info"] = UserInfo::where('program_id', $program->select_program_id)
                                         ->where('year_id',$program->select_year)
                                         ->groupBy('program_id')
                                         ->get()->toArray();
             $data["budget_allocation"] = BudgetAllocationUtilization::where('program_id', $program->select_program_id)
-                                                ->where('year_id',$program->select_year)
-                                                ->groupBy('program_id','budget_line_item_id')
-                                                ->get()->toArray();
-
-            $data["wfp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
-            $data["wfp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
-            $data["wfp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
-            $data["wfp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
-
-
+                                                                    ->where('year_id',$program->select_year)
+                                                                    ->groupBy('program_id','budget_line_item_id')
+                                                                    ->get()->toArray();
 
         }else{
+            $data["year"] = null;
             $data["user_info"] = null;
             $data["budget_allocation"] = null;
-            $data["wfp_not_submitted"] = null;
-            $data["wfp_submitted"] = null;
-            $data["wfp_approved"] = null;
-            $data["wfp_revision"] = null;
         }
+
         // dd($req->isMobile);
         if($req->isMobile != null){
             broadcast(new LoginAuthenticationLog('Authentication',$req->isMobile))->toOthers();
@@ -74,7 +100,8 @@ class PageController extends Controller
                                                                     $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
                                                                     ->orWhere('program' , 'LIKE','%' . $req->q . '%')
                                                                 )
-                                                                ->where('wfp_status',$req->status)
+                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
                 }else if($req->q != '' || $req->q != null){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
@@ -85,7 +112,8 @@ class PageController extends Controller
                                                                 ->paginate($this->pagination_user_wfp_status);
                 }else if($req->status != 'ALL'){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                                ->where('wfp_status',$req->status)
+                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
 
                 }else{
@@ -95,7 +123,7 @@ class PageController extends Controller
             }else{
                 $data["wfp_user_list"] =null;
             }
-
+            // dd($data);
             return view('components.global.wfp_program_status_list',['data'=>$data]);
         }else{
             abort(403);

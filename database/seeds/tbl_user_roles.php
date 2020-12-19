@@ -16,5 +16,7 @@ class tbl_user_roles extends Seeder
         UserRoles::create(['role_id'=>'1','roles'=>'PLANNING']);
         UserRoles::create(['role_id'=>'2','roles'=>'BUDGET']);
         UserRoles::create(['role_id'=>'3','roles'=>'PROGRAM COORDINATOR']);
+        UserRoles::create(['role_id'=>'4','roles'=>'PROCUREMENT']);
+        UserRoles::create(['role_id'=>'5','roles'=>'PHARMACY']);
     }
 }

@@ -192,13 +192,14 @@
                 <?php
                     // $i =1;
                     $f_a = 0;
-
                 ?>
                 @foreach($data["app_category"] as $row)
                 <?php
                     $inventory = \App\Views\ReportAppDetails::where('classification',$row["classification"])
                                                             ->where('year_id',$data["static"]["year_id"])
+                                                            ->groupBy('id','item_type')
                                                             ->get()->toArray();
+
                     $i=1;
                 ?>
                 <tr>
@@ -208,12 +209,13 @@
                         <tr>
                             <td style="width:10px;text-align:center">{{ $i }}</td>
                             <td colspan="2" style="width:230px">{{ $row2["description"] }}</td>
+                            {{-- <td colspan="2" style="width:230px">{{ print_r($row2) }}</td> --}}
                             <td style="text-align:center;">{{ $row2["unit_name"] }}</td>
                             <td style="text-align:center;">{{ $row2["jan"] }}</td>
                             <td style="text-align:center;">{{ $row2["feb"] }}</td>
                             <td style="text-align:center;">{{ $row2["mar"] }}</td>
                             <td style="text-align:center;">{{ $row2["q1"] }}</td>
-                            <td style="font-family: DejaVu Sans !important;">&#8369; {{ number_format($row2["price"],2) }}</td>
+                            <td style="font-family: DejaVu Sans !important;text-align:right;">&#8369; {{ number_format($row2["price"],2) }}</td>
                             <td style="text-align:center;">{{ $row2["apr"] }}</td>
                             <td style="text-align:center;">{{ $row2["may"] }}</td>
                             <td style="text-align:center;">{{ $row2["june"] }}</td>
@@ -271,8 +273,6 @@
                 @endforeach
             </table>
         @endif
-
-
         <table style="width:100%;border:1px solid black">
             <tr>
                 <td class="t-h-d2" colspan="4" style="width:250px;"> A. TOTAL</td>

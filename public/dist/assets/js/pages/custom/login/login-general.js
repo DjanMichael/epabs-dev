@@ -121,7 +121,21 @@ var KTLogin = function() {
 								message: 'The value is not a valid email address'
 							}
 						}
-					},
+                    },
+                    contactno:{
+                        validators: {
+							notEmpty: {
+								message: 'Contact No is required'
+							}
+						}
+                    },
+                    designation:{
+                        validators: {
+							notEmpty: {
+								message: 'Designation is required'
+							}
+						}
+                    },
 					select_division: {
 						validators:{
 							notEmpty: {

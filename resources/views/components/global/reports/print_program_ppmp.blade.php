@@ -10,7 +10,7 @@
   <style>
            /* margin : top right bottom left */
         @page {
-            margin: 90px 30px 120px 30px;
+            margin: 90px 30px 250px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -73,8 +73,8 @@
 
         }
         .footer {
-            position: fixed;
-                bottom: -60px;
+                position: fixed;
+                bottom: -180px;
                 left: 0px;
                 right: 0px;
                 height: 180px;
@@ -296,11 +296,23 @@
                 <tr>
                     <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="t-d">{{ $row }}</td>
                 </tr>
+                <?php $first_row =0; $suppliesCount=0;?>
+
+
+                @foreach($item_row as $row1)
+                @if($row == $row1["classification"])
+                    <?php $suppliesCount += 1; ?>
+
+                @endif
+                @endforeach
+
                 @foreach($item_row as $row1)
                         @if($row == $row1["classification"])
-                        <?php $g_total += $row1["total_price"]; ?>
+                        <?php $g_total += $row1["total_price"]; $first_row +=1;?>
                             <tr>
-                                <td style="border:1px solid black;padding:3px;"  class="t-d txt-center">{{ $row1["uacs_id"] }}</td>
+                                @if ($first_row == 1)
+                                    <td style="border:1px solid black;padding:3px;"  class="t-d txt-center" rowspan="{{ $suppliesCount }}" >{{ $row1["uacs_id"] }}</td>
+                                @endif
                                 <td style="border:1px solid black;padding:3px;" class="t-d">{{   $row1["g_desc"]  }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["jan"] }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["feb"] }}</td>
@@ -326,15 +338,12 @@
             <tr>
                 <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="t-h-d">CATERING SERVICES</td>
             </tr>
-            <?php $pi_ids= [] ?>
             @foreach($data["ppmp_catering"] as $key => $row)
             <?php
-
-                array_push($pi_ids,$key);
                 $t = "tbl_wfp_activity_per_indicator";
                 $batch = \App\TablePiCateringBatches::join('ref_location','ref_location.id','tbl_pi_catering_batches.batch_location')
                                                     ->join($t,$t .'.id','tbl_pi_catering_batches.pi_id')
-                                                    ->where('pi_id',collect($pi_ids)->flatten()->toArray())
+                                                    ->where('pi_id',$key)
                                                     ->select('pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
                                                     ->get()->toArray();
             ?>
@@ -359,39 +368,40 @@
                             {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
                         </td>
                     </tr>
-                        <tr>
-                            <?php $i1 =1; ?>
-                            @foreach( $items as $row4)
-                                <?php $i1++; ?>
-                            @endforeach
-                            @if(count($items) <> 0)
-                                <td rowspan="1" class="t-d txt-center">{{ $row3["uacs_id"] }}</td>
-                            @else
-                                <td rowspan="1" colspan="17" class="t-d"> NO DATA. </td>
-                            @endif
-                            @foreach( $items as $row4)
-                                    <?php
-                                    $qty2 = $row4->jan + $row4->feb + $row4->mar + $row4->apr + $row4->may + $row4->june + $row4->july + $row4->aug + $row4->sept + $row4->oct + $row4->nov + $row4->dec;
-                                        $g_total += $qty2 * $row4->price;
-                                    ?>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d">{{ $row4->description . ', ' . $row4->unit_name}}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->jan }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->feb }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->mar }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->apr }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->may }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->june }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->july }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->aug }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->sept }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->oct }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->nov }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row4->dec }}</td>
-                                    <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $qty2 }}</td>
-                                    <td class="t-d" style="font-family: DejaVu Sans !important">&#8369;  {{ number_format($row4->price,2)  }}</td>
-                                    <td class="t-d" style="font-family: DejaVu Sans !important">&#8369; {{ number_format($qty2 * $row4->price,2) }}</td>
-                            @endforeach
-                    </tr>
+                        @if(count($items) ==  0)
+                            <td rowspan="1" colspan="17" class="t-d"> NO DATA. </td>
+                        @endif
+                        <?php
+                        $first_row=0;
+                        ?>
+                        @foreach( $items as $row4)
+                                <?php
+                                $qty2 = $row4->jan + $row4->feb + $row4->mar + $row4->apr + $row4->may + $row4->june + $row4->july + $row4->aug + $row4->sept + $row4->oct + $row4->nov + $row4->dec;
+                                    $g_total += $qty2 * $row4->price;
+                                    $first_row += 1;
+                                ?>
+                                <tr>
+                                @if ($first_row == 1)
+                                    <td  rowspan="{{ count($items) }}" class="t-d txt-center">{{ $row3["uacs_id"] }}</td>
+                                @endif
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d">{{ $row4->description . ', ' . $row4->unit_name}}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->jan }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->feb }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->mar }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->apr }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->may }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->june }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->july }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->aug }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->sept }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->oct }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->nov }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->dec }}</td>
+                                <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $qty2 }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369;  {{ number_format($row4->price,2)  }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369; {{ number_format($qty2 * $row4->price,2) }}</td>
+                                </tr>
+                        @endforeach
                 @endforeach
             @endforeach
         @endif
