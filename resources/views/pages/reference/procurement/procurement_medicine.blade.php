@@ -5,6 +5,9 @@
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
+        <a class="text-muted">System Reference</a>
+    </li>
+    <li class="breadcrumb-item">
         <a class="text-muted">Procurement Medicines</a>
     </li>
 @endsection
@@ -85,6 +88,7 @@
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 // alert(id);
+                // alert($('#'+id).children('td[data-target=description]').text());
                 var description = $('#'+id).children('td[data-target=description]').text();
                 // alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
@@ -230,7 +234,7 @@
                 }).done(function(data) {
                     document.getElementById('inner_modal_content').innerHTML= data;
                     $('#procurement_item_price_id').val(id);
-                    $('#change_item_price').val(price);
+                    $('#change_item_price').val(price.replace(/,/g,''));
                     $('#change_effective_date').val(effective_date);
                     $('#inner_modal_reference').modal('toggle');
                 });
@@ -271,7 +275,7 @@
                             }
                             else if (result['type'] == 'update') {
                                 $('#inner_modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=price]').html(price_data.price);
+                                $('#'+id).children('td[data-target=price]').html(ReplaceNumberWithCommas(price_data.price));
                                 $('#'+id).children('td[data-target=effective_date]').html(price_data.effective_date);
                                 toastr.success(result['message']);
                             }
