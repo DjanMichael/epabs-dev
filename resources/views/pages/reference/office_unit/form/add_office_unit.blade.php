@@ -6,7 +6,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-map"></i></span></div>
                 <input type="hidden" class="form-control" id="office_unit_id"/>
-                <input type="text" class="form-control" id="division"/>
+                <input type="text" class="form-control" id="division" autocomplete="off"/>
             </div>
         </div>
 
@@ -14,7 +14,7 @@
             <label>Section<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-network"></i></span></div>
-                <input type="text" class="form-control" id="section"/>
+                <input type="text" class="form-control" id="section" autocomplete="off"/>
             </div>
         </div>
 

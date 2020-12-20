@@ -6,7 +6,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-interface-7"></i></span></div>
                 <input type="hidden" class="form-control" id="function_deliverables_id"/>
-                <input type="text" class="form-control" id="sequence"/>
+                <input type="text" class="form-control" id="sequence" autocomplete="off"/>
             </div>
         </div>
 
@@ -14,7 +14,7 @@
             <label>Functon Class<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-list-2"></i></span></div>
-                 <input type="text" class="form-control" id="function_class"/>
+                 <input type="text" class="form-control" id="function_class" autocomplete="off"/>
             </div>
         </div>
 

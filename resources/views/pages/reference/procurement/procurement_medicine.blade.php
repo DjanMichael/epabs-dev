@@ -107,11 +107,11 @@
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
                         $("#item_category option:contains(" + category +")").attr("selected", true);
                         $('.price-details').css('display', 'none');
-                        $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
+                        // $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
                     else {
-                        $('#chk_fix_price').prop('checked', true).trigger('click');
+                        // $('#chk_fix_price').prop('checked', true).trigger('click');
                         $('#chk_status').prop('checked', true).trigger('click');
                     }
                     $('.div_status').css("display", (id == null) ? 'none' : '');
@@ -128,7 +128,8 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#procurement_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                var fix_price = $("#chk_fix_price").val();
+                var fix_price = "N";
+                // var fix_price = $("#chk_fix_price").val();
                 data.description = $("#item_description").val();
                 data.unit = $("#item_unit").val();
                 data.classification = $("#item_classification").val();
