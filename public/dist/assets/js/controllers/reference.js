@@ -11,6 +11,16 @@
 //     }
 // });
 
+
+function ReplaceNumberWithCommas(num) {
+    //Seperates the components of the number
+    var n= num.toString().split(".");
+    //Comma-fies the first part
+    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //Combines the two sections
+    return n.join(".");
+}
+
 // Switch Checkbox Value
 function switchChangeValue(ob, firstValue, secondValue){
     var el = document.getElementById(ob);

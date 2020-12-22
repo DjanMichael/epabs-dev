@@ -162,6 +162,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
+    Route::get('/activity-list','Transaction\ActivityCalendarController@getList')->name('d_get_activity_list');
 
     /*
     |--------------------------------------------------------------------------

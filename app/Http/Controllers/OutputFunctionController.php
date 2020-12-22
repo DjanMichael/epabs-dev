@@ -80,7 +80,8 @@ class OutputFunctionController extends Controller
                 $check->update(['output_function_id' => $request->function_deliverables_id,
                                 'description' => $request->description,
                                 'user_id' => Auth::user()->id,
-                                'program_id' => $request->program_id]);
+                                'program_id' => $request->program_id,
+                                'status' => $request->status]);
                 return response()->json(['message'=>'Successfully updated data','type'=>'update']);
             }
             else if (empty($check)) {
@@ -88,7 +89,8 @@ class OutputFunctionController extends Controller
                     'output_function_id' => $request->function_deliverables_id,
                     'description'        => $request->description,
                     'user_id'            => Auth::user()->id,
-                    'program_id'         => $request->program_id
+                    'program_id'         => $request->program_id,
+                    'status'             => $request->status
                 ];
                 OutputFunction::create($output_function);
                 return response()->json(['message'=>'Successfully saved data','type'=>'insert']);

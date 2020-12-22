@@ -5,6 +5,9 @@
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
+        <a class="text-muted">System Reference</a>
+    </li>
+    <li class="breadcrumb-item">
         <a class="text-muted">Budget Line Item</a>
     </li>
 @endsection
@@ -131,7 +134,7 @@
                                 $('#modal_reference').modal('toggle');
                                 $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
                                 $('#'+id).children('td[data-target=year]').html(year);
-                                $('#'+id).children('td[data-target=amount]').html(data.amount);
+                                $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
                                 $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }

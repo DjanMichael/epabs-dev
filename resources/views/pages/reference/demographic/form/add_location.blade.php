@@ -6,7 +6,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-placeholder-3"></i></span></div>
                 <input type="hidden" class="form-control" id="location_id"/>
-                <input type="text" class="form-control" id="region"/>
+                <input type="text" class="form-control" id="region" autocomplete="off"/>
             </div>
         </div>
 
@@ -14,7 +14,7 @@
             <label>Province<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-map"></i></span></div>
-                <input type="text" class="form-control" id="province"/>
+                <input type="text" class="form-control" id="province" autocomplete="off"/>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <label>City/Municipality<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-location"></i></span></div>
-               <input type="text" class="form-control" id="city"/>
+               <input type="text" class="form-control" id="city" autocomplete="off"/>
             </div>
         </div>
 

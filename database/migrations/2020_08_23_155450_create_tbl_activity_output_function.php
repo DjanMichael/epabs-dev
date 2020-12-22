@@ -20,6 +20,7 @@ class CreateTblActivityOutputFunction extends Migration
             $table->string('description');
             $table->integer('user_id');
             $table->integer('program_id');
+            $table->enum('status',['ACTIVE','INACTIVE']);
             // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
