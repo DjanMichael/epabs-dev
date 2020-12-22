@@ -13,6 +13,7 @@ use DB;
 use App\RefUnits;
 use App\UserProfile;
 use App\UserRoles;
+use App\GlobalSystemSettings;
 use Cache;
 class AuthController extends Controller
 {
@@ -157,7 +158,9 @@ class AuthController extends Controller
                 //     UserProfile::create($data2);
                 // }
 
-
+                $g = new GlobalSystemSettings;
+                $g->user_id = $user->id;
+                $g->save();
 
                 DB::commit();
                 $ACCESS_TOKEN = $user->createToken( env('APP_NAME') .' Personal Access Client')->accessToken;

@@ -26,18 +26,21 @@ class GlobalSettingsController extends Controller
                 return response()->json(['message'=>'error']);
            }
         }else{
-            //insert
-            $a = new GlobalSystemSettings;
-            $a->user_id = Auth::user()->id;
-            $a->select_year = $req->id;
-           if($a->save())
-           {
-                $data = RefYear::where('id',$req->id)->first();
-                return response()->json(['message'=>'success','type'=>'insert','data'=> $data]);
-           }else{
-                return response()->json(['message'=>'error']);
-           }
+            return response()->json(['message'=>'error']);
         }
+        // else{
+        //     //insert
+        //     $a = new GlobalSystemSettings;
+        //     $a->user_id = Auth::user()->id;
+        //     $a->select_year = $req->id;
+        //    if($a->save())
+        //    {
+        //         $data = RefYear::where('id',$req->id)->first();
+        //         return response()->json(['message'=>'success','type'=>'insert','data'=> $data]);
+        //    }else{
+        //         return response()->json(['message'=>'error']);
+        //    }
+        // }
     }
 
     public function getUserYear(){
@@ -78,16 +81,19 @@ class GlobalSettingsController extends Controller
                  return response()->json(['message'=>'error']);
             }
         }else{
-            $a = new GlobalSystemSettings;
-            $a->user_id = Auth::user()->id;
-            $a->select_program_id = $req->id;
-           if($a->save())
-           {
-                $data = RefProgram::where('id',$req->id)->first();
-                return response()->json(['message'=>'success','type'=>'insert','data'=> $data]);
-           }else{
-                return response()->json(['message'=>'error']);
-           }
+            return response()->json(['message'=>'error']);
         }
+        // else{
+        //     $a = new GlobalSystemSettings;
+        //     $a->user_id = Auth::user()->id;
+        //     $a->select_program_id = $req->id;
+        //    if($a->save())
+        //    {
+        //         $data = RefProgram::where('id',$req->id)->first();
+        //         return response()->json(['message'=>'success','type'=>'insert','data'=> $data]);
+        //    }else{
+        //         return response()->json(['message'=>'error']);
+        //    }
+        // }
     }
 }
