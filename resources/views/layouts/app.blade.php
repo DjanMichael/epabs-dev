@@ -153,7 +153,7 @@
 		<!--begin::Logo-->
 		<a href="{{ route('dashboard') }}" class="mr-7">
             <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-40px" />
-            <span style="color:white;font-size:20px;position:relative;top:5px;left:0px">EPABS</span>
+            <span style="color:white;font-size:20px;position:relative;top:5px;left:0px">ePlanning and Budget System</span>
 		</a>
 		<!--end::Logo-->
 	</div>
