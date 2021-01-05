@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -42,7 +41,7 @@ class CreateVwActivityList extends Migration
                     JOIN ref_year ry ON ry.id = tw.year_id
                     JOIN tbl_wfp_activity twa ON twa.wfp_code = tw.`code`
                     JOIN tbl_wfp_activity_per_indicator twapi ON twapi.wfp_act_id = twa.id
-                    WHERE split_string_into_rows(twa.activity_timeframe)
+                    
             )
         ');
     }
