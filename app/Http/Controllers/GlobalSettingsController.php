@@ -14,7 +14,7 @@ class GlobalSettingsController extends Controller
     public function updateUserYear(Request $req)
     {
         $check = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
-
+        
         if($check){
             //update
             $check->select_year = $req->id;

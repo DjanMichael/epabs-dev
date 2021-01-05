@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ref_program::class);
         $this->call(ref_uacs::class);
         $this->call(user::class);
+        $this->call(global_system_settings::class);
         $this->call(tbl_user_roles::class);
 
     }
