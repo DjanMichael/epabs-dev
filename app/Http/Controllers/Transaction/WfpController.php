@@ -417,11 +417,12 @@ class WfpController extends Controller
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
                                             ->orWhere('program_name','LIKE','%' . $qry .'%')
-                                            ->orWhere('wfp_code',)
+                                            ->orWhere('wfp_code',$qry)
                                         )
                                         ->groupBy(['unit_id','year_id','user_id','program_id'])
                                         ->paginate($this->wfp_list_paginate);
                 }else{
+                    $qry = $req->q;
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
@@ -429,7 +430,8 @@ class WfpController extends Controller
                                             $q->where('name','LIKE', '%' . $qry .'%')
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
-                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%')
+                                            ->orWhere('wfp_code',$qry))
                                         ->groupBy(['unit_id','year_id','user_id','program_id'])
                                         ->paginate($this->wfp_list_paginate);
                 }

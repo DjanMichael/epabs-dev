@@ -155,7 +155,8 @@
                 <td style="width:20%">
                     Recommending Approval:
                     <br><br><br><br>
-                    DR. GERNA T. MANATAD
+                     Dr. Gerna M. Manatad, MD, PHSA, MDM
+                    
                     <br>
                     PLANNING OFFICER III
                     <br>
