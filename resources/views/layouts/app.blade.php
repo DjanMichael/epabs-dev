@@ -118,7 +118,7 @@
 
     {{-- <div  > --}}
 
-    <div class="page_loader" style="background-image: url({{ asset("dist/assets/media/bg/bg-3.jpg") }});">
+    <div class="page_loader" style="background-image: url({{ asset('dist/assets/media/bg/bg-3.jpg') }});">
         <span>
             <img src="{{ asset('dist/assets/media/loader/loading.gif') }}"
             {{-- style="position: relative;top:40px;left:0px;" --}}
@@ -184,15 +184,15 @@
 				<!--begin::Header-->
 <div id="kt_header" class="header flex-column  header-fixed " >
 	<!--begin::Top-->
-	<div class="header-top">
+	<div class="header-top bg-primary" style="background : #0d4e86 url({{ asset('dist/assets/media/bg/bg_header2.png')}}) center center">
 		<!--begin::Container-->
-		<div class=" container ">
+		<div class=" container">
 			<!--begin::Left-->
 			<div class="d-none d-lg-flex align-items-center mr-3">
 				<!--begin::Logo-->
-				<a href="index.html" class="mr-10">
+				<a href="index.html" class="mr-10 " >
                     <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-65px"/>
-                    <span style="color:white;font-size:40px;position:relative;top:10px;left:0px">EPABS</span>
+                    <span style="color:white;font-size:40px;position:relative;top:10px;left:0px" class="bg-dark-o-70 rounded p-3"><b>e</b>Planning and Budget System</span>
 				</a>
 				<!--end::Logo-->
 			</div>
@@ -202,8 +202,8 @@
 			<div class="topbar">
 
         <!--begin::Quick panel-->
-			        <div class="topbar-item ">
-			            <div class="btn btn-icon btn-lg mr-1" id="kt_quick_panel_toggle">
+			        <div class="topbar-item bg-dark-o-70 rounded">
+			            <div class="btn btn-icon btn-lg " id="kt_quick_panel_toggle">
                             <span class="svg-icon svg-icon-xl svg-icon-danger"><!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -215,9 +215,11 @@
                             </span>
                         </div>
 			        </div>
+                    <div class="topbar-item text-center" style="width:10px ;color: #333;text-align:center;">
+                    </div>
 			        <!--end::Quick panel-->
                         <!--begin::User-->
-			            <div class="topbar-item">
+			            <div class="topbar-item bg-dark-o-70 rounded">
 							<div class="btn btn-icon w-auto d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
 								<div class="d-flex text-right pr-3">
 									<span class="text-white opacity-50 font-weight-bold font-size-sm d-none d-md-inline mr-1">Hi,</span>
@@ -237,18 +239,18 @@
 	<!--end::Top-->
 
 	<!--begin::Bottom-->
-	<div class="header-bottom">
+	<div class="header-bottom bg-white">
 		<!--begin::Container-->
 		<div class=" container ">
 			<!--begin::Header Menu Wrapper-->
-			<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+			<div class="header-menu-wrapper header-menu-wrapper-left " id="kt_header_menu_wrapper">
 				<!--begin::Header Menu-->
-				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default " >
+				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default bg-transparent" >
 					<!--begin::Header Nav-->
-					<ul class="menu-nav ">
+					<ul class="menu-nav text-dark ">
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
-</ul>
+                    </ul>
 					<!--end::Header Nav-->
 				</div>
 				<!--end::Header Menu-->
@@ -1294,11 +1296,55 @@
 
             if(detectMob()){
                 document.getElementById('notification_sound').muted = true;
-                // document.getElementById('notification_sound').play();
+                document.getElementById('notification_sound').play();
             }else{
                 document.getElementById('notification_sound').autoplay = true;
+                document.getElementById('notification_sound').muted = true;
+                var promisifiedOldGUM = function(constraints, successCallback, errorCallback) {
+
+                // First get ahold of getUserMedia, if present
+                var getUserMedia = (navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia);
+
+                // Some browsers just don't implement it - return a rejected promise with an error
+                // to keep a consistent interface
+                if(!getUserMedia) {
+                return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+                }
+
+                // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+                return new Promise(function(successCallback, errorCallback) {
+                getUserMedia.call(navigator, constraints, successCallback, errorCallback);
+                });
+                    
+                }
+
+                // Older browsers might not implement mediaDevices at all, so we set an empty object first
+                if(navigator.mediaDevices === undefined) {
+                navigator.mediaDevices = {};
+                }
+
+                // Some browsers partially implement mediaDevices. We can't just assign an object
+                // with getUserMedia as it would overwrite existing properties.
+                // Here, we will just add the getUserMedia property if it's missing.
+                if(navigator.mediaDevices.getUserMedia === undefined) {
+                navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
+                }
+
+                // Prefer camera resolution nearest to 1280x720.
+                var constraints = { audio: true};
+                // , video: { width: 1280, height: 720 } 
+                navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    document.getElementById('notification_sound').autoplay = true;
                     document.getElementById('notification_sound').muted = true;
-                // navigator.mediaDevices.getUserMedia({audio: true}).
+                })
+                .catch(function(err) {
+                console.log(err.name + ": " + err.message);
+                });
+
+                // navigator.getUserMedia({audio: true}).
                 // then((stream) => {
                 //     document.getElementById('notification_sound').autoplay = true;
                 //     document.getElementById('notification_sound').muted = true;
