@@ -129,21 +129,23 @@
         </tr>
    </table>
 </div>
-{{-- <div class="footer" style="margin-top:0px;padding-top:0px;">
+<!-- <div class="footer" style="margin-top:0px;padding-top:0px;">
     <table style="border :1px solid black;width:100%;padding-top:-5px;margin-top:-5px;padding:0px;">
         <tr class="t-row">
             <td class="t-d" style="width:72.8px;"></td>
-            <td class="t-d" style="width:100px padding:10px;">
-               Purpose: {{ $data["pr"]->pr_purpose }}
-                <br><br>
-                Prepared by:
-                <br><br><br><br>
-                <span style="font-weight:bold;">{{ $data["pr"]->prepared_user_name }}</span><br>
+            <td class="t-d" style="width:100px padding:10px;"> -->
+               <!-- Purpose: {{ $data["pr"]->pr_purpose }} -->
+                <!-- <br><br> -->
+                <!-- Prepared by: -->
+                <!-- <br><br><br><br> -->
+                <!-- <span style="font-weight:bold;"> -->
+                <!-- {{ $data["pr"]->prepared_user_name }} -->
+                <!-- </span><br> -->
                 <?php
-                    // $user = \App\UserProfile::where('user_id',$data["pr"]->prepared_user_id)->first();
+                    $user = \App\UserProfile::where('user_id',$data["pr"]->prepared_user_id)->first();
                 ?>
-                {{ $user->designation }}
-            </td>
+                <!-- {{ $user->designation }} -->
+            <!-- </td>
         </tr>
         <tr class="t-row">
             <td  class="t-d" style="width:72.8px;">
@@ -169,17 +171,7 @@
             </td>
         </tr>
     </table>
-</div> --}}
- <main>
- <table style="border :1px solid black;width:100%;margin:0px;padding:0px;">
-    <tr>
-        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Stock No.</td>
-        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Unit</td>
-        <td class="t-h-d txt-center" style="width: 350px;border:1px solid black;">Item Description</td>
-        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Qty</td>
-        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Unit Cost</td>
-        <td class="t-h-d txt-center" style="width: 60px;border:1px solid black;margin-right:0px;">Total Cost</td>
-    </tr>
+</div>  -->
     <?php
         //limit row
         $row_limit = 56;
@@ -188,13 +180,26 @@
         //skip adding rows
         $skip=1;
     ?>
+<main>
+@foreach($data["pr_details"] as $key => $value)
     <?php
-    foreach($data["pr_details"] as $key => $value){
+        $total=0;
         $row_limit -= 1;
         // $row = $data["pr_details"][$i-1];
         // dd(collect($value)->groupBy('item_id','item_type'));
         $value = collect($value)->groupBy('item_id','item_type');
     ?>
+    <div class="page_break"></div>
+@foreach($value as $key2 => $val)
+<table style="border :1px solid black;width:100%;margin:0px;padding:0px;">
+    <tr>
+        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Stock No.</td>
+        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Unit</td>
+        <td class="t-h-d txt-center" style="width: 350px;border:1px solid black;">Item Description</td>
+        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Qty</td>
+        <td class="t-h-d txt-center" style="width: 50px;border:1px solid black;">Unit Cost</td>
+        <td class="t-h-d txt-center" style="width: 60px;border:1px solid black;margin-right:0px;">Total Cost</td>
+    </tr>
     <tr>
         <td class="t-h-d txt-center"></td>
         <td class="t-h-d txt-center"></td>
@@ -203,7 +208,6 @@
         <td class="t-h-d txt-center"></td>
         <td class="t-h-d txt-center"></td>
     </tr>
-        @foreach($value as $key2 => $val)
 
         <?php
             // dd(collect($row)->sum('item_qty'));
@@ -211,9 +215,8 @@
             $row_limit -= 1;
             $row_count++;
             $total +=collect($row)->sum('item_qty') * collect($row)->sum('item_price');
-            // dd(collect($row));
+         
             // dd((collect($row)->first())["item_description"]);
-
         ?>
         <tr>
             <td class="t-h-d txt-center" style="font-weight:normal;"></td>
@@ -223,14 +226,16 @@
             <td class="t-h-d " style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format(collect($row)->sum('item_price'),2) }}</td>
             <td class="t-h-d " style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format(collect($row)->sum('item_qty') * collect($row)->sum('item_price'),2) }}</td>
         </tr>
+        <tr>
+            <td class="t-h-d" colspan="5">Total</td>
+            <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
+        </tr>
+</table>
 
-        @endforeach
-    <?php
-    }
-    ?>
+@endforeach
 
-    @if($skip == 0){
-        {{-- //add extra rows --}}
+    <!-- @if($skip == 0)
+     
         @for($i=0;$i<=$row_limit;$i++){
 
             @if(($i + $row_count + count($data["pr_details"])) == 56){
@@ -254,10 +259,11 @@
             <td class="t-h-d" colspan="5">Total</td>
             <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
         </tr>
-    @endif
+    @endif -->
 
 
-</table>
+@endforeach
 </main>
+
 </body>
 </html>
