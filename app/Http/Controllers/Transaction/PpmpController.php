@@ -34,6 +34,7 @@ class PpmpController extends Controller
         $data=[];
         $data["wfp_code"] = Crypt::decryptString($req->wfp_code);
         $data["wfp_act_id"] = $req->wfp_act_id;
+        $data["settings"] = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         $data["wfp_act_pi"] = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->where('wfp_act_id',$req->wfp_act_id)->get()->toArray();
         $data["cost"] = [
             'budget_amount' => 0,
@@ -44,7 +45,10 @@ class PpmpController extends Controller
         ];
         $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->get()->toArray();
         for($i =0 ; $i < count($data["ppmp_item_category"])  ; $i++ ){
-            $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
+            $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)
+                                                            ->where('classification','=',$data["ppmp_item_category"][$i]["classification"])
+                                                            ->where('year_id',$data["settings"]->select_year)
+                                                            ->count();
         }
 
         $data["location"] = RefLocation::select('id','region')->groupBy('region')->get()->toArray();
