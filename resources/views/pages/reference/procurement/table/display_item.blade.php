@@ -4,6 +4,7 @@
         <tr>
             <th scope="col" class="text-center">#</th>
             <th scope="col" class="text-center">Description</th>
+            <th scope="col" class="text-center">Strength</th>
             <th scope="col" class="text-center">Unit</th>
             <th scope="col" class="text-center">Classification</th>
             @isset ($checker)
@@ -20,6 +21,7 @@
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
                 <td data-target="description">{{ $row["description"] }}</td>
+                <td data-target="strength">{{ $row["strength"] }}</td>
                 <td data-target="unit_name">{{ $row["unit_name"] }}</td>
                 <td data-target="classification">{{ $row["classification"] }}</td>
                 @isset ($checker)
