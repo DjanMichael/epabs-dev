@@ -146,7 +146,6 @@
                 data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
                 data.strength =$("#item_strength").val();
                 let validation = new Validator(data, rules);
-                console.log(data);
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
