@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{-- <div id="alert" class="alert alert-custom alert-notice alert-light-danger" role="alert">
+                <!-- {{-- <div id="alert" class="alert alert-custom alert-notice alert-light-danger" role="alert">
                     <div class="alert-icon"><i class="flaticon-warning"></i></div>
                     <div class="alert-text">
                         <ul id="alert_text"></ul>
@@ -19,7 +19,7 @@
                             <span aria-hidden="true"><i class="ki ki-close"></i></span>
                         </button>
                     </div>
-                </div> --}}
+                </div> --}} -->
 
                 <div id="second_modal_content"></div>
                 <div class="table-responsive" id="inner_table_populate">

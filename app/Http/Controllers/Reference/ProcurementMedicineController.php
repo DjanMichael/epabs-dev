@@ -108,13 +108,14 @@ class ProcurementMedicineController extends Controller
                 else if (empty($check)) {
                     $medicine = [
                         'description' => $request->description,
+                        'strength' => $request->strength,
                         'unit_id' => $request->unit_id,
                         'classification_id' => $request->classification_id,
                         'category_id' => $request->category_id,
                         'fix_price' => $request->fix_price,
                         'status' => $request->status
                     ];
-
+                    // dd($request->all());
                     $latest_record = TableProcurementMedicine::create($medicine)->id;
 
                     $price = [

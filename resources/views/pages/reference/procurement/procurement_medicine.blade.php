@@ -38,6 +38,7 @@
 
             let data = {
                 description :'',
+                strength :'',
                 unit:'',
                 classification: '',
                 category: '',
@@ -47,6 +48,7 @@
 
             let rules = {
                 description :'required',
+                strength:'required',
                 unit:'required',
                 classification: 'required',
                 category: 'required',
@@ -93,6 +95,8 @@
                 // alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
                 // alert(unit_name);
+                var strength = $('#'+id).children('td[data-target=strength]').text();
+
                 var classification = $('#'+id).children('td[data-target=classification]').text();
                 var category = $('#'+id).children('td[data-target=category]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
@@ -140,8 +144,9 @@
                 data.category = $("#item_category").val();
                 data.price = (id != "") ? 'Blank' : $("#item_price").val();
                 data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
-
+                data.strength =$("#item_strength").val();
                 let validation = new Validator(data, rules);
+                console.log(data);
                 if (validation.passes()) {
                     e.preventDefault();
                     $("#alert").delay(300).fadeOut(600);
@@ -151,6 +156,7 @@
                         data: {
                             "id": id,
                             "description": data.description,
+                            "strength": data.strength,
                             "unit_id": data.unit,
                             "classification_id": data.classification,
                             "category_id": data.category,
@@ -176,6 +182,7 @@
                                 fix_price = fix_price == 'Y' ? 'Yes' : 'No';
                                 $('#modal_reference').modal('toggle');
                                 $('#'+id).children('td[data-target=description]').html(data.description);
+                                $('#'+id).children('td[data-target=strength]').html(data.strength);
                                 $('#'+id).children('td[data-target=unit_name]').html($("#item_unit option:selected").text());
                                 $('#'+id).children('td[data-target=classification]').html($("#item_classification option:selected").text());
                                 $('#'+id).children('td[data-target=category]').html($("#item_category option:selected").text());
