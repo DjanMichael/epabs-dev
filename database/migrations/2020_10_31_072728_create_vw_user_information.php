@@ -16,7 +16,7 @@ class CreateVwUserInformation extends Migration
         DB2::statement("
             CREATE VIEW  vw_user_information AS (
                 SELECT
-                    `u`.`id` AS `id`,
+                    `vw`.`id` AS `id`,
                     `u`.`email` AS `email`,
                     `u`.`name` AS `name`,
                     `up`.`designation` AS `designation`,
@@ -24,37 +24,16 @@ class CreateVwUserInformation extends Migration
                     `tur`.`roles` AS `roles`,
                     `ry`.`id` AS `year_id`,
                     `ry`.`year` AS `year`,
-                    `up`.`unit_id` AS `unit_id`,
-                    `ru`.`division` AS `division`,
-                    `ru`.`section` AS `section`,
-                    `tup`.`program_id` AS `program_id`,
-                    `rp`.`program_name` AS `program_name`
-                FROM
-                    (
-                        (
-                            (
-                                (
-                                    (
-                                        (
-                                            `users` `u`
-                                            JOIN `ref_year` `ry` ON (`ry`.`year` <> `u`.`name`)
-                                        )
-                                        JOIN `users_profile` `up` ON (`up`.`user_id` = `u`.`id`)
-                                    )
-                                    JOIN `tbl_unit_program` `tup` ON (
-                                        `tup`.`unit_id` = `up`.`unit_id`
-                                    )
-                                )
-                                JOIN `ref_program` `rp` ON (
-                                    `rp`.`id` = `tup`.`program_id`
-                                )
-                            )
-                            JOIN `tbl_user_roles` `tur` ON (
-                                `tur`.`role_id` = `u`.`role_id`
-                            )
-                        )
-                        JOIN `ref_units` `ru` ON (`ru`.`id` = `up`.`unit_id`)
-                    )
+                    `vw`.`unit_id` AS `unit_id`,
+                    `vw`.`division` AS `division`,
+                    `vw`.`section` AS `section`,
+                    `vw`.`program_id` AS `program_id`,
+                    `vw`.`program_name` AS `program_name`
+                FROM vw_unit_program vw
+                JOIN ref_year ry
+                JOIN users u ON u.id = vw.user_id
+                JOIN tbl_user_roles tur ON tur.role_id = u.role_id
+                JOIN users_profile up ON up.user_id=u.id
             )");
     }
 
