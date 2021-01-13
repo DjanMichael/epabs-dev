@@ -7,7 +7,7 @@
         </div>
         @isset ($checker)
             <div class="form-group">
-                <label>Strength<span class="text-danger">*</span></label>
+                <label>Dosage Strength<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="item_strength" placeholder="Enter item Strength" autocomplete="off"/>
             </div>
         @endisset
