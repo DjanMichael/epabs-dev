@@ -23,7 +23,9 @@
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
                 <td data-target="description">{{ $row["description"] }}</td>
-                <td data-target="strength">{{ $row["strength"] }}</td>
+                @isset ($checker)
+                    <td data-target="strength">{{ $row["strength"] }}</td>
+                @endisset
                 <td data-target="unit_name">{{ $row["unit_name"] }}</td>
                 <td data-target="classification">{{ $row["classification"] }}</td>
                 @isset ($checker)

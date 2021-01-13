@@ -36,8 +36,8 @@ class ProcurementSuppliesController extends Controller
         $isAjaxRequest = $request->ajax();
         if($isAjaxRequest) {
             $query = $request->q;
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
             if($query != '') {
-                $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
                 $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')
                                                 ->where(function ($sql) use ($query) {
                                                     $sql->where('description', 'LIKE', '%'. $query .'%')
@@ -46,7 +46,7 @@ class ProcurementSuppliesController extends Controller
                                                 ->where('year_id',$settings->select_year)
                                                 ->paginate(10);
             } else {
-                $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->paginate(10);
+                $data = ProcurementMedSupplies::where('item_type', 'SUPPLIES')->where('year_id',$settings->select_year)->paginate(10);
             }
             return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
         } else {

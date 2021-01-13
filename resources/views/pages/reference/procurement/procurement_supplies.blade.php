@@ -211,6 +211,7 @@
                                     'inner_table_populate', 'inner_table_content', 'inner_table_pagination');
                 $('#secondary_modal_reference').modal('toggle');
             });
+            
 
             // Show price form event (Add or Update)
             $(document).on('click', '#btn_add_price, a[data-role=edit-price]', function(){

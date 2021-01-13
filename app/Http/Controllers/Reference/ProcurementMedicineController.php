@@ -51,7 +51,7 @@ class ProcurementMedicineController extends Controller
             } else {
                 $data = ProcurementMedSupplies::where('item_type', 'DRUM')->where('year_id',$settings->select_year)->paginate(10);
             }
-            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data, 'checker'=>'MEDS']);
         } else {
             abort(403);
         }
