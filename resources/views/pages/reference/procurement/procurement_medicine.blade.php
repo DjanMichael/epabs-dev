@@ -98,6 +98,7 @@
                 var strength = $('#'+id).children('td[data-target=strength]').text();
 
                 var classification = $('#'+id).children('td[data-target=classification]').text();
+                var strength = $('#'+id).children('td[data-target=strength]').text();
                 var category = $('#'+id).children('td[data-target=category]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
                 var effective_date = $('#'+id).children('td[data-target=effective_date]').text();
@@ -111,6 +112,7 @@
                     if (id) {
                         $('#procurement_id').val(id);
                         $('#item_description').val(description);
+                        $('#item_strength').val(strength);
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
                         $("#item_category option:contains(" + category +")").attr("selected", true);

@@ -5,10 +5,13 @@
             <input type="hidden" class="form-control" id="procurement_id"/>
             <input type="text" class="form-control" id="item_description" placeholder="Enter item description" autocomplete="off"/>
         </div>
-        <div class="form-group">
-            <label>Strength<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="item_strength" placeholder="Enter item Strength" autocomplete="off"/>
-        </div>
+        @isset ($checker)
+            <div class="form-group">
+                <label>Strength<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="item_strength" placeholder="Enter item Strength" autocomplete="off"/>
+            </div>
+        @endisset
+        
         <div class="form-group">
             <label>Unit<span class="text-danger">*</span></label>
             <select class="form-control" id="item_unit">

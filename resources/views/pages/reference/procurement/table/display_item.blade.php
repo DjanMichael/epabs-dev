@@ -4,7 +4,9 @@
         <tr>
             <th scope="col" class="text-center">#</th>
             <th scope="col" class="text-center">Description</th>
-            <th scope="col" class="text-center">Strength</th>
+            @isset ($checker)
+                <th scope="col" class="text-center">Strength</th>
+            @endisset
             <th scope="col" class="text-center">Unit</th>
             <th scope="col" class="text-center">Classification</th>
             @isset ($checker)
