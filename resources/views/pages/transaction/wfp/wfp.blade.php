@@ -72,6 +72,7 @@
         fetch_wfp_list();
 
         $("#btn_create_wfp_year").on('click',function(){
+            $(this).attr('disabled',true);
             var redirectTo = "{{ route('r_create_wfp') }}";
             var _url ="{{ route('f_generate_code_wfp') }}";
             var a = localStorage.getItem('GLOBAL_SETTINGS');
@@ -150,9 +151,12 @@
                                 }
                         });
                     }
-                },
-            });
 
+                },
+                complete:function(){
+                    $("#btn_create_wfp_year").attr('disabled',false);
+                }
+            });
         });
 
 

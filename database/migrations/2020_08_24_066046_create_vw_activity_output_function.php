@@ -25,7 +25,8 @@ class CreateVwActivityOutputFunction extends Migration
                     program_id,
                     program_name,
                     user_id,
-                    `name`
+                    `name`,
+                    `status`
                 FROM
                     tbl_activity_output_function as taof
                 JOIN ref_function_deliverables rfd ON rfd.id = taof.output_function_id
