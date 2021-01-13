@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(user::class);
         $this->call(global_system_settings::class);
         $this->call(tbl_user_roles::class);
-        $this->call(global_system_settings::class);
 
     }
 }
