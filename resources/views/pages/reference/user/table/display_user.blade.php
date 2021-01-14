@@ -4,6 +4,7 @@
         <tr>
             <th scope="col" class="text-center">#</th>
             <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Username</th>
             <th scope="col" class="text-center">Email</th>
             <th scope="col" class="text-center">Contact</th>
             <th scope="col" class="text-center">Role</th>
@@ -18,6 +19,7 @@
             <tr id="{{ $row["id"] }}">
                 <td>{{ $row["id"] }}</td>
                 <td data-target="name">{{ $row["name"] }}</td>
+                <td data-target="username">{{ $row["username"] }}</td>
                 <td data-target="email">{{ $row["email"] }}</td>
                 <td data-target="contact">{{ $row["contact"] }}</td>
                 <td data-target="role">{{ $row["roles"] }}</td>

@@ -14,7 +14,7 @@ class UserController extends Controller
         $data = User::join('users_profile', 'users_profile.user_id', '=', 'users.id')
                     ->join('ref_units', 'ref_units.id', '=', 'users_profile.unit_id')
                     ->join('tbl_user_roles', 'tbl_user_roles.role_id', '=', 'users.role_id')
-                    ->select('user_id as id', 'users.name', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
+                    ->select('user_id as id', 'users.name', 'username', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
                     ->paginate(10);
         return $data;
     }
@@ -40,7 +40,7 @@ class UserController extends Controller
                 $data = User::join('users_profile', 'users_profile.user_id', '=', 'users.id')
                             ->join('ref_units', 'ref_units.id', '=', 'users_profile.unit_id')
                             ->join('tbl_user_roles', 'tbl_user_roles.role_id', '=', 'users.role_id')
-                            ->select('user_id as id', 'users.name', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
+                            ->select('user_id as id', 'users.name', 'username', 'email', 'contact', 'roles', 'designation', 'division', 'section', 'users.status')
                             ->where('users.name' ,'LIKE', '%'. $query .'%')
                             ->orWhere('email' ,'LIKE', '%'. $query .'%')
                             ->orWhere('roles' ,'LIKE', '%'. $query .'%')
