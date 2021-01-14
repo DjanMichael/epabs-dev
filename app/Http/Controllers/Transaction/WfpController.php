@@ -734,10 +734,10 @@ class WfpController extends Controller
             // dd($req->wfp_act["act_cost"]);
 
             //validation budget activity
-            if( $maximum_cost_request < $req->wfp_act["act_cost"])
-            {
-                return 'not enough budget';
-            }
+            //if( $maximum_cost_request < $req->wfp_act["act_cost"])
+            //{
+           //     return 'not enough budget';
+           // }
             // dd($total_pi_cost);
             // dd($req->wfp_act["act_cost"]);
                 //validation budget performance indicator
