@@ -17,13 +17,20 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
             CREATE VIEW  vw_unit_budget_allocation_utilization AS (
                 (
                     SELECT
-                        `up`.`user_id` AS `user_id`,
                         `u`.`name` AS `name`,
                         `up`.`designation` AS `designation`,
                         `ru`.`division` AS `division`,
                         `ru`.`section` AS `section`,
                         `tup`.`program_id` AS `program_id`,
                         `rp`.`program_name` AS `program_name`,
+                        (
+                            SELECT
+                                `tbl_unit_program`.`user_id`
+                            FROM
+                                `tbl_unit_program`
+                            WHERE
+                                `tbl_unit_program`.`program_id` = `tup`.`program_id`
+                        ) AS `user_id`,
                         `tuba`.`id` AS `tuba_id`,
                         `tuba`.`budget_line_item_id` AS `budget_line_item_id`,
                         `rbli`.`budget_item` AS `budget_item`,
