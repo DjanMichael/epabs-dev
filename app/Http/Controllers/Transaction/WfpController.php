@@ -281,7 +281,7 @@ class WfpController extends Controller
             return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
         }
 
-        $wfp_check_exist = Wfp::where('program_id',$progam_id)->where('year_id',$year_id) ->first();
+        $wfp_check_exist = Wfp::where('program_id',$program_id)->where('year_id',$year_id) ->first();
 
         if($wfp_check_exist){
             return ['message'=>'You only have already created wfp this year'];
