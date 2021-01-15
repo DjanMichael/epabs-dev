@@ -15,78 +15,7 @@ class CreateVwProgramsWfpStatus extends Migration
     {
         DB2::statement("
         CREATE VIEW  vw_programs_wfp_status AS (
-            SELECT
-                `tup`.`program_id` AS `program_id`,
-                (
-                    SELECT
-                        `rp`.`program_name`
-                    FROM
-                        `ref_program` `rp`
-                    WHERE
-                        `rp`.`id` = `tup`.`program_id`
-                ) AS `program`,
-                `ry`.`id` AS `year_id`,
-                `ry`.`year` AS `year`,
-                `u`.`name` AS `name`,
-                `up`.`designation` AS `designation`,
-                (
-                    SELECT
-                        `tw`.`code`
-                    FROM
-                        `tbl_wfp` `tw`
-                    WHERE
-                        `tw`.`program_id` = `tup`.`program_id`
-                    AND `tw`.`year_id` = `ry`.`id`
-                ) AS `wfp_code`,
-                (
-                    SELECT
-                        (
-                            SELECT
-                                `zwl`.`remarks`
-                            FROM
-                                `z_wfp_logs` `zwl`
-                            WHERE
-                                `zwl`.`wfp_code` = `zwl`.`wfp_code`
-                                    AND zwl.`status` ='WFP'
-                            ORDER BY
-                                `zwl`.`id` DESC
-                            LIMIT 1
-                        )
-                    FROM
-                        `tbl_unit_program` `tup`
-                    WHERE
-                        `tup`.`program_id` = substr(`wfp_code`, 10, 3)
-                ) AS `wfp_status`,
-                (
-                    SELECT
-                        (
-                            SELECT
-                                `zwl`.`remarks`
-                            FROM
-                                `z_wfp_logs` `zwl`
-                            WHERE
-                                `zwl`.`wfp_code` = `zwl`.`wfp_code`
-                                AND zwl.`status` ='PPMP'
-                            ORDER BY
-                                `zwl`.`id` DESC
-                            LIMIT 1
-                        )
-                    FROM
-                        `tbl_unit_program` `tup`
-                    WHERE
-                        `tup`.`program_id` = substr(`wfp_code`, 10, 3)
-                ) AS `ppmp_status`
-            FROM
-                (
-                    (
-                        (
-                            `ref_year` `ry`
-                            JOIN `tbl_unit_program` `tup`
-                        )
-                        JOIN `users` `u` ON (`u`.`id` = `tup`.`user_id`)
-                    )
-                    JOIN `users_profile` `up` ON (`up`.`user_id` = `u`.`id`)
-                )
+            select `ry`.`year` AS `year`,`ry`.`id` AS `year_id_source`,(select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`) AS `code`,trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),1,3)) AS `user_id`,trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),4,3)) AS `unit_id`,trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),7,3)) AS `year_id`,trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),10,3)) AS `program_id`,trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),13,3)) AS `wfp_id`,(select `ref_program`.`program_name` from `ref_program` where `ref_program`.`id` = trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),10,3))) AS `program`,(select `users`.`name` from `users` where `users`.`id` = trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),1,3))) AS `name`,(select `users_profile`.`designation` from `users_profile` where `users_profile`.`user_id` = trim(leading '0' from substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),1,3))) AS `designation`,(select (select `zwl`.`remarks` from `z_wfp_logs` `zwl` where `zwl`.`wfp_code` = `zwl`.`wfp_code` and `zwl`.`status` = 'WFP' order by `zwl`.`id` desc limit 1) from `tbl_unit_program` `tup` where `tup`.`program_id` = substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),10,3)) AS `wfp_status`,(select (select `zwl`.`remarks` from `z_wfp_logs` `zwl` where `zwl`.`wfp_code` = `zwl`.`wfp_code` and `zwl`.`status` = 'PPMP' order by `zwl`.`id` desc limit 1) from `tbl_unit_program` `tup` where `tup`.`program_id` = substr((select `tw2`.`code` from `tbl_wfp` `tw2` where `tw2`.`year_id` = `ry`.`id` and `tw2`.`code` = `tbl_wfp`.`code`),10,3)) AS `ppmp_status` from (`tbl_wfp` join `ref_year` `ry`)
         )");
     }
 
