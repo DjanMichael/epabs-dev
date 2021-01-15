@@ -276,9 +276,14 @@ class WfpController extends Controller
         $unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$user_id)->first())->unit_id : Auth::user()->getUnitId() ;
         $year_id = $req->year_id;
         $program_id = (GlobalSystemSettings::where('user_id',$user_id)->first())->select_program_id;
+        $wfp_check_exist = Wfp::where('program_id',$progam_id)->where('year_id',$year_id) ->first();
 
         if($program_id <= 0 ){
             return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
+        }
+
+        if($wfp_check_exist){
+            return ['message'=>'You only have already created wfp this year'];
         }
 
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));

@@ -134,12 +134,47 @@
     <div class="footer">
         <table style="width:100%">
             <tr>
-                <td style="width:40%">
+                <td style="width:20%">
                     Prepared By:
                     <br><br><br><br>
                     {{  $data["wfp_manager"]->name }}
                     <br>
                     {{  $data["wfp_manager"]->designation ?: 'NO DESIGNATION' }}
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    <br><br>
+                    Noted By:
+                    <br><br><br><br>
+                    <?php
+                        $division = $data["wfp_unit"]->division;
+                        $unit = $data["wfp_unit"]->section;
+                    ?>
+                    @if($division =="RD/ARD")
+                        @if($unit == "ARD")
+                            GERNA M. MANATAD, MD, PHSA, MDM
+                            <br>
+                            OIC-DIRECTOR III
+                        @endif
+                        @if($unit == "RD")
+                            JOSE R. LLACUNA JR., MD, MPH, CESO III
+                            <br>
+                            DIRECTOR IV
+                        @endif
+                    @endif
+
+                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                        AILEEN A. SACOL, CPA, MMPSM
+                        <br>
+                        OIC - CHIEF ADMINISTRATIVE OFFICER
+                    @endif
+
+                    @if($division == "LHS")
+                        DR. ERNESTO PAREJA
+                        <br>
+                        MEDICAL OFFICER V
+                    @endif
                     <br>
                     Date: _____________
                 </td>
@@ -155,10 +190,9 @@
                 <td style="width:20%">
                     Recommending Approval:
                     <br><br><br><br>
-                     Dr. Gerna M. Manatad, MD, PHSA, MDM
-                    
+                    GERNA M. MANATAD, MD, PHSA, MDM
                     <br>
-                    PLANNING OFFICER III
+                    OIC-DIRECTOR III
                     <br>
                     Date: _____________
                 </td>
@@ -167,47 +201,13 @@
                     <br><br><br><br>
                     JOSE R. LLACUNA JR., MD, MPH, CESO III
                     <br>
-                    DIRECTOR
+                    DIRECTOR IV
                     <br>
                     Date: _____________
                 </td>
             </tr>
             <tr>
-                <td style="width:40%">
-                    <br><br>
-                    Noted By:
-                    <br><br><br><br>
-                    <?php
-                        $division = $data["wfp_unit"]->division;
-                        $unit = $data["wfp_unit"]->section;
-                    ?>
-                    @if($division =="RD/ARD")
-                        @if($unit == "ARD")
-                            DR. GERNA
-                            <br>
-                            MEDICAL OFFICER V
-                        @endif
-                        @if($unit == "RD")
-                            DR. JOSE LLACUNA
-                            <br>
-                            MEDICAL OFFICER V
-                        @endif
-                    @endif
 
-                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
-                        AILEEN SACOL
-                        <br>
-                        ADMINISTRATIVE OFFICER V
-                    @endif
-
-                    @if($division == "LHS")
-                        DR. ERNESTO PAREJA
-                        <br>
-                        MEDICAL OFFICER V
-                    @endif
-                    <br>
-                    Date: _____________
-                </td>
             </tr>
         </table>
     </div>

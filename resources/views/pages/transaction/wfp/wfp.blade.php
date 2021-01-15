@@ -139,6 +139,18 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
+                    }else if(data.message ='You only have already created wfp this year'){
+                        $("#modal_create_wfp").modal('hide');
+                        swal.fire({
+                                title:"Opss!",
+                                text: "You only have already created wfp this year",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                     }else{
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
