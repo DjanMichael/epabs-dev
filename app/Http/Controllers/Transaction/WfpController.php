@@ -425,7 +425,7 @@ class WfpController extends Controller
                                             ->orWhere('program_name','LIKE','%' . $qry .'%')
                                             ->orWhere('wfp_code',$qry)
                                         )
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }else{
                     $qry = $req->q;
@@ -438,7 +438,7 @@ class WfpController extends Controller
                                             ->orWhere('section','LIKE','%' . $qry .'%')
                                             ->orWhere('program_name','LIKE','%' . $qry .'%')
                                             ->orWhere('wfp_code',$qry))
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }
 
@@ -446,14 +446,14 @@ class WfpController extends Controller
                 if($user_role != "PROGRAM COORDINATOR"){
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
 
                 }else{
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }
 

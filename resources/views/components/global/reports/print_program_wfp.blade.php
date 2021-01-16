@@ -75,7 +75,7 @@
         }
         .footer {
             position: fixed;
-                bottom: -60px;
+                bottom: -160px;
                 left: 0px;
                 right: 0px;
                 height: 180px;
@@ -137,14 +137,13 @@
                 <td style="width:20%">
                     Prepared By:
                     <br><br><br><br>
-                    {{  $data["wfp_manager"]->name }}
+                    {{  strtoupper($data["wfp_manager"]->name) }}
                     <br>
-                    {{  $data["wfp_manager"]->designation ?: 'NO DESIGNATION' }}
+                    {{  strtoupper($data["wfp_manager"]->designation) ?: 'NO DESIGNATION' }}
                     <br>
                     Date: _____________
                 </td>
                 <td style="width:20%">
-                    <br><br>
                     Noted By:
                     <br><br><br><br>
                     <?php
@@ -152,7 +151,7 @@
                         $unit = $data["wfp_unit"]->section;
                     ?>
                     @if($division =="RD/ARD")
-                        @if($unit == "ARD")
+                        @if($unit == "ARD" || $unit == "PLANNING")
                             GERNA M. MANATAD, MD, PHSA, MDM
                             <br>
                             OIC-DIRECTOR III
