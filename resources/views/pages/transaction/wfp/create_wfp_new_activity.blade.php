@@ -921,6 +921,13 @@
                                         "You may start adding Performance Indicator",
                                         "success"
                                     )
+                                }else if(data.message =='You dont have CONAP budget Allocated for this year'){
+                                    $("#btn_save_wfp").removeAttr('disabled');
+                                    Swal.fire(
+                                            "Opps!",
+                                            data.message,
+                                            "error"
+                                        )
                                 }
                                 $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                                 $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
