@@ -281,12 +281,13 @@ class WfpController extends Controller
             return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
         }
 
+        /* this for single wfp per year per program
         $wfp_check_exist = Wfp::where('program_id',$program_id)->where('year_id',$year_id) ->first();
 
         if($wfp_check_exist){
             return ['message'=>'You only have already created wfp this year'];
         }
-
+        */
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
         $check = Wfp::where('user_id',$user_id)
