@@ -573,6 +573,16 @@ class WfpController extends Controller
             return ['message'=> 'not enough budget'];
         }
 
+        // CONAP CHECKER HAS BUDGET IF CONAP SELECTED
+        $source = RefSourceOfFund::where('id',$req->data["source_of_fund"])->first();
+        $conap  = ProgramConap::where('program_id',ltrim(substr($wfp_code,9,3),'0'))
+                                ->where('year_id',ltrim(substr($wfp_code,6,3),'0'))->first();
+        if($source->sof_classification == "CONAP"){
+            if(!$conap){
+                return ['message'=>'You dont have CONAP budget Allocated for this year','id'=> null];
+            }
+        }
+
         if($req->id > 0){
             //update
             $wfp_act = WfpActivity::where('id',$req->id)->first();
