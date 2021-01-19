@@ -58,8 +58,6 @@
 </div>
 <!-- end::title -->
 
-
-
     <!--begin::Body-->
     @if(Auth::user()->role->roles =='ADMINISTRATOR')
         @include('pages.system_menu_roles.activity.administrator')

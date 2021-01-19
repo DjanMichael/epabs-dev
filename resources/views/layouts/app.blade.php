@@ -147,16 +147,17 @@
 
     <!--begin::Main-->
     <!--begin::Header Mobile-->
-
 <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed " >
-	<div class="d-flex align-items-center">
+
+    <div class="d-flex align-items-center">
 		<!--begin::Logo-->
 		<a href="{{ route('dashboard') }}" class="mr-7">
             <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-40px" />
             <span style="color:white;font-size:20px;position:relative;top:5px;left:0px">ePlanning and Budget System</span>
 		</a>
 		<!--end::Logo-->
-	</div>
+    </div>
+
 
 	<!--begin::Toolbar-->
 	<div class="d-flex align-items-center">
@@ -248,7 +249,7 @@
 				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default bg-transparent" >
 					<!--begin::Header Nav-->
 					<ul class="menu-nav text-dark ">
-                        <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>
+                        @if(Auth::user()->role->roles != "PROCUREMENT")<li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>@endif
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
                     </ul>
 					<!--end::Header Nav-->
@@ -1317,7 +1318,7 @@
                 return new Promise(function(successCallback, errorCallback) {
                 getUserMedia.call(navigator, constraints, successCallback, errorCallback);
                 });
-                    
+
                 }
 
                 // Older browsers might not implement mediaDevices at all, so we set an empty object first
@@ -1334,7 +1335,7 @@
 
                 // Prefer camera resolution nearest to 1280x720.
                 var constraints = { audio: true};
-                // , video: { width: 1280, height: 720 } 
+                // , video: { width: 1280, height: 720 }
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                     document.getElementById('notification_sound').autoplay = true;
