@@ -233,6 +233,7 @@
 </div>
 </div>
 @endif
+
 <!-- begin:dashboard planning -->
 @if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR" )
 <div class="row">
