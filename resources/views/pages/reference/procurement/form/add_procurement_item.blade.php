@@ -3,9 +3,15 @@
         <div class="form-group">
             <label>Description<span class="text-danger">*</span></label>
             <input type="hidden" class="form-control" id="procurement_id"/>
-            <input type="text" class="form-control" id="item_description" placeholder="Enter item description"/>
+            <input type="text" class="form-control" id="item_description" placeholder="Enter item description" autocomplete="off"/>
         </div>
-
+        @isset ($checker)
+            <div class="form-group">
+                <label>Dosage Strength<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="item_strength" placeholder="Enter item Strength" autocomplete="off"/>
+            </div>
+        @endisset
+        
         <div class="form-group">
             <label>Unit<span class="text-danger">*</span></label>
             <select class="form-control" id="item_unit">
@@ -43,7 +49,7 @@
                 <label>Price<span class="text-danger">*</span></label>
                 <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text" >₱</span></div>
-                    <input type="text" class="form-control" id="item_price" placeholder="99.9"/>
+                    <input type="text" class="form-control" id="item_price" placeholder="99.9" autocomplete="off"/>
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -53,7 +59,8 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-12 col-md-2 col-form-label">Fix Price<span class="text-danger">*</span></label>
+
+            <!-- {{-- <label class="col-12 col-md-2 col-form-label">Fix Price<span class="text-danger">*</span></label>
             <div class="col-12 col-md-3">
                 <span class="switch switch-icon">
                     <label>
@@ -61,7 +68,7 @@
                         <span></span>
                     </label>
                 </span>
-            </div>
+            </div> --}} -->
 
             <label class="col-12 col-md-2 col-form-label div_status">Status<span class="text-danger">*</span></label>
             <div class="col-12 col-md-3 div_status">

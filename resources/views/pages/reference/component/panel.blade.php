@@ -10,10 +10,9 @@
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
-                    {{-- <div class="dropdown dropdown-inline mr-2">
+                    <!-- {{-- <div class="dropdown dropdown-inline mr-2">
                         <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="svg-icon svg-icon-md">
-                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"/>
@@ -21,13 +20,10 @@
                                         <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000"/>
                                     </g>
                                 </svg>
-                                <!--end::Svg Icon-->
                             </span>		Export
                         </button>
 
-                        <!--begin::Dropdown Menu-->
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                            <!--begin::Navigation-->
                             <ul class="navi flex-column navi-hover py-2">
                                 <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">
                                     Choose an option:
@@ -63,12 +59,10 @@
                                     </a>
                                 </li>
                             </ul>
-                            <!--end::Navigation-->
                         </div>
-                        <!--end::Dropdown Menu-->
-                    </div> --}}
+                    </div> --}} -->
                     <!--end::Dropdown-->
-        <!-- Button trigger modal-->
+                    <!-- Button trigger modal-->
                     <!--begin::Button-->
                     <button id="btn_add" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -105,7 +99,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-4 my-2 my-md-0">
+                                <!-- {{-- <div class="col-md-4 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
                                         <select class="form-control" id="status">
@@ -115,7 +109,7 @@
                                             <option value="6">Submitted</option>
                                         </select>
                                     </div>
-                                </div> --}}
+                                </div> --}} -->
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >

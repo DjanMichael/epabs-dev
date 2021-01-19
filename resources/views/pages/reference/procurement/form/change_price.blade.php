@@ -6,7 +6,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text" >₱</span></div>
                     <input type="hidden" class="form-control" id="procurement_item_price_id"/>
-                    <input type="text" class="form-control number" id="change_item_price" placeholder="99.9" required/>
+                    <input type="text" class="form-control number" id="change_item_price" placeholder="99.9" autocomplete="off" required/>
                 </div>
             </div>
             <div class="col-12 col-md-6">

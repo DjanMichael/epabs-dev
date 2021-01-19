@@ -6,7 +6,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-menu-2"></i></span></div>
                 <input type="hidden" class="form-control" id="uacs_id"/>
-                <input type="text" class="form-control" id="category"/>
+                <input type="text" class="form-control" id="category" autocomplete="off"/>
             </div>
         </div>
 
@@ -14,7 +14,7 @@
             <label>Sub-Category<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon-squares-2"></i></span></div>
-                <input type="text" class="form-control" id="subcategory"/>
+                <input type="text" class="form-control" id="subcategory" autocomplete="off"/>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <label>Title<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-crisp-icons"></i></span></div>
-               <input type="text" class="form-control" id="title"/>
+               <input type="text" class="form-control" id="title" autocomplete="off"/>
             </div>
         </div>
 
@@ -30,7 +30,7 @@
             <label>Code<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-ui"></i></span></div>
-               <input type="text" class="form-control" id="code"/>
+               <input type="text" class="form-control" id="code" autocomplete="off"/>
             </div>
         </div>
 

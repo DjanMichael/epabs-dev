@@ -72,6 +72,7 @@
         fetch_wfp_list();
 
         $("#btn_create_wfp_year").on('click',function(){
+            $(this).attr('disabled',true);
             var redirectTo = "{{ route('r_create_wfp') }}";
             var _url ="{{ route('f_generate_code_wfp') }}";
             var a = localStorage.getItem('GLOBAL_SETTINGS');
@@ -138,6 +139,18 @@
                                     confirmButton: "btn font-weight-bold btn-light-primary"
                                 }
                         });
+                    }else if(data.message ='You only have already created wfp this year'){
+                        $("#modal_create_wfp").modal('hide');
+                        swal.fire({
+                                title:"Opss!",
+                                text: "You only have already created wfp this year",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
                     }else{
                         $("#modal_create_wfp").modal('hide');
                         swal.fire({
@@ -150,9 +163,12 @@
                                 }
                         });
                     }
-                },
-            });
 
+                },
+                complete:function(){
+                    $("#btn_create_wfp_year").attr('disabled',false);
+                }
+            });
         });
 
 

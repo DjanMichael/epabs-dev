@@ -888,7 +888,7 @@
                 $("#btn_save_wfp").html('Processing ..');
                 // $("#btn_save_wfp").attr('disabled',true);
 
-                if(wfp_data.act_cost == 0){
+                /*if(wfp_data.act_cost == 0){
                     Swal.fire(
                         "Opps!",
                         "Activity Cost must not be zero.",
@@ -897,6 +897,7 @@
                     $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                     $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
                 }else{
+                    */
                     if(wfp_validation.passes()){
 
                     var _data = { wfp_code : $("#wfp_code").val() };
@@ -950,7 +951,7 @@
                     $("#btn_save_wfp").attr('disabled',false);
                     }
 
-                }
+               // }
 
 
         }

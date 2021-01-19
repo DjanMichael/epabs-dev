@@ -6,7 +6,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-tag"></i></span></div>
                 <input type="hidden" class="form-control" id="sof_id"/>
-                <input type="text" class="form-control" id="sof"/>
+                <input type="text" class="form-control" id="sof" autocomplete="off"/>
             </div>
         </div>
 

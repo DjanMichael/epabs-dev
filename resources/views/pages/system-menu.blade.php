@@ -58,8 +58,6 @@
 </div>
 <!-- end::title -->
 
-
-
     <!--begin::Body-->
     @if(Auth::user()->role->roles =='ADMINISTRATOR')
         @include('pages.system_menu_roles.activity.administrator')
@@ -76,7 +74,7 @@
     @if(Auth::user()->role->roles =='PROCUREMENT')
         @include('pages.system_menu_roles.activity.procurement')
     @endif
-    @if(Auth::user()->role->roles =='PHARMA')
+    @if(Auth::user()->role->roles =='PHARMACY')
         @include('pages.system_menu_roles.activity.pharma')
     @endif
 
@@ -125,7 +123,7 @@
 @if(Auth::user()->role->roles =='PROCUREMENT')
     @include('pages.system_menu_roles.reports.procurement')
 @endif
-@if(Auth::user()->role->roles =='PHARMA')
+@if(Auth::user()->role->roles =='PHARMACY')
     @include('pages.system_menu_roles.reports.pharma')
 @endif
 <!-- begin::title -->
@@ -169,7 +167,7 @@
 @if(Auth::user()->role->roles =='PROCUREMENT')
     @include('pages.system_menu_roles.reference.procurement')
 @endif
-@if(Auth::user()->role->roles =='PHARMA')
+@if(Auth::user()->role->roles =='PHARMACY')
     @include('pages.system_menu_roles.reference.pharma')
 @endif
 <!--end::Body-->

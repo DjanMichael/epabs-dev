@@ -5,7 +5,7 @@
             <label>Unit Name<span class="text-danger">*</span></label>
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-crisp-icons"></i></span></div>
-                <input type="text" class="form-control" id="name"/>
+                <input type="text" class="form-control" id="name" autocomplete="off"/>
             </div>
         </div>
 
@@ -14,7 +14,7 @@
             <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-paper"></i></span></div>
                 <input type="hidden" class="form-control" id="item_unit_id"/>
-                <input type="text" class="form-control" id="measure"/>
+                <input type="text" class="form-control" id="measure" autocomplete="off"/>
             </div>
         </div>
 

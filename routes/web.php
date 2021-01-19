@@ -162,6 +162,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
+    Route::get('/activity-list','Transaction\ActivityCalendarController@getList')->name('d_get_activity_list');
 
     /*
     |--------------------------------------------------------------------------
@@ -318,23 +319,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 Route::post('/sms/save/api','SMSController@sendMsgToUser')->name('save_sms_api');
 Route::get('/sms/get/list','SMSController@api_list_view');
 Route::get('/sms/update/list','SMSController@updateSMSStatus');
-
-
+//AUTHENTICATION
 Route::get('/logout/session','AuthController@logoutUser')->name('Logout');
 Route::get('/authentication','AuthController@index');
 Route::get('/authtentication/user/section','AuthController@getSection')->name('d_get_section');
 Route::get('/authtentication/user/section/division/id','AuthController@getUnitId')->name('d_auth_get_unit_id');
-
 Route::any('/login','AuthController@loginUser')->name('send_login');
 Route::any('/signup','AuthController@signUpUser')->name('send_signup');
-
 Route::get('/authenticate','AuthController@index')->name('login');
-
 Route::get('/users','AuthController@getAllUser')->name('g_users');
-
-/*
-|--------------------------------------------------------------------------
-| References
-|--------------------------------------------------------------------------
-*/
-

@@ -28,7 +28,7 @@ use Auth;
 use PDF;
 use App\User;
 use App\RefProgram;
-
+use App\ProgramConap;
 use App\ApiSMS;
 use App\Views\BudgetAllocationAllYearPerProgram;
 
@@ -281,6 +281,13 @@ class WfpController extends Controller
             return ['message'=>'only program coordinator can generate wfp or you may update your settings'];
         }
 
+        /* this for single wfp per year per program
+        $wfp_check_exist = Wfp::where('program_id',$program_id)->where('year_id',$year_id) ->first();
+
+        if($wfp_check_exist){
+            return ['message'=>'You only have already created wfp this year'];
+        }
+        */
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
         $check = Wfp::where('user_id',$user_id)
@@ -417,11 +424,12 @@ class WfpController extends Controller
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
                                             ->orWhere('program_name','LIKE','%' . $qry .'%')
-                                            ->orWhere('wfp_code',)
+                                            ->orWhere('wfp_code',$qry)
                                         )
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }else{
+                    $qry = $req->q;
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
@@ -429,8 +437,9 @@ class WfpController extends Controller
                                             $q->where('name','LIKE', '%' . $qry .'%')
                                             ->orWhere('division','LIKE','%' . $qry .'%')
                                             ->orWhere('section','LIKE','%' . $qry .'%')
-                                            ->orWhere('program_name','LIKE','%' . $qry .'%'))
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                            ->orWhere('program_name','LIKE','%' . $qry .'%')
+                                            ->orWhere('wfp_code',$qry))
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }
 
@@ -438,14 +447,14 @@ class WfpController extends Controller
                 if($user_role != "PROGRAM COORDINATOR"){
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
 
                 }else{
                     $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
-                                        ->groupBy(['unit_id','year_id','user_id','program_id'])
+                                        ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
                 }
 
@@ -562,6 +571,16 @@ class WfpController extends Controller
         if( $total_balance_act_plan < $req->data["act_cost"])
         {
             return ['message'=> 'not enough budget'];
+        }
+
+        // CONAP CHECKER HAS BUDGET IF CONAP SELECTED
+        $source = RefSourceOfFund::where('id',$req->data["source_of_fund"])->first();
+        $conap  = ProgramConap::where('program_id',ltrim(substr($wfp_code,9,3),'0'))
+                                ->where('year_id',ltrim(substr($wfp_code,6,3),'0'))->first();
+        if($source->sof_classification == "CONAP"){
+            if(!$conap){
+                return ['message'=>'You dont have CONAP budget Allocated for this year','id'=> null];
+            }
         }
 
         if($req->id > 0){
@@ -734,8 +753,8 @@ class WfpController extends Controller
             //validation budget activity
             if( $maximum_cost_request < $req->wfp_act["act_cost"])
             {
-                return 'not enough budget';
-            }
+               return 'not enough budget';
+           }
             // dd($total_pi_cost);
             // dd($req->wfp_act["act_cost"]);
                 //validation budget performance indicator

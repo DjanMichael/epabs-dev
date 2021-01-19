@@ -233,6 +233,7 @@
 </div>
 </div>
 @endif
+
 <!-- begin:dashboard planning -->
 @if(Auth::user()->role->roles == "BUDGET" || Auth::user()->role->roles == "PLANNING" || Auth::user()->role->roles == "ADMINISTRATOR" )
 <div class="row">
@@ -242,7 +243,7 @@
                 <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
                     <!--begin::Body-->
                     <div class="card-body">
-                    <h1> WFP STATUS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+                    <h1> WFP & PPMP STATUS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
                     <div id="wfp_chart"></div>
                     <div class="separator separator-solid my-7"></div>
                         <div class="d-flex align-items-center flex-wrap">

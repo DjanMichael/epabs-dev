@@ -5,6 +5,9 @@
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
     </li>
     <li class="breadcrumb-item">
+        <a class="text-muted">System Reference</a>
+    </li>
+    <li class="breadcrumb-item">
         <a class="text-muted">Procurement Medicines</a>
     </li>
 @endsection
@@ -35,6 +38,7 @@
 
             let data = {
                 description :'',
+                strength :'',
                 unit:'',
                 classification: '',
                 category: '',
@@ -44,6 +48,7 @@
 
             let rules = {
                 description :'required',
+                strength:'required',
                 unit:'required',
                 classification: 'required',
                 category: 'required',
@@ -85,11 +90,15 @@
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 // alert(id);
+                // alert($('#'+id).children('td[data-target=description]').text());
                 var description = $('#'+id).children('td[data-target=description]').text();
                 // alert(description);
                 var unit_name = $('#'+id).children('td[data-target=unit_name]').text();
                 // alert(unit_name);
+                var strength = $('#'+id).children('td[data-target=strength]').text();
+
                 var classification = $('#'+id).children('td[data-target=classification]').text();
+                var strength = $('#'+id).children('td[data-target=strength]').text();
                 var category = $('#'+id).children('td[data-target=category]').text();
                 var price = $('#'+id).children('td[data-target=price]').text();
                 var effective_date = $('#'+id).children('td[data-target=effective_date]').text();
@@ -103,15 +112,16 @@
                     if (id) {
                         $('#procurement_id').val(id);
                         $('#item_description').val(description);
+                        $('#item_strength').val(strength);
                         $("#item_unit option:contains(" + unit_name +")").attr("selected", true);
                         $("#item_classification option:contains(" + classification +")").attr("selected", true);
                         $("#item_category option:contains(" + category +")").attr("selected", true);
                         $('.price-details').css('display', 'none');
-                        $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
+                        // $('#chk_fix_price').prop('checked', fix_price == 'Yes' ? false : true).trigger('click');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
                     else {
-                        $('#chk_fix_price').prop('checked', true).trigger('click');
+                        // $('#chk_fix_price').prop('checked', true).trigger('click');
                         $('#chk_status').prop('checked', true).trigger('click');
                     }
                     $('.div_status').css("display", (id == null) ? 'none' : '');
@@ -128,14 +138,15 @@
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#procurement_id").val();
                 var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                var fix_price = $("#chk_fix_price").val();
+                var fix_price = "N";
+                // var fix_price = $("#chk_fix_price").val();
                 data.description = $("#item_description").val();
                 data.unit = $("#item_unit").val();
                 data.classification = $("#item_classification").val();
                 data.category = $("#item_category").val();
                 data.price = (id != "") ? 'Blank' : $("#item_price").val();
                 data.effective_date = (id != "") ? 'Blank' : $("#effective_date").val();
-
+                data.strength =$("#item_strength").val();
                 let validation = new Validator(data, rules);
                 if (validation.passes()) {
                     e.preventDefault();
@@ -146,6 +157,7 @@
                         data: {
                             "id": id,
                             "description": data.description,
+                            "strength": data.strength,
                             "unit_id": data.unit,
                             "classification_id": data.classification,
                             "category_id": data.category,
@@ -171,6 +183,7 @@
                                 fix_price = fix_price == 'Y' ? 'Yes' : 'No';
                                 $('#modal_reference').modal('toggle');
                                 $('#'+id).children('td[data-target=description]').html(data.description);
+                                $('#'+id).children('td[data-target=strength]').html(data.strength);
                                 $('#'+id).children('td[data-target=unit_name]').html($("#item_unit option:selected").text());
                                 $('#'+id).children('td[data-target=classification]').html($("#item_classification option:selected").text());
                                 $('#'+id).children('td[data-target=category]').html($("#item_category option:selected").text());
@@ -229,7 +242,7 @@
                 }).done(function(data) {
                     document.getElementById('inner_modal_content').innerHTML= data;
                     $('#procurement_item_price_id').val(id);
-                    $('#change_item_price').val(price);
+                    $('#change_item_price').val(price.replace(/,/g,''));
                     $('#change_effective_date').val(effective_date);
                     $('#inner_modal_reference').modal('toggle');
                 });
@@ -270,7 +283,7 @@
                             }
                             else if (result['type'] == 'update') {
                                 $('#inner_modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=price]').html(price_data.price);
+                                $('#'+id).children('td[data-target=price]').html(ReplaceNumberWithCommas(price_data.price));
                                 $('#'+id).children('td[data-target=effective_date]').html(price_data.effective_date);
                                 toastr.success(result['message']);
                             }

@@ -51,7 +51,7 @@ class ProcurementMedicineController extends Controller
             } else {
                 $data = ProcurementMedSupplies::where('item_type', 'DRUM')->where('year_id',$settings->select_year)->paginate(10);
             }
-            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data, 'checker'=>'MEDS']);
         } else {
             abort(403);
         }
@@ -80,7 +80,7 @@ class ProcurementMedicineController extends Controller
         $data['unit'] = RefItemUnit::where('status','ACTIVE')->get();
         $data['classification'] = RefClassification::where('status','ACTIVE')->get();
         $data['category'] = RefDmCategory::where('status','ACTIVE')->get();
-        return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data]);
+        return view('pages.reference.procurement.form.add_procurement_item', ['data'=> $data, 'checker'=>'MEDS']);
     }
 
     public function getChangePriceForm(){
@@ -101,20 +101,22 @@ class ProcurementMedicineController extends Controller
                 $check = TableProcurementMedicine::find($request->id);
                 if ($check) {
                     $check->update(['description' => $request->description, 'unit_id' => $request->unit_id,
-                                    'classification_id' => $request->classification_id, 'category_id' => $request->category_id,
-                                    'fix_price' => $request->fix_price, 'status' => $request->status]);
+                                    'strength' => $request->strength, 'classification_id' => $request->classification_id, 
+                                    'category_id' => $request->category_id, 'fix_price' => $request->fix_price, 
+                                    'status' => $request->status]);
                     return response()->json(['message'=>'Successfully updated data','type'=>'update']);
                 }
                 else if (empty($check)) {
                     $medicine = [
                         'description' => $request->description,
+                        'strength' => $request->strength,
                         'unit_id' => $request->unit_id,
                         'classification_id' => $request->classification_id,
                         'category_id' => $request->category_id,
                         'fix_price' => $request->fix_price,
                         'status' => $request->status
                     ];
-
+                    // dd($request->all());
                     $latest_record = TableProcurementMedicine::create($medicine)->id;
 
                     $price = [

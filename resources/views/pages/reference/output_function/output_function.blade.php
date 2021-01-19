@@ -44,6 +44,7 @@
         | EVENTS
         |--------------------------------------------------------------------------
         */
+            $(document).on('click', '#chk_status', function(){ switchChangeValue('chk_status', 'ACTIVE', 'INACTIVE') });
 
             // Search button event
             $("#btn_search").on('click',function(){
@@ -58,17 +59,21 @@
                 var function_class = $('#'+id).children('td[data-target=function_class]').text();
                 var description = $('#'+id).children('td[data-target=description]').text();
                 var program = $('#'+id).children('td[data-target=program]').text();
+                var status = $('#'+id).children('td[data-target=status]').find('span').text();
                 $.ajax({
                     url: "{{ route('d_add_output_function') }}",
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    if (id) {
+                    // if (id) {
                         $('#output_function_id').val(id);
                         $("#function_deliverables option:contains(" + function_class +")").attr("selected", true);
                         $('#description').val(description);
                         $("#program option:contains(" + program +")").attr("selected", true);
-                    }
+                        $('.div_status').css("display", (id == null) ? 'none' : '');
+                        $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
+
+                    // }
                     $('#modal_reference').modal('toggle');
                 });
             });
@@ -81,6 +86,7 @@
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
                 var id = $("#output_function_id").val();
+                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                 var function_deliverables = $("#function_deliverables option:selected").text();
                 var program = $("#program option:selected").text();
                 data.function_deliverables_id = $("#function_deliverables").val();
@@ -100,7 +106,8 @@
                             function_deliverables    : function_deliverables,
                             description              : data.description,
                             program_id               : data.program_id,
-                            program                  : program
+                            program                  : program,
+                            status                   : status
                         },
                         beforeSend:function(){
                             KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
@@ -120,6 +127,7 @@
                                 $('#'+id).children('td[data-target=function_class]').html($("#function_deliverables option:selected").text());
                                 $('#'+id).children('td[data-target=description]').html(data.description);
                                 $('#'+id).children('td[data-target=program]').html($("#program option:selected").text());
+                                $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                 toastr.success(result['message']);
                             }
                             else {

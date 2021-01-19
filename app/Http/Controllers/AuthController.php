@@ -13,6 +13,7 @@ use DB;
 use App\RefUnits;
 use App\UserProfile;
 use App\UserRoles;
+use App\GlobalSystemSettings;
 use Cache;
 class AuthController extends Controller
 {
@@ -80,8 +81,11 @@ class AuthController extends Controller
                 $user = Auth::user();
 
                 // dd($user);
+                $key = env('APP_NAME') . ' Personal Access Client';
+                // dd($key);
 
-                $tokenResult = $user->createToken( env('APP_NAME') . ' Personal Access Client');
+                $tokenResult = $user->createToken($key);
+
                 $token = $tokenResult->token;
                 // if ($req->remember_me  == 'true'){
                 //     Auth::login($user,true);
@@ -98,7 +102,7 @@ class AuthController extends Controller
 
 
                 $data["access_token"] =  $tokenResult->accessToken;
-
+                $data["unit"] = (Auth::user()->role->roles =="PROCUREMENT" ? "PROCUREMENT" : null);
                 return response()->json($data);
             } catch (Throwable $e) {
                 // report($e);
@@ -157,8 +161,9 @@ class AuthController extends Controller
                 //     UserProfile::create($data2);
                 // }
 
-
-
+                $g = new GlobalSystemSettings;
+                $g->user_id = $user->id;
+                $g->save();
                 DB::commit();
                 $ACCESS_TOKEN = $user->createToken( env('APP_NAME') .' Personal Access Client')->accessToken;
 
@@ -177,7 +182,7 @@ class AuthController extends Controller
     }
 
     public function logoutUser(){
-        Cache::forget('user-is-online-' . Auth::user()->id);
+        Cache::forget('user-is-online-' . Auth::user() ?? Auth::user()->id);
         Auth::logout();
         return redirect()->route('login');
     }

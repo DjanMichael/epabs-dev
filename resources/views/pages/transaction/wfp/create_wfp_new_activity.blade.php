@@ -886,7 +886,7 @@
                 $("#btn_save_wfp").html('Processing ..');
                 // $("#btn_save_wfp").attr('disabled',true);
 
-                if(wfp_data.act_cost == 0){
+               /* if(wfp_data.act_cost == 0){
                     Swal.fire(
                         "Opps!",
                         "Activity Cost must not be zero.",
@@ -894,61 +894,68 @@
                     )
                     $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
                     $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
-                }else{
+                }else{*/
                     if(wfp_validation.passes()){
 
-                    var _data = { wfp_code : $("#wfp_code").val() };
-                    var _url = "{{ route('db_save_wfp_act') }}";
+                        var _data = { wfp_code : $("#wfp_code").val() };
+                        var _url = "{{ route('db_save_wfp_act') }}";
 
-                    $.ajax({
-                        method:"GET",
-                        url : _url,
-                        data : { data : wfp_data , id: $("#wfp_act_id").val() },
-                        success:function(data){
-                            if(data.message =='not enough budget'){
-                                $("#btn_save_wfp").removeAttr('disabled');
-                                Swal.fire(
-                                        "Opps!",
-                                        "Not enough budget.",
-                                        "error"
+                        $.ajax({
+                            method:"GET",
+                            url : _url,
+                            data : { data : wfp_data , id: $("#wfp_act_id").val() },
+                            success:function(data){
+                                if(data.message =='not enough budget'){
+                                    $("#btn_save_wfp").removeAttr('disabled');
+                                    Swal.fire(
+                                            "Opps!",
+                                            "Not enough budget.",
+                                            "error"
+                                        )
+                                }else if (data.message == 'success'){
+                                    $("#wfp_act_id").val(data.id);
+                                    $("#btn_save_wfp").removeAttr('disabled',true);
+                                    $("#btn_pi_add_new").attr('disabled',false);
+                                    Swal.fire(
+                                        "Successfully Save WFP Activity",
+                                        "You may start adding Performance Indicator",
+                                        "success"
                                     )
-                            }else if (data.message == 'success'){
-                                $("#wfp_act_id").val(data.id);
-                                $("#btn_save_wfp").removeAttr('disabled',true);
-                                $("#btn_pi_add_new").attr('disabled',false);
-                                Swal.fire(
-                                    "Successfully Save WFP Activity",
-                                    "You may start adding Performance Indicator",
-                                    "success"
-                                )
-                            }
-                            $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
+                                }else if(data.message =='You dont have CONAP budget Allocated for this year'){
+                                    $("#btn_save_wfp").removeAttr('disabled');
+                                    Swal.fire(
+                                            "Opps!",
+                                            data.message,
+                                            "error"
+                                        )
+                                }
+                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                                $("#btn_save_wfp").html('<i class="flaticon-file-1 icon-md"/> Save');
 
-                        },complete:function(){
-                            $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                            $("#btn_save_wfp").html('Save');
-                            // $("#btn_save_wfp").attr('disabled',true);
-                        }
-                    });
+                            },complete:function(){
+                                $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                                $("#btn_save_wfp").html('Save');
+                                // $("#btn_save_wfp").attr('disabled',true);
+                            }
+                        });
 
                     }else{
-                    $("#kt_scrolltop").click();
-                    $.each(wfp_validation.errors.all(),function(key,value){
-                    // console.log('key:' + key , 'value:' + value);
-                    msg += '<li>' + value + '</li>';
-                    });
-                    $("#wfp_alert").delay(400).fadeIn(600);
-                    $("#kt_body").animate({ scrollTop:0 },700);
-                    $("#wfp_alert").addClass('fade show');
-                    $("#wfp_alert_text").html(msg);
+                        $("#kt_scrolltop").click();
+                        $.each(wfp_validation.errors.all(),function(key,value){
+                        // console.log('key:' + key , 'value:' + value);
+                        msg += '<li>' + value + '</li>';
+                        });
+                        $("#wfp_alert").delay(400).fadeIn(600);
+                        $("#kt_body").animate({ scrollTop:0 },700);
+                        $("#wfp_alert").addClass('fade show');
+                        $("#wfp_alert_text").html(msg);
 
-                    $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
-                    $("#btn_save_wfp").html('Save');
-                    $("#btn_save_wfp").attr('disabled',false);
+                        $("#btn_save_wfp").removeClass('spinner spinner-white spinner-right');
+                        $("#btn_save_wfp").html('Save');
+                        $("#btn_save_wfp").attr('disabled',false);
                     }
 
-                }
+                //}
 
 
 

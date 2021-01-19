@@ -16,6 +16,7 @@ class CreateTblProcurementMedicine extends Migration
         Schema::create('tbl_procurement_medicine', function (Blueprint $table) {
             $table->id();
             $table->string('description');
+            $table->string('strength')->default(null);
             $table->integer('unit_id');
             $table->integer('classification_id');
             $table->integer('category_id');
