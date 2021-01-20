@@ -199,12 +199,12 @@
                                             </label>
                                         </th> --}}
                                         {{-- <th class="pl-0" style="min-width: 120px">ID</th> --}}
+                                        <th style="width: 60px">Action</th>
                                         <th style="min-width: 110px">ITEM DESCRIPTION</th>
-                                        <th style="min-width: 120px">UNIT</th>
+                                        <th style="min-width: 50px">UNIT</th>
                                         <th style="min-width: 110px">
                                             <span>PRICE</span>
                                         </th>
-                                        <th class="pr-0 text-right" style="min-width: 160px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ppmp_med_supplies_items">
