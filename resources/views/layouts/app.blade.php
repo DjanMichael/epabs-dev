@@ -1297,7 +1297,7 @@
 
             if(detectMob()){
                 document.getElementById('notification_sound').muted = true;
-                document.getElementById('notification_sound').play();
+                // document.getElementById('notification_sound').play();
             }else{
                 document.getElementById('notification_sound').autoplay = true;
                 document.getElementById('notification_sound').muted = true;
@@ -2505,9 +2505,12 @@
                             wfp_ppmp_viewer_drawer_close();
                             Swal.fire(
                                 "Good Job!",
-                                "PPMP Successfully Submitted!",
+                                "PPMP Successfully Submitted!, Automatically Redirecting to Dashboard",
                                 "success"
                             )
+                            setTimeout(()=>{
+                                window.location.href="{{ route('dashboard') }}";
+                            },1000)
                         }
                     }
                 })

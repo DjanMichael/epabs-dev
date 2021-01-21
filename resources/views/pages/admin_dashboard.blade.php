@@ -684,19 +684,9 @@ const primary = "#6993FF"
   , warning = "#FFA800"
   , danger = "#F64E60";
         $(document).ready(function(){
-            //remove parameter for duplicate events for isMobile
-            setTimeout(function(){
-                var newURL = location.href.split("?")[0];
-                window.history.pushState('object', document.title, newURL);
-                fetchAllSystemLogs();
-                fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
-            },1500)
 
-            fetchStatusData();
-        });
-
-        function fetchStatusData(){
-            var _url ="{{ route('get_dstat_data') }}";
+            function fetchStatusData(){
+            var _url ="{{ route('get_dstat_data2') }}";
             $.ajax({
                 method:"GET",
                 url: _url,
@@ -800,11 +790,30 @@ const primary = "#6993FF"
                     $("#ppmp_revision").html(data.ppmp.ppmp_revision);
                     $("#ppmp_notsubmitted").html( data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision);
 
-
-
+                },error:function(err){
+                    console.log(err);
                 }
             });
         }
+
+
+
+
+
+
+            //remove parameter for duplicate events for isMobile
+            setTimeout(function(){
+                var newURL = location.href.split("?")[0];
+                window.history.pushState('object', document.title, newURL);
+                fetchAllSystemLogs();
+                fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
+                fetchStatusData();
+            },1500)
+
+
+        });
+
+
 
         function fetchhUserWfpStatusList(_page = null, _q = null,status = null){
             var _url = "{{ route('get_program_wfp_status_list') }}";
