@@ -249,7 +249,7 @@
 				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default bg-transparent" >
 					<!--begin::Header Nav-->
 					<ul class="menu-nav text-dark ">
-                        @if(Auth::user()->role->roles != "PROCUREMENT")<li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>@endif
+                        @if(Auth::user()->role->roles != "PROCUREMENT" || Auth::user()->role->roles != "PHARMACY")<li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>@endif
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
                     </ul>
 					<!--end::Header Nav-->
