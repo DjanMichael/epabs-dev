@@ -10,7 +10,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        <!--end::Fonts-->
-
         <!--begin::Page Vendors Styles(used by this page)-->
             <link href="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css"/>
         <!--end::Page Vendors Styles-->
@@ -24,18 +23,12 @@
             <link href="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css"/>
             <link href="{{ asset('dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
         <!--end::Global Theme Styles-->
-
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
-         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
-
-
-
         <link rel="stylesheet" href="{{  asset('src/plugins/emoji/emojionearea.css') }}">
-
         {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
-
         @stack('styles')
         <style>
             #wfp_card{
@@ -157,7 +150,6 @@
 		</a>
 		<!--end::Logo-->
     </div>
-
 
 	<!--begin::Toolbar-->
 	<div class="d-flex align-items-center">
