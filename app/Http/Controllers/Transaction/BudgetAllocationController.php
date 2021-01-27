@@ -82,6 +82,7 @@ class BudgetAllocationController extends Controller
                                                                     ->where('unit_id',$req->unit_id)
                                                                     ->where('year_id',$req->year_id)
                                                                     ->where('program_id',$req->program_id)
+                                                                    // ->groupBy('user_id','unit_id','year_id','program_id')
                                                                     ->get()->toArray();
         // dd($data);
         return view('pages.transaction.budget_allocation.component.table_unit_bli_allocation',['data'=>$data]);

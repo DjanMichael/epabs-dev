@@ -400,7 +400,7 @@
         }
 
         $("#btn_search_query").on('click',function(){
-            console.log($("#query_search").val());
+//            console.log($("#query_search").val());
             fetch_budget_allocation(current_page, $("#query_search").val(),settings.year,$("#query_sort_by").val())
         });
 </script>

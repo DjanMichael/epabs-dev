@@ -107,6 +107,6 @@ class CreateVwProcurementDrumSuppliesItems extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('DROP VIEW vw_procurement_drum_supplies_items');
+        Schema::dropIfExists('vw_procurement_drum_supplies_items');
     }
 }
