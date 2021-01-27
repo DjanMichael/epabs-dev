@@ -36,6 +36,6 @@ class CreateVwReportWfpBli extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('DROP VIEW IF EXIST vw_report_app_details');
+        Schema::dropIfExists('vw_report_app_details');
     }
 }
