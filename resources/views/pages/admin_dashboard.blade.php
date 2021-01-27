@@ -209,10 +209,11 @@
             <span class="mr-4">
                 <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
             </span>
+
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Total Budget Utilization</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_pi_utilized"] : 0),2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0),2) }}</span>
             </div>
         </div>
         <!--end: Item-->
@@ -224,7 +225,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_pi_utilized"] : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) ,2) }}</span>
             </div>
         </div>
         <!--end: Item-->
