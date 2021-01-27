@@ -14,7 +14,7 @@ class CreateVwUnitProgramWfplist extends Migration
     public function up()
     {
         DB2::statement('
-        CREATE VIEW  vw_GET_COUNT_WFP_PPMP AS (
+        CREATE VIEW  vw_unit_program_wfplist AS (
             (
                 SELECT
                     (
