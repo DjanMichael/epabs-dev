@@ -26,22 +26,56 @@ class PageController extends Controller
         return view('pages.system-menu');
     }
 
-    public function getStatusData(Request $req){
+    // public function getStatusData(Request $req){
+    //     if($req->ajax()){
+    //         $data = [];
+    //         $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+    //         if($program){
+    //             $data["programs_count"] = BudgetAllocationUtilization::where('year_id',$program->select_year)->get()->groupBy('program_id')->count();
+
+    //             $data["wfp"]["wfp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
+    //             $data["wfp"]["wfp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
+    //             $data["wfp"]["wfp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
+    //             $data["wfp"]["wfp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
+
+    //             $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
+    //             $data["ppmp"]["ppmp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
+    //             $data["ppmp"]["ppmp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
+    //             $data["ppmp"]["ppmp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
+    //         }else{
+
+    //             $data["wfp"]["wfp_not_submitted"] = null;
+    //             $data["wfp"]["wfp_submitted"] = null;
+    //             $data["wfp"]["wfp_approved"] = null;
+    //             $data["wfp"]["wfp_revision"] = null;
+    //             $data["ppmp"]["ppmp_not_submitted"] = null;
+    //             $data["ppmp"]["ppmp_submitted"] = null;
+    //             $data["ppmp"]["ppmp_approved"] = null;
+    //             $data["ppmp"]["ppmp_revision"] = null;
+    //         }
+    //         dd($data);
+    //         return response()->json($data);
+    //     }else{
+    //         abort(403);
+    //     }
+    // }
+
+    public function getStatusData2(Request $req){
         if($req->ajax()){
             $data = [];
             $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
             if($program){
                 $data["programs_count"] = BudgetAllocationUtilization::where('year_id',$program->select_year)->get()->groupBy('program_id')->count();
 
-                $data["wfp"]["wfp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
-                $data["wfp"]["wfp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
-                $data["wfp"]["wfp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
-                $data["wfp"]["wfp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
+                $data["wfp"]["wfp_not_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','NOT SUBMITTED')->count();
+                $data["wfp"]["wfp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
+                $data["wfp"]["wfp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
+                $data["wfp"]["wfp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
 
-                $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
-                $data["ppmp"]["ppmp_submitted"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
-                $data["ppmp"]["ppmp_approved"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
-                $data["ppmp"]["ppmp_revision"] = collect(DB::select('CALL GET_COUNT_WFP_STATUS(?)' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
+                $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
+                $data["ppmp"]["ppmp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
+                $data["ppmp"]["ppmp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
+                $data["ppmp"]["ppmp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
             }else{
 
                 $data["wfp"]["wfp_not_submitted"] = null;
@@ -53,7 +87,7 @@ class PageController extends Controller
                 $data["ppmp"]["ppmp_approved"] = null;
                 $data["ppmp"]["ppmp_revision"] = null;
             }
-            return $data;
+            return response()->json($data);
         }else{
             abort(403);
         }

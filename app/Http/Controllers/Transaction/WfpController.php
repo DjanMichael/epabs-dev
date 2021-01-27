@@ -31,7 +31,7 @@ use App\RefProgram;
 use App\ProgramConap;
 use App\ApiSMS;
 use App\Views\BudgetAllocationAllYearPerProgram;
-
+use App\Views\WfpListByProgram;
 class WfpController extends Controller
 {
     //
@@ -156,7 +156,9 @@ class WfpController extends Controller
                                                                     ->toArray();
 
         $data['budget_allocation'] = count($a) > 0 ? $a : [];
-        // dd($data);
+        // dd($a);
+        //  dd($this->auth_user_program_id);
+        // dd($unit_id);
         return view('pages.transaction.wfp.component.budget_line_item',['data' => $data]);
     }
 
@@ -417,7 +419,7 @@ class WfpController extends Controller
                 if($user_role != "PROGRAM COORDINATOR"){
 
                     $qry = $req->q;
-                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                    $data["wfp_list"] = WfpListByProgram::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where(fn($q) =>
                                             $q->where('name','LIKE', '%' . $qry .'%')
@@ -430,7 +432,7 @@ class WfpController extends Controller
                                         ->paginate($this->wfp_list_paginate);
                 }else{
                     $qry = $req->q;
-                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                    $data["wfp_list"] = WfpListByProgram::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
                                         ->where(fn($q) =>
@@ -445,13 +447,13 @@ class WfpController extends Controller
 
             }else{
                 if($user_role != "PROGRAM COORDINATOR"){
-                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                    $data["wfp_list"] = WfpListByProgram::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->groupBy(['wfp_code'])
                                         ->paginate($this->wfp_list_paginate);
 
                 }else{
-                    $data["wfp_list"] = BudgetAllocationUtilization::where('year_id',$settings->select_year)
+                    $data["wfp_list"] = WfpListByProgram::where('year_id',$settings->select_year)
                                         ->where('wfp_code','!=',null)
                                         ->where('program_id',$settings->select_program_id)
                                         ->groupBy(['wfp_code'])
@@ -546,7 +548,6 @@ class WfpController extends Controller
 
 
             $data["wfp_act_indi"] = WfpPerformanceIndicator::where('wfp_act_id',$req->wfp_id)->get();
-
             $data["pi_data"] =  WfpPerformanceIndicator::where('wfp_act_id',$req->wfp_id)->get()->toArray();
 
 
@@ -562,7 +563,7 @@ class WfpController extends Controller
         // dd($req->data["output_function"]);
         // dd($req->all());
         $total_balance_act_plan = 0;
-        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+        $budget_allocation = WfpListByProgram::where('wfp_code', $wfp_code )->first();
 
         if($budget_allocation){
             $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);
@@ -856,7 +857,7 @@ class WfpController extends Controller
     public function newWfpActivity(Request $req){
         $wfp_code = Crypt::decryptString($req->wfp_code);
         $total_balance_act_plan = 0;
-        $budget_allocation = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+        $budget_allocation = WfpListByProgram::where('wfp_code', $wfp_code )->first();
 
         if($budget_allocation){
             $total_balance_act_plan = ($budget_allocation->yearly_budget - $budget_allocation->yearly_utilized);

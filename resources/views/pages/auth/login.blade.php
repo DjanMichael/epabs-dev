@@ -376,6 +376,11 @@ License: You must have a valid license purchased only from themeforest(the above
 							KTApp.unblock('#kt_body');
 							window.location.href="{{ route('r_system_module') }}?isMobile=" + detectMob();
                         }
+                        else if(data.unit == "PHARMACY"){
+                            sessionStorage.setItem('token',`Bearer ` + data.access_token);
+							KTApp.unblock('#kt_body');
+							window.location.href="{{ route('r_system_module') }}?isMobile=" + detectMob();
+                        }
                         else if(data.access_token != null)
 						{
 							sessionStorage.setItem('token',`Bearer ` + data.access_token);

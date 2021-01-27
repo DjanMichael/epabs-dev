@@ -52,7 +52,7 @@
                                 <span class="font-weight-bolder mb-1 mt-5">Utilized</span>
                                 <span class="font-weight-bolder pt-1" style="font-size:13px">
                                     <span class="font-weight-bold text-dark-50">₱</span>
-                                    {{ $row["yearly_pi_utilized"] != null ? number_format($row["yearly_pi_utilized"],2) : '0.00' }}
+                                    {{ $row["yearly_pi_utilized"] != null ? number_format($row["utilized_pi"],2) : '0.00' }}
                                 </span>
                             </div>
                             <!--end::Item-->

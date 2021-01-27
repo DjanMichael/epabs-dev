@@ -42,6 +42,6 @@ class CreateVwUnitProgram extends Migration
      */
     public function down()
     {
-        DB2::statement('vw_unit_program');
+        DB2::statement('DROP VIEW IF EXIST vw_unit_program');
     }
 }

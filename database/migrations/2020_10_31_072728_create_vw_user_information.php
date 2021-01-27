@@ -44,6 +44,6 @@ class CreateVwUserInformation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('DROP VIEW vw_user_information');
+        Schema::dropIfExists('vw_user_information');
     }
 }

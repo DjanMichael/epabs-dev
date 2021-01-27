@@ -10,7 +10,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        <!--end::Fonts-->
-
         <!--begin::Page Vendors Styles(used by this page)-->
             <link href="{{ asset('dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css"/>
         <!--end::Page Vendors Styles-->
@@ -24,18 +23,12 @@
             <link href="{{ asset('dist/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css"/>
             <link href="{{ asset('dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
         <!--end::Global Theme Styles-->
-
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
-         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
         <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
-
-
-
         <link rel="stylesheet" href="{{  asset('src/plugins/emoji/emojionearea.css') }}">
-
         {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
-
         @stack('styles')
         <style>
             #wfp_card{
@@ -158,7 +151,6 @@
 		<!--end::Logo-->
     </div>
 
-
 	<!--begin::Toolbar-->
 	<div class="d-flex align-items-center">
 					<button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
@@ -249,7 +241,7 @@
 				<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile  header-menu-layout-default bg-transparent" >
 					<!--begin::Header Nav-->
 					<ul class="menu-nav text-dark ">
-                        @if(Auth::user()->role->roles != "PROCUREMENT")<li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>@endif
+                        @if(Auth::user()->role->roles != "PROCUREMENT" || Auth::user()->role->roles != "PHARMACY")<li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('dashboard') }}" class="menu-link "><i class="icon-2x flaticon2-dashboard mr-3 d-sm-none"></i><span class="menu-text">Dashboard</span></a></li>@endif
                         <li class="menu-item "  aria-haspopup="true"> <a  href="{{ route('r_system_module') }}" class="menu-link "><i class="icon-2x flaticon2-menu mr-3 d-sm-none"></i><span class="menu-text">System Modules</span></a></li>
                     </ul>
 					<!--end::Header Nav-->
@@ -1297,7 +1289,7 @@
 
             if(detectMob()){
                 document.getElementById('notification_sound').muted = true;
-                document.getElementById('notification_sound').play();
+                // document.getElementById('notification_sound').play();
             }else{
                 document.getElementById('notification_sound').autoplay = true;
                 document.getElementById('notification_sound').muted = true;
@@ -2505,9 +2497,12 @@
                             wfp_ppmp_viewer_drawer_close();
                             Swal.fire(
                                 "Good Job!",
-                                "PPMP Successfully Submitted!",
+                                "PPMP Successfully Submitted!, Automatically Redirecting to Dashboard",
                                 "success"
                             )
+                            setTimeout(()=>{
+                                window.location.href="{{ route('dashboard') }}";
+                            },1000)
                         }
                     }
                 })

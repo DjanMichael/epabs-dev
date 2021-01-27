@@ -124,7 +124,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     //System Menu
     Route::get('/system-menu','PageController@redirectToSystemModule')->name('r_system_module');
     Route::get('/', 'PageController@dashboard')->name('dashboard');
-    Route::get('/dashboard/status/data','PageController@getStatusData')->name('get_dstat_data');
+    Route::get('/dashboard/status/charts/populate','PageController@getStatusData')->name('get_dstat_data');
+    Route::get('/dashboard/status/charts/populate2','PageController@getStatusData2')->name('get_dstat_data2');
 
     //DASHBOARD
     Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');

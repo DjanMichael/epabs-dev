@@ -43,6 +43,6 @@ class CreateVwActivityOutputFunction extends Migration
      */
     public function down()
     {
-        DB2::statement('vw_activity_output_function');
+        DB2::statement('DROP VIEW IF EXIST vw_activity_output_function');
     }
 }
