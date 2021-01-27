@@ -41,7 +41,7 @@ class CreateVwActivityList extends Migration
                     JOIN ref_year ry ON ry.id = tw.year_id
                     JOIN tbl_wfp_activity twa ON twa.wfp_code = tw.`code`
                     JOIN tbl_wfp_activity_per_indicator twapi ON twapi.wfp_act_id = twa.id
-                    
+
             )
         ');
     }
@@ -53,6 +53,6 @@ class CreateVwActivityList extends Migration
      */
     public function down()
     {
-        DB2::statement('vw_activity_list');
+        DB2::statement('DROP VIEW IF EXIST vw_activity_list');
     }
 }
