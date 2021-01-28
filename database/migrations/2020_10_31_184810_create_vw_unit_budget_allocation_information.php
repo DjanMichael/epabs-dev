@@ -83,6 +83,26 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                 `tbl_wfp_activity_per_indicator` `twapi`
                             WHERE
                                 `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                            AND trim(
+                                LEADING "0"
+                                FROM
+                                    substr(`twapi`.`wfp_code`, 1, 3)
+                            ) = `tup`.`user_id`
+                            AND trim(
+                                LEADING "0"
+                                FROM
+                                    substr(`twapi`.`wfp_code`, 4, 3)
+                            ) = `tuba`.`unit_id`
+                            AND trim(
+                                LEADING "0"
+                                FROM
+                                    substr(`twapi`.`wfp_code`, 7, 3)
+                            ) = `tuba`.`year_id`
+                            AND trim(
+                                LEADING "0"
+                                FROM
+                                    substr(`twapi`.`wfp_code`, 10, 3)
+                            ) = `tup`.`program_id`
                         ) AS `utilized_pi`,
                         cast(
                             `tuba`.`program_budget` - COALESCE (
@@ -98,6 +118,26 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                         )
                                     WHERE
                                         `twapi`.`bli_id` = `tuba`.`budget_line_item_id`
+                                    AND trim(
+                                        LEADING "0"
+                                        FROM
+                                            substr(`twapi`.`wfp_code`, 1, 3)
+                                    ) = `tup`.`user_id`
+                                    AND trim(
+                                        LEADING "0"
+                                        FROM
+                                            substr(`twapi`.`wfp_code`, 4, 3)
+                                    ) = `tuba`.`unit_id`
+                                    AND trim(
+                                        LEADING "0"
+                                        FROM
+                                            substr(`twapi`.`wfp_code`, 7, 3)
+                                    ) = `tuba`.`year_id`
+                                    AND trim(
+                                        LEADING "0"
+                                        FROM
+                                            substr(`twapi`.`wfp_code`, 10, 3)
+                                    ) = `tup`.`program_id`
                                 ),
                                 0
                             ) AS DECIMAL (20, 2)
@@ -130,6 +170,26 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                             `tbl_wfp_activity_per_indicator` `twapi2`
                                         WHERE
                                             `twapi2`.`bli_id` = `tuba`.`budget_line_item_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 1, 3)
+                                        ) = `tup`.`user_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 4, 3)
+                                        ) = `tuba`.`unit_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 7, 3)
+                                        ) = `tuba`.`year_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 10, 3)
+                                        ) = `tup`.`program_id`
                                     )
                             )
                         ) AS `utilized_ppmp_actual`,
@@ -162,6 +222,26 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                                 `tbl_wfp_activity_per_indicator` `twapi2`
                                             WHERE
                                                 `twapi2`.`bli_id` = `tuba`.`budget_line_item_id`
+                                            AND trim(
+                                                LEADING "0"
+                                                FROM
+                                                    substr(`twapi2`.`wfp_code`, 1, 3)
+                                            ) = `tup`.`user_id`
+                                            AND trim(
+                                                LEADING "0"
+                                                FROM
+                                                    substr(`twapi2`.`wfp_code`, 4, 3)
+                                            ) = `tuba`.`unit_id`
+                                            AND trim(
+                                                LEADING "0"
+                                                FROM
+                                                    substr(`twapi2`.`wfp_code`, 7, 3)
+                                            ) = `tuba`.`year_id`
+                                            AND trim(
+                                                LEADING "0"
+                                                FROM
+                                                    substr(`twapi2`.`wfp_code`, 10, 3)
+                                            ) = `tup`.`program_id`
                                         )
                                 ),
                                 0
@@ -183,6 +263,27 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                     sum(`twa2`.`activity_cost`)
                                 FROM
                                     `tbl_wfp_activity` `twa2`
+                                WHERE
+                                    trim(
+                                        LEADING "0"
+                                        FROM
+                                            substr(`twa2`.`wfp_code`, 1, 3)
+                                    ) = `tup`.`user_id`
+                                AND trim(
+                                    LEADING "0"
+                                    FROM
+                                        substr(`twa2`.`wfp_code`, 4, 3)
+                                ) = `tuba`.`unit_id`
+                                AND trim(
+                                    LEADING "0"
+                                    FROM
+                                        substr(`twa2`.`wfp_code`, 7, 3)
+                                ) = `tuba`.`year_id`
+                                AND trim(
+                                    LEADING "0"
+                                    FROM
+                                        substr(`twa2`.`wfp_code`, 10, 3)
+                                ) = `tup`.`program_id`
                             ),
                             0
                         ) AS `yearly_pi_utilized`,
@@ -212,6 +313,27 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                                             `twapi2`.`id`
                                         FROM
                                             `tbl_wfp_activity_per_indicator` `twapi2`
+                                        WHERE
+                                            trim(
+                                                LEADING "0"
+                                                FROM
+                                                    substr(`twapi2`.`wfp_code`, 1, 3)
+                                            ) = `tup`.`user_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 4, 3)
+                                        ) = `tuba`.`unit_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 7, 3)
+                                        ) = `tuba`.`year_id`
+                                        AND trim(
+                                            LEADING "0"
+                                            FROM
+                                                substr(`twapi2`.`wfp_code`, 10, 3)
+                                        ) = `tup`.`program_id`
                                     )
                             )
                         ) AS `yearly_utilized_ppmp_actual`,
