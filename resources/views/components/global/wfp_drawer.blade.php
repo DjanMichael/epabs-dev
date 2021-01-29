@@ -74,8 +74,6 @@
                                 @if(Auth::user()->role->roles == "PROGRAM COORDINATOR")
                                     <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="addNewActivity('{{ $wfp_code }}')"><i class="flaticon-time-3 icon-md"></i>WFP New Acitivity</button>
                                 @endif
-                                <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>WFP  Print</button>
-                                <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>WFP Export PDF</button>
                             @else
                                 <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>WFP  Print</button>
                                 <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>WFP Export PDF</button>
