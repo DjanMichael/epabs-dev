@@ -327,14 +327,7 @@ class PpmpController extends Controller
             // dd($data["ppmp_catering"]);
             $data["wfp_code"] = $req->wfp_code;
 
-            $data["ppmp_comments"] = PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
-                                                ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
-                                                ->where('wfp_code',Crypt::decryptString($req->wfp_code))
-                                                ->orderBy('created_at','DESC')
-                                                ->get()
-                                                ->toArray();
-
-
+            $data["ppmp_comments"] = PpmpComments::where('wfp_code',Crypt::decryptString($req->wfp_code))->get()->toArray();
             // $pi_ids = Arr::flatten($pi_ids);
             // dd($pi_ids);
             // dd($req->wfp_code);
