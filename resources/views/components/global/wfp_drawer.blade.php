@@ -55,12 +55,6 @@
 
                             @if($log->remarks =="APPROVED")
                                     <button type="button" onclick="wfpRevise('{{ $wfp_code }}')" class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
-                                    <button  class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
-                                        style="position: relative;right:0;bottom:0;"
-                                        data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
-                                        onclick="wfp_ppmp_viewer_drawer_open('{{ $wfp_code }}','')">
-                                        <i class="fas fa-boxes"></i> Open PPMP
-                                    </button>
                             @endif
                         @else
                             @if($log->remarks == "FOR REVISION" || $log->remarks == "NOT SUBMITTED")
@@ -74,8 +68,6 @@
                                 @if(Auth::user()->role->roles == "PROGRAM COORDINATOR")
                                     <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="addNewActivity('{{ $wfp_code }}')"><i class="flaticon-time-3 icon-md"></i>WFP New Acitivity</button>
                                 @endif
-                                <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>WFP  Print</button>
-                                <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>WFP Export PDF</button>
                             @else
                                 <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printWfp('{{ $wfp_code }}')"><i class="flaticon2-printer"></i>WFP  Print</button>
                                 <button type="button" id="btn_download_wfp" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="downloadPdfWfp('{{ $wfp_code }}')"><i class="flaticon-file icon-md"></i>WFP Export PDF</button>
