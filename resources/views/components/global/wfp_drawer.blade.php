@@ -55,6 +55,12 @@
 
                             @if($log->remarks =="APPROVED")
                                     <button type="button" onclick="wfpRevise('{{ $wfp_code }}')" class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
+                                    <button  class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1"
+                                        style="position: relative;right:0;bottom:0;"
+                                        data-toggle="tooltip" title="Open PPMP" data-placement="right" data-original-title="Open PPMP"
+                                        onclick="wfp_ppmp_viewer_drawer_open('{{ $wfp_code }}','')">
+                                        <i class="fas fa-boxes"></i> Open PPMP
+                                    </button>
                             @endif
                         @else
                             @if($log->remarks == "FOR REVISION" || $log->remarks == "NOT SUBMITTED")
