@@ -303,6 +303,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                 $comments = \App\PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
                                             ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
                                             ->where('wfp_code',$row["wfp_code"])
+                                            ->groupBy('tbl_ppmp_comments.id')
                                             ->orderBy('created_at','DESC')
                                             ->get();
             ?>
