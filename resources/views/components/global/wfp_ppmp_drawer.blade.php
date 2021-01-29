@@ -292,23 +292,21 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 </div>
 @endif
 <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle row" id="comments">
-    <?php
-    $comments = \App\PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
-                                ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
-                                ->where('wfp_code',$log->wfp_code)
-                                ->groupBy('tbl_ppmp_comments.id')
-                                ->orderBy('created_at','DESC')
-                                ->get();
-?>
-@forelse($comments as $row2)
+@forelse($data["ppmp_comments"] as $row)
   <!--begin::Item-->
   <div class="card border-top-0 col-12">
 
     <!--begin::Body-->
     <div >
         <div class="card-body text-dark-50 font-size-lg pl-12 ">
+            <?php
+                // $comments = \App\PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
+                //                             ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
+                //                             ->where('wfp_code',$row["wfp_code"])
+                //                             ->orderBy('created_at','DESC')
+                //                             ->get();
+            ?>
 
-                @foreach($comments as $row2)
                 <div class="mb-3">
                     <!--begin::Section-->
                     <div class="d-flex align-items-center">
@@ -344,7 +342,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                         </div>
                     </div> --}}
 
-                @endforeach
+
             </div>
 
     </div>
@@ -353,6 +351,9 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 <!--end::Item-->
 
 
+@empty
+
+@endforelse
 </div>
 
 
