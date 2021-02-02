@@ -43,6 +43,34 @@
         |--------------------------------------------------------------------------
         */
 
+            function getBliBalance(){
+                var _bli = $("#bli_name option:selected").text();
+                var _bli_id = $("#bli_name option:selected").val();
+                var _year = settings.year;
+                var _data = {
+                    year : _year,
+                    bli : _bli,
+                    bli_id : _bli_id
+                };
+                var _url ="{{ route('get_budget_amount_by_bli_and_year') }}";
+                $.ajax({
+                    method:"GET",
+                    url : _url,
+                    data :_data,
+                    success:function(data){
+                        var nf = new Intl.NumberFormat();
+                        $("#bli_balance_selected").val(data.calc.balance_year_bli_amount);
+                        $("#txt_amount_bli").html( '₱ ' + nf.format(data.calc.balance_year_bli_amount));
+                        if(data.calc.balance_year_bli_amount <= 0 ){
+                            $("#btn_save_budget").attr('disabled',true);
+                        }else{
+                            $("#btn_save_budget").attr('disabled',false);
+                        }
+                    }
+
+                });
+            }
+
             $("#bli_name").on('change',function(){
                 var _bli = $("#bli_name option:selected").text();
                 var _bli_id = $("#bli_name option:selected").val();
@@ -80,7 +108,7 @@
             });
 
             $("#btn_update_budget").on('click',function(){
-
+                getBliBalance();
                 var projected_balance = $("#bli_balance_selected").val() - $("#bli_amount").val() ;
                 var validate_balance_less_than_allocated = true;
                 if( projected_balance == 0){
@@ -90,7 +118,7 @@
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonText: "Yes, Save it!"
-                    }).then(function(result) {
+                    }).then(function(result){
                        if(result.value){
                             var edit_bli = $("#bli_name").val();
                             var edit_amount =  $("#bli_amount").val();
@@ -211,6 +239,8 @@
             });
 
             $("#btn_save_budget").on('click',function(e){
+                getBliBalance();
+
                 let msg ="";
                 var projected_balance = $("#bli_balance_selected").val() - $("#bli_amount").val() ;
                 var validate_balance_less_than_allocated = true;
