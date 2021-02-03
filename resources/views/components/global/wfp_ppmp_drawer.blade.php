@@ -34,6 +34,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 
                                     @if($log->remarks =="APPROVED")
                                         <button type="button" onclick="revisePPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED PPMP</button>
+                                        <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
                                     @endif
                                 @else
                                     @if($log->remarks =="SUBMITTED")
@@ -46,7 +47,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                             @else
                                 <button type="button" onclick="submitPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-send-1 icon-md"></i>Submit PPMP</button>
                             @endif
-                            <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
+
                         <div class="col-12 col-md-4">
                         </div>
                     </div>
