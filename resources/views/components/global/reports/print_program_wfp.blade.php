@@ -170,7 +170,7 @@
                     @endif
 
                     @if($division == "LHS")
-                        DR. ERNESTO PAREJA
+                        ERNESTO E. PAREJA, MPD, MPH
                         <br>
                         MEDICAL OFFICER V
                     @endif
@@ -217,7 +217,7 @@
     ?>
 
     <main>
-     
+
         <table style="width:100%">
             <tr>
                 <td class="t-h-d txt-center">(1)</td>
@@ -250,7 +250,7 @@
                 $sub_total_a = 0;
             ?>
             @forelse ($data["wfp_a"] as $row)
-            
+
                 <?php
                     $sub_total_a += $row["activity_cost"];
                     $skip_td = 0;
@@ -263,7 +263,7 @@
                                 $rowspan = 1;
                             }else{
                                 // dd("2");
-                             
+
                                 $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
                                 if($curr == $instance_wfp_info->getOutputFunctionById(isset($data["wfp_a"][$i+1]["out_function"]) ? $data["wfp_a"][$i+1]["out_function"] : '')){
                                     $rowspan++;
@@ -279,7 +279,7 @@
                         $rowspan = 1;
                         $skip_td = 1;
                     }
-         
+
                     // dd([$curr == $instance_wfp_info->getOutputFunctionById($data["wfp_a"][$i+1]["out_function"])]);
                     $i++;
                 ?>
@@ -297,7 +297,7 @@
                         <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                         <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                     </tr>
-                    
+
             @empty
                     <tr>
                         <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
@@ -375,7 +375,7 @@
             <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_b,2) }}</td>
         </tr>
 
- 
+
         <tr>
             <td class="t-h-d" colspan="10">C. SUPPORT FUNCTION</td>
         </tr>
