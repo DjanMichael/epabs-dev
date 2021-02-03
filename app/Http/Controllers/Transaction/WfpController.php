@@ -292,15 +292,15 @@ class WfpController extends Controller
         */
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
-        $check = Wfp::where('user_id',$user_id)
-                    ->where('unit_id',$unit_id)
-                    ->where('year_id',$year_id)
-                    ->where('program_id',$program_id)
-                    ->get()->toArray();
+        // $check = Wfp::where('user_id',$user_id)
+        //             ->where('unit_id',$unit_id)
+        //             ->where('year_id',$year_id)
+        //             ->where('program_id',$program_id)
+        //             ->get()->toArray();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
-        if(count($check) >= 2){
-            return ['message'=>'duplicate'];
-        }
+        // if(count($check) >= 2){
+        //     return ['message'=>'duplicate'];
+        // }
 
         if($unitHasBadget == null){
             return ['message'=>'no budget'];
