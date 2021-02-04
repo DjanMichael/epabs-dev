@@ -122,7 +122,7 @@
         </tr>
         <tr>
             <td style="padding-left:5px;">Office: </td>
-            <td style="padding-left:5px;font-weight:bold;">{{$data["pr"]->agency  ? 'DEPARTMENT OF HEALTH REGIONAL OFFICE CARAGA' : 'PDOHO'}}</td>
+            <td style="padding-left:5px;font-weight:bold;">{{$data["pr"]->agency  ? 'CHD- Caraga' : 'PDOHO'}}</td>
             <td style="padding-left:5px;"></td>
             <td style="padding-left:5px;">SAI. No.</td>
             <td style="padding-left:5px;">Date</td>
