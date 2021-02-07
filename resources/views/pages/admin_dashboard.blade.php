@@ -4,7 +4,6 @@
 <li class="breadcrumb-item">
     <span class="text-muted">{{ Auth::user()->role->roles }}</span>
 </li>
-
 @endsection
 
 @section('content')
@@ -251,6 +250,18 @@
                             <!--begin: Item-->
                             <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
                                 <span class="mr-4">
+                                    <i class="flaticon-notes icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">TOTAL No. of WFP</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="wfp_total">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
                                     <i class="flaticon-clock icon-2x text-muted font-weight-bold"></i>
                                 </span>
                                 <div class="d-flex flex-column text-dark-75">
@@ -315,6 +326,18 @@
                             <!--begin: Item-->
                             <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
                                 <span class="mr-4">
+                                    <i class="flaticon-notes icon-2x text-muted font-weight-bold"></i>
+                                </span>
+                                <div class="d-flex flex-column text-dark-75">
+                                    <span class="font-weight-bolder font-size-sm">TOTAL No. of PPMP</span>
+                                    <span class="font-weight-bolder font-size-h5">
+                                    <span class="text-dark-50 font-weight-bold" id="ppmp_total">0</span>
+                                </div>
+                            </div>
+                            <!--end: Item-->
+                            <!--begin: Item-->
+                            <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                                <span class="mr-4">
                                     <i class="flaticon-clock icon-2x text-muted font-weight-bold"></i>
                                 </span>
                                 <div class="d-flex flex-column text-dark-75">
@@ -367,6 +390,88 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+            <!--begin::Body-->
+            <div class="card-body">
+            <h1> BUDGET SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-head-custom table-vertical-center">
+                    <thead class="py-5">
+                        <tr >
+                            <th class="p-0 min-w-200px">EXPENSE CLASS</th>
+                            <th class="p-0 min-w-140px">No. of Activities</th>
+                            <th class="p-0 min-w-110px text-center ">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budget_expense_class">
+                        <tr>
+                            <td>MAINTENANCE & OTHER OPERATING EXPENSES</td>
+                            <td id="mooe_act_no"></td>
+                            <td id="mooe_total" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>CAPITAL OUTLAY</td>
+                            <td id="co_act_no"></td>
+                            <td id="co_total" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td colspan="2" class="text-right" id="total_expense_class"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {{-- <br>
+                <table class="table table-head-custom table-vertical-center">
+                    <thead class="py-5">
+                        <tr >
+                            <th class="p-0 min-w-200px" colspan="2">TYPE OF FUNCTIONS</th>
+                            <th class="p-0 min-w-140px">No. of Activities</th>
+                            <th class="p-0 min-w-110px text-center ">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budget_type_of_function">
+                    </tbody>
+                    <tr>
+                        <td colspan="3"><div class="separator separator-solid my-7"></div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="1"></td>
+                    </tr>
+                </table> --}}
+            </div>
+            {{-- <div class="separator separator-solid my-7"></div>
+                <div class="d-flex align-items-center flex-wrap">
+                    <!--begin: Item-->
+                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                        <span class="mr-4">
+                            <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
+                        </span>
+                        <div class="d-flex flex-column text-dark-75">
+                            <span class="font-weight-bolder font-size-sm">REVISION</span>
+                            <span class="font-weight-bolder font-size-h5">
+                            <span class="text-dark-50 font-weight-bold" id="wfp_revision">0</span>
+                        </div>
+                    </div>
+                    <!--end: Item-->
+                </div>
+            </div> --}}
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 <!-- end:dashboard planning -->
@@ -556,6 +661,7 @@
                                             <tr >
                                                 <th class="p-0 min-w-200px" colspan="2">PROGRAM MANAGER</th>
                                                 <th class="p-0 min-w-140px">PROGRAM</th>
+                                                <th class="p-0 min-w-110px text-center ">WFP CODE</th>
                                                 <th class="p-0 min-w-110px text-center ">WFP STATUS</th>
                                                 <th class="p-0 min-w-110px text-center ">PPMP STATUS</th>
                                                 <th class="p-0 min-w-50px"></th>
@@ -679,6 +785,7 @@
 @push('scripts')
 <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/blockui.js') }}"></script>
 <script>
+var nf = new Intl.NumberFormat();
 const primary = "#6993FF"
   , success = "#1BC5BD"
   , info = "#8950FC"
@@ -772,7 +879,7 @@ const primary = "#6993FF"
                         colors: [primary, success, warning, danger]
                     }
 
-
+                    console.log(data);
                     var chart = new ApexCharts(document.querySelector('#wfp_chart'), options);
                     chart.render();
 
@@ -780,7 +887,7 @@ const primary = "#6993FF"
                     $("#wfp_approved").html(data.wfp.wfp_approved);
                     $("#wfp_revision").html(data.wfp.wfp_revision);
                     $("#wfp_notsubmitted").html( data.programs_count - data.wfp.wfp_submitted - data.wfp.wfp_approved - data.wfp.wfp_revision);
-
+                    $("#wfp_total").html(data.wfp.total_count.wfp_count);
 
                     var chart2 = new ApexCharts(document.querySelector('#ppmp_chart'), options2);
                     chart2.render();
@@ -790,7 +897,15 @@ const primary = "#6993FF"
                     $("#ppmp_approved").html(data.ppmp.ppmp_approved);
                     $("#ppmp_revision").html(data.ppmp.ppmp_revision);
                     $("#ppmp_notsubmitted").html( data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision);
+                    $("#ppmp_total").html(data.ppmp.total_count.ppmp_count);
 
+                    $("#mooe_act_no").html(data.budget.expense_class.mooe.act_no);
+                    $("#mooe_total").html( '₱ ' + nf.format(data.budget.expense_class.mooe.amount));
+
+                    $("#co_act_no").html(data.budget.expense_class.co.act_no);
+                    $("#co_total").html( '₱ ' + nf.format(data.budget.expense_class.co.amount));
+
+                    $("#total_expense_class").html('₱ ' + nf.format(data.budget.expense_class.mooe.amount + data.budget.expense_class.co.amount))
                 },error:function(err){
                     console.log(err);
                 }
