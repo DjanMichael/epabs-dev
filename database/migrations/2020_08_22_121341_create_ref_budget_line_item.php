@@ -18,7 +18,7 @@ class CreateRefBudgetLineItem extends Migration
             $table->integer('fund_source_id')->default(0);
             $table->string('budget_item');
             $table->integer('year_id')->default(0);
-            $table->integer('allocation_amount')->default(0);
+            $table->decimal('allocation_amount',10,2);
             $table->string('saa_ctrl_number')->default("");
             $table->string('purpose')->default("");
             $table->enum('status',['ACTIVE','INACTIVE']);
