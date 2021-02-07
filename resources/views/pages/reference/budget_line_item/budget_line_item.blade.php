@@ -36,12 +36,6 @@
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
-            $(".form_budget_item").hide();
-            $(".form_program").hide();
-            $(".form_year").hide();
-            $(".form_saa_number").hide();
-            $(".form_amount").hide();
-            $(".div_status").hide();
 
             let data = { fund_source :'', budget_item :'', program:'', saa_number:'',  
                             purpose:'', year :'', amount :'' };
@@ -67,6 +61,7 @@
 
             $(document).on('change', '#fund_source', function(event){
                 var optionSelected = $(this).find("option:selected");
+                var valueSelected  = optionSelected.val();
                 var textSelected   = optionSelected.text();
                 if (textSelected == 'SAA') {
                     $(".form_budget_item").hide();
@@ -74,11 +69,17 @@
                     $(".form_saa_number").show();
                     $(".form_purpose").show();
                 } 
-                else {
+                else if (valueSelected != '') {
                     $(".form_budget_item").show();
+                    $(".form_year").show();
+                    $(".form_amount").show();
+                    $(".div_status").show();
                     $(".form_program").hide();
                     $(".form_saa_number").hide();
                     $(".form_purpose").hide();
+                }
+                else {
+                    hideComponents();
                 }
             });
 
@@ -90,6 +91,7 @@
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
+            // Edit button event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
@@ -101,6 +103,7 @@
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
+                    hideComponents();
                     if (id) {
                         $('#budget_item_id').val(id);
                         $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
@@ -197,6 +200,9 @@
 
                     }
                 }
+                else {
+                    Swal.fire("System Message", 'Please select a fund source!', "error");
+                }
             });
 
         /*
@@ -204,6 +210,16 @@
         | FUNCTIONS
         |--------------------------------------------------------------------------
         */
+
+        function hideComponents(){
+            $(".form_budget_item").hide();
+            $(".form_program").hide();
+            $(".form_year").hide();
+            $(".form_saa_number").hide();
+            $(".form_amount").hide();
+            $(".form_purpose").hide();
+            $(".div_status").hide();
+        }
 
         });
 

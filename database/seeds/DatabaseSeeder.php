@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ref_units::class);
         $this->call(ref_year::class);
         $this->call(ref_activity_category::class);
-        $this->call(ref_budget_line_item::class);
+        $this->call(ref_budget_item::class);
         $this->call(ref_classification::class);
         $this->call(ref_dm_category::class);
         $this->call(ref_item_unit::class);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefBudgetLineItem extends Migration
+class CreateRefBudgetItem extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateRefBudgetLineItem extends Migration
      */
     public function up()
     {
-        Schema::create('ref_budget_line_item', function (Blueprint $table) {
+        //
+        Schema::create('ref_budget_item', function (Blueprint $table) {
             $table->id();
-            $table->integer('fund_source_id')->default(0);
             $table->string('budget_item');
-            $table->integer('year_id')->default(0);
-            $table->integer('allocation_amount')->default(0);
-            $table->string('saa_ctrl_number')->default("");
-            $table->string('purpose')->default("");
             $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
@@ -34,5 +30,6 @@ class CreateRefBudgetLineItem extends Migration
     public function down()
     {
         //
+
     }
 }
