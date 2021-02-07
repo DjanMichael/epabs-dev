@@ -15,11 +15,14 @@ class CreateRefBudgetLineItem extends Migration
     {
         Schema::create('ref_budget_line_item', function (Blueprint $table) {
             $table->id();
+            $table->integer('fund_source_id')->default(0);
             $table->string('budget_item');
             $table->integer('year_id')->default(0);
             $table->integer('allocation_amount')->default(0);
             $table->enum('if_conap',['Y','N']);
             $table->integer('conap_year_id')->default(0);
+            $table->string('saa_ctrl_number')->default("");
+            $table->string('purpose')->default("");
             $table->enum('status',['ACTIVE','INACTIVE']);
             $table->timestamps();
         });
