@@ -74,16 +74,16 @@ class PageController extends Controller
                 $data["wfp"]["wfp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
                 $data["wfp"]["wfp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
                 $data["wfp"]["wfp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
-                $data["wfp"]["total_count"] = WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
+                $data["wfp"]["total_count"] = (WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
                                                                     ->where('wfp_count','!=',0)
-                                                                    ->first();
+                                                                    ->first()) ?? $data["wfp"]["total_count"]["wfp_count"] = 0;
                 $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
                 $data["ppmp"]["ppmp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
                 $data["ppmp"]["ppmp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
                 $data["ppmp"]["ppmp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
-                $data["ppmp"]["total_count"] = WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
+                $data["ppmp"]["total_count"] = (WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
                                                                         ->where('ppmp_count','!=',0)
-                                                                        ->first();
+                                                                        ->first()) ?? $data["ppmp"]["total_count"]["ppmp_count"] =0 ;
                 $data["budget"]["expense_class"]["mooe"] = BudgetExpenseClass::where('category','MAINTENANCE & OTHER OPERATING EXPENSES')
                                                                             ->where('year_id',$program->select_year)
                                                                             ->get();
@@ -100,12 +100,12 @@ class PageController extends Controller
                 $data["wfp"]["wfp_submitted"] = null;
                 $data["wfp"]["wfp_approved"] = null;
                 $data["wfp"]["wfp_revision"] = null;
-                $data["wfp"]["total_count"] = null;
+                $data["wfp"]["total_count"]["wfp_count"] = 0;
                 $data["ppmp"]["ppmp_not_submitted"] = null;
                 $data["ppmp"]["ppmp_submitted"] = null;
                 $data["ppmp"]["ppmp_approved"] = null;
                 $data["ppmp"]["ppmp_revision"] = null;
-                $data["ppmp"]["total_count"] = null;
+                $data["ppmp"]["total_count"]["ppmp_count"] = 0;
             }
             return response()->json($data);
         }else{
