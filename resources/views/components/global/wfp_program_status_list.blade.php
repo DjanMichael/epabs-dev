@@ -12,6 +12,9 @@
         <td class="text-left">
             <span class="text-dark font-weight-bold">{{ strtoupper($row->program) }}</span>
         </td>
+        <td class="text-left">
+            <span class="text-dark font-weight-bold">{{ strtoupper($row->code) }}</span>
+        </td>
         <td class="text-right">
             <span class="label label-lg label-light-primary label-inline">{{ $row->wfp_status != '' ? strtoupper($row->wfp_status) : 'NOT FOUND' }}</span>
         </td>
