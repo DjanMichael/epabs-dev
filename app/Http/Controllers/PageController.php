@@ -13,6 +13,9 @@ use DB;
 use App\Views\ProgramsWfpStatus;
 use Illuminate\Support\Collection;
 use App\RefYear;
+use App\Views\WfpPpmpTotalCountByYear;
+use App\Views\BudgetExpenseClass;
+
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -71,21 +74,38 @@ class PageController extends Controller
                 $data["wfp"]["wfp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','SUBMITTED')->count();
                 $data["wfp"]["wfp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','APPROVED')->count();
                 $data["wfp"]["wfp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('wfp_status','FOR REVISION')->count();
-
+                $data["wfp"]["total_count"] = WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
+                                                                    ->where('wfp_count','!=',0)
+                                                                    ->first();
                 $data["ppmp"]["ppmp_not_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','NOT SUBMITTED')->count();
                 $data["ppmp"]["ppmp_submitted"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','SUBMITTED')->count();
                 $data["ppmp"]["ppmp_approved"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','APPROVED')->count();
                 $data["ppmp"]["ppmp_revision"] = collect(DB::select('SELECT * FROM vw_GET_COUNT_WFP_PPMP WHERE year_id =?' , array($program->select_year)))->where('ppmp_status','FOR REVISION')->count();
-            }else{
+                $data["ppmp"]["total_count"] = WfpPpmpTotalCountByYear::where('year_id',$program->select_year)
+                                                                        ->where('ppmp_count','!=',0)
+                                                                        ->first();
+                $data["budget"]["expense_class"]["mooe"] = BudgetExpenseClass::where('category','MAINTENANCE & OTHER OPERATING EXPENSES')
+                                                                            ->where('year_id',$program->select_year)
+                                                                            ->get();
+                $data["budget"]["expense_class"]["mooe"] = ["amount"=> ($data["budget"]["expense_class"]["mooe"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["mooe"])->count()];
+                $data["budget"]["expense_class"]["co"] = BudgetExpenseClass::where('category','CAPITAL OUTLAYS')
+                                                                            ->where('year_id',$program->select_year)
+                                                                            ->get();
+                $data["budget"]["expense_class"]["co"] = ["amount"=> ($data["budget"]["expense_class"]["co"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["co"])->count()];
 
+            }else{
+                $data["budget"]["expense_class"]["mooe"] =null;
+                $data["budget"]["expense_class"]["co"] =null;
                 $data["wfp"]["wfp_not_submitted"] = null;
                 $data["wfp"]["wfp_submitted"] = null;
                 $data["wfp"]["wfp_approved"] = null;
                 $data["wfp"]["wfp_revision"] = null;
+                $data["wfp"]["total_count"] = null;
                 $data["ppmp"]["ppmp_not_submitted"] = null;
                 $data["ppmp"]["ppmp_submitted"] = null;
                 $data["ppmp"]["ppmp_approved"] = null;
                 $data["ppmp"]["ppmp_revision"] = null;
+                $data["ppmp"]["total_count"] = null;
             }
             return response()->json($data);
         }else{
