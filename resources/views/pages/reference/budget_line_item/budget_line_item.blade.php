@@ -36,10 +36,18 @@
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
+            $(".form_budget_item").hide();
+            $(".form_program").hide();
+            $(".form_year").hide();
+            $(".form_saa_number").hide();
+            $(".form_amount").hide();
+            $(".div_status").hide();
 
-            let data = { budget_item :'', year :'', amount :'' };
+            let data = { fund_source :'', budget_item :'', program:'', saa_number:'',  
+                            purpose:'', year :'', amount :'' };
 
-            let rules = { budget_item :'required', year :'required', amount :'required'  };
+            let rules = { fund_source :'required', budget_item :'required', program:'required', 
+                            saa_number:'required', purpose:'required', year :'required', amount :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -54,6 +62,23 @@
             $(document).on('keypress', '.number', function(event){
                 if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
                     event.preventDefault();
+                }
+            });
+
+            $(document).on('change', '#fund_source', function(event){
+                var optionSelected = $(this).find("option:selected");
+                var textSelected   = optionSelected.text();
+                if (textSelected == 'SAA') {
+                    $(".form_budget_item").hide();
+                    $(".form_program").show();
+                    $(".form_saa_number").show();
+                    $(".form_purpose").show();
+                } 
+                else {
+                    $(".form_budget_item").show();
+                    $(".form_program").hide();
+                    $(".form_saa_number").hide();
+                    $(".form_purpose").hide();
                 }
             });
 
@@ -95,72 +120,82 @@
 
             // Insert data event
             $("#kt_btn_1").on('click', function(e){
-                var id = $("#budget_item_id").val();
-                var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
-                var year = $("#year option:selected").text();
-                data.budget_item = $("#budget_item").val();
-                data.year = $("#year").val();
-                data.amount = $("#amount").val();
+                if ($("#fund_source")[0].selectedIndex != 0) {
+                    var id = $("#budget_item_id").val();
+                    var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
+                    var year = $("#year option:selected").text();
+                    data.fund_source = $("#fund_source").val();
+                    data.budget_item = ($("#budget_item").val() == "") ? 'None' : $("#budget_item").val();
+                    data.program = ($("#program").val() == "") ? 0 : $("#program").val();
+                    data.year = $("#year").val();
+                    data.saa_number = ($("#saa_control_number").val() == "") ? "None" : $("#saa_control_number").val();
+                    data.amount = $("#amount").val();
+                    data.purpose = ($("#purpose").val() == "") ? "None" : $("#purpose").val();
 
-                let validation = new Validator(data, rules);
-                if (validation.passes()) {
-                    e.preventDefault();
-                    $("#alert").delay(300).fadeOut(600);
-                    $.ajax({
-                        url: "{{ route('a_budget_line_item') }}",
-                        method: 'POST',
-                        data: {
-                            id                  : id,
-                            budget_item         : data.budget_item,
-                            year_id             : data.year,
-                            year                : year,
-                            amount              : data.amount,
-                            status              : status
-                        },
-                        beforeSend:function(){
-                            KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
-                        },
-                        success: function(result) {
-                           setTimeout(function() {
-                                KTUtil.btnRelease(btn);
-                            }, 1000);
-                            if (result['type'] == 'insert') {
-                                $('#modal_reference').modal('toggle');
-                                populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
-                                                    'table_populate', 'table_content', 'table_pagination');
-                                toastr.success(result['message']);
-                            }
-                            else if (result['type'] == 'update') {
-                                $('#modal_reference').modal('toggle');
-                                $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
-                                $('#'+id).children('td[data-target=year]').html(year);
-                                $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
-                                $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
-                                toastr.success(result['message']);
-                            }
-                            else {
+                    let validation = new Validator(data, rules);
+                    if (validation.passes()) {
+                        e.preventDefault();
+                        $("#alert").delay(300).fadeOut(600);
+                        $.ajax({
+                            url: "{{ route('a_budget_line_item') }}",
+                            method: 'POST',
+                            data: {
+                                id                  : id,
+                                fund_source         : data.fund_source,
+                                budget_item         : data.budget_item,
+                                year_id             : data.year,
+                                year                : year,
+                                program             : data.program,
+                                saa_number          : data.saa_number,
+                                purpose             : data.purpose,
+                                amount              : data.amount,
+                                status              : status
+                            },
+                            beforeSend:function(){
+                                KTUtil.btnWait(btn, "spinner spinner-right spinner-white pr-15", "Processing...");
+                            },
+                            success: function(result) {
+                            setTimeout(function() {
+                                    KTUtil.btnRelease(btn);
+                                }, 1000);
+                                if (result['type'] == 'insert') {
+                                    $('#modal_reference').modal('toggle');
+                                    populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
+                                                        'table_populate', 'table_content', 'table_pagination');
+                                    toastr.success(result['message']);
+                                }
+                                else if (result['type'] == 'update') {
+                                    $('#modal_reference').modal('toggle');
+                                    $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
+                                    $('#'+id).children('td[data-target=year]').html(year);
+                                    $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
+                                    $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
+                                    toastr.success(result['message']);
+                                }
+                                else {
+                                    Swal.fire("System Message", result['message'], "error");
+                                }
+                            },
+                            error: function(result) {
+                                setTimeout(function() {
+                                    KTUtil.btnRelease(btn);
+                                }, 1000);
                                 Swal.fire("System Message", result['message'], "error");
                             }
-                        },
-                        error: function(result) {
-                            setTimeout(function() {
-                                KTUtil.btnRelease(btn);
-                            }, 1000);
-                            Swal.fire("System Message", result['message'], "error");
-                        }
-                    });
+                        });
 
-                } else {
+                    } else {
 
-                    var msg = "";
-                    $.each(validation.errors.all(),function(key,value){
-                        msg += '<li>' + value + '</li>';
-                    });
-                    $("#alert").delay(400).fadeIn(600);
-                    $("#modal_reference").animate({ scrollTop:0 },700);
-                    $("#alert").addClass('fade show');
-                    $("#alert_text").html(msg);
+                        var msg = "";
+                        $.each(validation.errors.all(),function(key,value){
+                            msg += '<li>' + value + '</li>';
+                        });
+                        $("#alert").delay(400).fadeIn(600);
+                        $("#modal_reference").animate({ scrollTop:0 },700);
+                        $("#alert").addClass('fade show');
+                        $("#alert_text").html(msg);
 
+                    }
                 }
             });
 
