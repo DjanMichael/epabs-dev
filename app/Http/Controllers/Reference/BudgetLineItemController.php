@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reference;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Views\BudgetLineItem;
+use App\RefBudgetItem;
 use App\RefBudgetLineItem;
 use App\RefSourceOfFund;
 use App\RefProgram;
@@ -57,10 +58,8 @@ class BudgetLineItemController extends Controller
         $data['year'] = RefYear::where('status','ACTIVE')->orderBy('year', 'ASC')->get();
         $data['program'] = RefProgram::where('status','ACTIVE')->orderBy('program_name', 'ASC')->get();
         $data['fund_source'] = RefSourceOfFund::where('status','ACTIVE')->orderBy('sof_classification', 'ASC')->get();
-        $data['budget_item'] = RefBudgetLineItem::select('budget_item')
-                                                ->where('budget_item','<>', 'None')->distinct()
-                                                ->where('status','ACTIVE')
-                                                ->orderBy('budget_item', 'ASC')->get();
+        $data['budget_item'] = RefBudgetItem::where('status','ACTIVE')
+                                            ->orderBy('budget_item', 'ASC')->get();
         return view('pages.reference.budget_line_item.form.add_budget_line_item', ['data'=> $data]);
     }
 
