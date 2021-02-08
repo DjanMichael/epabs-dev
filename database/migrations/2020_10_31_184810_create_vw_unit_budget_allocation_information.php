@@ -381,7 +381,7 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                             )
                         )
                     GROUP BY
-                        `tuba`.`budget_line_item_id`
+                        `tuba`.`id`
                 )
             )');
     }
