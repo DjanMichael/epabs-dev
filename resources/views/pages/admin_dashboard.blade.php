@@ -806,7 +806,7 @@ const primary = "#6993FF"
                                 data.wfp.wfp_submitted,
                                 data.wfp.wfp_approved,
                                 data.wfp.wfp_revision,
-                                data.programs_count - data.wfp.wfp_submitted - data.wfp.wfp_approved - data.wfp.wfp_revision
+                                data.wfp.wfp_not_submitted
                             ],
                         chart: {
                             width: 470,
@@ -815,7 +815,7 @@ const primary = "#6993FF"
                         labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
                         responsive: [
                         {
-                            breakpoint: 480,
+                            breakpoint: 380,
                             options: {
                                 chart: {
                                     width: 300
@@ -826,7 +826,7 @@ const primary = "#6993FF"
                             }
                         },
                         {
-                            breakpoint: 320,
+                            breakpoint: 520,
                             options: {
                                 chart: {
                                     width: 100
@@ -845,16 +845,16 @@ const primary = "#6993FF"
                                 data.ppmp.ppmp_submitted,
                                 data.ppmp.ppmp_approved,
                                 data.ppmp.ppmp_revision,
-                               data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision
+                                data.ppmp.ppmp_not_submitted
                         ],
                         chart: {
                             width:470,
-                            type: "pie"
+                            type: "donut"
                         },
                         labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
                         responsive: [
                         {
-                            breakpoint: 480,
+                            breakpoint: 580,
                             options: {
                                 chart: {
                                     width: 300
@@ -879,14 +879,14 @@ const primary = "#6993FF"
                         colors: [primary, success, warning, danger]
                     }
 
-                    console.log(data);
+
                     var chart = new ApexCharts(document.querySelector('#wfp_chart'), options);
                     chart.render();
 
                     $("#wfp_submitted").html(data.wfp.wfp_submitted);
                     $("#wfp_approved").html(data.wfp.wfp_approved);
                     $("#wfp_revision").html(data.wfp.wfp_revision);
-                    $("#wfp_notsubmitted").html( data.programs_count - data.wfp.wfp_submitted - data.wfp.wfp_approved - data.wfp.wfp_revision);
+                    $("#wfp_notsubmitted").html(data.wfp.wfp_not_submitted);
                     $("#wfp_total").html(data.wfp.total_count.wfp_count);
 
                     var chart2 = new ApexCharts(document.querySelector('#ppmp_chart'), options2);
@@ -896,7 +896,7 @@ const primary = "#6993FF"
                     $("#ppmp_submitted").html(data.ppmp.ppmp_submitted);
                     $("#ppmp_approved").html(data.ppmp.ppmp_approved);
                     $("#ppmp_revision").html(data.ppmp.ppmp_revision);
-                    $("#ppmp_notsubmitted").html( data.programs_count - data.ppmp.ppmp_submitted - data.ppmp.ppmp_approved - data.ppmp.ppmp_revision);
+                    $("#ppmp_notsubmitted").html(data.ppmp.ppmp_not_submitted);
                     $("#ppmp_total").html(data.ppmp.total_count.ppmp_count);
 
                     $("#mooe_act_no").html(data.budget.expense_class.mooe.act_no);
