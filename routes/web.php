@@ -234,6 +234,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
     Route::post('/system/reference/remove-unit-program','Reference\UnitProgramController@removeAssignment')->name('del_unit_program');
 
+    // Annual Budget Routes
+    Route::get('/system/reference/annual/budget','Reference\AnnualBudgetController@index')->name('r_budget_annual');
+
     // Budget Line Item Routes
     Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
     Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
