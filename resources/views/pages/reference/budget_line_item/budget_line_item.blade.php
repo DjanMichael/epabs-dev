@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Budget Item')
+@section('title','Budget Line Item')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    @section('panel-title', 'Budget Item')
+    @section('panel-title', 'Budget Line Item')
     @section('panel-icon', 'fas fa-piggy-bank')
     @include('pages.reference.component.panel')
 
