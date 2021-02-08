@@ -60,7 +60,17 @@
                     <input type="text" class="form-control" placeholder="Activities for Outputs" id="txt_activities_output" value="{{ $data["wfp_act"][0] != null ? $data["wfp_act"][0]->out_activity : '' }}"  maxlength="255">
                     </div>
                     <div class="form-group row">
-                        <div class="col-6">
+                        <div class="col-md-3 col-6">
+                            <label>GAD Related
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="gad_related">
+                                <option value=""></option>
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-6">
                             <label>Source of Fund
                                 <span class="text-danger">*</span>
                             </label>
@@ -467,6 +477,7 @@
                 output_function: $("#selected_output_function_id").val(),
                 // output_function_id: '',
                 activity_output: '',
+                gad_related:'',
                 source_of_fund: '',
                 activity_categ: '',
                 responsible_person : '',
@@ -483,6 +494,7 @@
             let wfp_rules = {
                 output_function: 'required',
                 activity_output: 'required',
+                gad_related: 'required',
                 source_of_fund: 'required',
                 activity_categ: 'required',
                 responsible_person : 'required',
@@ -497,7 +509,8 @@
                 'required.activity_categ' : 'Activity Category is Required',
                 'required.responsible_person' : 'Responsible Person is Required',
                 'required.act_timeframe' : 'Activity Timeframe  is Required',
-                'required.act_cost' : 'Activity Cost is Required'
+                'required.act_cost' : 'Activity Cost is Required',
+                'required.gad_related' :'GAD Related is Required'
             }
 
            /*************************************************
@@ -868,6 +881,8 @@
             wfp_data.activity_categ =$("#activity_category").val();
             wfp_data.responsible_person  =$("#txt_responsible_person").val();
             wfp_data.act_cost = $("#wfp_act_cost").val();
+            wfp_data.gad_related = $("#gad_related").val();
+
             var qtr1 = $("#qtr_1").val();
             var qtr2 = $("#qtr_2").val();
             var qtr3 = $("#qtr_3").val();

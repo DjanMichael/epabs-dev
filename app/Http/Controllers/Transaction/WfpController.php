@@ -591,6 +591,7 @@ class WfpController extends Controller
             $wfp_act->out_function =$req->data["output_function"];
             $wfp_act->out_activity =$req->data["activity_output"];
             $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_gad_related =$req->data["gad_related"];
             $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
             $wfp_act->activity_timeframe =$req->data["act_timeframe"];
             $wfp_act->responsible_person =$req->data["responsible_person"];
@@ -608,6 +609,7 @@ class WfpController extends Controller
             $wfp_act->out_function =$req->data["output_function"];
             $wfp_act->out_activity =$req->data["activity_output"];
             $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_gad_related =$req->data["gad_related"];
             $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
             $wfp_act->activity_timeframe =$req->data["act_timeframe"];
             $wfp_act->responsible_person =$req->data["responsible_person"];
@@ -767,6 +769,7 @@ class WfpController extends Controller
             $a = WfpActivity::where('id',$req->wfp_act_id)->first();
             $a->out_function =$req->wfp_act["output_function"];
             $a->out_activity =$req->wfp_act["activity_output"];
+            $a->activity_gad_related =$req->wfp_act["gad_related"];
             $a->activity_source_of_fund =$req->wfp_act["source_of_fund"];
             $a->activity_category_id =$req->wfp_act["activity_categ"];
             $a->responsible_person =$req->wfp_act["responsible_person"];

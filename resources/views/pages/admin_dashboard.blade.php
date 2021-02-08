@@ -815,46 +815,7 @@ const primary = "#6993FF"
                         labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
                         responsive: [
                         {
-                            breakpoint: 380,
-                            options: {
-                                chart: {
-                                    width: 300
-                                },
-                                legend: {
-                                    position: "bottom"
-                                }
-                            }
-                        },
-                        {
-                            breakpoint: 520,
-                            options: {
-                                chart: {
-                                    width: 100
-                                },
-                                legend: {
-                                    position: "bottom"
-                                }
-                            }
-                        }
-                        ],
-                        colors: [primary, success, warning, danger]
-                    }
-
-                    var options2 = {
-                        series: [
-                                data.ppmp.ppmp_submitted,
-                                data.ppmp.ppmp_approved,
-                                data.ppmp.ppmp_revision,
-                                data.ppmp.ppmp_not_submitted
-                        ],
-                        chart: {
-                            width:470,
-                            type: "donut"
-                        },
-                        labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
-                        responsive: [
-                        {
-                            breakpoint: 580,
+                            breakpoint: 480,
                             options: {
                                 chart: {
                                     width: 300
@@ -879,6 +840,44 @@ const primary = "#6993FF"
                         colors: [primary, success, warning, danger]
                     }
 
+                    var options2 = {
+                        series: [
+                                data.ppmp.ppmp_submitted,
+                                data.ppmp.ppmp_approved,
+                                data.ppmp.ppmp_revision,
+                                data.ppmp.ppmp_not_submitted
+                        ],
+                        chart: {
+                            width:470,
+                            type: "pie"
+                        },
+                        labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
+                        responsive: [
+                        {
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 300
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        },
+                        {
+                            breakpoint: 320,
+                            options: {
+                                chart: {
+                                    width: 100
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        }
+                        ],
+                        colors: [primary, success, warning, danger]
+                    }
 
                     var chart = new ApexCharts(document.querySelector('#wfp_chart'), options);
                     chart.render();
