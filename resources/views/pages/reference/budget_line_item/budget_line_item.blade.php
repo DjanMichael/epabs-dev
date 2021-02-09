@@ -91,9 +91,10 @@
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
-            // Edit button event
+            // Add / Edit button event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
+                alert(id);
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
                 var year = $('#'+id).children('td[data-target=year]').text();
                 var amount = $('#'+id).children('td[data-target=amount]').text();
