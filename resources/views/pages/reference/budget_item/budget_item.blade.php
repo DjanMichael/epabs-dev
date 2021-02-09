@@ -59,7 +59,7 @@
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
-            // Edit button event
+            // Add / Edit button event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
