@@ -631,7 +631,6 @@ class WfpController extends Controller
                                                     ->where('wfp_act_id',$req->wfp_act_id)
                                                     ->select(['*','tbl_wfp_activity_per_indicator.id'])
                                                     ->get()->toArray();
-        // dd($data);
         return view('pages.transaction.wfp.table.pi_table',['data' => $data]);
     }
 

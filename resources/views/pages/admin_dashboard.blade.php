@@ -476,7 +476,7 @@
 
 <!-- end:dashboard planning -->
 <div class="row">
-    <div class="col-md-8 col-12">
+    <div class="col-md-12 col-12">
         <div class="card card-custom gutter-b">
             <div class="card-header">
              <div class="card-title">
@@ -512,17 +512,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-4 my-2 my-md-0">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                        <select class="form-control" id="kt_datatable_search_type">
-                                            <option value="">All</option>
-                                            <option value="1">Online</option>
-                                            <option value="2">Retail</option>
-                                            <option value="3">Direct</option>
-                                        </select>
-                                    </div>
-                                </div> --}}
+
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >
@@ -530,103 +520,6 @@
                         </div>
                     </div>
                 </div>
-                <!--end::Search Form-->
-                <!--end: Search Form-->
-                {{-- <div class="table-responsive">
-                   <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Last Login</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="pt-10">1</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-warning mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-warning label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">Active</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pt-10">2</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-info mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-info label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">Offline</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pt-10">1</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-danger mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-danger label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">InActive</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                   </table> --}}
-
                    <div class="card card-custom card-stretch gutter-b">
                     {{-- <!--begin::Header-->
                     <div class="card-header border-0 pt-5">
@@ -681,7 +574,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-12">
+    <div class="col-md-12 col-12">
         <div class="card card-custom gutter-b">
             <div class="card-header">
              <div class="card-title">
@@ -849,7 +742,7 @@ const primary = "#6993FF"
                         ],
                         chart: {
                             width:470,
-                            type: "donut"
+                            type: "pie"
                         },
                         labels: ["SUBMITTED", "APPROVED", "REVISION", "NOT SUBMITTED"],
                         responsive: [
