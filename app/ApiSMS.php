@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class ApiSMS extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table="tbl_sms_api";
     protected $fillable = ["to","message","service_card","status"];

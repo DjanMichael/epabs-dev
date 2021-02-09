@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class RefPrice extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table = "ref_price";
 

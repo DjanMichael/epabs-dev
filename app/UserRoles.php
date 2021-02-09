@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRoles extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table = 'tbl_user_roles';
 

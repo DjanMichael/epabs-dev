@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 class GlobalSystemSettings extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table= "global_system_settings";
 

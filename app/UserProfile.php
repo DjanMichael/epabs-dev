@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     protected $table =  "users_profile";
 
     protected $fillable = ['user_id','contact','designation','unit_id','pic'];
