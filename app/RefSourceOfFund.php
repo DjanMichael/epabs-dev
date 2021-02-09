@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class RefSourceOfFund extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table = 'ref_source_of_fund';
 

@@ -11,7 +11,7 @@ use App\GlobalSystemSettings;
 use Cache;
 class User extends Authenticatable
 {
-
+    
     // protected $table = 'tbl_users';
     use HasApiTokens,Notifiable;
 
