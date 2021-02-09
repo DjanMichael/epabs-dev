@@ -392,91 +392,9 @@
 </div>
 
 
-
-
-
-<div class="row">
-    <div class="col-md-12 col-12">
-        <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
-            <!--begin::Body-->
-            <div class="card-body">
-            <h1> BUDGET SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
-            <br>
-            <div class="table-responsive">
-                <table class="table table-head-custom table-vertical-center">
-                    <thead class="py-5">
-                        <tr >
-                            <th class="p-0 min-w-200px">EXPENSE CLASS</th>
-                            <th class="p-0 min-w-140px">No. of Activities</th>
-                            <th class="p-0 min-w-110px text-center ">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody id="budget_expense_class">
-                        <tr>
-                            <td>MAINTENANCE & OTHER OPERATING EXPENSES</td>
-                            <td id="mooe_act_no"></td>
-                            <td id="mooe_total" class="text-right"></td>
-                        </tr>
-                        <tr>
-                            <td>CAPITAL OUTLAY</td>
-                            <td id="co_act_no"></td>
-                            <td id="co_total" class="text-right"></td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td colspan="2" class="text-right" id="total_expense_class"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                {{-- <br>
-                <table class="table table-head-custom table-vertical-center">
-                    <thead class="py-5">
-                        <tr >
-                            <th class="p-0 min-w-200px" colspan="2">TYPE OF FUNCTIONS</th>
-                            <th class="p-0 min-w-140px">No. of Activities</th>
-                            <th class="p-0 min-w-110px text-center ">Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody id="budget_type_of_function">
-                    </tbody>
-                    <tr>
-                        <td colspan="3"><div class="separator separator-solid my-7"></div></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="1"></td>
-                    </tr>
-                </table> --}}
-            </div>
-            {{-- <div class="separator separator-solid my-7"></div>
-                <div class="d-flex align-items-center flex-wrap">
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                        <span class="mr-4">
-                            <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
-                        </span>
-                        <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">REVISION</span>
-                            <span class="font-weight-bolder font-size-h5">
-                            <span class="text-dark-50 font-weight-bold" id="wfp_revision">0</span>
-                        </div>
-                    </div>
-                    <!--end: Item-->
-                </div>
-            </div> --}}
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
 <!-- end:dashboard planning -->
 <div class="row">
-    <div class="col-md-8 col-12">
+    <div class="col-md-12 col-12">
         <div class="card card-custom gutter-b">
             <div class="card-header">
              <div class="card-title">
@@ -681,7 +599,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-12">
+    <div class="col-md-12 col-12">
         <div class="card card-custom gutter-b">
             <div class="card-header">
              <div class="card-title">
@@ -700,6 +618,81 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+            <!--begin::Body-->
+            <div class="card-body">
+            <h1> BUDGET SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-head-custom table-vertical-center">
+                    <thead class="py-5">
+                        <tr >
+                            <th class="p-0 min-w-200px">EXPENSE CLASS</th>
+                            <th class="p-0 min-w-140px">No. of Activities</th>
+                            <th class="p-0 min-w-110px text-center ">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budget_expense_class">
+                        <tr>
+                            <td>MAINTENANCE & OTHER OPERATING EXPENSES</td>
+                            <td id="mooe_act_no"></td>
+                            <td id="mooe_total" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>CAPITAL OUTLAY</td>
+                            <td id="co_act_no"></td>
+                            <td id="co_total" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td colspan="2" class="text-right" id="total_expense_class"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {{-- <br>
+                <table class="table table-head-custom table-vertical-center">
+                    <thead class="py-5">
+                        <tr >
+                            <th class="p-0 min-w-200px" colspan="2">TYPE OF FUNCTIONS</th>
+                            <th class="p-0 min-w-140px">No. of Activities</th>
+                            <th class="p-0 min-w-110px text-center ">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budget_type_of_function">
+                    </tbody>
+                    <tr>
+                        <td colspan="3"><div class="separator separator-solid my-7"></div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="1"></td>
+                    </tr>
+                </table> --}}
+            </div>
+            {{-- <div class="separator separator-solid my-7"></div>
+                <div class="d-flex align-items-center flex-wrap">
+                    <!--begin: Item-->
+                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                        <span class="mr-4">
+                            <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
+                        </span>
+                        <div class="d-flex flex-column text-dark-75">
+                            <span class="font-weight-bolder font-size-sm">REVISION</span>
+                            <span class="font-weight-bolder font-size-h5">
+                            <span class="text-dark-50 font-weight-bold" id="wfp_revision">0</span>
+                        </div>
+                    </div>
+                    <!--end: Item-->
+                </div>
+            </div> --}}
+        </div>
+    </div>
+</div>
+
 @endif
 
 
