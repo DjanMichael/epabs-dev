@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Budget Item')
+@section('title','Budget Line Item')
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('r_system_module') }}" class="text-muted">System Modules</a>
@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    @section('panel-title', 'Budget Item')
+    @section('panel-title', 'Budget Line Item')
     @section('panel-icon', 'fas fa-piggy-bank')
     @include('pages.reference.component.panel')
 
@@ -37,10 +37,10 @@
 
             $("#alert").delay(0).hide(0);
 
-            let data = { fund_source :'', budget_item :'', program:'', saa_number:'',  
+            let data = { fund_source :'', budget_item :'', program:'', saa_number:'',
                             purpose:'', year :'', amount :'' };
 
-            let rules = { fund_source :'required', budget_item :'required', program:'required', 
+            let rules = { fund_source :'required', budget_item :'required', program:'required',
                             saa_number:'required', purpose:'required', year :'required', amount :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
@@ -68,7 +68,7 @@
                     $(".form_program").show();
                     $(".form_saa_number").show();
                     $(".form_purpose").show();
-                } 
+                }
                 else if (valueSelected != '') {
                     $(".form_budget_item").show();
                     $(".form_year").show();
@@ -91,9 +91,10 @@
                 setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
-            // Edit button event
+            // Add / Edit button event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
+                alert(id);
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
                 var year = $('#'+id).children('td[data-target=year]').text();
                 var amount = $('#'+id).children('td[data-target=amount]').text();
