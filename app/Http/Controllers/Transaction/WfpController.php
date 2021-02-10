@@ -38,7 +38,7 @@ class WfpController extends Controller
     public $auth_user_id;
     public $auth_user_unit_id;
     public $auth_user_program_id;
-
+    public $year_id;
     // wfp performance table settings
     public $pi_table_paginate;
 
@@ -53,6 +53,7 @@ class WfpController extends Controller
             $this->auth_user_unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId() ;
             $check_if_has_settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
             $this->auth_user_program_id =  $check_if_has_settings ? (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_program_id : 0;
+            $this->year_id = $check_if_has_settings ? (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_year : 0;
             // wfp performance table settings
             $this->pi_table_paginate = 3;
 
@@ -729,7 +730,8 @@ class WfpController extends Controller
             $total_act = 0;
             $total_pi_cost = 0;
             $wfp_code = Crypt::decryptString($req->wfp_act["wfp_code"]);
-            $budget_allocation_program = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+            $budget_allocation_program = BudgetAllocationUtilization::where('year_id', $this->year_id )
+                                                                    ->where('program_id', $this->auth_user_program_id)->first();
             $budget_allocation_program["yearly_budget"];
             $check_has_pi = WfpPerformanceIndicator::where('wfp_code',$wfp_code)->where('wfp_act_id',$req->wfp_act_id)->get()->toArray();
 
