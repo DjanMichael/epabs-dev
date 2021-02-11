@@ -493,7 +493,7 @@ class WfpController extends Controller
         }
     }
 
-    function editWfp(Request $req){
+     function editWfp(Request $req){
         // dd($req->all());
         $data = [];
         $code = Crypt::decryptString($req->wfp_code);

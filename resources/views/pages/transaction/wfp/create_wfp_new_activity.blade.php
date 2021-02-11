@@ -129,113 +129,131 @@
                     </div>
                     <div class="col-12 bg-secondary p-3">Timeframe</div>
                     <div class="form-group row p-5">
-                        <label class="col-6 col-md-1 col-form-label">January</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_jan" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
+                        <div class="col-md-3 col-12">
+                            <div class="row">
+                                <label class="col-6 col-md-6 col-form-label">January</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_jan" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">Febuary</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_feb" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">March</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_mar" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <label class="col-6 col-md-1 col-form-label">Febuary</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_feb" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
+                        <div class="col-md-3 col-12">
+                            <div class="row">
+                                <label class="col-6 col-md-6 col-form-label">April</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_apr" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">May</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_may" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">June</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_june" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
-                        <label class="col-6 col-md-1 col-form-label">March</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_mar" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
+                        <div class="col-md-3 col-12">
+                            <div class="row">
+                                <label class="col-6 col-md-6 col-form-label">July</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_july" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">August</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_aug" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">September</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_sept" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
-                        <label class="col-6 col-md-1 col-form-label">April</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_apr" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">May</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_may" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">June</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_june" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">July</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_july" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">August</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_aug" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">September</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_sept" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">October</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_oct" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">November</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_nov" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                        <label class="col-6 col-md-1 col-form-label">December</label>
-                        <div class="col-6 col-md-2">
-                            <span class="switch switch-primary">
-                                <label>
-                                    <input type="checkbox" name="select" id="t_dec" value="false" disabled>
-                                    <span></span>
-                                </label>
-                            </span>
+                        <div class="col-md-3 col-12">
+                            <div class="row">
+                                <label class="col-6 col-md-6 col-form-label">October</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_oct" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">November</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_nov" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <label class="col-6 col-md-6 col-form-label">December</label>
+                                <div class="col-6 col-md-6">
+                                    <span class="switch switch-danger">
+                                        <label>
+                                            <input type="checkbox" name="select" id="t_dec" value="false" disabled>
+                                            <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <div class="col-12 bg-secondary p-3">Performance Indicator</div>
@@ -365,7 +383,7 @@
                 <div class="form-group row">
                     <label class="col-12 col-md-2 col-form-label">COMMODITIES/SUPPLIES</label>
                     <div class="col-12 col-md-4">
-                        <span class="switch switch-primary">
+                        <span class="switch switch-danger">
                             <label>
                                 <input type="checkbox" name="select" id="c_ppmp" value="false">
                                 <span></span>
@@ -374,7 +392,7 @@
                     </div>
                     <label class="col-12 col-md-2 col-form-label">CATERING SERVICES</label>
                     <div class="col-12 col-md-4">
-                        <span class="switch switch-primary">
+                        <span class="switch switch-danger">
                             <label>
                                 <input type="checkbox" name="select" id="c_catering" value="false">
                                 <span></span>
@@ -508,8 +526,6 @@
                 'required.act_cost' : 'Activity Cost is Required',
                 'required.gad_related' : 'GAD Related is Required'
             }
-
-
 
 
            /*************************************************
@@ -1217,8 +1233,18 @@
             var el = document.getElementById(ob);
             if (type == 'default'){
                 el.value = 'false';
+
             }else{
                 el.value = (el.value == 'true') ? 'false' : 'true';
+
+                if (el.value == 'true') {
+                    $("#" + el.id).parent().parent().removeClass('switch-danger');
+                    $("#" + el.id).parent().parent().addClass('switch-success');
+                }else{
+                    $("#" + el.id).parent().parent().removeClass('switch-success');
+                    $("#" + el.id).parent().parent().addClass('switch-danger');
+                }
+
             }
             // console.log($("#t_jan").val());
             // console.log($("#t_feb").val());
