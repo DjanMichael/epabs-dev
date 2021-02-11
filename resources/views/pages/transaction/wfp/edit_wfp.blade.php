@@ -881,7 +881,7 @@
             wfp_data.activity_categ =$("#activity_category").val();
             wfp_data.responsible_person  =$("#txt_responsible_person").val();
             wfp_data.act_cost = $("#wfp_act_cost").val();
-            wfp_data.gad_related = $("#gad_related").val();
+            wfp_data.gad_related = $("#gad_related").val() != 'YES' ? 'NO' : 'NO';
 
             var qtr1 = $("#qtr_1").val();
             var qtr2 = $("#qtr_2").val();
@@ -928,7 +928,6 @@
             $("#btn_update_wfp").html('Processing ..');
             $("#btn_update_wfp").attr('disabled',true);
 
-
             if(wfp_validation.passes()){
                 var _data = { wfp_code : $("#wfp_code").val() };
                 var _url = "{{ route('db_update_wfp_activity') }}";
@@ -971,7 +970,9 @@
                 $.each(wfp_validation.errors.all(),function(key,value){
                 // console.log('key:' + key , 'value:' + value);
                 msg += '<li>' + value + '</li>';
+
                 });
+
                 $("#wfp_alert").delay(400).fadeIn(600);
                 $("#kt_body").animate({ scrollTop:0 },700);
                 $("#wfp_alert").addClass('fade show');

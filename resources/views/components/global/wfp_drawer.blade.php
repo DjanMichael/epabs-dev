@@ -54,9 +54,7 @@
                             @endif
 
                             @if($log->remarks =="APPROVED")
-                                @if($ppmpApproved->remarks !="APPROVED")
                                     <button type="button" onclick="wfpRevise('{{ $wfp_code }}')" class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED WFP</button>
-                                @endif
                             @endif
                         @else
                             @if($log->remarks == "FOR REVISION" || $log->remarks == "NOT SUBMITTED")

@@ -505,7 +505,7 @@
                 'required.activity_categ' : 'Activity Category is Required',
                 'required.responsible_person' : 'Responsible Person is Required',
                 'required.act_timeframe' : 'Activity Timeframe  is Required',
-                'required.act_cost' : 'Activity Cost is Required',,
+                'required.act_cost' : 'Activity Cost is Required',
                 'required.gad_related' : 'GAD Related is Required'
             }
 
