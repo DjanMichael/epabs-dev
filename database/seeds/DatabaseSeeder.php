@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(global_system_settings::class);
         $this->call(tbl_user_roles::class);
 
+        $this->call(PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder::class);
+        $this->call(PreBuildProcurementSuppliesTblProcurementSuppliesTableSeeder::class);
     }
 }
