@@ -11,5 +11,5 @@ use \Spiritix\LadaCache\Database\LadaCacheTrait;
     protected $table = "ref_budget_line_item";
 
     protected $fillable = ['id', 'fund_source_id', 'budget_item', 'year_id', 'allocation_amount', 
-                            'if_conap', 'conap_year_id', 'saa_ctrl_number', 'purpose', 'status'];
+                            'unit_program_id', 'saa_ctrl_number', 'purpose', 'status'];
 }

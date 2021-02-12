@@ -59,21 +59,44 @@
                 }
             });
 
+            $(document).on('change', '#division', function(event){
+                var optionSelected = $(this).find("option:selected");
+                var valueSelected  = optionSelected.val();
+                var textSelected   = optionSelected.text();
+                if (textSelected != 'Please select division'){
+                    var select = $(this).attr("id");
+                    var value = $(this).val();
+                    var dependent = $(this).data('dependent');
+                    //    var _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: "{{ route('d_get_unit_program') }}",
+                        method: "GET",
+                        data: {select:select, value:textSelected, dependent:dependent},
+                        success:function(result){
+                            $('#'+dependent).html(result);
+                        }
+                    });
+                }
+            });
+
             $(document).on('change', '#fund_source', function(event){
                 var optionSelected = $(this).find("option:selected");
                 var valueSelected  = optionSelected.val();
                 var textSelected   = optionSelected.text();
                 if (textSelected == 'SAA') {
                     $(".form_budget_item").hide();
+                    $(".form_division").show();
                     $(".form_program").show();
+                    $(".form_year").show();
                     $(".form_saa_number").show();
                     $(".form_purpose").show();
+                    $(".form_amount").show();
                 }
                 else if (valueSelected != '') {
                     $(".form_budget_item").show();
                     $(".form_year").show();
                     $(".form_amount").show();
-                    $(".div_status").show();
+                    $(".form_division").hide();
                     $(".form_program").hide();
                     $(".form_saa_number").hide();
                     $(".form_purpose").hide();
@@ -94,7 +117,7 @@
             // Add / Edit button event
             $(document).on('click', '#btn_add, a[data-role=edit]', function(){
                 var id = $(this).data('id');
-                alert(id);
+                var fund_source = $('#'+id).children('td[data-target=fund_source]').text();
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
                 var year = $('#'+id).children('td[data-target=year]').text();
                 var amount = $('#'+id).children('td[data-target=amount]').text();
@@ -107,6 +130,12 @@
                     hideComponents();
                     if (id) {
                         $('#budget_item_id').val(id);
+                        $("#fund_source").find("option:contains(" + fund_source +")").each(function(){
+                            if( $(this).text() == fund_source ) {
+                                $(this).attr("selected","selected");
+                            }
+                        });
+                        $("#fund_source").trigger("change");
                         $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
                         $("#year option:contains(" + year +")").attr("selected", true);
                         $('#amount').val(amount.replace(/,/g,''));
@@ -127,6 +156,7 @@
                 if ($("#fund_source")[0].selectedIndex != 0) {
                     var id = $("#budget_item_id").val();
                     var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
+                    var fund_source = $("#fund_source option:selected").text();
                     var year = $("#year option:selected").text();
                     data.fund_source = $("#fund_source").val();
                     data.budget_item = ($("#budget_item").val() == "") ? 'None' : $("#budget_item").val();
@@ -145,7 +175,8 @@
                             method: 'POST',
                             data: {
                                 id                  : id,
-                                fund_source         : data.fund_source,
+                                fund_source_id      : data.fund_source,
+                                fund_source         : fund_source,
                                 budget_item         : data.budget_item,
                                 year_id             : data.year,
                                 year                : year,
@@ -214,12 +245,12 @@
 
         function hideComponents(){
             $(".form_budget_item").hide();
+            $(".form_division").hide();
             $(".form_program").hide();
             $(".form_year").hide();
             $(".form_saa_number").hide();
             $(".form_amount").hide();
             $(".form_purpose").hide();
-            $(".div_status").hide();
         }
 
         });

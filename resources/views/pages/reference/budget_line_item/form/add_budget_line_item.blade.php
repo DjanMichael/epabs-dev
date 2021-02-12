@@ -23,14 +23,22 @@
             </select>
         </div>
 
+        <div class="form-group form_division">
+            <input type="hidden" class="form-control" id="division_id"/>
+            <label>Division<span class="text-danger">*</span></label>
+            <select class="form-control" id="division" data-dependent="program">
+                <option value="">Please select division</option>
+                @foreach($data["units"] as $row)
+                    <option value="{{ $row["id"] }}">{{ $row["division"] }}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="form-group form_program">
             <input type="hidden" class="form-control" id="program_id"/>
             <label>Program<span class="text-danger">*</span></label>
             <select class="form-control" id="program">
                 <option value="">Please select program</option>
-                @foreach($data["program"] as $row)
-                    <option value="{{ $row["id"] }}">{{ $row["program_name"] }}</option>
-                @endforeach
             </select>
         </div>
 
