@@ -90,21 +90,37 @@ class PurchaseRequestController extends Controller
             $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
 
             if( $settings["select_program_id"] != 'null'){
-                $wfp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
-                                ->where('tbl_wfp.program_id', $settings["select_program_id"])
-                                ->where('z_wfp_logs.status','WFP')
-                                ->where('z_wfp_logs.remarks','APPROVED')
-                                ->orderBy('z_wfp_logs.id','DESC')
-                                ->first();
-                $ppmp = ZWfpLogs::join('tbl_wfp','tbl_wfp.code','z_wfp_logs.wfp_code')
-                                ->where('tbl_wfp.program_id', $settings["select_program_id"])
-                                ->where('z_wfp_logs.status','PPMP')
-                                ->where('z_wfp_logs.remarks','APPROVED')
-                                ->orderBy('z_wfp_logs.id','DESC')
-                                ->first();
-                if($wfp != null && $ppmp != null){
-                    $data["wfp_approved"] = Wfp::join('tbl_wfp_activity','tbl_wfp_activity.wfp_code','tbl_wfp.code')
-                                ->groupBy('tbl_wfp.code')->get()->toArray();
+
+                $wfp_codes = Wfp::select('code')
+                                ->where('tbl_wfp.program_id',$settings["select_program_id"])
+                                ->where('tbl_wfp.year_id',$settings["select_year"])
+                                ->get()
+                                ->toArray();
+                $passed_wfp = [];
+
+                foreach($wfp_codes as $row){
+
+                    $wfp = ZWfpLogs::where('z_wfp_logs.wfp_code', $row["code"])
+                            ->where('z_wfp_logs.status','WFP')
+                            ->orderBy('z_wfp_logs.id','DESC')
+                            ->first();
+
+                    $ppmp = ZWfpLogs::where('z_wfp_logs.wfp_code', $row["code"])
+                            ->where('z_wfp_logs.status','PPMP')
+                            ->orderBy('z_wfp_logs.id','DESC')
+                            ->first();
+
+                    if($wfp && $ppmp){
+                        if($wfp["remarks"] == 'APPROVED' && $ppmp["remarks"] == 'APPROVED')
+                        {
+                            array_push($passed_wfp,['code' => $row["code"]]);
+                        }
+                    }
+                }
+
+                if($passed_wfp != null){
+
+                    $data["wfp_approved"] = $passed_wfp;
                     return view('pages.transaction.pr.components.select_approved_wfp',['data'=>$data]);
                 }else{
                     $data["wfp_approved"] = [];
