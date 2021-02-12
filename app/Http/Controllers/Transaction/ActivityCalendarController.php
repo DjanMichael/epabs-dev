@@ -17,8 +17,11 @@ class ActivityCalendarController extends Controller
         $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         if ($settings) {
 
+
             $data['activity_list'] = ActivityList::where('is_catering', '=', 'Y')
-                                                    ->where('program_id', $settings->select_program_id)
+                                                    ->when(Auth::user()->role->roles == 'PROGRAM COORDINATOR', function($q) use($settings){
+                                                        $q->where('program_id', $settings->select_program_id);
+                                                    })
                                                     ->where('year_id', $settings->select_year)
                                                     ->get()->toArray();
             $data['months'] = array(
@@ -80,7 +83,7 @@ class ActivityCalendarController extends Controller
                             $value = "December";
                         }
 
-                    $arr = array("code" => $data['activity_list'][$i]["code"],
+                        $arr = array("code" => $data['activity_list'][$i]["code"],
                                 "user_id" => $data['activity_list'][$i]["user_id"],
                                 "program_id" => $data['activity_list'][$i]["program_id"],
                                 "program_name" => $data['activity_list'][$i]["program_name"],

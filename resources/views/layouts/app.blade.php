@@ -1979,10 +1979,8 @@
             });
         }
 
-        function pr_drawer_open(_pr_code){
-                $("#bg-drawer-pr").addClass('bg-drawer');
-                $("#pr_drawer").addClass('wrapper-drawer-on');
-                var _url = "{{ route('pr_view') }}";
+        function pr_load_items_list(_pr_code){
+            var _url = "{{ route('pr_view') }}";
                 $.ajax({
                     method:"GET",
                     url: _url,
@@ -1990,7 +1988,12 @@
                     success:function(data){
                           document.getElementById('pr_drawer').innerHTML = data;
                     }
-                })
+                });
+        }
+        function pr_drawer_open(_pr_code){
+                $("#bg-drawer-pr").addClass('bg-drawer');
+                $("#pr_drawer").addClass('wrapper-drawer-on');
+                pr_load_items_list(_pr_code);
         }
 
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id,notif_id = null){

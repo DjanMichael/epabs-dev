@@ -29,7 +29,7 @@
                     <div class="card-body my-4">
                         <div class="row">
                             <div class="col-12 col-md-3">
-                                <p class="font-weight-normal mb-0">Select Approved WFP</p>
+                                <p class="font-weight-normal mb-0">Select Approved WFP and PPMP</p>
                                 <div class="form-group " style="">
                                     <select class="form-control form-control-solid" id="wfp_select">
                                         <option value="" selected></option>
@@ -193,7 +193,8 @@
                                 }
                         });
                         fetchItemList();
-                        pr_drawer_close();
+                        pr_load_items_list("{{ $data['ppmp_code'] }}");
+                        // pr_drawer_close();
                     }
                 }
             })
