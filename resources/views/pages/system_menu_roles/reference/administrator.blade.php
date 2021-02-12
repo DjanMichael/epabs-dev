@@ -175,6 +175,66 @@
             </div>
         </div>
 
+        {{-- <div class="col-12 col-md-4">
+            <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
+                <button onclick="window.location.href='{{ route('r_budget_annual') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                    <!--begin::Symbol-->
+                    <div class="symbol symbol-40 symbol-light-primary mr-5">
+                        <span class="symbol-label">
+                            <span class="svg-icon svg-icon-xl svg-icon-primary pl-3">
+                                <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24"/>
+                                        <rect fill="#000000" x="8" y="2" width="14" height="2" rx="1"/>
+                                        <path d="M6,6 L18,6 C18.5522847,6 19,6.44771525 19,7 C19,7.55228475 18.5522847,8 18,8 L6,8 C5.44771525,8 5,7.55228475 5,7 C5,6.44771525 5.44771525,6 6,6 Z M8,10 L15,10 C15.5522847,10 16,10.4477153 16,11 C16,11.5522847 15.5522847,12 15,12 L8,12 C7.44771525,12 7,11.5522847 7,11 C7,10.4477153 7.44771525,10 8,10 Z M11,14 L17,14 C17.5522847,14 18,14.4477153 18,15 C18,15.5522847 17.5522847,16 17,16 L11,16 C10.4477153,16 10,15.5522847 10,15 C10,14.4477153 10.4477153,14 11,14 Z M12,18 L15,18 C15.5522847,18 16,18.4477153 16,19 C16,19.5522847 15.5522847,20 15,20 L12,20 C11.4477153,20 11,19.5522847 11,19 C11,18.4477153 11.4477153,18 12,18 Z M11,21 L12,21 C12.5522847,21 13,21.4477153 13,22 C13,22.5522847 12.5522847,23 12,23 L11,23 C10.4477153,23 10,22.5522847 10,22 C10,21.4477153 10.4477153,21 11,21 Z" fill="#000000" opacity="0.3"/>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                        </span>
+                    </div>
+                    <!--end::Symbol-->
+                    <!--begin::Text-->
+                    <div class="d-flex flex-column font-weight-bold text-left">
+                        <a href="{{ route('r_budget_annual') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Annual Budget</a>
+                        <span class="text-muted">Set your Annual Budget</span>
+                    </div>
+                    <!--end::Text-->
+               </button>
+            </div>
+        </div> --}}
+
+        <div class="col-12 col-md-4">
+            <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
+                <button onclick="window.location.href='{{ route('r_budget_item') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+                    <!--begin::Symbol-->
+                    <div class="symbol symbol-40 symbol-light-primary mr-5">
+                        <span class="symbol-label">
+                            <span class="svg-icon svg-icon-xl svg-icon-primary pl-3">
+                                <!--begin::Svg Icon | path:/metronic/theme/html/demo12/dist/assets/media/svg/icons/Home/Library.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <path d="M3,4 L20,4 C20.5522847,4 21,4.44771525 21,5 L21,7 C21,7.55228475 20.5522847,8 20,8 L3,8 C2.44771525,8 2,7.55228475 2,7 L2,5 C2,4.44771525 2.44771525,4 3,4 Z M10,10 L20,10 C20.5522847,10 21,10.4477153 21,11 L21,13 C21,13.5522847 20.5522847,14 20,14 L10,14 C9.44771525,14 9,13.5522847 9,13 L9,11 C9,10.4477153 9.44771525,10 10,10 Z M10,16 L20,16 C20.5522847,16 21,16.4477153 21,17 L21,19 C21,19.5522847 20.5522847,20 20,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,17 C9,16.4477153 9.44771525,16 10,16 Z" fill="#000000"/>
+                                        <rect fill="#000000" opacity="0.3" x="2" y="10" width="5" height="10" rx="1"/>
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                        </span>
+                    </div>
+                    <!--end::Symbol-->
+                    <!--begin::Text-->
+                    <div class="d-flex flex-column font-weight-bold text-left">
+                        <a href="{{ route('r_budget_item') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Budget Item</a>
+                        <span class="text-muted">Build your Budget Item</span>
+                    </div>
+                    <!--end::Text-->
+               </button>
+            </div>
+        </div>
+
         <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
                 <button onclick="window.location.href='{{ route('r_budget_line_item') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
@@ -205,7 +265,6 @@
                </button>
             </div>
         </div>
-
 
         <div class="col-12 col-md-4">
             <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">

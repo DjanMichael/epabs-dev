@@ -5,7 +5,8 @@ namespace App\Views;
 use Illuminate\Database\Eloquent\Model;
 use App\RefActivityOutputFunctions;
 class WfpActivityInfo extends Model
-{
+{ 
+use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table = "vw_wfp_activity_information";
 

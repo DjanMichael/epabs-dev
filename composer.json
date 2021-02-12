@@ -17,9 +17,12 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/passport": "^9.3",
+        "orangehill/iseed": "^3.0",
+        "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~3.0",
         "spatie/db-dumper": "^2.17",
-        "spatie/laravel-backup": "^6.11"
+        "spatie/laravel-backup": "^6.11",
+        "spiritix/lada-cache": "^5.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

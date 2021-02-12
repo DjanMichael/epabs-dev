@@ -38,7 +38,7 @@ class WfpController extends Controller
     public $auth_user_id;
     public $auth_user_unit_id;
     public $auth_user_program_id;
-
+    public $year_id;
     // wfp performance table settings
     public $pi_table_paginate;
 
@@ -53,6 +53,7 @@ class WfpController extends Controller
             $this->auth_user_unit_id = Auth::user()->getUnitId() == null ? (UserProfile::where('user_id',$this->auth_user_id)->first())->unit_id : Auth::user()->getUnitId() ;
             $check_if_has_settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
             $this->auth_user_program_id =  $check_if_has_settings ? (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_program_id : 0;
+            $this->year_id = $check_if_has_settings ? (GlobalSystemSettings::where('user_id',Auth::user()->id)->first())->select_year : 0;
             // wfp performance table settings
             $this->pi_table_paginate = 3;
 
@@ -292,15 +293,15 @@ class WfpController extends Controller
         */
         $code = DB::select('CALL generate_wfp_code(?,?,?,?)' , array($user_id,$unit_id,$year_id,$program_id));
         $code = $code[0]->wfp_code;
-        $check = Wfp::where('user_id',$user_id)
-                    ->where('unit_id',$unit_id)
-                    ->where('year_id',$year_id)
-                    ->where('program_id',$program_id)
-                    ->get()->toArray();
+        // $check = Wfp::where('user_id',$user_id)
+        //             ->where('unit_id',$unit_id)
+        //             ->where('year_id',$year_id)
+        //             ->where('program_id',$program_id)
+        //             ->get()->toArray();
         $unitHasBadget = TableUnitBudgetAllocation::where('unit_id',$unit_id)->where('year_id',$year_id)->first();
-        if(count($check) >= 2){
-            return ['message'=>'duplicate'];
-        }
+        // if(count($check) >= 2){
+        //     return ['message'=>'duplicate'];
+        // }
 
         if($unitHasBadget == null){
             return ['message'=>'no budget'];
@@ -492,7 +493,7 @@ class WfpController extends Controller
         }
     }
 
-    function editWfp(Request $req){
+     function editWfp(Request $req){
         // dd($req->all());
         $data = [];
         $code = Crypt::decryptString($req->wfp_code);
@@ -591,6 +592,7 @@ class WfpController extends Controller
             $wfp_act->out_function =$req->data["output_function"];
             $wfp_act->out_activity =$req->data["activity_output"];
             $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_gad_related =$req->data["gad_related"];
             $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
             $wfp_act->activity_timeframe =$req->data["act_timeframe"];
             $wfp_act->responsible_person =$req->data["responsible_person"];
@@ -608,6 +610,7 @@ class WfpController extends Controller
             $wfp_act->out_function =$req->data["output_function"];
             $wfp_act->out_activity =$req->data["activity_output"];
             $wfp_act->activity_category_id =$req->data["activity_categ"];
+            $wfp_act->activity_gad_related =$req->data["gad_related"];
             $wfp_act->activity_source_of_fund =$req->data["source_of_fund"];
             $wfp_act->activity_timeframe =$req->data["act_timeframe"];
             $wfp_act->responsible_person =$req->data["responsible_person"];
@@ -727,7 +730,8 @@ class WfpController extends Controller
             $total_act = 0;
             $total_pi_cost = 0;
             $wfp_code = Crypt::decryptString($req->wfp_act["wfp_code"]);
-            $budget_allocation_program = BudgetAllocationUtilization::where('wfp_code', $wfp_code )->first();
+            $budget_allocation_program = BudgetAllocationUtilization::where('year_id', $this->year_id )
+                                                                    ->where('program_id', $this->auth_user_program_id)->first();
             $budget_allocation_program["yearly_budget"];
             $check_has_pi = WfpPerformanceIndicator::where('wfp_code',$wfp_code)->where('wfp_act_id',$req->wfp_act_id)->get()->toArray();
 
@@ -767,6 +771,7 @@ class WfpController extends Controller
             $a = WfpActivity::where('id',$req->wfp_act_id)->first();
             $a->out_function =$req->wfp_act["output_function"];
             $a->out_activity =$req->wfp_act["activity_output"];
+            $a->activity_gad_related =$req->wfp_act["gad_related"];
             $a->activity_source_of_fund =$req->wfp_act["source_of_fund"];
             $a->activity_category_id =$req->wfp_act["activity_categ"];
             $a->responsible_person =$req->wfp_act["responsible_person"];

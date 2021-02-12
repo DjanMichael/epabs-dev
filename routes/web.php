@@ -234,12 +234,29 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::post('/system/reference/add-unit-program','Reference\UnitProgramController@store')->name('a_unit_program');
     Route::post('/system/reference/remove-unit-program','Reference\UnitProgramController@removeAssignment')->name('del_unit_program');
 
+    // Annual Budget Routes
+    Route::get('/system/reference/annual/budget','Reference\AnnualBudgetController@index')->name('r_budget_annual');
+    Route::get('/system/reference/annual/budget/all','Reference\AnnualBudgetController@getAnnualBudget')->name('d_annual_budget');
+    Route::get('/system/reference/annual/budget/pagination','Reference\AnnualBudgetController@getgetAnnualBudget')->name('d_get_annual_budget_by_page');
+    Route::get('/system/reference/annual/budget/search','Reference\AnnualBudgetController@getgetAnnualBudgetSearch')->name('d_get_annual_budget_search');
+    Route::get('/system/reference/annual/budget/add-form','Reference\AnnualBudgetController@getAddForm')->name('d_add_annual_budget');
+    Route::post('/system/reference/annual/add-budget','Reference\AnnualBudgetController@store')->name('a_annual_budget');
+    
+    // Budget Item Routes
+    Route::get('/system/reference/budget-item','Reference\BudgetItemController@index')->name('r_budget_item');
+    Route::get('/system/reference/budget-item/all','Reference\BudgetItemController@getBudgetItem')->name('d_budget_item');
+    Route::get('/system/reference/budget-item/pagination','Reference\BudgetItemController@getBudgetItemByPage')->name('d_get_budget_item_by_page');
+    Route::get('/system/reference/budget-item/search','Reference\BudgetItemController@getBudgetItemSearch')->name('d_get_budget_item_search');
+    Route::get('/system/reference/budget-item/add-form','Reference\BudgetItemController@getAddForm')->name('d_add_budget_item');
+    Route::post('/system/reference/add-budget-item','Reference\BudgetItemController@store')->name('a_budget_item');
+    
     // Budget Line Item Routes
     Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
     Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
     Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLineItemController@getBudgetLineItemByPage')->name('d_get_budget_line_item_by_page');
     Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
     Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
+    Route::get('/system/reference/budget-line-item/program','Reference\BudgetLineItemController@getUnitProgram')->name('d_get_unit_program');
     Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
 
     // Output Function Routes

@@ -14,6 +14,8 @@ use App\TableSystemEvents;
 use App\PpmpComments;
 use Auth;
 use Illuminate\Support\Str;
+use App\ApiSMS;
+
 class NotifyUserPpmpStatus  implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -48,6 +50,11 @@ class NotifyUserPpmpStatus  implements ShouldBroadcast
                 $this->icon = 'flaticon2-file';
                 $this->icon_level = 'danger';
             }
+            $sms  = new ApiSMS;
+            $have_contact = Auth::user()->getUserContact($wfp->user_id) != '' ? true : false;
+            $temp_sms = $title;
+            $sms->sendSMS(Auth::user()->getUserContact($wfp->user_id),$temp_sms);
+
             $this->title = $title;
             $this->desc = $desc;
             $this->isRead ='N';

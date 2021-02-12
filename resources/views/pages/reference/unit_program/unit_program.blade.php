@@ -36,7 +36,7 @@
 
             $("#alert").delay(0).hide(0);
 
-            let data = { program :'', coordinator :'' };
+            let data = { program :'', coordinator :''};
 
             let rules = { program :'required', coordinator :'required' };
 

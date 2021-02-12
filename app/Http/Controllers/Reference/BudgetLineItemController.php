@@ -4,8 +4,15 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Views\BudgetLineItem;
+use App\Views\UnitProgram;
 use App\RefBudgetLineItem;
+use App\RefBudgetItem;
+use App\RefSourceOfFund;
+use App\RefProgram;
+use App\RefUnits;
 use App\RefYear;
+use App\User;
 
 class BudgetLineItemController extends Controller
 {
@@ -13,9 +20,7 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budget_line_item.budget_line_item'); }
 
     public function fetchBudgetLineItem(){
-        $data = RefBudgetLineItem::leftJoin('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
-                    ->select('ref_budget_line_item.id', 'budget_item', 'year', 'allocation_amount', 'ref_budget_line_item.status')
-                    ->paginate(10);
+        $data = BudgetLineItem::paginate(10);
         return $data;
     }
 
@@ -26,7 +31,6 @@ class BudgetLineItemController extends Controller
     public function getBudgetLineItemByPage(Request $request){
         if($request->ajax())
         {
-            $data = RefBudgetLineItem::join('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')->paginate(10);
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $this->fetchBudgetLineItem()]);
         } else {
             abort(403);
@@ -39,13 +43,14 @@ class BudgetLineItemController extends Controller
         {
             $query = $request->q;
             if($query != ''){
-                $data = RefBudgetLineItem::leftJoin('ref_year', 'ref_year.id', '=', 'ref_budget_line_item.year_id')
-                                        ->select('ref_budget_line_item.id', 'budget_item', 'year', 'allocation_amount', 'ref_budget_line_item.status')
-                                        ->where('budget_item' ,'LIKE', '%'. $query .'%')
+                $data = BudgetLineItem::where('budget_item' ,'LIKE', '%'. $query .'%')
+                                        ->orWhere('program_name', 'LIKE', '%'. $query .'%')
+                                        ->orWhere('saa_ctrl_number', 'LIKE', '%'. $query .'%')
+                                        ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
                                         ->orWhere('year', 'LIKE', '%'. $query .'%')
                                         ->paginate(10);
             } else {
-                $data = $this->fetchBudgetLineItem();
+                $data = BudgetLineItem::paginate(10);
             }
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $data]);
         } else {
@@ -55,26 +60,64 @@ class BudgetLineItemController extends Controller
 
     public function getAddForm(){
         $data['year'] = RefYear::where('status','ACTIVE')->orderBy('year', 'ASC')->get();
-        $data['budget_item'] = RefBudgetLineItem::select('budget_item')->distinct()->where('status','ACTIVE')->orderBy('budget_item', 'ASC')->get();
+        $data['units'] = RefUnits::select('id', 'division')
+                                    ->distinct()
+                                    ->where('status','ACTIVE')
+                                    ->groupBy('division')
+                                    ->orderBy('division', 'ASC')
+                                    ->get();
+        $data['fund_source'] = RefSourceOfFund::where('status','ACTIVE')->orderBy('sof_classification', 'ASC')->get();
+        $data['budget_item'] = RefBudgetItem::where('status','ACTIVE')
+                                            ->orderBy('budget_item', 'ASC')->get();
         return view('pages.reference.budget_line_item.form.add_budget_line_item', ['data'=> $data]);
+    }
+
+    public function getUnitProgram(Request $request){
+        $select = "division";
+        $value = $request->get('value');
+        $data = UnitProgram::where($select, $value)->get();
+        $output = '<option value"">Please select program</option>';
+        foreach($data as $row){
+            $output .= '<option value="'.$row->id.'">'.$row->program_name.'</option>';
+        }
+        echo $output;
     }
 
     public function store(Request $request) {
 
         if($request->ajax()) {
-            $check = RefBudgetLineItem::find($request->id)
+            if ($request->fund_source == "SAA") {
+                $check = RefBudgetLineItem::find($request->id)
                         ? RefBudgetLineItem::where([
+                                                ['saa_ctrl_number', $request->saa_number],
+                                                ['year_id', $request->year_id],
+                                                ['id', '<>', $request->id]
+                                                ])->first()
+                        : RefBudgetLineItem::where([
+                                                ['saa_ctrl_number', $request->saa_number],
+                                                ['year_id', $request->year_id],
+                                                ])->first();
+            } else {
+                $check = RefBudgetLineItem::find($request->id)
+                        ? RefBudgetLineItem::where([
+                                                ['fund_source_id', $request->fund_source_id],
                                                 ['budget_item', $request->budget_item],
                                                 ['year_id', $request->year_id],
                                                 ['id', '<>', $request->id]
                                                 ])->first()
                         : RefBudgetLineItem::where([
+                                                ['fund_source_id', $request->fund_source_id],
                                                 ['budget_item', $request->budget_item],
                                                 ['year_id', $request->year_id],
                                                 ])->first();
-
+            }
+            
             if ($check) {
-                return response()->json(['message'=>'Budget Item '.$request->budget_item.' already have amount for year '.$request->year, 'type'=> 'info']);
+                if ($request->fund_source == "SAA") {
+                    return response()->json(['message'=>$request->saa_number.' already have amount for year '.$request->year, 'type'=> 'info']);
+                } else {
+                    return response()->json(['message'=>'Fund source '.$request->fund_source.', Budget Item '.$request->budget_item.' already have amount for year '.$request->year, 'type'=> 'info']);
+                }
             } else {
                 $check = RefBudgetLineItem::find($request->id);
                 if ($check) {
@@ -86,9 +129,13 @@ class BudgetLineItemController extends Controller
                 }
                 else if (empty($check)) {
                     $budget_item = [
+                        'fund_source_id' => $request->fund_source_id,
                         'budget_item' => $request->budget_item,
+                        'unit_program_id' => $request->program,
                         'year_id' => $request->year_id,
                         'allocation_amount' => $request->amount,
+                        'saa_ctrl_number' => $request->saa_number,
+                        'purpose' => $request->purpose,
                         'status' => $request->status
                     ];
                     RefBudgetLineItem::create($budget_item);

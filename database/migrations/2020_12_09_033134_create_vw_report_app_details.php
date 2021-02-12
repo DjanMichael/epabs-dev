@@ -56,7 +56,7 @@ class CreateVwReportAppDetails extends Migration
                         `tpd`.`item_id` = `vpdsi`.`id`
                     AND `tpd`.`item_type` = `vpdsi`.`item_type`
                     AND date_format(`tpd`.`created_at`, '%Y') = `ry`.`year`
-                    AND date_format(`tpd`.`created_at`, '%M') = 'Febuary'
+                    AND date_format(`tpd`.`created_at`, '%M') = 'February'
                 ) AS `feb`,
                 (
                     SELECT
@@ -176,7 +176,7 @@ class CreateVwReportAppDetails extends Migration
             FROM
                 (
                     `vw_procurement_drum_supplies_items` `vpdsi`
-                    JOIN `ref_year` `ry`
+                    JOIN `ref_year` `ry` ON `ry`.id = `vpdsi`.`year_id`
                 )
         )");
     }

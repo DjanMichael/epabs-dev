@@ -1623,8 +1623,6 @@
             });
 
 
-
-
               /***************************************************
              *
              *      FUNCTIONS / REUSABLE
@@ -1917,6 +1915,21 @@
             document.getElementById('kt_quick_panel_close').click();
         }
 
+        function show_ppmp_drawer_from_notification(notif_id,wfp_code){
+            // alert(wfp_code);
+            wfp_ppmp_viewer_drawer_open(wfp_code,null,notif_id);
+            document.getElementById('kt_quick_panel_close').click();
+            document.getElementById('kt_quick_user_close').click();
+        }
+
+        function show_ppmp_drawer_from_comment(notif_id,wfp_code){
+            // alert(wfp_code);
+            wfp_ppmp_viewer_drawer_open(wfp_code,null,notif_id);
+            document.getElementById('kt_quick_panel_close').click();
+        }
+
+
+
         // function showCartQtyModal(_type,_item_id,_ppmp_id){
         //     $("#modal_qty_cart_item_" + _ppmp_id).modal({
         //         show:true,
@@ -1980,18 +1993,18 @@
                 })
         }
 
-        function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id){
+        function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id,notif_id = null){
             if(_wfp_code != null){
                 $("#bg-drawer-ppmp-drawer").addClass('bg-drawer');
                 $("#wfp_ppmp_viewer_drawer").addClass('wrapper-drawer-on');
                 // wfp_drawer_close();
-                fetchPPMPViewer(_wfp_code,_wfp_act_id);
+                fetchPPMPViewer(_wfp_code,_wfp_act_id,notif_id);
             }
         }
 
 
 
-        function fetchPPMPViewer(_wfp_code,_wfp_act_id = null){
+        function fetchPPMPViewer(_wfp_code,_wfp_act_id = null,notif_id = null){
             var _url = "{{ route('wfp_ppmp_view') }}";
 
             $.ajax({
@@ -2006,6 +2019,7 @@
                     });
                 },
                 success:function(data){
+                    updateNotifToRead(notif_id);
                     document.getElementById('wfp_ppmp_viewer_drawer').innerHTML = data;
                 }
             });

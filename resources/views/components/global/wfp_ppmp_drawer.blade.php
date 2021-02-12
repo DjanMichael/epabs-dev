@@ -34,6 +34,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 
                                     @if($log->remarks =="APPROVED")
                                         <button type="button" onclick="revisePPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-danger font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-refresh-1 icon-md"></i>REVISED PPMP</button>
+                                        <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
                                     @endif
                                 @else
                                     @if($log->remarks =="SUBMITTED")
@@ -46,7 +47,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                             @else
                                 <button type="button" onclick="submitPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-send-1 icon-md"></i>Submit PPMP</button>
                             @endif
-                            <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
+
                         <div class="col-12 col-md-4">
                         </div>
                     </div>
@@ -292,21 +293,12 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 </div>
 @endif
 <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle row" id="comments">
-@forelse($data["ppmp_comments"] as $row)
+@forelse($data["ppmp_comments"] as $row2)
   <!--begin::Item-->
   <div class="card border-top-0 col-12">
-
     <!--begin::Body-->
     <div >
         <div class="card-body text-dark-50 font-size-lg pl-12 ">
-            <?php
-                $comments = \App\PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
-                                            ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
-                                            ->where('wfp_code',$row["wfp_code"])
-                                            ->orderBy('created_at','DESC')
-                                            ->get();
-            ?>
-                @foreach($comments as $row2)
                 <div class="mb-3">
                     <!--begin::Section-->
                     <div class="d-flex align-items-center">
@@ -330,27 +322,11 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                     <p class="text-dark-50 m-0 p-5 font-weight-bold bg-gray-200 rounded-lg mt-1"> {{ $row2["comment"] }}</p>
                     <!--end::Desc-->
                 </div>
-                    {{-- <div class="row">
-                        <div class="col-3 ">
-                            <div class="symbol symbol-50 ">
-                                <span class="symbol-label font-size-h1">{{ strtoupper(Str::substr(Str::words($row2["name"],2),0,1)) }}</span>
-                            </div>
-                            asd
-                        </div>
-                        <div class="col-9 ">
-                                {{ $row2["comment"] }} <br><span>{{ Carbon\Carbon::parse($row2["created_at"])->diffForHumans() }}</span>
-                        </div>
-                    </div> --}}
-
-                @endforeach
             </div>
-
     </div>
     <!--end::Body-->
 </div>
 <!--end::Item-->
-
-
 @empty
 
 @endforelse

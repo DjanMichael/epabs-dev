@@ -200,7 +200,7 @@
                     @endif
 
                     @if($division == "LHS")
-                        DR. ERNESTO PAREJA
+                        ERNESTO E. PAREJA, MPD, MPH
                         <br>
                         MEDICAL OFFICER V
                     @endif

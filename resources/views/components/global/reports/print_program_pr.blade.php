@@ -121,8 +121,8 @@
             <td style="border-top:1px solid black;padding-left:5px;width:30px;">Date</td>
         </tr>
         <tr>
-            <td style="padding-left:5px;">Office:</td>
-            <td style="padding-left:5px;font-weight:bold;">{{$data["pr"]->agency  ? 'DEPARTMENT OF HEALTH REGIONAL OFFICE CARAGA' : 'PDOHO'}}</td>
+            <td style="padding-left:5px;">Office: </td>
+            <td style="padding-left:5px;font-weight:bold;">{{$data["pr"]->agency  ? 'CHD- Caraga' : 'PDOHO'}}</td>
             <td style="padding-left:5px;"></td>
             <td style="padding-left:5px;">SAI. No.</td>
             <td style="padding-left:5px;">Date</td>
@@ -215,7 +215,7 @@
             $row_limit -= 1;
             $row_count++;
             $total +=collect($row)->sum('item_qty') * collect($row)->sum('item_price');
-         
+
             // dd((collect($row)->first())["item_description"]);
         ?>
         <tr>
@@ -235,7 +235,7 @@
 @endforeach
 
     <!-- @if($skip == 0)
-     
+
         @for($i=0;$i<=$row_limit;$i++){
 
             @if(($i + $row_count + count($data["pr_details"])) == 56){

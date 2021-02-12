@@ -22,6 +22,7 @@ class CreateTblWfpActivity extends Migration
             $table->integer('activity_category_id')->nullable();
             $table->integer('activity_source_of_fund')->nullable();
             // $table->foreign('activity_source_of_fund')->reference('id')->on('ref_source_of_fund');
+            $table->string('activity_gad_related',5)->nullable();
             $table->string('responsible_person')->nullable();
             $table->string('activity_timeframe')->nullable();
             $table->string('target_q1')->nullable();
