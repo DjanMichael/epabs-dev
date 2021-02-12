@@ -248,6 +248,7 @@
                 $rowspan =1;
                 $skip_td = 0;
                 $sub_total_a = 0;
+                $hold_old="";
             ?>
             @forelse ($data["wfp_a"] as $row)
 
@@ -256,18 +257,19 @@
                 $skip_td = 0;
                 if(count($data["wfp_a"]) > 1){
                     if( $i < count($data["wfp_a"])){
-                        if($i == 0){
-                            $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
+                        if($i == 0 || $row['out_function'] != $hold_old){
                             $skip_td = 1;
+                            $hold_old = $row['out_function'];
                         }else{
                             $skip_td = 0;
                         }
+
                     }
                 }
 
                 $i++;
                 $key = $row['out_function'] ;
-                $rowsc=count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
+                $rowsc= count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
             ?>
                     <tr class="t-row">
                         @if($skip_td == 1 || $rowsc == 1)
@@ -303,21 +305,23 @@
             $rowspan =1;
             $skip_td = 0;
             $sub_total_b = 0;
+            $hold_old="";
         ?>
         @forelse ($data["wfp_b"] as $row)
         <?php
             $sub_total_b += $row["activity_cost"];
             $skip_td = 0;
             if(count($data["wfp_b"]) > 1){
-                if( $i < count($data["wfp_b"])){
-                    if($i == 0){
-                        $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
-                        $skip_td = 1;
-                    }else{
-                        $skip_td = 0;
+                    if( $i < count($data["wfp_b"])){
+                        if($i == 0 || $row['out_function'] != $hold_old){
+                            $skip_td = 1;
+                            $hold_old = $row['out_function'];
+                        }else{
+                            $skip_td = 0;
+                        }
+
                     }
                 }
-            }
 
             $i++;
             $key = $row['out_function'] ;
@@ -358,6 +362,7 @@
                 $rowspan =1;
                 $skip_td = 0;
                 $sub_total_c = 0;
+                $hold_old="";
             ?>
             @forelse ($data["wfp_c"] as $row)
                 <?php
@@ -365,12 +370,13 @@
                     $skip_td = 0;
                     if(count($data["wfp_c"]) > 1){
                         if( $i < count($data["wfp_c"])){
-                            if($i == 0){
-                                $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
+                            if($i == 0 || $row['out_function'] != $hold_old){
                                 $skip_td = 1;
+                                $hold_old = $row['out_function'];
                             }else{
                                 $skip_td = 0;
                             }
+
                         }
                     }
                     $i++;
