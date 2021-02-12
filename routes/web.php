@@ -256,6 +256,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLineItemController@getBudgetLineItemByPage')->name('d_get_budget_line_item_by_page');
     Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
     Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
+    Route::get('/system/reference/budget-line-item/program','Reference\BudgetLineItemController@getUnitProgram')->name('d_get_unit_program');
     Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
 
     // Output Function Routes
