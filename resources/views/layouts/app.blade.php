@@ -123,10 +123,10 @@
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
             >
             <span>
-                <b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }}
+                <b style="font-family:arial black;">e</b>Planning System
             </span>
 
-            <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
+            <span style="font-size:12px;"> {{ ' V 1.0'  }}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
