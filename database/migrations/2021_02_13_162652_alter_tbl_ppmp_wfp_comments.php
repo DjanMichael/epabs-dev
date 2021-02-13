@@ -33,8 +33,8 @@ class AlterTblPpmpWfpComments extends Migration
             $table->dropColumn('user_from');
         });
 
-        Schema::table('tbl_wfp_comments', function (Blueprint $table) {
-            $table->dropColumn('tbl_ppmp_comments');
+        Schema::table('tbl_ppmp_comments', function (Blueprint $table) {
+            $table->dropColumn('user_from');
         });
     }
 }
