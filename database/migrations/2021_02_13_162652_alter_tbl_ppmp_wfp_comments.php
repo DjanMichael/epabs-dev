@@ -14,11 +14,11 @@ class AlterTblPpmpWfpComments extends Migration
     public function up()
     {
         Schema::table('tbl_wfp_comments', function (Blueprint $table) {
-            $table->integer('user_from',11)->nullable();
+            $table->unsignedInteger('user_from',11)->nullable();
         });
 
         Schema::table('tbl_ppmp_comments', function (Blueprint $table) {
-            $table->integer('user_from',11)->nullable();
+            $table->unsignedInteger('user_from',11)->nullable();
         });
     }
 
