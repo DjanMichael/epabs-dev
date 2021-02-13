@@ -17,6 +17,7 @@ class CreateTblPpmpComments extends Migration
             $table->id();
             $table->string('wfp_code');
             $table->string('user_id');
+            $table->string('user_from');
             $table->string('comment');
             $table->timestamps();
         });
