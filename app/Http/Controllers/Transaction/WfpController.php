@@ -480,6 +480,7 @@ class WfpController extends Controller
             $a->wfp_code = $code;
             $a->user_id = $req->user_id;
             $a->comment = $req->comment;
+            $a->user_from = Auth::user()->id;
             $a->wfp_act_id = $req->twa_id;
             if( $a->save())
             {

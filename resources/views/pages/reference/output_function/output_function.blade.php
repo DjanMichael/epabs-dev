@@ -22,6 +22,9 @@
     <script>
         $(document).ready(function() {
 
+
+
+
             /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
@@ -60,6 +63,8 @@
                 var description = $('#'+id).children('td[data-target=description]').text();
                 var program = $('#'+id).children('td[data-target=program]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
+                description = description.replace(/\n/gm, "<br>");
+
                 $.ajax({
                     url: "{{ route('d_add_output_function') }}",
                     method: 'GET'

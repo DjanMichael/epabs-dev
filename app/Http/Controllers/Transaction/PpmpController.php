@@ -327,7 +327,7 @@ class PpmpController extends Controller
             // dd($data["ppmp_catering"]);
             $data["wfp_code"] = $req->wfp_code;
 
-            $data["ppmp_comments"] = PpmpComments::join('users','users.id','tbl_ppmp_comments.user_id')
+            $data["ppmp_comments"] = PpmpComments::join('users','users.id','tbl_ppmp_comments.user_from')
                                                 ->select('users.name','tbl_ppmp_comments.created_at','tbl_ppmp_comments.comment')
                                                 ->where('wfp_code',Crypt::decryptString($req->wfp_code))
                                                 ->orderBy('created_at','DESC')
@@ -454,7 +454,8 @@ class PpmpController extends Controller
 
             $b = new PpmpComments;
             $b->wfp_code = Crypt::decryptString($req->wfp_code);
-            $b->user_id = Auth::user()->id;
+            $b->user_id = $wfp->user_id;
+            $b->user_from = Auth::user()->id;
             $b->comment = $req->comment;
             $b->save();
 

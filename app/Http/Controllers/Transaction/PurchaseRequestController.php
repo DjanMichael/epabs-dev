@@ -287,7 +287,8 @@ class PurchaseRequestController extends Controller
             $item = ProcurementMedSupplies::where('id',$req->item_id)->where('item_type',$req->item_type)->first();
             $duplicate = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)
                                                         ->where('item_id',$req->item_id)
-                                                        ->where('item_type',$req->item_type)->first();
+                                                        ->where('item_type',$req->item_type)
+                                                        ->first();
 
             $a = new ProgramPurchaseRequestDetails;
             $a->wfp_code = $req->wfp_code;

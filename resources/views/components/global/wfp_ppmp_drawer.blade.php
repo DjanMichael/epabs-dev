@@ -42,6 +42,10 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                                     @endif
                                     @if($log->remarks =="FOR REVISION")
                                         <button type="button" onclick="submitPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="flaticon2-send-1 icon-md"></i>Submit PPMP</button>
+                                        <button type="button" onclick="commentPPMP('{{ $data['wfp_code'] }}')"   class="btn btn-transparent-primary font-weight-bold  btn-block col-12 col-md-4 m-1" ><i class="fa fa-comment-alt icon-md"></i>Commment PPMP</button>
+                                    @endif
+                                    @if($log->remarks =="APPROVED")
+                                        <button type="button" class="btn btn-transparent-white font-weight-bold btn-block col-12 col-md-4 m-1" onclick="printPpmp('{{  $data['wfp_code'] }}')"><i class="flaticon2-printer"></i>Print</button>
                                     @endif
                                 @endif
                             @else
@@ -205,10 +209,11 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 
                                     $t = "tbl_wfp_activity_per_indicator";
                                     $batch = \App\TablePiCateringBatches::join('ref_location','ref_location.id','tbl_pi_catering_batches.batch_location')
-                                                                        ->join($t,$t .'.id','tbl_pi_catering_batches.pi_id')
-                                                                        ->where('pi_id',$key)
-                                                                        ->select('pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
-                                                                        ->get()->toArray();
+                                                    ->join($t,$t .'.id','tbl_pi_catering_batches.pi_id')
+                                                    ->join('tbl_wfp_activity','tbl_wfp_activity.id','tbl_wfp_activity_per_indicator.wfp_act_id')
+                                                    ->where('tbl_pi_catering_batches.pi_id',$key)
+                                                    ->select('wfp_act_id','out_activity','pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
+                                                    ->get()->toArray();
                                 ?>
                                     @foreach($batch as $row3)
                                         <?php
@@ -228,7 +233,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
                                         ?>
                                         <tr>
                                             <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;"  class="text-left pl-4">
-                                                {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
+                                                {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["out_activity"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
                                             </td>
                                         </tr>
 
@@ -293,6 +298,7 @@ $log = \App\ZWfplogs::where('wfp_code',Crypt::decryptString($data['wfp_code']))
 </div>
 @endif
 <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle row" id="comments">
+
 @forelse($data["ppmp_comments"] as $row2)
   <!--begin::Item-->
   <div class="card border-top-0 col-12">
