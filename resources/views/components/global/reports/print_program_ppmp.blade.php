@@ -74,7 +74,7 @@
         }
         .footer {
                 position: fixed;
-                bottom: -180px;
+                bottom: -160px;
                 left: 0px;
                 right: 0px;
                 height: 180px;
@@ -132,7 +132,7 @@
     </div>
 
     <div class="footer">
-        <table style="width:100%">
+        {{-- <table style="width:100%">
             <tr>
                 <td style="width:40%">
                     Prepared By:
@@ -207,6 +207,88 @@
                     <br>
                     Date: _____________
                 </td>
+            </tr>
+        </table> --}}
+        <table style="width:100%">
+            <tr>
+                <td style="width:20%">
+                    Prepared By:
+                    <br><br><br><br>
+                    {{  strtoupper($data["wfp_manager"]->name) }}
+                    <br>
+                    {{  strtoupper($data["wfp_manager"]->designation) ?: 'NO DESIGNATION' }}
+                    <br>
+                    Date: _____________
+                </td>
+
+                <td style="width:20%">
+
+                    <?php
+                        $division = $data["wfp_unit"]->division;
+                        $unit = $data["wfp_unit"]->section;
+                    ?>
+                    @if($division !="RD/ARD")
+                    Noted By:
+                    <br><br><br><br>
+
+                    {{-- @if($division =="RD/ARD")
+                        @if($unit == "ARD" || $unit == "PLANNING")
+                            GERNA M. MANATAD, MD, PHSA, MDM
+                            <br>
+                            OIC-DIRECTOR III
+                        @endif
+                        @if($unit == "RD")
+                            JOSE R. LLACUNA JR., MD, MPH, CESO III
+                            <br>
+                            DIRECTOR IV
+                        @endif
+                    @endif --}}
+
+                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                        AILEEN A. SACOL, CPA, MMPSM
+                        <br>
+                        OIC - CHIEF ADMINISTRATIVE OFFICER
+                    @endif
+
+                    @if($division == "LHS")
+                        ERNESTO E. PAREJA, MPD, MPH
+                        <br>
+                        MEDICAL OFFICER V
+                    @endif
+                    <br>
+                    Date: _____________
+                    @endif
+                </td>
+                <td style="width:20%">
+                    Reviewed By:
+                    <br><br><br><br>
+                    JEAN AGANAP-PINGAL, MPA
+                    <br>
+                    AO V/BUDGET OFFICER
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Recommending Approval:
+                    <br><br><br><br>
+                    GERNA M. MANATAD, MD, PHSAE, MDM
+                    <br>
+                    OIC-DIRECTOR III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Approved By:
+                    <br><br><br><br>
+                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    <br>
+                    DIRECTOR IV
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+            <tr>
+
             </tr>
         </table>
     </div>
@@ -343,9 +425,11 @@
                 $t = "tbl_wfp_activity_per_indicator";
                 $batch = \App\TablePiCateringBatches::join('ref_location','ref_location.id','tbl_pi_catering_batches.batch_location')
                                                     ->join($t,$t .'.id','tbl_pi_catering_batches.pi_id')
-                                                    ->where('pi_id',$key)
-                                                    ->select('pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
+                                                    ->join('tbl_wfp_activity','tbl_wfp_activity.id','tbl_wfp_activity_per_indicator.wfp_act_id')
+                                                    ->where('tbl_pi_catering_batches.pi_id',$key)
+                                                    ->select('wfp_act_id','out_activity','pi_id','batch_location','uacs_id','province','city','batch_no','performance_indicator','tbl_pi_catering_batches.id as batch_id')
                                                     ->get()->toArray();
+
             ?>
                 @foreach($batch as $row3)
                     <?php
@@ -365,7 +449,7 @@
                     ?>
                     <tr>
                         <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;" class="t-h-d">
-                            {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["performance_indicator"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
+                            {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["out_activity"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
                         </td>
                     </tr>
                         @if(count($items) ==  0)

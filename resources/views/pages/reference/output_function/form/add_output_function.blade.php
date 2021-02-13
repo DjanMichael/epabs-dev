@@ -15,9 +15,11 @@
         <div class="form-group">
             <label>Description<span class="text-danger">*</span></label>
             <div class="input-group">
-            <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-crisp-icons"></i></span></div>
-                <input type="text" class="form-control" id="description" autocomplete="off"/>
-            </div>
+            {{-- <div class="input-group-prepend"><span class="input-group-text" ><i class="flaticon2-crisp-icons"></i></span></div>
+                <input type="textarea" row="4" class="form-control" id="description" autocomplete="off"/>
+            </div> --}}
+
+            <textarea class="form-control"  id="description"  placeholder="Descriptions" rows="3"></textarea>
         </div>
 
         <div class="form-group">

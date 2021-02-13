@@ -707,6 +707,7 @@
                             </div>
                             <input type="hidden" id="wfp_ref" value="">
                             <input type="hidden" id="wfp_comment_user_id_send_to" value="">
+                            <input type="hidden" id="wfp_comment_user_id_send_from" value="">
                             <input type="hidden" id="wfp_comment_wfp_act_id" value="">
                         </div>
                     </div>

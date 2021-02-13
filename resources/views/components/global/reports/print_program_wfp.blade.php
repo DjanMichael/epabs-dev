@@ -152,7 +152,7 @@
                     ?>
                     @if($division =="RD/ARD")
                         @if($unit == "ARD" || $unit == "PLANNING")
-                            GERNA M. MANATAD, MD, PHSA, MDM
+                            GERNA M. MANATAD, MD, PHSAE, MDM
                             <br>
                             OIC-DIRECTOR III
                         @endif
@@ -180,9 +180,9 @@
                 <td style="width:20%">
                     Reviewed By:
                     <br><br><br><br>
-                    ENGR. ARLENE D. SANTUA
+                    JEAN AGANAP-PINGAL, MPA
                     <br>
-                    PLANNING OFFICER III
+                    AO V/BUDGET OFFICER
                     <br>
                     Date: _____________
                 </td>
@@ -273,7 +273,7 @@
             ?>
                     <tr class="t-row">
                         @if($skip_td == 1 || $rowsc == 1)
-                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         @endif
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -291,10 +291,10 @@
                         <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                     </tr>
             @endforelse
-            <tr class="t-row">
+            {{-- <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a,2) }}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td class="t-h-d" colspan="10">B. CORE FUNCTION</td>
@@ -330,7 +330,7 @@
 
                 <tr class="t-row">
                     @if($skip_td == 1 || $rowsc == 1)
-                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                     @endif
                     <td class="t-d" >{{ $row["out_activity"] }}</td>
                     <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -347,10 +347,10 @@
                     <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                 </tr>
         @endforelse
-        <tr class="t-row">
+        {{-- <tr class="t-row">
             <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
             <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_b,2) }}</td>
-        </tr>
+        </tr> --}}
 
 
         <tr>
@@ -386,7 +386,7 @@
 
                     <tr class="t-row">
                         @if($skip_td == 1 || $rowsc == 1)
-                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         @endif
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -403,10 +403,10 @@
                         <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                     </tr>
             @endforelse
-            <tr class="t-row">
+            {{-- <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_c,2) }}</td>
-            </tr>
+            </tr> --}}
             <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Grand Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a + $sub_total_b + $sub_total_c,2) }}</td>
