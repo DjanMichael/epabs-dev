@@ -15,7 +15,8 @@ class AlterTblBudgetLineItem extends Migration
     {
         //
         Schema::table('ref_budget_line_item', function (Blueprint $table) {
-            $table->string('unit_program_id')->after('budget_item');
+            $table->integer('program_id')->after('budget_item');
+            $table->integer('unit_id')->after('program_id');
         });
     }
 

@@ -16,7 +16,6 @@
     @section('panel-title', 'Budget Line Item')
     @section('panel-icon', 'fas fa-piggy-bank')
     @include('pages.reference.component.panel')
-
 @endsection
 
 @push('scripts')
@@ -26,21 +25,23 @@
 
     <script>
         $(document).ready(function() {
-
+            
             /*
         |--------------------------------------------------------------------------
         | INITIALIZATION
         |--------------------------------------------------------------------------
         */
+            var program_id = "";
+
             populateTable("{{ route('d_budget_line_item') }}", "{{ route('d_get_budget_line_item_by_page') }}",
                                 'table_populate', 'table_content', 'table_pagination');
 
             $("#alert").delay(0).hide(0);
 
-            let data = { fund_source :'', budget_item :'', program:'', saa_number:'',
+            let data = { fund_source :'', budget_item :'', program:'', division:'', saa_number:'',
                             purpose:'', year :'', amount :'' };
 
-            let rules = { fund_source :'required', budget_item :'required', program:'required',
+            let rules = { fund_source :'required', budget_item :'required', program:'required', division:'required',
                             saa_number:'required', purpose:'required', year :'required', amount :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
@@ -74,9 +75,18 @@
                         data: {select:select, value:textSelected, dependent:dependent},
                         success:function(result){
                             $('#'+dependent).html(result);
+                            $("#program").prop("selectedIndex", program_id);
                         }
                     });
                 }
+            });
+
+            $(document).on('change', '#sort_by_fund_source', function(event){
+                var optionSelected = $(this).find("option:selected");
+                var valueSelected  = optionSelected.val();
+                KTUtil.btnWait(btn_search, "spinner spinner-right spinner-white pr-15", "Sorting...");
+                populateTableBySearch("{{ route('d_get_budget_line_item_search') }}", valueSelected, 'table_populate', 'table_content', 'table_pagination');
+                setTimeout(function() { KTUtil.btnRelease(btn_search); }, 700);
             });
 
             $(document).on('change', '#fund_source', function(event){
@@ -119,8 +129,12 @@
                 var id = $(this).data('id');
                 var fund_source = $('#'+id).children('td[data-target=fund_source]').text();
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
+                var division = $('#'+id).children('td[data-target=division]').text();
+                var program = $('#'+id).children('td[data-target=program]').text();
                 var year = $('#'+id).children('td[data-target=year]').text();
                 var amount = $('#'+id).children('td[data-target=amount]').text();
+                var saa_number = $('#'+id).children('td[data-target=saa_ctrl_number]').text();
+                var purpose = $('#'+id).children('td[data-target=purpose]').text();
                 var status = $('#'+id).children('td[data-target=status]').find('span').text();
                 $.ajax({
                     url: "{{ route('d_add_budget_line_item') }}",
@@ -135,10 +149,15 @@
                                 $(this).attr("selected","selected");
                             }
                         });
+                        program_id = program;
                         $("#fund_source").trigger("change");
                         $("#budget_item option:contains(" + budget_item +")").attr("selected", true);
+                        $("#division option:contains(" + division +")").attr("selected", true);
+                        $("#division").trigger("change");
                         $("#year option:contains(" + year +")").attr("selected", true);
                         $('#amount').val(amount.replace(/,/g,''));
+                        $('#saa_control_number').val(saa_number);
+                        $('#purpose').val(purpose);
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
                     }
                     $('.div_status').css("display", (id == null) ? 'none' : '');
@@ -157,15 +176,18 @@
                     var id = $("#budget_item_id").val();
                     var status = (id == "") ? 'ACTIVE' : $("#chk_status").val();
                     var fund_source = $("#fund_source option:selected").text();
+                    var program = $("#program option:selected").text();
                     var year = $("#year option:selected").text();
+                    
                     data.fund_source = $("#fund_source").val();
-                    data.budget_item = ($("#budget_item").val() == "") ? 'None' : $("#budget_item").val();
+                    data.division = ($("#division").val() == "") ? 0 : $("#division").val();
+                    data.budget_item = ($("#budget_item").val() == "") ? $("#saa_control_number").val() : $("#budget_item").val();
                     data.program = ($("#program").val() == "") ? 0 : $("#program").val();
                     data.year = $("#year").val();
                     data.saa_number = ($("#saa_control_number").val() == "") ? "None" : $("#saa_control_number").val();
                     data.amount = $("#amount").val();
                     data.purpose = ($("#purpose").val() == "") ? "None" : $("#purpose").val();
-
+                    
                     let validation = new Validator(data, rules);
                     if (validation.passes()) {
                         e.preventDefault();
@@ -177,6 +199,7 @@
                                 id                  : id,
                                 fund_source_id      : data.fund_source,
                                 fund_source         : fund_source,
+                                unit_id             : data.division,
                                 budget_item         : data.budget_item,
                                 year_id             : data.year,
                                 year                : year,
@@ -201,8 +224,12 @@
                                 }
                                 else if (result['type'] == 'update') {
                                     $('#modal_reference').modal('toggle');
+                                    $('#'+id).children('td[data-target=fund_source]').html(fund_source);
                                     $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
+                                    $('#'+id).children('td[data-target=program]').html(program);
                                     $('#'+id).children('td[data-target=year]').html(year);
+                                    $('#'+id).children('td[data-target=saa_ctrl_number]').html(data.saa_number);
+                                    $('#'+id).children('td[data-target=purpose]').html(data.purpose);
                                     $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
                                     $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                     toastr.success(result['message']);
