@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Views\BudgetLineItem;
 use App\Views\UnitProgram;
+use App\TableUnitBudgetAllocation;
 use App\RefBudgetLineItem;
 use App\RefBudgetItem;
 use App\RefSourceOfFund;
@@ -17,7 +18,7 @@ use App\User;
 class BudgetLineItemController extends Controller
 {
     //
-    public function index(){ return view('pages.reference.budget_line_item.budget_line_item'); }
+    public function index(){ return view('pages.reference.budget_line_item.budget_line_item', ['checker'=>'FUND']); }
 
     public function fetchBudgetLineItem(){
         $data = BudgetLineItem::paginate(10);
@@ -76,9 +77,9 @@ class BudgetLineItemController extends Controller
         $select = "division";
         $value = $request->get('value');
         $data = UnitProgram::where($select, $value)->get();
-        $output = '<option value"">Please select program</option>';
+        $output = '<option>Please select program</option>';
         foreach($data as $row){
-            $output .= '<option value="'.$row->id.'">'.$row->program_name.'</option>';
+            $output .= '<option value="'.$row->program_id.'">'.$row->program_name.'</option>';
         }
         echo $output;
     }
@@ -121,24 +122,55 @@ class BudgetLineItemController extends Controller
             } else {
                 $check = RefBudgetLineItem::find($request->id);
                 if ($check) {
-                    $check->update(['budget_item' => $request->budget_item,
-                                    'year_id' => $request->year_id,
-                                    'allocation_amount' => $request->amount,
-                                    'status' => $request->status]);
+                    if ($request->fund_source == "SAA") { 
+                        $check->update([
+                            'fund_source_id' => $request->fund_source_id,
+                            'budget_item' => $request->budget_item,
+                            'unit_id' => $request->unit_id,
+                            'program_id' => $request->program,
+                            'year_id' => $request->year_id,
+                            'allocation_amount' => $request->amount,
+                            'saa_ctrl_number' => $request->saa_number,
+                            'purpose' => $request->purpose,
+                            'status' => $request->status]);
+                    } else { 
+                        $check->update([
+                            'fund_source_id' => $request->fund_source_id,
+                            'budget_item' => $request->budget_item,
+                            'year_id' => $request->year_id,
+                            'allocation_amount' => $request->amount,
+                            'status' => $request->status]);
+                    }
+
                     return response()->json(['message'=>'Successfully updated data','type'=>'update']);
                 }
                 else if (empty($check)) {
                     $budget_item = [
                         'fund_source_id' => $request->fund_source_id,
                         'budget_item' => $request->budget_item,
-                        'unit_program_id' => $request->program,
+                        'unit_id' => $request->unit_id,
+                        'program_id' => $request->program,
                         'year_id' => $request->year_id,
                         'allocation_amount' => $request->amount,
                         'saa_ctrl_number' => $request->saa_number,
                         'purpose' => $request->purpose,
                         'status' => $request->status
                     ];
-                    RefBudgetLineItem::create($budget_item);
+                    
+
+                    $budget_id = RefBudgetLineItem::create($budget_item)->id;
+
+                    if ($request->fund_source == "SAA") { 
+                        $unit_budget_allocation = [
+                            'program_id' => $request->program,
+                            'unit_id' => $request->unit_id,
+                            'budget_line_item_id' => $budget_id,
+                            'program_budget' => $request->amount,
+                            'year_id' => $request->year_id
+                        ];
+                        TableUnitBudgetAllocation::create($unit_budget_allocation);
+                    }
+
                     return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
                 }
                 else {

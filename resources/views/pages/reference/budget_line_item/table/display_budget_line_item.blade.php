@@ -33,6 +33,8 @@
                         <i class="flaticon-edit-1"></i>
                     </a>
                 </td>
+                <td style="display: none;" data-target="division">{{ $row["division"] }}</td>
+                <td style="display: none;" data-target="program">{{ $row["unit_program_id"] }}</td>
             </tr>
             @empty
             <tr>

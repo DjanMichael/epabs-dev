@@ -22,9 +22,10 @@ class CreateVwBudgetLineItem extends Migration
                 rbli.fund_source_id,
                 rsof.sof_classification,
                 rbli.budget_item,
-                rbli.unit_program_id,
-                vup.program_id,
+                rbli.program_id,
                 rp.program_name,
+                rbli.unit_id,
+                ru.division,
                 rbli.year_id,
                 ry.`year`,
                 rbli.allocation_amount,
@@ -35,8 +36,8 @@ class CreateVwBudgetLineItem extends Migration
                 ref_budget_line_item rbli
                 LEFT JOIN ref_year ry ON ry.id = rbli.year_id
                 LEFT JOIN ref_source_of_fund rsof ON rsof.id = rbli.fund_source_id 
-                LEFT JOIN vw_unit_program vup ON vup.id = rbli.unit_program_id 
-                LEFT JOIN ref_program rp ON rp.id = vup.program_id 
+                LEFT JOIN ref_units ru ON ru.id = rbli.unit_id 
+                LEFT JOIN ref_program rp ON rp.id = rbli.program_id
             )
         ');
     }
