@@ -39,7 +39,10 @@ class BudgetAllocationController extends Controller
 
     public function getAllBLI(Request $req){
         if($req->ajax()){
-            $res = RefBudgetLineItem::where('year_id',$req->year)->get()->toArray();
+            $res = RefBudgetLineItem::join('ref_source_of_fund','ref_source_of_fund.id','ref_budget_line_item.fund_source_id')
+                                    ->where('year_id',$req->year)
+                                    ->where('ref_source_of_fund.sof_classification','GAA')
+                                    ->get()->toArray();
             return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
         }else{
             abort(403);
