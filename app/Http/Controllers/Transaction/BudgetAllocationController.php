@@ -14,6 +14,8 @@ use App\RefYear;
 use App\TableUnitBudgetAllocation;
 use App\Views\BudgetAllocationAllYearPerProgram;
 use App\ProgramConap;
+use App\TableUnitProgram;
+use App\RefSourceOfFund;
 class BudgetAllocationController extends Controller
 {
 
@@ -209,22 +211,77 @@ class BudgetAllocationController extends Controller
         if($req->ajax()){
             $data = [];
             $bli = [];
-            $bli_headers = ["bli_id","bli_name","balance"];
+            $bli_headers = ["bli_id","bli_name",'sof',"balance",'saa_ctrl_number','purpose'];
             $bli_data = BudgetAllocationUtilization::where('program_id',$req->program_id)
                                                 ->where('year_id',$req->year_id)
-                                                ->select('budget_line_item_id','budget_item','ppmp_actual_balance')
+                                                ->select('budget_line_item_id','budget_item','source_of_fund_classification','ppmp_actual_balance','saa_ctrl_number','purpose')
                                                 ->get()->toArray();
             foreach ($bli_data as $row){
                 array_push($bli,array_combine($bli_headers,$row));
             }
-            $data = [
-                'program_id' => $req->program_id,
-                'year_id' => $req->year_id,
-                'amount' => $req->amount,
-                'bli_distribution' => json_encode($bli)
-            ];
-            $check = ProgramConap::where('program_id',$req->program_id)->where('year_id', $req->year_id)->first();
-            return $check ?? ProgramConap::create($data) ? 'success': 'failed';
+
+
+            $year = RefYear::where('id',$req->year_id)->first();
+            $nextYear = RefYear::select('year','id')->where('year',($year->year + 1))->first();
+
+            if($nextYear){
+                $unit_id = TableUnitProgram::select('unit_id')->where('program_id',$req->program_id)->first();
+
+                $data = [
+                    'program_id' => $req->program_id,
+                    'year_forwarded' =>$nextYear->id ,
+                    'year_id' => $req->year_id,
+                    'amount' => $req->amount,
+                    'bli_distribution' => json_encode($bli)
+                ];
+
+                foreach ($bli_data as $row){
+
+                    $sof = RefSourceOfFund::where('sof_classification',$row["source_of_fund_classification"]. '-CONAP')->first();
+                    if($row["source_of_fund_classification"] == 'GAA'){
+                        $data_rbli =[
+                            'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
+                            'year_id'=> $nextYear->id,
+                            'unit_program_id'=> $req->program_id - 0,
+                            'allocation_amount'=> $row["ppmp_actual_balance"],
+                            'fund_source_id'=> $sof->id
+                        ];
+                    }else{
+                        $data_rbli =[
+                            'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
+                            'year_id'=> $nextYear->id,
+                            'unit_program_id'=> $req->program_id - 0,
+                            'allocation_amount'=> $row["ppmp_actual_balance"],
+                            'fund_source_id'=> $sof->id,
+                            'saa_ctrl_number'=> $row["saa_ctrl_number"],
+                            'purpose' => $row["purpose"]
+                        ];
+                    }
+
+
+                    $save = RefBudgetLineItem::create($data_rbli);
+
+                    $data_tuba = [
+                        'program_id'=>  $req->program_id,
+                        'unit_id'=> $unit_id->unit_id,
+                        'budget_line_item_id'=> $save->id,
+                        'program_budget'=> $row["ppmp_actual_balance"],
+                        'year_id'=> $nextYear->id
+                    ];
+
+                    TableUnitBudgetAllocation::create($data_tuba);
+                }
+
+
+
+
+                $check = ProgramConap::where('program_id',$req->program_id)->where('year_id', $req->year_id)->first();
+
+                return $check ?? ProgramConap::create($data) ? 'success': 'failed';
+            }else{
+                return 'failed';
+            }
+
         }else{
             abort(403);
         }

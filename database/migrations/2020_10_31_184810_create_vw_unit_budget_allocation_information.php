@@ -15,7 +15,6 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
     {
         DB2::statement('
             CREATE VIEW  vw_unit_budget_allocation_utilization AS (
-                (
                     SELECT
                     (
                         SELECT
@@ -72,6 +71,7 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                             `rsof`.`id` = `rbli`.`fund_source_id`
                     ) AS `source_of_fund_classification`,
                     `rbli`.`purpose` AS `purpose`,
+                    `rbli`.`saa_ctrl_number` AS `saa_ctrl_number`,
                     `tuba`.`unit_id` AS `unit_id`,
                     `tuba`.`year_id` AS `year_id`,
                     `ry`.`year` AS `year`,
@@ -392,7 +392,7 @@ class CreateVwUnitBudgetAllocationInformation extends Migration
                     )
                 GROUP BY
                     `tuba`.`id`
-                )
+
             )');
     }
 

@@ -34,7 +34,7 @@
             ?>
             <tr>
                 <td class="pr-0 text-left">
-                    @if($row["source_of_fund_classification"] == "GAA")
+                    @if(in_array($row["source_of_fund_classification"],["GAA"]))
                         <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }},{{ $row["program_id"] }})">
                             <i class="flaticon-edit"></i>
                         </button>
@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["budget_item"] }}</span>
-                    @if($row["source_of_fund_classification"] != "GAA")
+                    @if(in_array($row["source_of_fund_classification"],["SAA","SAA-CONAP"]))
                         <span class="text-dark-50 font-weight-bolder d-block font-size-sm">Purpose: {{ $row["purpose"] }}</span>
                     @endif
                 </td>
