@@ -26,7 +26,7 @@
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
-        <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
+        <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon2.ico')}}"/>
         <link rel="stylesheet" href="{{  asset('src/plugins/emoji/emojionearea.css') }}">
         {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
         @stack('styles')
@@ -707,7 +707,6 @@
                             </div>
                             <input type="hidden" id="wfp_ref" value="">
                             <input type="hidden" id="wfp_comment_user_id_send_to" value="">
-                            <input type="hidden" id="wfp_comment_user_id_send_from" value="">
                             <input type="hidden" id="wfp_comment_wfp_act_id" value="">
                         </div>
                     </div>
