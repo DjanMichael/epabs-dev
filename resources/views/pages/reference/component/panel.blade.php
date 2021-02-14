@@ -46,17 +46,21 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- {{-- <div class="col-md-4 my-2 my-md-0">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                        <select class="form-control" id="status">
-                                            <option value="">All</option>
-                                            <option value="4">Approved</option>
-                                            <option value="5">Revision</option>
-                                            <option value="6">Submitted</option>
-                                        </select>
+
+                                @isset ($checker )
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Sort by:</label>
+                                            <select class="form-control" id="sort_by_fund_source">
+                                                <option value="">All</option>
+                                                <option value="GAA">GAA</option>
+                                                <option value="SAA">SAA</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div> --}} -->
+                                @endisset
+                            
+
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >

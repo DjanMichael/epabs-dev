@@ -10,6 +10,6 @@ use \Spiritix\LadaCache\Database\LadaCacheTrait;
     //
     protected $table = "ref_budget_line_item";
 
-    protected $fillable = ['id', 'fund_source_id', 'budget_item', 'year_id', 'allocation_amount', 
-                            'unit_program_id', 'saa_ctrl_number', 'purpose', 'status'];
+    protected $fillable = ['id', 'fund_source_id', 'budget_item', 'program_id', 'unit_id', 'year_id', 
+                            'allocation_amount', 'saa_ctrl_number', 'purpose', 'status'];
 }

@@ -22,6 +22,7 @@ class CreateVwBudgetLineItem extends Migration
                 rbli.fund_source_id,
                 rsof.sof_classification,
                 rbli.budget_item,
+
                 rp.program_name,
                 ru.division,
                 rbli.year_id,
@@ -37,6 +38,7 @@ class CreateVwBudgetLineItem extends Migration
                 JOIN tbl_unit_budget_allocation tuba ON tuba.budget_line_item_id = rbli.id
                 JOIN ref_program rp ON rp.id = tuba.program_id
                 JOIN ref_units ru ON ru.id = tuba.unit_id
+
             )
         ');
     }
