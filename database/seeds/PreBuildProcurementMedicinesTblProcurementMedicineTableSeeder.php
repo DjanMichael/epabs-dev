@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use DB;
 class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seeder
 {
 
@@ -14,12 +14,12 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
      */
     public function run()
     {
-        
+
 
         \DB::table('tbl_procurement_medicine')->delete();
-        
+
         \DB::table('tbl_procurement_medicine')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'description' => 'Amoxicillin 500mg capsule',
@@ -32,7 +32,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-19 16:50:59',
                 'updated_at' => '2021-01-26 13:42:24',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'description' => 'Amoxicillin 100mg/ml',
@@ -45,7 +45,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-19 16:54:55',
                 'updated_at' => '2021-01-26 13:43:19',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'description' => 'Cefalexin 250mg/5ml',
@@ -58,7 +58,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 14:31:08',
                 'updated_at' => '2021-01-26 13:43:41',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'description' => 'Amoxicillin 250mg/5ml',
@@ -71,7 +71,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 15:10:34',
                 'updated_at' => '2021-01-26 13:47:03',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 5,
                 'description' => 'Cefalexin 500 mg capsule',
@@ -84,7 +84,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 15:23:33',
                 'updated_at' => '2021-01-26 13:49:55',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 6,
                 'description' => 'Ciprofloxacin 500 mg tablet',
@@ -97,7 +97,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 15:25:30',
                 'updated_at' => '2021-01-26 13:50:51',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 7,
                 'description' => 'Cloxacillin 500 mg capsule',
@@ -110,7 +110,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 16:12:15',
                 'updated_at' => '2021-01-26 13:51:40',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 8,
             'description' => 'Co-Amoxiclav 625 (500mg amoxicillin + 125 potassium clavulanate )',
@@ -123,7 +123,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 20:23:24',
                 'updated_at' => '2021-01-26 13:53:30',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
             'description' => 'Co-Amoxiclav 228.5 (200mg amoxicillin +28.5 potassium clavulanate ) per 5 ml powder for suspension',
@@ -136,7 +136,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 22:23:40',
                 'updated_at' => '2021-01-26 13:55:09',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 10,
                 'description' => 'Chlorphenamine 4mg Tablet',
@@ -149,7 +149,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-25 22:29:17',
                 'updated_at' => '2021-01-26 13:56:09',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 11,
                 'description' => 'Cetirizine 1mg/ml',
@@ -162,7 +162,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 13:57:28',
                 'updated_at' => '2021-01-26 13:57:28',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 12,
                 'description' => 'Cetirizine 10 mg tablet',
@@ -175,7 +175,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 13:59:55',
                 'updated_at' => '2021-01-26 13:59:55',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 13,
                 'description' => 'Lagundi 600 mg tablet',
@@ -188,7 +188,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:00:41',
                 'updated_at' => '2021-01-26 14:00:41',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 14,
                 'description' => 'Lagundi 300mg/5 ml',
@@ -201,7 +201,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:01:52',
                 'updated_at' => '2021-01-26 14:01:52',
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 15,
             'description' => 'Salbutamol (As sulfate) 2mg/5 ml syrup',
@@ -214,7 +214,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:02:30',
                 'updated_at' => '2021-01-26 14:02:30',
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 16,
             'description' => 'Salbutamol 1mg/ml, 2.5 ml (unit dose)nebule',
@@ -227,7 +227,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:04:01',
                 'updated_at' => '2021-01-26 14:04:01',
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 17,
             'description' => 'Ascorbic Acid (Vitamin C) 100mg/ml',
@@ -240,7 +240,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:09:30',
                 'updated_at' => '2021-01-26 14:09:30',
             ),
-            17 => 
+            17 =>
             array (
                 'id' => 18,
             'description' => 'Ascorbic Acid (Vitamin C) 100mg/5 ml',
@@ -253,7 +253,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:10:07',
                 'updated_at' => '2021-01-26 14:10:07',
             ),
-            18 => 
+            18 =>
             array (
                 'id' => 19,
             'description' => 'Ascorbic Acid (Vitamin C) 500 mg Tablet',
@@ -266,7 +266,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:10:44',
                 'updated_at' => '2021-01-26 14:10:44',
             ),
-            19 => 
+            19 =>
             array (
                 'id' => 20,
                 'description' => 'Ferrous Fumarate 60 mg elemental iron Tablet',
@@ -279,7 +279,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:14:21',
                 'updated_at' => '2021-01-26 14:14:21',
             ),
-            20 => 
+            20 =>
             array (
                 'id' => 21,
             'description' => 'Ferrous Salt (Equiv. 15 mg Elem. Iron/0.6ml), 15 ml drops',
@@ -292,7 +292,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:15:06',
                 'updated_at' => '2021-01-26 14:15:06',
             ),
-            21 => 
+            21 =>
             array (
                 'id' => 22,
             'description' => 'Ferrous Salt (Equiv. 30mg Elem. Iron/5ml)',
@@ -305,7 +305,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:16:27',
                 'updated_at' => '2021-01-26 14:16:27',
             ),
-            22 => 
+            22 =>
             array (
                 'id' => 23,
                 'description' => 'Multivitamins with Iron',
@@ -318,7 +318,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:18:12',
                 'updated_at' => '2021-01-26 14:18:12',
             ),
-            23 => 
+            23 =>
             array (
                 'id' => 24,
                 'description' => 'Multivitamins Per 1 ml, 15 ml drops',
@@ -331,7 +331,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:18:41',
                 'updated_at' => '2021-01-26 14:18:41',
             ),
-            24 => 
+            24 =>
             array (
                 'id' => 25,
                 'description' => 'Multivitamins per 5 ml, 60 ml syrup',
@@ -344,7 +344,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:19:14',
                 'updated_at' => '2021-01-26 14:19:14',
             ),
-            25 => 
+            25 =>
             array (
                 'id' => 26,
                 'description' => 'Vitamin B1B6B12',
@@ -357,7 +357,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:19:51',
                 'updated_at' => '2021-01-26 14:19:51',
             ),
-            26 => 
+            26 =>
             array (
                 'id' => 27,
                 'description' => 'Ibuprofen 200 mg tablet',
@@ -370,7 +370,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:22:26',
                 'updated_at' => '2021-01-26 14:22:26',
             ),
-            27 => 
+            27 =>
             array (
                 'id' => 28,
                 'description' => 'Mefenamic Acid 500 Capsule',
@@ -383,7 +383,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:23:11',
                 'updated_at' => '2021-01-26 14:23:11',
             ),
-            28 => 
+            28 =>
             array (
                 'id' => 29,
                 'description' => 'Mefenamic Acid 250 Capsule',
@@ -396,7 +396,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:24:02',
                 'updated_at' => '2021-01-26 14:24:02',
             ),
-            29 => 
+            29 =>
             array (
                 'id' => 30,
                 'description' => 'Paracetamol 100mg/ml',
@@ -409,7 +409,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:24:44',
                 'updated_at' => '2021-01-26 14:24:44',
             ),
-            30 => 
+            30 =>
             array (
                 'id' => 31,
                 'description' => 'Paracetamol 250mg /5 ml',
@@ -422,7 +422,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:25:19',
                 'updated_at' => '2021-01-26 14:25:19',
             ),
-            31 => 
+            31 =>
             array (
                 'id' => 32,
                 'description' => 'Paracetamol, 500mg tablets',
@@ -435,7 +435,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:25:47',
                 'updated_at' => '2021-01-26 14:25:47',
             ),
-            32 => 
+            32 =>
             array (
                 'id' => 33,
                 'description' => 'Aluminum Hyroxide + Magnesium Hydroxide 225 mg +200 mg per 5 ml suspension, 60 ml',
@@ -448,7 +448,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:26:42',
                 'updated_at' => '2021-01-26 14:26:42',
             ),
-            33 => 
+            33 =>
             array (
                 'id' => 34,
                 'description' => 'Aluminum Hydroxide + Magnesium Hydroxide',
@@ -461,7 +461,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:27:38',
                 'updated_at' => '2021-01-26 14:27:38',
             ),
-            34 => 
+            34 =>
             array (
                 'id' => 35,
                 'description' => 'Omeprazole 20 mg capsule',
@@ -474,7 +474,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:28:15',
                 'updated_at' => '2021-01-26 14:28:15',
             ),
-            35 => 
+            35 =>
             array (
                 'id' => 36,
                 'description' => 'Dicycloverine 10mg/5ml syrup 60 ml',
@@ -487,7 +487,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:28:49',
                 'updated_at' => '2021-01-26 14:28:49',
             ),
-            36 => 
+            36 =>
             array (
                 'id' => 37,
                 'description' => 'Dicycloverine 10mg tablet',
@@ -500,7 +500,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:29:24',
                 'updated_at' => '2021-01-26 14:29:24',
             ),
-            37 => 
+            37 =>
             array (
                 'id' => 38,
                 'description' => 'Metoclopramide 50 mg capsule',
@@ -513,7 +513,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:30:07',
                 'updated_at' => '2021-01-26 14:30:07',
             ),
-            38 => 
+            38 =>
             array (
                 'id' => 39,
                 'description' => 'Metoclopramide 5 mg/5ml, 60 ml',
@@ -526,7 +526,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:31:12',
                 'updated_at' => '2021-01-26 14:31:12',
             ),
-            39 => 
+            39 =>
             array (
                 'id' => 40,
                 'description' => 'Ranitidine 300 mg tablets',
@@ -539,7 +539,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:31:51',
                 'updated_at' => '2021-01-26 14:31:51',
             ),
-            40 => 
+            40 =>
             array (
                 'id' => 41,
                 'description' => 'Tranexamic Acid',
@@ -552,7 +552,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:32:21',
                 'updated_at' => '2021-01-26 14:32:21',
             ),
-            41 => 
+            41 =>
             array (
                 'id' => 42,
                 'description' => 'Amlodipine 10mg tab',
@@ -565,7 +565,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:33:06',
                 'updated_at' => '2021-01-26 14:33:06',
             ),
-            42 => 
+            42 =>
             array (
                 'id' => 43,
                 'description' => 'Amlodipine 5mg tab',
@@ -578,7 +578,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:33:46',
                 'updated_at' => '2021-01-26 14:33:46',
             ),
-            43 => 
+            43 =>
             array (
                 'id' => 44,
                 'description' => 'Losartan 100 mg tabs',
@@ -591,7 +591,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:34:19',
                 'updated_at' => '2021-01-26 14:34:19',
             ),
-            44 => 
+            44 =>
             array (
                 'id' => 45,
                 'description' => 'Losartan  50 mg tabs',
@@ -604,7 +604,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:34:46',
                 'updated_at' => '2021-01-26 14:34:46',
             ),
-            45 => 
+            45 =>
             array (
                 'id' => 46,
             'description' => 'Metoprolol (as tartrate)100 mg tab',
@@ -617,7 +617,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:35:14',
                 'updated_at' => '2021-01-26 14:35:14',
             ),
-            46 => 
+            46 =>
             array (
                 'id' => 47,
             'description' => 'Metoprolol (as tartrate) 50 mg tab',
@@ -630,7 +630,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:35:40',
                 'updated_at' => '2021-01-26 14:35:40',
             ),
-            47 => 
+            47 =>
             array (
                 'id' => 48,
                 'description' => 'Metformin Hydrochloride',
@@ -643,7 +643,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:36:09',
                 'updated_at' => '2021-01-26 14:36:09',
             ),
-            48 => 
+            48 =>
             array (
                 'id' => 49,
                 'description' => 'I.V. Fluids, 5% Dextrose in Lactated Ringer\'s 1 L Bottle',
@@ -656,7 +656,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:37:09',
                 'updated_at' => '2021-01-26 14:37:09',
             ),
-            49 => 
+            49 =>
             array (
                 'id' => 50,
                 'description' => 'I.V. Fluids, 0.9% Sodium Chloride',
@@ -669,7 +669,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:37:46',
                 'updated_at' => '2021-01-26 14:37:46',
             ),
-            50 => 
+            50 =>
             array (
                 'id' => 51,
                 'description' => 'I.V. Fluids, Lactated Ringer\'s Solution',
@@ -682,7 +682,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:38:21',
                 'updated_at' => '2021-01-26 14:38:21',
             ),
-            51 => 
+            51 =>
             array (
                 'id' => 52,
             'description' => 'Tetanus Toxoid (Human)',
@@ -695,7 +695,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:38:54',
                 'updated_at' => '2021-01-26 14:38:54',
             ),
-            52 => 
+            52 =>
             array (
                 'id' => 53,
                 'description' => 'Sulphur Oinment',
@@ -708,7 +708,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'created_at' => '2021-01-26 14:39:39',
                 'updated_at' => '2021-01-26 14:39:39',
             ),
-            53 => 
+            53 =>
             array (
                 'id' => 54,
             'description' => 'Troclosene Sodium (Aquatabs)',
@@ -722,7 +722,7 @@ class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seed
                 'updated_at' => '2021-01-26 14:40:27',
             ),
         ));
-        
-        
+
+
     }
 }
