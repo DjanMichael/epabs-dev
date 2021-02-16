@@ -805,7 +805,7 @@ const primary = "#6993FF"
 
                     }
 
-                    $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total) + Number(data.budget.function_class.core.total) + Number(data.budget.function_class.support.total)))
+                    $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
 
 
                 },error:function(err){
