@@ -784,25 +784,29 @@ const primary = "#6993FF"
 
                     $("#total_expense_class").html('₱ ' + nf.format(data.budget.expense_class.mooe.amount + data.budget.expense_class.co.amount))
 
-                    if (data.budget.function_class.strategic !=null){
+                    if (data.budget.function_class.strategic !=0 ){
                         $("#sf_no").html(data.budget.function_class.strategic.no_act);
                         $("#sf_cost").html('₱ ' + nf.format(data.budget.function_class.strategic.total));
                     }else{
-
+                        $("#sf_no").html(0);
+                        $("#sf_cost").html('₱ 0.00');
                     }
 
-                    if (data.budget.function_class.core !=null){
+                    if (data.budget.function_class.core != 0){
                         $("#cf_no").html(data.budget.function_class.core.no_act);
                         $("#cf_cost").html('₱ ' + nf.format(data.budget.function_class.core.total));
-                    }else{
 
+                    }else{
+                        $("#cf_no").html(0);
+                        $("#cf_cost").html('₱ 0.00');
                     }
 
-                    if (data.budget.function_class.support !=null){
+                    if (data.budget.function_class.support != 0){
                         $("#spf_no").html(data.budget.function_class.support.no_act);
                         $("#spf_cost").html('₱ ' + nf.format(data.budget.function_class.support.total));
                     }else{
-
+                        $("#spf_no").html(0);
+                        $("#spf_cost").html('₱ 0.00');
                     }
 
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
