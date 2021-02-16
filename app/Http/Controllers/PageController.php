@@ -98,9 +98,9 @@ class PageController extends Controller
                 $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first();
 
             }else{
-                $data["budget"]["function_class"]["strategic"] =null;
-                $data["budget"]["function_class"]["core"] = null;
-                $data["budget"]["function_class"]["support"] = null;
+                $data["budget"]["function_class"]["strategic"] =0;
+                $data["budget"]["function_class"]["core"] = 0;
+                $data["budget"]["function_class"]["support"] = 0;
                 $data["wfp"]["wfp_not_submitted"] = null;
                 $data["wfp"]["wfp_submitted"] = null;
                 $data["wfp"]["wfp_approved"] = null;
