@@ -789,7 +789,7 @@ const primary = "#6993FF"
                         $("#sf_cost").html('₱ ' + nf.format(data.budget.function_class.strategic.total));
                     }else{
                         $("#sf_no").html(0);
-                        $("#sf_cost").html('₱ 0.00');
+                        $("#sf_cost").html('₱ 0');
                     }
 
                     if (data.budget.function_class.core != 0){
@@ -798,7 +798,7 @@ const primary = "#6993FF"
 
                     }else{
                         $("#cf_no").html(0);
-                        $("#cf_cost").html('₱ 0.00');
+                        $("#cf_cost").html('₱ 0');
                     }
 
                     if (data.budget.function_class.support != 0){
@@ -806,7 +806,7 @@ const primary = "#6993FF"
                         $("#spf_cost").html('₱ ' + nf.format(data.budget.function_class.support.total));
                     }else{
                         $("#spf_no").html(0);
-                        $("#spf_cost").html('₱ 0.00');
+                        $("#spf_cost").html('₱ 0');
                     }
 
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
