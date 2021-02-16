@@ -220,7 +220,6 @@ class BudgetAllocationController extends Controller
                 array_push($bli,array_combine($bli_headers,$row));
             }
 
-
             $year = RefYear::where('id',$req->year_id)->first();
             $nextYear = RefYear::select('year','id')->where('year',($year->year + 1))->first();
 
@@ -279,7 +278,7 @@ class BudgetAllocationController extends Controller
 
                 return $check ?? ProgramConap::create($data) ? 'success': 'failed';
             }else{
-                return 'failed';
+                return 'Error: please add next year';
             }
 
         }else{
