@@ -32,11 +32,11 @@
         @if ($paginator->hasMorePages())
             <li><a class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->nextPageUrl() }}" rel="next"><i class="ki ki-bold-arrow-next icon-xs"></i></a></li>
             <li><a class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->url($paginator->lastPage()) }}" rel="next"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a></li>
-            <li class="p-3"><span>Showing {{ ($paginator->currentpage()-1) * $paginator->perpage()+1 }} - {{ ($paginator->currentpage()-1) * $paginator->perpage() + $paginator->count() }} of {{$paginator->total()}} entries</span></li>
+            <li class="p-3 text-right w-100"><span>Showing {{ ($paginator->currentpage()-1) * $paginator->perpage()+1 }} - {{ ($paginator->currentpage()-1) * $paginator->perpage() + $paginator->count() }} of {{$paginator->total()}} entries</span></li>
         @else
             <li class="disabled"><span><a style="pointer-events: none; cursor: default;" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a></span></li>
             <li class="disabled"><span><a style="pointer-events: none; cursor: default;" class="btn btn-icon btn-sm btn-light mr-2 my-1" href="{{ $paginator->url($paginator->lastPage()) }}"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a></span></li>
-            <li class="p-3"><span>Showing {{ ($paginator->currentpage()-1) * $paginator->perpage()+1 }} - {{ ($paginator->currentpage()-1) * $paginator->perpage() + $paginator->count() }} of {{$paginator->total()}} entries</span></li>
+            <li class="p-3 text-right w-100"><span>Showing {{ ($paginator->currentpage()-1) * $paginator->perpage()+1 }} - {{ ($paginator->currentpage()-1) * $paginator->perpage() + $paginator->count() }} of {{$paginator->total()}} entries</span></li>
         @endif
     </ul>
 @endif

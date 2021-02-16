@@ -30,7 +30,7 @@
 
 @if(count($data["wfp_user_list"] ?? []) > 0)
 <tr id="pagination_user_list">
-    <td colspan="3">
+    <td colspan="6">
         {{ $data["wfp_user_list"]->links('components.global.pagination') }}
     </td>
 </tr>

@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 use App\RefYear;
 use App\Views\WfpPpmpTotalCountByYear;
 use App\Views\BudgetExpenseClass;
-
+use App\Views\BudgetFunctionClass;
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -93,9 +93,14 @@ class PageController extends Controller
                                                                             ->get();
                 $data["budget"]["expense_class"]["co"] = ["amount"=> ($data["budget"]["expense_class"]["co"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["co"])->count()];
 
+                $data["budget"]["function_class"]["strategic"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','STRATEGIC FUNCTION')->first();
+                $data["budget"]["function_class"]["core"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','CORE FUNCTION')->first();
+                $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first();
+
             }else{
-                $data["budget"]["expense_class"]["mooe"] =null;
-                $data["budget"]["expense_class"]["co"] =null;
+                $data["budget"]["function_class"]["strategic"] =null;
+                $data["budget"]["function_class"]["core"] = null;
+                $data["budget"]["function_class"]["support"] = null;
                 $data["wfp"]["wfp_not_submitted"] = null;
                 $data["wfp"]["wfp_submitted"] = null;
                 $data["wfp"]["wfp_approved"] = null;
@@ -107,7 +112,9 @@ class PageController extends Controller
                 $data["ppmp"]["ppmp_revision"] = null;
                 $data["ppmp"]["total_count"]["ppmp_count"] = 0;
             }
+
             return response()->json($data);
+
         }else{
             abort(403);
         }

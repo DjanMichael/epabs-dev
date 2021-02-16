@@ -430,17 +430,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-4 my-2 my-md-0">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                        <select class="form-control" id="kt_datatable_search_type">
-                                            <option value="">All</option>
-                                            <option value="1">Online</option>
-                                            <option value="2">Retail</option>
-                                            <option value="3">Direct</option>
-                                        </select>
-                                    </div>
-                                </div> --}}
+
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-3 col-xl-4 mt-5 mt-lg-0 text-right" >
@@ -448,125 +438,10 @@
                         </div>
                     </div>
                 </div>
-                <!--end::Search Form-->
-                <!--end: Search Form-->
-                {{-- <div class="table-responsive">
-                   <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Last Login</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="pt-10">1</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
 
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-warning mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-warning label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">Active</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pt-10">2</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-info mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-info label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">Offline</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pt-10">1</td>
-                                <td>
-                                    <div class="btn btn-light-success d-inline-flex align-items-center btn-lg mr-5">
-                                        <span class="symbol symbol-40">
-                                            <img alt="Pic" src="{{ asset('dist/assets/media/users/300_25.jpg') }}"/>
-                                        </span>
-                                        <div class="d-flex flex-column text-left pl-3">
-                                            <span class="text-dark-75 font-weight-bold font-size-sm">Sean</span>
-                                            <span class="font-weight-bolder font-size-sm">Program Manager</span>
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td class="pt-10">
-                                    <div class="d-flex flex-column text-left pl-3">
-                                    5 hours ago
-                                    </div>
-                                </td>
-                                <td  class="pt-10">
-                                    <span class="label pulse pulse-danger mr-0 bg-transparent">
-                                        <span class="position-relative"><span class="label label-dot label-danger label-lg"></span></span>
-                                        <span class="pulse-ring"></span>
-                                    </span>
-                                    <span class="font-size-sm pl-0 font-weight-bolder">InActive</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                   </table> --}}
 
                    <div class="card card-custom card-stretch gutter-b">
-                    {{-- <!--begin::Header-->
-                    <div class="card-header border-0 pt-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bolder text-dark">New Arrivals</span>
-                            <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
-                        </h3>
-                        <div class="card-toolbar">
-                            <ul class="nav nav-pills nav-pills-sm nav-dark-75">
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_tab_pane_5_1">Month</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_tab_pane_5_2">Week</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link py-2 px-4 active" data-toggle="tab" href="#kt_tab_pane_5_3">Day</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end::Header--> --}}
+
                     <!--begin::Body-->
                     <div class="card-body pt-2 pb-0 mt-n3">
                         <div class="tab-content mt-5" id="myTabTables5">
@@ -576,13 +451,13 @@
                                 <div class="table-responsive">
                                     <table class="table table-head-custom table-vertical-center">
                                         <thead class="py-5">
-                                            <tr >
-                                                <th class="p-0 min-w-200px" colspan="2">PROGRAM MANAGER</th>
-                                                <th class="p-0 min-w-140px">PROGRAM</th>
-                                                <th class="p-0 min-w-110px text-center ">WFP CODE</th>
-                                                <th class="p-0 min-w-110px text-center ">WFP STATUS</th>
-                                                <th class="p-0 min-w-110px text-center ">PPMP STATUS</th>
-                                                <th class="p-0 min-w-50px"></th>
+                                            <tr>
+                                                <th class="p-0 " colspan="2">PROGRAM MANAGER</th>
+                                                <th class="p-0 " >PROGRAM</th>
+                                                <th class="p-0 text-center ">WFP CODE</th>
+                                                <th class="p-0 text-center ">WFP STATUS</th>
+                                                <th class="p-0  text-center ">PPMP STATUS</th>
+                                                <th class="p-0 "></th>
                                             </tr>
                                         </thead>
                                         <tbody id="wfp_user_status_content">
@@ -619,6 +494,7 @@
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-md-12 col-12">
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
@@ -652,43 +528,52 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
-                {{-- <br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+            <!--begin::Body-->
+            <div class="card-body">
+            <h1> BUDGET SUMMARY FUNCTION CLASS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <br>
+            <div class="table-responsive">
                 <table class="table table-head-custom table-vertical-center">
                     <thead class="py-5">
                         <tr >
-                            <th class="p-0 min-w-200px" colspan="2">TYPE OF FUNCTIONS</th>
+                            <th class="p-0 min-w-200px">FUNCTION CLASS</th>
                             <th class="p-0 min-w-140px">No. of Activities</th>
                             <th class="p-0 min-w-110px text-center ">Cost</th>
                         </tr>
                     </thead>
-                    <tbody id="budget_type_of_function">
+                    <tbody id="budget_expense_class">
+                        <tr>
+                            <td>STRATEGIC FUNCTION</td>
+                            <td id="sf_no"></td>
+                            <td id="sf_cost" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>CORE FUNCTION</td>
+                            <td id="cf_no"></td>
+                            <td id="cf_cost" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>SUPPORT FUNCTION</td>
+                            <td id="spf_no"></td>
+                            <td id="spf_cost" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td colspan="2" class="text-right" id="total_function_class"></td>
+                        </tr>
                     </tbody>
-                    <tr>
-                        <td colspan="3"><div class="separator separator-solid my-7"></div></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="1"></td>
-                    </tr>
-                </table> --}}
+                </table>
             </div>
-            {{-- <div class="separator separator-solid my-7"></div>
-                <div class="d-flex align-items-center flex-wrap">
-                    <!--begin: Item-->
-                    <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
-                        <span class="mr-4">
-                            <i class="flaticon-interface-4 icon-2x text-muted font-weight-bold"></i>
-                        </span>
-                        <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">REVISION</span>
-                            <span class="font-weight-bolder font-size-h5">
-                            <span class="text-dark-50 font-weight-bold" id="wfp_revision">0</span>
-                        </div>
-                    </div>
-                    <!--end: Item-->
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>
@@ -898,6 +783,17 @@ const primary = "#6993FF"
                     $("#co_total").html( '₱ ' + nf.format(data.budget.expense_class.co.amount));
 
                     $("#total_expense_class").html('₱ ' + nf.format(data.budget.expense_class.mooe.amount + data.budget.expense_class.co.amount))
+
+                    $("#sf_no").html(data.budget.function_class.strategic.no_act);
+                    $("#sf_cost").html('₱ ' + nf.format(data.budget.function_class.strategic.total));
+                    $("#cf_no").html(data.budget.function_class.core.no_act);
+                    $("#cf_cost").html('₱ ' + nf.format(data.budget.function_class.core.total));
+                    $("#spf_no").html(data.budget.function_class.support.no_act);
+                    $("#spf_cost").html('₱ ' + nf.format(data.budget.function_class.support.total));
+                    console.log(data.budget.function_class.strategic.total + data.budget.function_class.core.total + data.budget.function_class.support.total);
+                    $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total) + Number(data.budget.function_class.core.total) + Number(data.budget.function_class.support.total)))
+
+
                 },error:function(err){
                     console.log(err);
                 }
