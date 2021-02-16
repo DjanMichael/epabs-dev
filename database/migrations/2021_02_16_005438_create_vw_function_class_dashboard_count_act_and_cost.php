@@ -18,11 +18,11 @@ class CreateVwFunctionClassDashboardCountActAndCost extends Migration
                 SELECT
                     `twa`.`id` AS `id`,
                     trim(
-                        LEADING "0"
+                        LEADING '0'
                         FROM
                             substr(`twa`.`wfp_code`, 7, 3)
                     ) AS `year_id`,
-                    Count(twa.id) as `no_act`,
+                    count(`twa`.`id`) AS `no_act`,
                     COALESCE (
                         (
                             SELECT
@@ -70,7 +70,6 @@ class CreateVwFunctionClassDashboardCountActAndCost extends Migration
                         FROM
                             substr(`twa`.`wfp_code`, 7, 3)
                     )
-
 
             )
         ');
