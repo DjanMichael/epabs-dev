@@ -125,7 +125,7 @@
 </div>
     <?php
         //limit row
-        $row_limit = 50;
+        $row_limit = 40;
         $total =0;
         $row_count = 0;
         //skip adding rows
@@ -192,12 +192,12 @@
    <td class="t-h-d" colspan="5">Total</td>
    <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
 </tr>
-   {{-- @for($i=0;$i<=$row_limit;$i++){
-       @if(($i + $row_count + count($data["pr_details"])) == 50){
-           <tr>
+   @for($i=0;$i<=$row_limit;$i++){
+       @if(($i + $row_count + count($data["pr_details"])) == 40){
+           {{-- <tr>
                <td class="t-h-d" colspan="5">Total</td>
                <td class="t-h-d" style="font-weight:normal;font-size:8.2px;text-align:right;font-family: DejaVu Sans !important">&#8369; {{ number_format($total ,2) }}</td>
-           </tr>
+           </tr> --}}
        @else
            <tr>
            <td class="t-h-d txt-center"></td>
@@ -208,7 +208,7 @@
                    <td class="t-h-d txt-center"></td>
                </tr>
        @endif
-   @endfor --}}
+   @endfor
 @else
    <tr>
        <td class="t-h-d" colspan="5">Total</td>
