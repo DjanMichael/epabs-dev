@@ -93,14 +93,17 @@ class PageController extends Controller
                                                                             ->get();
                 $data["budget"]["expense_class"]["co"] = ["amount"=> ($data["budget"]["expense_class"]["co"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["co"])->count()];
 
-                $data["budget"]["function_class"]["strategic"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','STRATEGIC FUNCTION')->first();
-                $data["budget"]["function_class"]["core"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','CORE FUNCTION')->first();
-                $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first();
+                $data["budget"]["function_class"]["strategic"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','STRATEGIC FUNCTION')->first() ?? 0;
+                $data["budget"]["function_class"]["core"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','CORE FUNCTION')->first() ?? 0;
+                $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first() ?? 0;
 
             }else{
                 $data["budget"]["function_class"]["strategic"] =0;
+                $data["budget"]["function_class"]["total"] =0;
                 $data["budget"]["function_class"]["core"] = 0;
+                $data["budget"]["function_class"]["total"] = 0;
                 $data["budget"]["function_class"]["support"] = 0;
+                $data["budget"]["function_class"]["total"] = 0;
                 $data["wfp"]["wfp_not_submitted"] = null;
                 $data["wfp"]["wfp_submitted"] = null;
                 $data["wfp"]["wfp_approved"] = null;
