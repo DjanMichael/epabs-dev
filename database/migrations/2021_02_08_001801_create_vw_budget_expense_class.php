@@ -15,7 +15,7 @@ class CreateVwBudgetExpenseClass extends Migration
     {
          DB2::statement('
          CREATE VIEW  vw_budget_expense_class AS (
-            (
+
             SELECT
                 sum(`ds1`.`amount`) AS `total`,
                 `ds1`.`category` AS `category`,
