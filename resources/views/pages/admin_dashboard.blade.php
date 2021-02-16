@@ -784,13 +784,27 @@ const primary = "#6993FF"
 
                     $("#total_expense_class").html('₱ ' + nf.format(data.budget.expense_class.mooe.amount + data.budget.expense_class.co.amount))
 
-                    $("#sf_no").html(data.budget.function_class.strategic.no_act);
-                    $("#sf_cost").html('₱ ' + nf.format(data.budget.function_class.strategic.total));
-                    $("#cf_no").html(data.budget.function_class.core.no_act);
-                    $("#cf_cost").html('₱ ' + nf.format(data.budget.function_class.core.total));
-                    $("#spf_no").html(data.budget.function_class.support.no_act);
-                    $("#spf_cost").html('₱ ' + nf.format(data.budget.function_class.support.total));
-                    console.log(data.budget.function_class.strategic.total + data.budget.function_class.core.total + data.budget.function_class.support.total);
+                    if (data.budget.function_class.strategic !=null){
+                        $("#sf_no").html(data.budget.function_class.strategic.no_act);
+                        $("#sf_cost").html('₱ ' + nf.format(data.budget.function_class.strategic.total));
+                    }else{
+
+                    }
+
+                    if (data.budget.function_class.core !=null){
+                        $("#cf_no").html(data.budget.function_class.core.no_act);
+                        $("#cf_cost").html('₱ ' + nf.format(data.budget.function_class.core.total));
+                    }else{
+
+                    }
+
+                    if (data.budget.function_class.support !=null){
+                        $("#spf_no").html(data.budget.function_class.support.no_act);
+                        $("#spf_cost").html('₱ ' + nf.format(data.budget.function_class.support.total));
+                    }else{
+
+                    }
+
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total) + Number(data.budget.function_class.core.total) + Number(data.budget.function_class.support.total)))
 
 
