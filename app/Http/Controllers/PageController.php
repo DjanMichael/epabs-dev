@@ -16,6 +16,7 @@ use App\RefYear;
 use App\Views\WfpPpmpTotalCountByYear;
 use App\Views\BudgetExpenseClass;
 use App\Views\BudgetFunctionClass;
+use App\Views\GADBudgetSummary;
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -97,7 +98,11 @@ class PageController extends Controller
                 $data["budget"]["function_class"]["core"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','CORE FUNCTION')->first() ?? 0;
                 $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first() ?? 0;
 
+                $data["budget"]["GAD"]["YES"] = GADBudgetSummary::where('activity_gad_related','YES')->where('year_id',$program->select_year)->first();
+                $data["budget"]["GAD"]["NO"] = GADBudgetSummary::where('activity_gad_related','NO')->where('year_id',$program->select_year)->first();
+
             }else{
+                $data["budget"]["GAD"] = null;
                 $data["budget"]["function_class"]["strategic"] =0;
                 $data["budget"]["function_class"]["total"] =0;
                 $data["budget"]["function_class"]["core"] = 0;
@@ -115,7 +120,6 @@ class PageController extends Controller
                 $data["ppmp"]["ppmp_revision"] = null;
                 $data["ppmp"]["total_count"]["ppmp_count"] = 0;
             }
-
             return response()->json($data);
 
         }else{
