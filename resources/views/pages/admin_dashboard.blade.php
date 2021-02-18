@@ -577,6 +577,50 @@
         </div>
     </div>
 </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
+            <!--begin::Body-->
+            <div class="card-body">
+            <h1> GENDER AND DEVELOPMENT {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-head-custom table-vertical-center">
+                    <thead class="py-5">
+                        <tr >
+                            <th class="p-0 min-w-200px">GAD RELATED ACTIVITY</th>
+                            <th class="p-0 min-w-140px">No. of Activities</th>
+                            <th class="p-0 min-w-110px text-center ">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody id="budget_expense_class">
+                        <tr>
+                            <td >YES</td>
+                            <td id="yes_gad_act_no"></td>
+                            <td id="total_gad_yes" class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td>NO</td>
+                            <td id="no_gad_act_no"></td>
+                            <td id="total_gad_no" class="text-right"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Total</td>
+                            <td colspan="2" class="text-right" id="GAD_total"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
 
 @endif
 
@@ -812,6 +856,11 @@ const primary = "#6993FF"
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
 
 
+                    $("#no_gad_act_no").html(data.budget.GAD.NO.act_no);
+                    $("#yes_gad_act_no").html(data.budget.GAD.YES.act_no);
+                    $("#total_gad_yes").html('₱ ' + nf.format(Number(data.budget.GAD.YES.total)));
+                    $("#total_gad_no").html('₱ ' + nf.format(Number(data.budget.GAD.NO.total)));
+                    $("#GAD_total").html('₱ ' + nf.format(Number( data.budget.GAD.NO.total) + Number(data.budget.GAD.YES.total)));
                 },error:function(err){
                     console.log(err);
                 }
