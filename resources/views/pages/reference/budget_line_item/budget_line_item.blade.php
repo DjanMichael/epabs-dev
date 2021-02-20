@@ -75,7 +75,8 @@
                         data: {select:select, value:textSelected, dependent:dependent},
                         success:function(result){
                             $('#'+dependent).html(result);
-                            $("#program").prop("selectedIndex", program_id);
+                            $("#program option:contains(" + program_id +")").attr("selected", true);
+                            // $("#program option[text=" + program_id +"]").prop("selected", true);
                         }
                     });
                 }
@@ -130,7 +131,7 @@
                 var fund_source = $('#'+id).children('td[data-target=fund_source]').text();
                 var budget_item = $('#'+id).children('td[data-target=budget_item]').text();
                 var division = $('#'+id).children('td[data-target=division]').text();
-                var program = $('#'+id).children('td[data-target=program]').text();
+                var program = $('#'+id).children('td[data-target=program_name]').text();
                 var year = $('#'+id).children('td[data-target=year]').text();
                 var amount = $('#'+id).children('td[data-target=amount]').text();
                 var saa_number = $('#'+id).children('td[data-target=saa_ctrl_number]').text();
@@ -180,13 +181,17 @@
                     var year = $("#year option:selected").text();
                     
                     data.fund_source = $("#fund_source").val();
-                    data.division = ($("#division").val() == "") ? 0 : $("#division").val();
+                    data.division = ($("#division").val() == "" && fund_source != 'SAA') 
+                                        ? 0 : $("#division").val();
+                    data.program = ($("#program").val() == "" && fund_source != 'SAA') 
+                                        ? 0 : $("#program").val();            
                     data.budget_item = ($("#budget_item").val() == "") ? $("#saa_control_number").val() : $("#budget_item").val();
-                    data.program = ($("#program").val() == "") ? 0 : $("#program").val();
                     data.year = $("#year").val();
-                    data.saa_number = ($("#saa_control_number").val() == "") ? "None" : $("#saa_control_number").val();
+                    data.saa_number = ($("#saa_control_number").val() == "" && fund_source != 'SAA') 
+                                        ? "None" : $("#saa_control_number").val();
                     data.amount = $("#amount").val();
-                    data.purpose = ($("#purpose").val() == "") ? "None" : $("#purpose").val();
+                    data.purpose = ($("#purpose").val() == "" && fund_source != 'SAA')
+                                        ? "None" : $("#purpose").val();
                     
                     let validation = new Validator(data, rules);
                     if (validation.passes()) {
@@ -226,10 +231,10 @@
                                     $('#modal_reference').modal('toggle');
                                     $('#'+id).children('td[data-target=fund_source]').html(fund_source);
                                     $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
-                                    $('#'+id).children('td[data-target=program]').html(program);
+                                    $('#'+id).children('td[data-target=program_name]').html(program);
                                     $('#'+id).children('td[data-target=year]').html(year);
-                                    $('#'+id).children('td[data-target=saa_ctrl_number]').html(data.saa_number);
-                                    $('#'+id).children('td[data-target=purpose]').html(data.purpose);
+                                    $('#'+id).children('td[data-target=saa_ctrl_number]').html(data.saa_number == 'None' ? '' : data.saa_number);
+                                    $('#'+id).children('td[data-target=purpose]').html(data.purpose == 'None' ? '' : data.purpose);
                                     $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
                                     $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                     toastr.success(result['message']);

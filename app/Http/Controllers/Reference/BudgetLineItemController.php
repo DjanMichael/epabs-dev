@@ -133,6 +133,13 @@ class BudgetLineItemController extends Controller
                             'saa_ctrl_number' => $request->saa_number,
                             'purpose' => $request->purpose,
                             'status' => $request->status]);
+
+                        TableUnitBudgetAllocation::where('budget_line_item_id', '=', $request->id)
+                                                ->update([                            
+                                                    'program_id' => $request->program,
+                                                    'unit_id' => $request->unit_id,
+                                                    'program_budget' => $request->amount,
+                                                    'year_id' => $request->year_id]);
                     } else { 
                         $check->update([
                             'fund_source_id' => $request->fund_source_id,
@@ -152,12 +159,11 @@ class BudgetLineItemController extends Controller
                         'program_id' => $request->program,
                         'year_id' => $request->year_id,
                         'allocation_amount' => $request->amount,
-                        'saa_ctrl_number' => $request->saa_number,
-                        'purpose' => $request->purpose,
+                        'saa_ctrl_number' => $request->saa_number == 'None' ? '' : $request->saa_number,
+                        'purpose' => $request->purpose == 'None' ? '' : $request->purpose,
                         'status' => $request->status
                     ];
                     
-
                     $budget_id = RefBudgetLineItem::create($budget_item)->id;
 
                     if ($request->fund_source == "SAA") { 
