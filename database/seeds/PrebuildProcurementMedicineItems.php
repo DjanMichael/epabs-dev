@@ -1,14 +1,11 @@
 <?php
 
-namespace Database\Seeders;
-
 use Illuminate\Database\Seeder;
-use DB;
-class PreBuildProcurementMedicinesTblProcurementMedicineTableSeeder extends Seeder
-{
 
+class PrebuildProcurementMedicineItems extends Seeder
+{
     /**
-     * Auto generated seed file
+     * Run the database seeds.
      *
      * @return void
      */

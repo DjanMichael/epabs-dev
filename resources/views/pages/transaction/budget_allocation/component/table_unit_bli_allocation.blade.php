@@ -17,7 +17,7 @@
         <thead>
             <tr class="text-left">
                 <th class="pr-0 text-left" style="min-width: 150px">action</th>
-                <th style="min-width: 250px">Budget Line Item</th>
+                <th style="min-width: 250px">Budget Line Item/SAA/CONAP</th>
                 <th class="pr-0 text-right" style="min-width: 150px">Amount</th>
             </tr>
         </thead>
@@ -34,15 +34,20 @@
             ?>
             <tr>
                 <td class="pr-0 text-left">
-                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }},{{ $row["program_id"] }})">
-                        <i class="flaticon-edit"></i>
-                    </button>
-                    <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" onClick="deleteBLIUser({{ $row["tuba_id"] }})">
-                        <i class="flaticon2-trash"></i>
-                    </button>
+                    @if(in_array($row["source_of_fund_classification"],["GAA"]))
+                        <button class="btn btn-icon btn-light btn-hover-primary btn-sm" onClick="editBLIUser({{ $row["unit_id"] }},{{ $row["year_id"] }},{{ $row["user_id"] }},{{ $row["budget_line_item_id"] }},{{ $row["program_budget"] }},{{ $row["program_id"] }})">
+                            <i class="flaticon-edit"></i>
+                        </button>
+                        <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" onClick="deleteBLIUser({{ $row["tuba_id"] }})">
+                            <i class="flaticon2-trash"></i>
+                        </button>
+                    @endif
                 </td>
                 <td>
                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $row["budget_item"] }}</span>
+                    @if(in_array($row["source_of_fund_classification"],["SAA","SAA-CONAP"]))
+                        <span class="text-dark-50 font-weight-bolder d-block font-size-sm">Purpose: {{ $row["purpose"] }}</span>
+                    @endif
                 </td>
                 <td class="pr-0 text-right">
                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg" id="">₱ {{ number_format($row["program_budget"],2) }}</span>

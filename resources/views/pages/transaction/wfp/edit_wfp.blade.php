@@ -64,11 +64,10 @@
                             <label>GAD Related
                                 <span class="text-danger">*</span>
                             </label>
-
                             <select class="form-control" id="gad_related">
                                 <option value=""></option>
-                                <option value="YES" {{ $data["wfp_act"][0]->activity_gad_related == 'YES' ? 'selected' : '' }}>YES</option>
-                                <option value="NO" {{ $data["wfp_act"][0]->activity_gad_related == 'NO' ? 'selected' : '' }}>NO</option>
+                                <option value="YES" {{ in_array($data["wfp_act"][0]->activity_gad_related,['YES',null]) ? 'selected' : '' }}>YES</option>
+                                <option value="NO" {{ in_array($data["wfp_act"][0]->activity_gad_related,['NO',null]) ? 'selected' : '' }}>NO</option>
                             </select>
                         </div>
                         <div class="col-md-3 col-6">
@@ -278,9 +277,9 @@
             {{-- <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
                 <i class="flaticon-time-3 icon-md"></i>Add New Activity
             </button> --}}
-            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'"
+            <button type="button" style="float:right;" onclick="window.location.href='{{ route('r_wfp') }}'"
                     class="btn btn-transparent-success font-weight-bold">
-                <i class="flaticon2-check-mark icon-md"></i>Done
+                <i class="flaticon2-check-mark icon-md"></i>Finished Encoding
             </button>
         </div>
     </form>

@@ -18,6 +18,7 @@ class CreateTblWfpComments extends Migration
             $table->string('wfp_code');
             $table->integer('wfp_act_id');
             $table->integer('user_id');
+            $table->integer('user_from');
             $table->string('comment');
             $table->timestamps();
         });

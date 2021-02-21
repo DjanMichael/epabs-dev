@@ -275,8 +275,8 @@
             <button type="button" class="btn btn-transparent-success font-weight-bold" id="btn_add_new_act" >
                 <i class="flaticon-time-3 icon-md"></i>Add New Activity
             </button>
-            <button type="button" onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">
-                <i class="flaticon2-check-mark icon-md"></i>Done
+            <button type="button" style="float:right;"  onclick="window.location.href='{{ route('r_wfp') }}'" class="btn btn-success font-weight-bold">
+                <i class="flaticon2-check-mark icon-md"></i>Finished Encoding
             </button>
         </div>
     </form>

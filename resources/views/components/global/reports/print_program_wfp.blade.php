@@ -152,7 +152,7 @@
                     ?>
                     @if($division =="RD/ARD")
                         @if($unit == "ARD" || $unit == "PLANNING")
-                            GERNA M. MANATAD, MD, PHSA, MDM
+                            GERNA M. MANATAD, MD, PHSAE, MDM
                             <br>
                             OIC-DIRECTOR III
                         @endif
@@ -180,9 +180,9 @@
                 <td style="width:20%">
                     Reviewed By:
                     <br><br><br><br>
-                    ENGR. ARLENE D. SANTUA
+                    JEAN AGANAP-PINGAL, MPA
                     <br>
-                    PLANNING OFFICER III
+                    AO V/BUDGET OFFICER
                     <br>
                     Date: _____________
                 </td>
@@ -248,6 +248,7 @@
                 $rowspan =1;
                 $skip_td = 0;
                 $sub_total_a = 0;
+                $hold_old="";
             ?>
             @forelse ($data["wfp_a"] as $row)
 
@@ -256,22 +257,23 @@
                 $skip_td = 0;
                 if(count($data["wfp_a"]) > 1){
                     if( $i < count($data["wfp_a"])){
-                        if($i == 0){
-                            $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
+                        if($i == 0 || $row['out_function'] != $hold_old){
                             $skip_td = 1;
+                            $hold_old = $row['out_function'];
                         }else{
                             $skip_td = 0;
                         }
+
                     }
                 }
 
                 $i++;
                 $key = $row['out_function'] ;
-                $rowsc=count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
+                $rowsc= count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
             ?>
                     <tr class="t-row">
                         @if($skip_td == 1 || $rowsc == 1)
-                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         @endif
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -289,10 +291,10 @@
                         <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                     </tr>
             @endforelse
-            <tr class="t-row">
+            {{-- <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a,2) }}</td>
-            </tr>
+            </tr> --}}
 
             <tr>
                 <td class="t-h-d" colspan="10">B. CORE FUNCTION</td>
@@ -303,21 +305,23 @@
             $rowspan =1;
             $skip_td = 0;
             $sub_total_b = 0;
+            $hold_old="";
         ?>
         @forelse ($data["wfp_b"] as $row)
         <?php
             $sub_total_b += $row["activity_cost"];
             $skip_td = 0;
             if(count($data["wfp_b"]) > 1){
-                if( $i < count($data["wfp_b"])){
-                    if($i == 0){
-                        $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
-                        $skip_td = 1;
-                    }else{
-                        $skip_td = 0;
+                    if( $i < count($data["wfp_b"])){
+                        if($i == 0 || $row['out_function'] != $hold_old){
+                            $skip_td = 1;
+                            $hold_old = $row['out_function'];
+                        }else{
+                            $skip_td = 0;
+                        }
+
                     }
                 }
-            }
 
             $i++;
             $key = $row['out_function'] ;
@@ -326,7 +330,7 @@
 
                 <tr class="t-row">
                     @if($skip_td == 1 || $rowsc == 1)
-                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                     @endif
                     <td class="t-d" >{{ $row["out_activity"] }}</td>
                     <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -343,10 +347,10 @@
                     <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                 </tr>
         @endforelse
-        <tr class="t-row">
+        {{-- <tr class="t-row">
             <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
             <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_b,2) }}</td>
-        </tr>
+        </tr> --}}
 
 
         <tr>
@@ -358,6 +362,7 @@
                 $rowspan =1;
                 $skip_td = 0;
                 $sub_total_c = 0;
+                $hold_old="";
             ?>
             @forelse ($data["wfp_c"] as $row)
                 <?php
@@ -365,12 +370,13 @@
                     $skip_td = 0;
                     if(count($data["wfp_c"]) > 1){
                         if( $i < count($data["wfp_c"])){
-                            if($i == 0){
-                                $curr = $instance_wfp_info->getOutputFunctionById($row["out_function"]);
+                            if($i == 0 || $row['out_function'] != $hold_old){
                                 $skip_td = 1;
+                                $hold_old = $row['out_function'];
                             }else{
                                 $skip_td = 0;
                             }
+
                         }
                     }
                     $i++;
@@ -380,7 +386,7 @@
 
                     <tr class="t-row">
                         @if($skip_td == 1 || $rowsc == 1)
-                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{{ $instance_wfp_info->getOutputFunctionById($row["out_function"]) }}</td>
+                            <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         @endif
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -397,10 +403,10 @@
                         <td class="t-h-d" colspan="10">NO DATA FOUND.</td>
                     </tr>
             @endforelse
-            <tr class="t-row">
+            {{-- <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Sub Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_c,2) }}</td>
-            </tr>
+            </tr> --}}
             <tr class="t-row">
                 <td class="t-d" colspan="7" style="text-align:right;">Grand Total</td>
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a + $sub_total_b + $sub_total_c,2) }}</td>

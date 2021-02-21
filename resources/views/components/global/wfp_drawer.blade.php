@@ -297,13 +297,14 @@
     <div >
         <div class="card-body text-dark-50 font-size-lg pl-12 ">
             <?php
-                $comments = \App\WfpComments::join('users','users.id','tbl_wfp_comments.user_id')
+                $comments = \App\WfpComments::join('users','users.id','tbl_wfp_comments.user_from')
                                             ->select('users.name','tbl_wfp_comments.created_at','tbl_wfp_comments.comment')
                                             ->where('wfp_code',$row["wfp_code"])
                                             ->where('wfp_act_id',$row["wfp_act_id"])
                                             ->orderBy('created_at','DESC')
                                             ->get();
             ?>
+
                 @foreach($comments as $row2)
                 <div class="mb-3">
                     <!--begin::Section-->

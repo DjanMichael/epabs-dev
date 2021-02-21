@@ -26,7 +26,7 @@
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
         <link rel="stylesheet" href="{{ asset('dist/assets/css/custom.css') }}"/>
-        <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico')}}"/>
+        <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon2.ico')}}"/>
         <link rel="stylesheet" href="{{  asset('src/plugins/emoji/emojionearea.css') }}">
         {{-- <script src="{{ asset('dist/assets/js/anime.min.js') }}"></script> --}}
         @stack('styles')
@@ -123,10 +123,10 @@
             {{-- style="position: relative;top:20%;-ms-transform: translateY(-50%);transform: translateY(-50%);-ms-transform: translateX(-40%);transform: translateX(-40%);" --}}
             >
             <span>
-                <b style="font-family:arial black;">e</b>{{ env('APP_NAME')  }}
+                <b style="font-family:arial black;">e</b>Planning System
             </span>
 
-            <span style="font-size:12px;"> {{ ' V ' .env('APP_VERSION')}}</span>
+            <span style="font-size:12px;"> {{ ' V 1.0'  }}</span>
         </h1>
         <h5
             {{-- style="font-size:1rem;position: relative;top:-5px;left:0px;line-height:12px;" --}}
@@ -1979,10 +1979,8 @@
             });
         }
 
-        function pr_drawer_open(_pr_code){
-                $("#bg-drawer-pr").addClass('bg-drawer');
-                $("#pr_drawer").addClass('wrapper-drawer-on');
-                var _url = "{{ route('pr_view') }}";
+        function pr_load_items_list(_pr_code){
+            var _url = "{{ route('pr_view') }}";
                 $.ajax({
                     method:"GET",
                     url: _url,
@@ -1990,7 +1988,12 @@
                     success:function(data){
                           document.getElementById('pr_drawer').innerHTML = data;
                     }
-                })
+                });
+        }
+        function pr_drawer_open(_pr_code){
+                $("#bg-drawer-pr").addClass('bg-drawer');
+                $("#pr_drawer").addClass('wrapper-drawer-on');
+                pr_load_items_list(_pr_code);
         }
 
         function wfp_ppmp_viewer_drawer_open(_wfp_code,_wfp_act_id,notif_id = null){
