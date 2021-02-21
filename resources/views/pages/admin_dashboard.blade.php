@@ -590,7 +590,7 @@
             <div class="table-responsive">
                 <table class="table table-head-custom table-vertical-center">
                     <thead class="py-5">
-                        <tr >
+                        <tr>
                             <th class="p-0 min-w-200px">GAD RELATED ACTIVITY</th>
                             <th class="p-0 min-w-140px">No. of Activities</th>
                             <th class="p-0 min-w-110px text-center ">Cost</th>
@@ -619,8 +619,6 @@
     </div>
 </div>
 </div>
-
-
 
 @endif
 
