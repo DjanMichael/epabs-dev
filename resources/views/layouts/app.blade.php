@@ -183,7 +183,7 @@
 			<!--begin::Left-->
 			<div class="d-none d-lg-flex align-items-center mr-3">
 				<!--begin::Logo-->
-				<a href="index.html" class="mr-10 " >
+				<a href="#!" class="mr-10 " >
                     <img alt="Logo" src="{{ asset('dist/assets/media/logos/logo-letter-5.png')}}" class="max-h-65px"/>
                     <span style="color:white;font-size:40px;position:relative;top:10px;left:0px" class="bg-dark-o-70 rounded p-3"><b>e</b>Planning and Budget System</span>
 				</a>
@@ -1684,6 +1684,10 @@
                             }else{
                                 toastr.error("Saving Program Failed", "Error");
                             }
+                        },
+                        error:function(err)
+                        {
+                            console.log(err);
                         }
                     });
                 }
@@ -1716,6 +1720,10 @@
                             }else{
                                 toastr.error("Saving Year Failed", "Error");
                             }
+                        },
+                        error:function(err)
+                        {
+                            console.log(err);
                         }
                     });
                 }

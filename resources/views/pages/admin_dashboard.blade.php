@@ -474,24 +474,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 col-12">
-        <div class="card card-custom gutter-b">
-            <div class="card-header">
-             <div class="card-title">
-              <h3 class="card-label">
-               Event Logs
-               <small>System Activity</small>
-              </h3>
-             </div>
-            </div>
-            <div class="card-body">
-                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 700px">
-                    <div class="timeline-items "  id="event_logs">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 
@@ -618,6 +601,27 @@
         </div>
     </div>
 </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+             <div class="card-title">
+              <h3 class="card-label">
+               Event Logs
+               <small>System Activity</small>
+              </h3>
+             </div>
+            </div>
+            <div class="card-body">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 700px">
+                    <div class="timeline-items "  id="event_logs">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endif
@@ -818,6 +822,7 @@ const primary = "#6993FF"
                     $("#ppmp_notsubmitted").html(data.ppmp.ppmp_not_submitted);
                     $("#ppmp_total").html(data.ppmp.total_count.ppmp_count);
 
+                    console.log(data);
                     $("#mooe_act_no").html(data.budget.expense_class.mooe.act_no);
                     $("#mooe_total").html( '₱ ' + nf.format(data.budget.expense_class.mooe.amount));
 
@@ -874,9 +879,14 @@ const primary = "#6993FF"
             setTimeout(function(){
                 var newURL = location.href.split("?")[0];
                 window.history.pushState('object', document.title, newURL);
-                fetchAllSystemLogs();
-                fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
-                fetchStatusData();
+                var roleLogin = "{{ Auth::user()->role->roles }}";
+
+                 if(roleLogin != "PROGRAM COORDINATOR")
+                 {
+                    fetchAllSystemLogs();
+                    fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
+                    fetchStatusData();
+                 }
             },1500)
 
 
