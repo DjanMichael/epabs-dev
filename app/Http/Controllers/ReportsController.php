@@ -7,8 +7,13 @@ use App\Views\ReportAppCategory;
 use App\Views\ReportWFPBLI;
 use App\RefBudgetLineItem;
 use App\RefSourceOfFund;
-
 use App\RefActivityCategory;
+use App\Views\BudgetExpenseClass;
+use App\Views\BudgetFunctionClass;
+use App\Views\GADBudgetSummary;
+use App\GlobalSystemSettings;
+use App\RefYear;
+use Auth;
 use PDF;
 class ReportsController extends Controller
 {
@@ -76,6 +81,39 @@ class ReportsController extends Controller
         $data["bli"] = RefBudgetLineItem::all();
         $data["category"] = RefActivityCategory::select('category')->get()->toArray();
         return view('pages.reports.rep_consolidated_wfp',['data'=>$data]);
+    }
+
+    public function generateBudgetStatistics()
+    {
+        $data = [];
+
+        $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+        $data["budget"]["expense_class"]["mooe"] = BudgetExpenseClass::where('category','MAINTENANCE & OTHER OPERATING EXPENSES')
+                                                                           ->where('year_id',$program->select_year)
+                                                                           ->get();
+        $data["budget"]["expense_class"]["mooe"] = ["amount"=> ($data["budget"]["expense_class"]["mooe"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["mooe"])->count()];
+        $data["budget"]["expense_class"]["co"] = BudgetExpenseClass::where('category','CAPITAL OUTLAYS')
+                                                                    ->where('year_id',$program->select_year)
+                                                                    ->get();
+        $data["budget"]["expense_class"]["co"] = ["amount"=> ($data["budget"]["expense_class"]["co"])->sum('total'), "act_no" => ($data["budget"]["expense_class"]["co"])->count()];
+        $data["budget"]["function_class"]["strategic"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','STRATEGIC FUNCTION')->first() ?? 0;
+        $data["budget"]["function_class"]["core"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','CORE FUNCTION')->first() ?? 0;
+        $data["budget"]["function_class"]["support"] = BudgetFunctionClass::where('year_id',$program->select_year)->where('class','SUPPORT FUNCTION')->first() ?? 0;
+
+        $data["budget"]["GAD"]["YES"] = GADBudgetSummary::where('activity_gad_related','YES')->where('year_id',$program->select_year)->first();
+        $data["budget"]["GAD"]["NO"] = GADBudgetSummary::where('activity_gad_related','NO')->where('year_id',$program->select_year)->first();
+
+        // dd($data);
+        $data["year"] = (RefYear::where('id',$program->select_year)->first())->year;
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadView('components.global.reports.print_budget_statistics',['data'=>$data]);
+        $pdf->setPaper('a4', 'portrait');
+
+        return  $pdf->stream(Auth::user()->id . '_budget_distribution_report_' . $data["year"] . '.pdf');
+
+
+        return view('components.global.reports.print_budget_statistics',['data'=>$data]);
     }
 
     public function activityTimeFrameConvertToMonths($txt){
