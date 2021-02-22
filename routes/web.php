@@ -160,6 +160,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/reports/wfp/consolidate','ReportsController@redirectToWfpConsolidated')->name('r_rep_wfp_consolidate');
     Route::get('/user/generate/report/app','ReportsController@generateAPP')->name('generate_app_report');
     Route::get('/user/generate/report/wfp','ReportsController@generateWFP')->name('generate_wfp_report');
+    Route::get('/user/generate/report/stats/budget','ReportsController@generateBudgetStatistics')->name('generate_budget_stats_report');
 
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
@@ -241,7 +242,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/reference/annual/budget/search','Reference\AnnualBudgetController@getgetAnnualBudgetSearch')->name('d_get_annual_budget_search');
     Route::get('/system/reference/annual/budget/add-form','Reference\AnnualBudgetController@getAddForm')->name('d_add_annual_budget');
     Route::post('/system/reference/annual/add-budget','Reference\AnnualBudgetController@store')->name('a_annual_budget');
-    
+
     // Budget Item Routes
     Route::get('/system/reference/budget-item','Reference\BudgetItemController@index')->name('r_budget_item');
     Route::get('/system/reference/budget-item/all','Reference\BudgetItemController@getBudgetItem')->name('d_budget_item');
@@ -249,7 +250,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/reference/budget-item/search','Reference\BudgetItemController@getBudgetItemSearch')->name('d_get_budget_item_search');
     Route::get('/system/reference/budget-item/add-form','Reference\BudgetItemController@getAddForm')->name('d_add_budget_item');
     Route::post('/system/reference/add-budget-item','Reference\BudgetItemController@store')->name('a_budget_item');
-    
+
     // Budget Line Item Routes
     Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
     Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
