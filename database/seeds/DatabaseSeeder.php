@@ -27,7 +27,14 @@ class DatabaseSeeder extends Seeder
         $this->call(global_system_settings::class);
         $this->call(tbl_user_roles::class);
 
+        // iSeed generated
         $this->call(PrebuildProcurementMedicineItems::class);
         $this->call(PrebuildProcurementSuppliesItems::class);
+
+        //training purpose
+        // $this->call(PrebuildProcurementMedicineItems::class);
+        // $this->call(PrebuildProcurementSuppliesItems::class);
+        // $this->call(GlobalSystemSettingsTableSeeder::class);
+
     }
 }
