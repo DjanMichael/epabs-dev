@@ -63,7 +63,7 @@
     </div>
     <div class="col-12 col-md-4">
         <div class="d-flex align-items-center mb-10 bg-gray-200 rounded-lg">
-        <button onclick="window.location.href='{{ route('generate_budget_stats_report') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
+        <button onclick="window.location.href='{{ route('r_budget_distribution') }}'" class="btn btn-light-success d-inline-flex align-items-center btn-lg w-100">
                 <!--begin::Symbol-->
                 <div class="symbol symbol-40 symbol-light-primary mr-5">
                     <span class="symbol-label">
@@ -84,8 +84,8 @@
                 <!--end::Symbol-->
                 <!--begin::Text-->
                 <div class="d-flex flex-column font-weight-bold text-left">
-                    <a href="{{ route('generate_budget_stats_report') }}" class="text-dark text-hover-primary mb-1 font-size-lg">BUDGET DISTRIBUTION</a>
-                    <span class="text-muted">Generate Budget Distribution Report</span>
+                    <a href="{{ route('r_budget_distribution') }}" class="text-dark text-hover-primary mb-1 font-size-lg">Other Reports</a>
+                    <span class="text-muted">Generate Other Reports</span>
                 </div>
                 <!--end::Text-->
            </button>
