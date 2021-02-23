@@ -160,6 +160,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/reports/wfp/consolidate','ReportsController@redirectToWfpConsolidated')->name('r_rep_wfp_consolidate');
     Route::get('/user/generate/report/app','ReportsController@generateAPP')->name('generate_app_report');
     Route::get('/user/generate/report/wfp','ReportsController@generateWFP')->name('generate_wfp_report');
+    Route::get('/user/reports/budget/distribution','ReportsController@redirectToBudgetDistribution')->name('r_budget_distribution');
     Route::get('/user/generate/report/stats/budget','ReportsController@generateBudgetStatistics')->name('generate_budget_stats_report');
 
     //Transaction/Activity Calendar

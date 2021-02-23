@@ -105,11 +105,13 @@
     </div>
     <main>
         @php
+        // dd($data);
             $total_expense_class = $data["budget"]["expense_class"]["mooe"]["amount"] +  $data["budget"]["expense_class"]["co"]["amount"];
-            $total_function_class = $data["budget"]["function_class"]["core"]["total"] +
-                                    $data["budget"]["function_class"]["strategic"]["total"] +
-                                    $data["budget"]["function_class"]["support"]["total"];
-            $total_gad_ = $data["budget"]["GAD"]["YES"]["total"] + $data["budget"]["GAD"]["NO"]["total"];
+            $total_function_class = isset($data["budget"]["function_class"]["core"]["total"]) ?? 0 +
+                                    isset($data["budget"]["function_class"]["strategic"]["total"]) ?? 0 +
+                                    isset($data["budget"]["function_class"]["support"]["total"]) ?? 0 ;
+            $total_gad_ = isset($data["budget"]["GAD"]["YES"]["total"]) ?? 0 +
+                          isset($data["budget"]["GAD"]["NO"]["total"]) ?? 0;
         @endphp
             <center> <h3>{{ $data["year"] }} BUDGET DISTRIBUTION REPORT</h3></center>
             <div style="margin-left:250px;" >
@@ -145,18 +147,18 @@
                     </tr>
                     <tr>
                         <td  class="t-h-d">STRATEGIC</td>
-                        <td  class="t-h-d" style="text-align:center;">{{ $data["budget"]["function_class"]["strategic"]["no_act"] }}</td>
-                        <td  class="t-h-d" style="text-align:right;">{{ number_format($data["budget"]["function_class"]["strategic"]["total"],2) }}</td>
+                        <td  class="t-h-d" style="text-align:center;">{{ isset($data["budget"]["function_class"]["strategic"]["no_act"]) ?: 0 }}</td>
+                        <td  class="t-h-d" style="text-align:right;">{{ number_format(isset($data["budget"]["function_class"]["strategic"]["total"]) ?: 0,2) }}</td>
                     </tr>
                     <tr>
                         <td  class="t-h-d">CORE</td>
-                        <td  class="t-h-d" style="text-align:center;">{{ $data["budget"]["function_class"]["core"]["no_act"] }}</td>
-                        <td  class="t-h-d" style="text-align:right;">{{ number_format($data["budget"]["function_class"]["core"]["total"],2) }}</td>
+                        <td  class="t-h-d" style="text-align:center;">{{ isset($data["budget"]["function_class"]["core"]["no_act"]) ?: 0 }}</td>
+                        <td  class="t-h-d" style="text-align:right;">{{ number_format(isset($data["budget"]["function_class"]["core"]["total"]) ?? 0,2) }}</td>
                     </tr>
                     <tr>
                         <td  class="t-h-d">SUPPORT</td>
-                        <td  class="t-h-d" style="text-align:center;">{{ $data["budget"]["function_class"]["support"]["no_act"] }}</td>
-                        <td  class="t-h-d" style="text-align:right;">{{ number_format($data["budget"]["function_class"]["support"]["total"],2) }}</td>
+                        <td  class="t-h-d" style="text-align:center;">{{ isset($data["budget"]["function_class"]["support"]["no_act"]) ?: 0 }}</td>
+                        <td  class="t-h-d" style="text-align:right;">{{ number_format(isset($data["budget"]["function_class"]["support"]["total"]) ?? 0,2) }}</td>
                     </tr>
                     <tr>
                         <td  class="t-h-d" colspan="2">Total</td>
@@ -172,13 +174,13 @@
                     </tr>
                     <tr>
                         <td  class="t-h-d">YES</td>
-                        <td  class="t-h-d" style="text-align:center;">{{ $data["budget"]["GAD"]["YES"]["act_no"] }}</td>
-                        <td  class="t-h-d" style="text-align:right;">{{ number_format($data["budget"]["GAD"]["YES"]["total"],2) }}</td>
+                        <td  class="t-h-d" style="text-align:center;">{{ isset($data["budget"]["GAD"]["YES"]["act_no"]) ?: 0  }}</td>
+                        <td  class="t-h-d" style="text-align:right;">{{ number_format(isset($data["budget"]["GAD"]["YES"]["total"]) ?? 0,2) }}</td>
                     </tr>
                     <tr>
                         <td  class="t-h-d">NO</td>
-                        <td  class="t-h-d" style="text-align:center;">{{ $data["budget"]["GAD"]["NO"]["act_no"] }}</td>
-                        <td  class="t-h-d" style="text-align:right;">{{ number_format($data["budget"]["GAD"]["NO"]["total"],2) }}</td>
+                        <td  class="t-h-d" style="text-align:center;">{{ isset($data["budget"]["GAD"]["NO"]["act_no"]) ?: 0  }}</td>
+                        <td  class="t-h-d" style="text-align:right;">{{ number_format(isset($data["budget"]["GAD"]["NO"]["total"]) ?? 0,2) }}</td>
                     </tr>
                     <tr>
                         <td  class="t-h-d" colspan="2">Total</td>
