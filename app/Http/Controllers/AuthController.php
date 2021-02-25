@@ -181,9 +181,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logoutUser(){
+    public function logoutUser(Request $req){
         Cache::forget('user-is-online-' . Auth::user() ?? Auth::user()->id);
         Auth::logout();
+        $req->session()->invalidate();
+        $req->session()->regenerateToken();
         return redirect()->route('login');
     }
 
