@@ -114,7 +114,7 @@ class ReportsController extends Controller
         return  $pdf->stream(Auth::user()->id . '_budget_distribution_report_' . $data["year"] . '.pdf');
 
 
-        return view('components.global.reports.print_budget_statistics',['data'=>$data]);
+        // return view('components.global.reports.print_budget_statistics',['data'=>$data]);
     }
 
     public function redirectToBudgetDistribution(Request $req)
