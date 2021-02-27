@@ -863,12 +863,18 @@ const primary = "#6993FF"
 
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
 
+                    var gad_yes_act = data.budget.GAD.NO != null ? data.budget.GAD.YES.act_no : 0;
+                    var gad_yes = data.budget.GAD.NO != null ? data.budget.GAD.YES.total : 0;
+                    var gad_no_act = data.budget.GAD.NO != null ? data.budget.GAD.YES.act_no : 0;
+                    var gad_no = data.budget.GAD.NO != null ? data.budget.GAD.YES.total : 0;
 
-                    $("#no_gad_act_no").html(data.budget.GAD.NO.act_no);
-                    $("#yes_gad_act_no").html(data.budget.GAD.YES.act_no);
-                    $("#total_gad_yes").html('₱ ' + nf.format(Number(data.budget.GAD.YES.total)));
-                    $("#total_gad_no").html('₱ ' + nf.format(Number(data.budget.GAD.NO.total)));
-                    $("#GAD_total").html('₱ ' + nf.format(Number( data.budget.GAD.NO.total) + Number(data.budget.GAD.YES.total)));
+
+                    $("#no_gad_act_no").html(gad_no_act);
+                    $("#yes_gad_act_no").html(gad_yes_act);
+                    $("#total_gad_yes").html('₱ ' + nf.format(Number(gad_yes)));
+                    $("#total_gad_no").html('₱ ' + nf.format(Number(gad_no)));
+                    $("#GAD_total").html('₱ ' + nf.format(Number( gad_yes) + Number(gad_no)));
+
                 },error:function(err){
                     console.log(err);
                 }
