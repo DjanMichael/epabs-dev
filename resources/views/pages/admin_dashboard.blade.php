@@ -411,7 +411,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-9 col-xl-8">
                             <div class="row align-items-center">
-                                <div class="col-md-8 my-2 my-md-0">
+                                <div class="col-md-7 my-2 my-md-0">
                                     <div class="input-icon">
                                         <input type="text" class="form-control" placeholder="Search..." id="search_query" />
                                         <span>
@@ -419,14 +419,19 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 my-2 my-md-0">
+                                <div class="col-md-5 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
                                         <select class="form-control" id="wfp_status">
                                             <option value="">ALL</option>
-                                            <option value="4">Approved</option>
-                                            <option value="5">Revision</option>
-                                            <option value="6">Submitted</option>
+                                            <option value="3">WFP Not Submitted</option>
+                                            <option value="4">WFP Approved</option>
+                                            <option value="5">WFP Revision</option>
+                                            <option value="6">WFP Submitted</option>
+                                            <option value="7">PPMP Not Submitted</option>
+                                            <option value="8">PPMP Approved</option>
+                                            <option value="9">PPMP Revision</option>
+                                            <option value="10">PPMP Submitted</option>
                                         </select>
                                     </div>
                                 </div>

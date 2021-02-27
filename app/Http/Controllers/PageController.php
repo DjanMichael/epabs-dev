@@ -162,15 +162,70 @@ class PageController extends Controller
             $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
 
             if($program){
+                //text with status query
                 if(($req->q != '' || $req->q != null) && ($req->status != '' || $req->status != null) && ($req->status != 'ALL' )){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
                                                                 ->where(fn($q) =>
                                                                     $q->orWhere('name' , 'LIKE','%' . $req->q . '%')
                                                                     ->orWhere('program' , 'LIKE','%' . $req->q . '%')
                                                                 )
-                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
-                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                ->when($req->status  == 'WFP Not Submitted',function($q){
+                                                                    $q->where('wfp_status','NOT SUBMITTED');
+                                                                })
+                                                                ->when($req->status  == 'WFP Approved',function($q){
+                                                                    $q->where('wfp_status','APPROVED');
+                                                                })
+                                                                ->when($req->status == 'WFP Submitted',function($q){
+                                                                    $q->where('wfp_status','SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'WFP Revision',function($q){
+                                                                    $q->where('wfp_status','FOR REVISION');
+                                                                })
+                                                                ->when($req->status == 'PPMP Not Submitted',function($q){
+                                                                    $q->where('ppmp_status','NOT SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Approved',function($q){
+                                                                    $q->where('ppmp_status','APRROVED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Submitted',function($q){
+                                                                    $q->where('ppmp_status','SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Revision',function($q){
+                                                                    $q->where('ppmp_status','FOR REVISION');
+                                                                })
+                                                                // ->whene($req->status == 'WFP REVISION')
+                                                                // ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                // ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
+                //status query
+                }else if (($req->q == '' || $req->q == null) && $req->status != 'ALL'){
+                    $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
+                                                                ->when($req->status  == 'WFP Not Submitted',function($q){
+                                                                    $q->where('wfp_status','NOT SUBMITTED');
+                                                                })
+                                                                ->when($req->status  == 'WFP Approved',function($q){
+                                                                    $q->where('wfp_status','APPROVED');
+                                                                })
+                                                                ->when($req->status == 'WFP Submitted',function($q){
+                                                                    $q->where('wfp_status','SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'WFP Revision',function($q){
+                                                                    $q->where('wfp_status','FOR REVISION');
+                                                                })
+                                                                ->when($req->status == 'PPMP Not Submitted',function($q){
+                                                                    $q->where('ppmp_status','NOT SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Approved',function($q){
+                                                                    $q->where('ppmp_status','APRROVED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Submitted',function($q){
+                                                                    $q->where('ppmp_status','SUBMITTED');
+                                                                })
+                                                                ->when($req->status == 'PPMP Revision',function($q){
+                                                                    $q->where('ppmp_status','FOR REVISION');
+                                                                })
+                                                                ->paginate($this->pagination_user_wfp_status);
+                //text query
                 }else if($req->q != '' || $req->q != null){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
                                                                 ->where(fn($q) =>
@@ -178,10 +233,11 @@ class PageController extends Controller
                                                                     ->orWhere('program' , 'LIKE','%' . $req->q . '%')
                                                                 )
                                                                 ->paginate($this->pagination_user_wfp_status);
+                // all
                 }else if($req->status != 'ALL'){
                     $data["wfp_user_list"] = ProgramsWfpStatus::where('year_id',$program->select_year)
-                                                                ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
-                                                                ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                // ->where('wfp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
+                                                                // ->orWhere('ppmp_status', $req->status == 'Revision' ? 'FOR REVISION' : $req->status)
                                                                 ->paginate($this->pagination_user_wfp_status);
 
                 }else{
