@@ -22,7 +22,7 @@ class CreateGadRelatedView extends Migration
                             substr(`twa`.`wfp_code`, 7, 3)
                     ) AS `year_id`,
                     `twa`.`activity_gad_related` AS `activity_gad_related`,
-                    count(*) AS `act_no`,
+                    count(0) AS `act_no`,
                     COALESCE (
                         sum(`twa`.`activity_cost`),
                         0
