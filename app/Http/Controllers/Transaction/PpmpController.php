@@ -36,6 +36,7 @@ class PpmpController extends Controller
         $data["wfp_act_id"] = $req->wfp_act_id;
         $data["settings"] = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
         $data["wfp_act_pi"] = WfpPerformanceIndicator::where('wfp_code',Crypt::decryptString($req->wfp_code))->where('wfp_act_id',$req->wfp_act_id)->get()->toArray();
+        // $data["wfp_act"] = WfpActivity::where('wfp_code',Crypt::decryptString($req->wfp_code))->where('id',$req->wfp_act_id)->get()->toArray();
         $data["cost"] = [
             'budget_amount' => 0,
             'ppmp_amount' =>0,
