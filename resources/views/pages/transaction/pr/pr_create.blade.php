@@ -45,6 +45,13 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12">
+                                <p class="font-weight-normal mb-0">Purpose</p>
+                                <textarea name="" id="pr_purpose" rows="4" class="form-control"></textarea>
+                                <p>
+                                    <button class="btn btn-success mt-2" id="btnPurpose">Save Purpose</button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <!--end::Body-->
@@ -201,6 +208,52 @@
         }
          $(document).ready(function(){
             fetchWFPApproved();
+
+            var pr = window.location.href.split("?pr_code=")[1];
+
+            $.ajax({
+                method:"GET",
+                url: "{{ route('getPrStatus') }}",
+                data: {prcode : pr },
+                success:function(data){
+                    document.getElementById('pr_purpose').innerHTML = data;
+                }
+            });
+
+
+
+
+
+
+
+
+            $("#btnPurpose").on('click',function(){
+                var pr = window.location.href.split("?pr_code=")[1];
+                var _url = "{{ route('pr_purpose_save') }}";
+                var _data = {
+                    prcode : pr,
+                    purpose : $("#pr_purpose").val()
+                }
+                $.ajax({
+                    method:"GET",
+                    url: _url,
+                    data: _data,
+                    success:function(data){
+                        swal.fire({
+                                title:"Good Job!",
+                                text: "Successfully Save!" ,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                        });
+                    },error:function(e){
+                        console.log(e);
+                    }
+                })
+            })
 
             $("#wfp_select").on('change',function(){
                 var _wfp_code = $("#wfp_select option:selected").val();

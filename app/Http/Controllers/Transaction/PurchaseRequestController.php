@@ -38,6 +38,19 @@ class PurchaseRequestController extends Controller
         return view('pages.transaction.pr.pr',['data' =>$data]);
     }
 
+    public function savePurpose(Request $req)
+    {
+        $pr = ProgramPurchaseRequest::where('pr_code',$req->prcode)->first();
+        $pr->pr_purpose = $req->purpose;
+        return $pr->save();
+    }
+
+    public function getPRPurpose(Request $req)
+    {
+        $pr = ProgramPurchaseRequest::where('pr_code',$req->prcode)->first();
+        return $pr->pr_purpose ?? null;
+    }
+
     public function redirectCreatePurchaseRequest(){
         $data =[];
         $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
