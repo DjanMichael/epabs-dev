@@ -30,6 +30,10 @@ class DatabaseSeeder extends Seeder
         // iSeed generated
         $this->call(PrebuildProcurementMedicineItems::class);
         $this->call(PrebuildProcurementSuppliesItems::class);
+        $this->call(UsersTableSeeder2::class);
+        $this->call(UsersProfileTableSeeder2::class);
+
+
 
         //training purpose
         // $this->call(PrebuildProcurementMedicineItems::class);

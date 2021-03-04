@@ -17,7 +17,7 @@ class CreateTblActivityOutputFunction extends Migration
             $table->id();
             $table->integer('output_function_id');
             // $table->foreign('function_output')->references('id')->on('ref_function_deliverables');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('user_id');
             $table->integer('program_id');
             $table->enum('status',['ACTIVE','INACTIVE']);
