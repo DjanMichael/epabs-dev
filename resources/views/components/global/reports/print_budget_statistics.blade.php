@@ -71,7 +71,7 @@
         }
         .footer {
             position: fixed;
-                bottom: -60px;
+                bottom: 160px;
                 left: 0px;
                 right: 0px;
                 height: 180px;
@@ -99,9 +99,58 @@
     </style>
 </head>
 <body>
-    <div class="header" style="width:100%;">
+    <div class="header" style="line-height:15px;margin:0px;padding:0px;" >
+            <table style="width:100%;margin:0px;padding-left:0px;">
+                 <tr>
+                     <td style="width:20%;text-align:right">
+                         <img src="{{ asset('/dist/assets/media/logos/logo-letter-5.png') }}" alt="" height="50px" width="50px">
+                     </td>
+                     <td style="height:10px;text-align:center;width:60%" colspan="5">
+                             <span>Republic of the Philippines</span><br>
+                             <span>Department of Health</span><br>
+                             <span style="font-size:15px;">Center for Health Development-CARAGA</span>
+                     </td>
+                     <td style="width:20%"></td>
+                 </tr>
+
+            </table>
     </div>
     <div class="footer">
+        <table style="width:100%">
+            <tr>
+                <td style="width:20%">
+                    Prepared By:
+                    <br><br><br><br>
+                     ENGR. ARLENE SANTUA
+                    <br>
+                    PLANNING OFFICER III
+                    <br>
+                    Date: _____________
+                </td>
+                <td style="width:20%">
+                    Noted By:
+                    <br><br><br><br>
+                    GERNA M. MANATAD, MD, PHSAE, MDM
+                    <br>
+                    OIC-DIRECTOR III
+                    <br>
+                    Date: _____________
+                </td>
+
+                <td style="width:20%">
+                    Approved By:
+                    <br><br><br><br>
+                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    <br>
+                    DIRECTOR IV
+                    <br>
+                    Date: _____________
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+        </table>
     </div>
     <main>
         @php
