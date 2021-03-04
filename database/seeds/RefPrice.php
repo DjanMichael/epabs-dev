@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\GlobalSystemSettings;
-class global_system_settings extends Seeder
+
+class RefPrice extends Seeder
 {
     /**
      * Run the database seeds.
