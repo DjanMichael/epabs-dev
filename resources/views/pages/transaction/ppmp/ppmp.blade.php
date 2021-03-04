@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-8">
-                                <p class="font-weight-normal mb-0">Select Performance Indicator</p>
+                                <p class="font-weight-normal mb-0">Select Activity Output</p>
                                 <div class="form-group " style="">
                                     <select class="form-control form-control-solid" id="pi_ppmp_select">
                                         <option value="" selected></option>
