@@ -20,7 +20,7 @@ class CreateRefBudgetLineItem extends Migration
             $table->integer('program_id');
             $table->integer('unit_id');
             $table->integer('year_id')->default(0);
-            $table->decimal('allocation_amount',10,2);
+            $table->decimal('allocation_amount',20,2);
             $table->string('saa_ctrl_number')->default("");
             $table->string('purpose')->default("");
             $table->enum('status',['ACTIVE','INACTIVE']);
