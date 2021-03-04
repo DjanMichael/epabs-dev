@@ -44,6 +44,7 @@ class BudgetAllocationController extends Controller
             $res = RefBudgetLineItem::join('ref_source_of_fund','ref_source_of_fund.id','ref_budget_line_item.fund_source_id')
                                     ->where('year_id',$req->year)
                                     ->where('ref_source_of_fund.sof_classification','GAA')
+                                    ->select('ref_budget_line_item.id','ref_budget_line_item.budget_item')
                                     ->get()->toArray();
             return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
         }else{
