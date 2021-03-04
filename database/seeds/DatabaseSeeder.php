@@ -31,6 +31,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PrebuildProcurementMedicineItems::class);
         $this->call(PrebuildProcurementSuppliesItems::class);
         $this->call(RefPrice::class);
+        $this->call(UsersTableSeeder2::class);
+        $this->call(UsersProfileTableSeeder2::class);
+
 
         //training purpose
         // $this->call(PrebuildProcurementMedicineItems::class);
