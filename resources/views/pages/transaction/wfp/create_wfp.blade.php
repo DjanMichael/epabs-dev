@@ -380,7 +380,7 @@
                     <input type="text" class="form-control" placeholder="Sub Activity" id="peformance_indicator">
                 </div>
                 <div class="form-group row">
-                    <label class="col-12 col-md-2 col-form-label">COMMODITIES/SUPPLIES</label>
+                    <label class="col-12 col-md-2 col-form-label">COMMODITIES/SUPPLIES/OTHERS</label>
                     <div class="col-12 col-md-4">
                         <span class="switch switch-danger">
                             <label>
