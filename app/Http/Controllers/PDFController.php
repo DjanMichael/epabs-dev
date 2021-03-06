@@ -127,7 +127,8 @@ class PDFController extends Controller
 
     public function printPR(Request $req){
         $data = [];
-        $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)->first();
+        $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)
+                                            ->first();
         $data["pr_details"] = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)
                                         ->get()->groupBy('item_classification','')->toArray();
 

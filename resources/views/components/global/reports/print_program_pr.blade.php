@@ -245,14 +245,46 @@
         </td>
         <td  class="t-d" style="height:80px;width:100px;" >
             <div style="position:absolute;top:0px;">
-            Requested by:<br><br><br><br>
-                REQUEST NAME<br>
-                REQUEST DESIGNATION
+                Requested by:<br><br><br><br>
+                <?php
+                    $division = $data["pr"]->division;
+                    $unit = $data["pr"]->office;
+                ?>
+                @if($division =="RD/ARD")
+                    @if($unit == "ARD" || $unit == "PLANNING")
+                        GERNA M. MANATAD, MD, PHSAE, MDM
+                        <br>
+                        OIC-DIRECTOR III
+                    @endif
+                    @if($unit == "RD")
+                        JOSE R. LLACUNA JR., MD, MPH, CESO III
+                        <br>
+                        DIRECTOR IV
+                    @endif
+                @endif
+
+                @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                    AILEEN A. SACOL, CPA, MMPSM
+                    <br>
+                    OIC - CHIEF ADMINISTRATIVE OFFICER
+                @endif
+
+                @if($division == "LHS")
+                    ERNESTO E. PAREJA, MPD, MPH
+                    <br>
+                    MEDICAL OFFICER V
+                @endif
+                <br>
+                Date: _____________
             </div>
             <div style="position:absolute;top:0px;margin-left:300px;">
-              Approved by:<br><br><br><br>
-                APPROVE NAME<br>
-                REQUEST DESIGNATION
+                Approved By:
+                <br><br><br><br>
+                JOSE R. LLACUNA JR., MD, MPH, CESO III
+                <br>
+                DIRECTOR IV
+                <br>
+                Date: _____________
             </div>
         </td>
     </tr>

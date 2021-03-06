@@ -12,7 +12,7 @@
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
     <!--begin::Item-->
     <li class="nav-item mb-2"  data-toggle="tooltip" title="Show Purchase Request" data-placement="left" data-original-title="Show Purchase Request">
-        <button type="button" onclick="pr_drawer_open('{{ $data['ppmp_code'] }}')" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
+        <button type="button" onclick="pr_drawer_open('{{ $data['prcode'] }}')" class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" >
             <i class="flaticon-file-2 text-primary"></i>
         </button>
     </li>
@@ -23,7 +23,7 @@
      <div class="flex-column col-md-12">
                 <div id="pi_card" class="card card-custom bgi-no-repeat card-stretch gutter-b" >
                     <div class="card-title p-5 bg-dark mb-0">
-                    <span class="card-label font-weight-bolder text-light">Purchase Request # {{ $data['ppmp_code'] }}</span>
+                    <span class="card-label font-weight-bolder text-light">Purchase Request # {{ $data['prcode'] }}</span>
                     </div>
                     <!--begin::Body-->
                     <div class="card-body my-4">
@@ -127,8 +127,7 @@
 </div>
 <!--end row -->
 
-
-<input type="hidden" id="pr_code" value="{{ $data["ppmp_code"] }}">
+<input type="hidden" id="pr_code" value="{{ $data["prcode"] }}">
 @push('scripts')
     <script>
         function fetchWFPApproved(){
@@ -200,7 +199,7 @@
                                 }
                         });
                         fetchItemList();
-                        pr_load_items_list("{{ $data['ppmp_code'] }}");
+                        pr_load_items_list("{{ $data['prcode'] }}");
                         // pr_drawer_close();
                     }
                 }
@@ -231,7 +230,7 @@
                 var pr = window.location.href.split("?pr_code=")[1];
                 var _url = "{{ route('pr_purpose_save') }}";
                 var _data = {
-                    prcode : pr,
+                    prcode : pr ?? '{{ $data["prcode"] }}',
                     purpose : $("#pr_purpose").val()
                 }
                 $.ajax({
