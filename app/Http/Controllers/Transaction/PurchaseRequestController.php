@@ -69,7 +69,7 @@ class PurchaseRequestController extends Controller
             $a->agency = env('PR_AGENCY');
             $a->office = $data["unit"]->section;
             $a->division = $data["unit"]->division;
-            $a->pr_purpose ="test";
+            $a->pr_purpose ="NO PURPOSE ENCODED";
             $a->prepared_user_name = Auth::user()->name;
             $a->prepared_user_id = Auth::user()->id;
             $save_1 = $a->save();
@@ -81,6 +81,7 @@ class PurchaseRequestController extends Controller
             $b->save();
 
             if($save_1){
+                $data["prcode"] = $a->pr_code;
                 return view('pages.transaction.pr.pr_create',['data'=> $data]);
             }
         }else{
@@ -332,7 +333,7 @@ class PurchaseRequestController extends Controller
 
     public function editPr(Request $req){
         $data = [];
-        $data['ppmp_code'] = $req->pr_code;
+        $data['prcode'] = $req->pr_code;
         return view('pages.transaction.pr.pr_create',['data'=>$data]);
     }
 

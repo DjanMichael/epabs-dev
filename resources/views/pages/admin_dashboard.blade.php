@@ -454,7 +454,7 @@
                             <div class="tab-pane fade show active" id="kt_tab_pane_5_3" role="tabpanel" aria-labelledby="kt_tab_pane_5_3">
                                 <!--begin::Table-->
                                 <div class="table-responsive">
-                                    <table class="table table-head-custom table-vertical-center">
+                                    <table class="table table-head-custom table-vertical-center table-hover">
                                         <thead class="py-5">
                                             <tr>
                                                 <th class="p-0 " colspan="2">PROGRAM MANAGER</th>
@@ -528,7 +528,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
             <!--begin::Body-->
             <div class="card-body">
-            <h1> BUDGET SUMMARY FUNCTION CLASS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <h1> OUTPUT FUNCTION SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
             <br>
             <div class="table-responsive">
                 <table class="table table-head-custom table-vertical-center">
