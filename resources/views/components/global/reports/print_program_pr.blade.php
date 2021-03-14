@@ -252,12 +252,12 @@
                 ?>
                 @if($division =="RD/ARD")
                     @if($unit == "ARD" || $unit == "PLANNING")
-                        GERNA M. MANATAD, MD, PHSAE, MDM
+                        SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                         <br>
                         OIC-DIRECTOR III
                     @endif
                     @if($unit == "RD")
-                        JOSE R. LLACUNA JR., MD, MPH, CESO III
+                        CESAR C. CASSION, MD, MPH, CESO IV
                         <br>
                         DIRECTOR IV
                     @endif
@@ -280,7 +280,7 @@
             <div style="position:absolute;top:0px;margin-left:300px;">
                 Approved By:
                 <br><br><br><br>
-                JOSE R. LLACUNA JR., MD, MPH, CESO III
+                CESAR C. CASSION, MD, MPH, CESO IV
                 <br>
                 DIRECTOR IV
                 <br>
