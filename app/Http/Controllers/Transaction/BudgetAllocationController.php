@@ -238,11 +238,13 @@ class BudgetAllocationController extends Controller
                 foreach ($bli_data as $row){
 
                     $sof = RefSourceOfFund::where('sof_classification',$row["source_of_fund_classification"]. '-CONAP')->first();
+                  
                     if($row["source_of_fund_classification"] == 'GAA'){
                         $data_rbli =[
                             'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
                             'year_id'=> $nextYear->id,
-                            'unit_program_id'=> $req->program_id - 0,
+                            'unit_id' => 0,
+                            'program_id'=> $req->program_id - 0,
                             'allocation_amount'=> $row["ppmp_actual_balance"],
                             'fund_source_id'=> $sof->id
                         ];
@@ -250,7 +252,8 @@ class BudgetAllocationController extends Controller
                         $data_rbli =[
                             'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
                             'year_id'=> $nextYear->id,
-                            'unit_program_id'=> $req->program_id - 0,
+                            'program_id'=> $req->program_id - 0,
+                            'unit_id' => $unit_id->unit_id - 0,
                             'allocation_amount'=> $row["ppmp_actual_balance"],
                             'fund_source_id'=> $sof->id,
                             'saa_ctrl_number'=> $row["saa_ctrl_number"],
@@ -258,7 +261,7 @@ class BudgetAllocationController extends Controller
                         ];
                     }
 
-
+                    // dd($data_rbli);
                     $save = RefBudgetLineItem::create($data_rbli);
 
                     $data_tuba = [
@@ -268,6 +271,7 @@ class BudgetAllocationController extends Controller
                         'program_budget'=> $row["ppmp_actual_balance"],
                         'year_id'=> $nextYear->id
                     ];
+                    // dd($data_tuba);
 
                     TableUnitBudgetAllocation::create($data_tuba);
                 }
