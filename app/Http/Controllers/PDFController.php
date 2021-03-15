@@ -86,6 +86,7 @@ class PDFController extends Controller
                     $pi_ids[$i] = $wfp_act_ids[$i]["id"];
                 }
             }
+            // dd($wfp_act_ids);
             $vw = "vw_procurement_drum_supplies_items";
             // $data["category"] = \DB::table($vw)->get()->toArray();
 
@@ -100,6 +101,7 @@ class PDFController extends Controller
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
+                                        ->where('tbl_ppmp_items.batch_id','=','')
                                         ->get()
                                         ->groupBy('classification')
                                         ->toArray();
@@ -112,7 +114,8 @@ class PDFController extends Controller
                                         })->where('year_id',$data["wfp"]->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
-                                        ->where($vw . '.classification','=','CATERING SERVICES')
+                                        // ->where($vw . '.classification','=','CATERING SERVICES')
+                                        ->where('tbl_ppmp_items.batch_id','!=','')
                                         ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
 
 

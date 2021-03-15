@@ -130,7 +130,7 @@
                 <td style="width:20%">
                     Noted By:
                     <br><br><br><br>
-                    GERNA M. MANATAD, MD, PHSAE, MDM
+                    SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
                     OIC-DIRECTOR III
                     <br>
@@ -140,7 +140,7 @@
                 <td style="width:20%">
                     Approved By:
                     <br><br><br><br>
-                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    CESAR C. CASSION, MD, MPH, CESO IV
                     <br>
                     DIRECTOR IV
                     <br>

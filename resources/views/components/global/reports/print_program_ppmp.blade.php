@@ -164,7 +164,7 @@
                 <td style="width:20%">
                     Approved By:
                     <br><br><br><br>
-                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    CESAR C. CASSION, MD, MPH, CESO IV
                     <br>
                     DIRECTOR
                     <br>
@@ -238,7 +238,7 @@
                             OIC-DIRECTOR III
                         @endif
                         @if($unit == "RD")
-                            JOSE R. LLACUNA JR., MD, MPH, CESO III
+                            CESAR C. CASSION, MD, MPH, CESO IV
                             <br>
                             DIRECTOR IV
                         @endif
@@ -271,7 +271,7 @@
                 <td style="width:20%">
                     Recommending Approval:
                     <br><br><br><br>
-                    GERNA M. MANATAD, MD, PHSAE, MDM
+                    SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
                     OIC-DIRECTOR III
                     <br>
@@ -280,7 +280,7 @@
                 <td style="width:20%">
                     Approved By:
                     <br><br><br><br>
-                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    CESAR C. CASSION, MD, MPH, CESO IV
                     <br>
                     DIRECTOR IV
                     <br>
@@ -432,7 +432,7 @@
 
             ?>
                 @foreach($batch as $row3)
-                    <?php
+                    @php
                     $vw = "vw_procurement_drum_supplies_items";
                     $items = \DB::table('tbl_ppmp_items')
                                     ->join($vw,function($q) use ($vw)
@@ -443,10 +443,10 @@
                                     ->where('year_id',$data["wfp"]->year_id)
                                     ->where('tbl_ppmp_items.batch_id',$row3["batch_id"])
                                     ->where('tbl_ppmp_items.wfp_act_per_indicator_id',$row3["pi_id"])
-                                    ->where($vw . '.classification','=','CATERING SERVICES')
+                                    // ->where($vw . '.classification','=','CATERING SERVICES')
                                     ->get()->toArray();
 
-                    ?>
+                    @endphp
                     <tr>
                         <td colspan="17" style="border:1px solid black;padding:3px;font-weight:bold;" class="t-h-d">
                             {{'BATCH #' . $row3["batch_no"] . ' ' . $row3["out_activity"] . ' @ '. $row3["province"] . ', ' . $row3["city"]}}
