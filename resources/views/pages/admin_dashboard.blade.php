@@ -163,24 +163,41 @@
                             <div class="p-5 bg-info text-light rounded">
                               <div class="row">
                                 <?php $total_budget = 0; ?>
-
+                                
                                 @if($data["budget_allocation"]  != null)
+                                    @php 
+                                         $hasConapBudget = \App\ProgramConap::where('year_id',$data["budget_allocation"][0]["year_id"])
+                                                                            ->where('program_id',$data["budget_allocation"][0]["program_id"])
+                                                                            ->first();
+                                    @endphp
                                     @foreach($data["budget_allocation"] as $row)
                                         <?php
                                             $total_budget += $row["program_budget"];
                                         ?>
+
                                         <div class="col-12">
-                                            <span>{{ $row["budget_item"] }}</span>
+                                            @if($row["source_of_fund_classification"] == "GAA")
+                                                <span>{{ $row["budget_item"] }}</span>
+                                            @else
+                                                <span>{{ $row["source_of_fund_classification"] . '-' . $row["budget_item"] . ' (' . $row["purpose"] . ')' }}</span>
+                                                
+                                            @endif
                                             <span style="float:right;">₱ {{ number_format($row["program_budget"],2) }}</span>
                                         </div>
                                     @endforeach
                                 @else
                                     <div class="col-12">NO ALLOCATED BUDGET</div>
                                 @endif
+                                  @if($hasConapBudget)
+                                    <div class="col-12">
+                                        <span>TRANSFERED FUNDS FOR UTILIZATION NEXT YEAR</span>
+                                        <span style="float:right;">₱ -{{ number_format($hasConapBudget->amount,2) }}</span>
+                                    </div>
+                                  @endif
                                   <div class="separator separator-dashed separator-border-2 separator-primary mb-3 mt-6"></div>
                                   <div class="col-12">
                                     <span>TOTAL</span>
-                                    <span style="float:right;font-weight:bold;">₱ {{ number_format($total_budget,2) }}</span>
+                                    <span style="float:right;font-weight:bold;">₱ {{ number_format(($total_budget) - ($hasConapBudget ? $hasConapBudget->amount : 0),2) }}</span>
                                 </div>
                               </div>
                             </div>
@@ -224,7 +241,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - ($hasConapBudget ? $hasConapBudget->amount : 0) ,2) }}</span>
             </div>
         </div>
         <!--end: Item-->

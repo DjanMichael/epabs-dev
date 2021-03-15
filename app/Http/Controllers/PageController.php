@@ -147,7 +147,7 @@ class PageController extends Controller
             $data["user_info"] = null;
             $data["budget_allocation"] = null;
         }
-
+        // dd($data);
         // dd($req->isMobile);
         if($req->isMobile != null){
             broadcast(new LoginAuthenticationLog('Authentication',$req->isMobile))->toOthers();
