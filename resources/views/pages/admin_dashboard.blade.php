@@ -179,8 +179,9 @@
                                             @if($row["source_of_fund_classification"] == "GAA")
                                                 <span>{{ $row["budget_item"] }}</span>
                                             @else
-                                                <span>{{ $row["source_of_fund_classification"] . '-' . $row["budget_item"] . ' (' . $row["purpose"] . ')' }}</span>
-                                                
+                                                <span>
+                                                    {{  $row["budget_item"]  }}  {{  $row["purpose"] !='' ? ' (' . $row["purpose"] . ')' : '' }}
+                                                </span>
                                             @endif
                                             <span style="float:right;">₱ {{ number_format($row["program_budget"],2) }}</span>
                                         </div>
