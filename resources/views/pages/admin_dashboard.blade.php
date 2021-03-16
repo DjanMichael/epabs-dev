@@ -198,7 +198,8 @@
                                   <div class="separator separator-dashed separator-border-2 separator-primary mb-3 mt-6"></div>
                                   <div class="col-12">
                                     <span>TOTAL</span>
-                                    <span style="float:right;font-weight:bold;">₱ {{ number_format(($total_budget) - ($hasConapBudget ? $hasConapBudget->amount : 0),2) }}</span>
+
+                                    <span style="float:right;font-weight:bold;">₱ {{ number_format(($total_budget) - (isset($hasConapBudget) ? $hasConapBudget->amount : 0),2) }}</span>
                                 </div>
                               </div>
                             </div>
@@ -242,7 +243,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - ($hasConapBudget != null ? $hasConapBudget->amount : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - (isset($hasConapBudget) ? $hasConapBudget->amount : 0) ,2) }}</span>
             </div>
         </div>
         <!--end: Item-->
