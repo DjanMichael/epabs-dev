@@ -189,12 +189,12 @@
                                 @else
                                     <div class="col-12">NO ALLOCATED BUDGET</div>
                                 @endif
-                                  @if($hasConapBudget)
+                                  @isset($hasConapBudget)
                                     <div class="col-12">
                                         <span>TRANSFERED FUNDS FOR UTILIZATION NEXT YEAR</span>
                                         <span style="float:right;">₱ -{{ number_format($hasConapBudget->amount,2) }}</span>
                                     </div>
-                                  @endif
+                                  @endisset
                                   <div class="separator separator-dashed separator-border-2 separator-primary mb-3 mt-6"></div>
                                   <div class="col-12">
                                     <span>TOTAL</span>
