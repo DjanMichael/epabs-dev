@@ -163,12 +163,12 @@
                             <div class="p-5 bg-info text-light rounded">
                               <div class="row">
                                 <?php $total_budget = 0; ?>
-                                
+
                                 @if($data["budget_allocation"]  != null)
-                                    @php 
+                                    @php
                                          $hasConapBudget = \App\ProgramConap::where('year_id',$data["budget_allocation"][0]["year_id"])
                                                                             ->where('program_id',$data["budget_allocation"][0]["program_id"])
-                                                                            ->first();
+                                                                            ->first() ?? null;
                                     @endphp
                                     @foreach($data["budget_allocation"] as $row)
                                         <?php
@@ -242,7 +242,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - ($hasConapBudget ? $hasConapBudget->amount : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - ($hasConapBudget != null ? $hasConapBudget->amount : 0) ,2) }}</span>
             </div>
         </div>
         <!--end: Item-->
