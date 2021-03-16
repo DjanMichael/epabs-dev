@@ -34,7 +34,8 @@
                     </a>
                 </td>
                 <td style="display: none;" data-target="division">{{ $row["division"] }}</td>
-                <td style="display: none;" data-target="program">{{ $row["unit_program_id"] }}</td>
+                <td style="display: none;" data-target="section">{{ $row["section"] }}</td>
+                <td style="display: none;" data-target="program">{{ $row["program_name"] }}</td>
             </tr>
             @empty
             <tr>
