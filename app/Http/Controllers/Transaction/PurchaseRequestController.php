@@ -66,7 +66,7 @@ class PurchaseRequestController extends Controller
             $a->pr_code = $ppmp_code[0]->ppmp_code;
             $a->program_id =  $settings["select_program_id"];
             $a->year_id =  $settings["select_year"];
-            $a->agency = env('PR_AGENCY');
+            $a->agency = env('PR_AGENCY') ?? "DEPARTMENT OF HEALTH CENTER FOR HEALTH DEVELOPMENT - CARAGA";
             $a->office = $data["unit"]->section;
             $a->division = $data["unit"]->division;
             $a->pr_purpose ="NO PURPOSE ENCODED";
