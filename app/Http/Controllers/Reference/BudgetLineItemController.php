@@ -21,7 +21,9 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budget_line_item.budget_line_item', ['checker'=>'FUND']); }
 
     public function fetchBudgetLineItem(){
-        $data = BudgetLineItem::paginate(10);
+        $data = BudgetLineItem::where('sof_classification', '==', 'GAA')
+                                ->orWhere('sof_classification', '==', 'SAA')
+                                ->paginate(10);
         return $data;
     }
 
