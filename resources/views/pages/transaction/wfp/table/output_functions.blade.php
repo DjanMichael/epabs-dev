@@ -11,7 +11,7 @@
     @forelse ($output_functions as $row)
     <tr>
         <td>
-        <button class="btn btn-block btn-primary" onClick="select_output_functions('{{ $row->id }}','{{$row->description}}')" >SELECT</button>
+        <button class="btn btn-block btn-primary" onClick="select_output_functions('{{ $row->id }}',`{{$row->description}}`)" >SELECT</button>
         </td>
         <td>{{ $row->description }}</td>
         <td style="min-width:80px;">{{ $row->function_class }}</td>
