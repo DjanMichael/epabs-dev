@@ -178,16 +178,16 @@
                 <td style="width:20%">
                     Reviewed By:
                     <br><br><br><br>
-                    JEAN AGANAP-PINGAL, MPA
+                    ENGR. ARLENE D. SANTUA
                     <br>
-                    AO V/BUDGET OFFICER
+                    PLANNING OFFICER III
                     <br>
                     Date: _____________
                 </td>
                 <td style="width:20%">
                     Recommending Approval:
                     <br><br><br><br>
-                    GERNA M. MANATAD, MD, PHSA, MDM
+                    SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
                     DIRECTOR III
                     <br>

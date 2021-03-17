@@ -264,7 +264,7 @@
                     <br><br><br><br>
                     JEAN AGANAP-PINGAL, MPA
                     <br>
-                    AO V/BUDGET OFFICER
+                    BUDGET OFFICER
                     <br>
                     Date: _____________
                 </td>
