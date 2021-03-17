@@ -235,7 +235,7 @@
                         @if($unit == "ARD" || $unit == "PLANNING")
                             GERNA M. MANATAD, MD, PHSA, MDM
                             <br>
-                            OIC-DIRECTOR III
+                            DIRECTOR III
                         @endif
                         @if($unit == "RD")
                             CESAR C. CASSION, MD, MPH, CESO IV
@@ -273,7 +273,7 @@
                     <br><br><br><br>
                     SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
-                    OIC-DIRECTOR III
+                    DIRECTOR III
                     <br>
                     Date: _____________
                 </td>

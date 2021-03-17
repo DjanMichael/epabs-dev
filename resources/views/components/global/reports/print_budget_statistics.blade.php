@@ -132,7 +132,7 @@
                     <br><br><br><br>
                     SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
-                    OIC-DIRECTOR III
+                    DIRECTOR III
                     <br>
                     Date: _____________
                 </td>

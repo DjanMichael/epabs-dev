@@ -254,7 +254,7 @@
                     @if($unit == "ARD" || $unit == "PLANNING")
                         SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                         <br>
-                        OIC-DIRECTOR III
+                        DIRECTOR III
                     @endif
                     @if($unit == "RD")
                         CESAR C. CASSION, MD, MPH, CESO IV
