@@ -682,8 +682,7 @@ class WfpController extends Controller
             if(( $sum_used_budget_bli + $req->pi["cost"])  > $wfp_act->activity_cost){
                 return 'exceeds budget';
             }
-            $check_balance = BudgetAllocationUtilization::where('wfp_code',Crypt::decryptString($req->pi["wfp_code"]))
-                                                        ->where('budget_line_item_id',$req->pi["budget_line_item_id"])
+            $check_balance = BudgetAllocationUtilization::where('budget_line_item_id',$req->pi["budget_line_item_id"])
                                                         // ->where('balance_plan','>',$req->cost)
                                                         ->groupBy('budget_line_item_id')
                                                         ->first();
@@ -706,6 +705,14 @@ class WfpController extends Controller
                 {
                     $delete_existing = TablePiCateringBatches::where('pi_id',$req->id)->delete();
                     if($delete_existing){
+                        $b_no = $req->pi["batches"] - 0;
+                        for($i=1; $i <= $b_no; $i++){
+                            $wfp_batch = new TablePiCateringBatches;
+                            $wfp_batch->pi_id = $req->id;
+                            $wfp_batch->batch_no = $i;
+                            $wfp_batch->save();
+                        }
+                    }else{
                         $b_no = $req->pi["batches"] - 0;
                         for($i=1; $i <= $b_no; $i++){
                             $wfp_batch = new TablePiCateringBatches;
