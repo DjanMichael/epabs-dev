@@ -712,6 +712,14 @@ class WfpController extends Controller
                             $wfp_batch->batch_no = $i;
                             $wfp_batch->save();
                         }
+                    }else{
+                        $b_no = $req->pi["batches"] - 0;
+                        for($i=1; $i <= $b_no; $i++){
+                            $wfp_batch = new TablePiCateringBatches;
+                            $wfp_batch->pi_id = $req->id;
+                            $wfp_batch->batch_no = $i;
+                            $wfp_batch->save();
+                        }
                     }
                 }
                 return  $wfp_pi ? 'success' : 'failed';
