@@ -21,8 +21,8 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budget_line_item.budget_line_item', ['checker'=>'FUND']); }
 
     public function fetchBudgetLineItem(){
-        $data = BudgetLineItem::where('sof_classification', '==', 'GAA')
-                                ->orWhere('sof_classification', '==', 'SAA')
+        $data = BudgetLineItem::where('sof_classification', '=', 'GAA')
+                                ->orWhere('sof_classification', '=', 'SAA')
                                 ->paginate(10);
         return $data;
     }
@@ -46,14 +46,22 @@ class BudgetLineItemController extends Controller
         {
             $query = $request->q;
             if($query != ''){
-                $data = BudgetLineItem::where('budget_item' ,'LIKE', '%'. $query .'%')
-                                        ->orWhere('program_name', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('saa_ctrl_number', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('year', 'LIKE', '%'. $query .'%')
+                $data = BudgetLineItem::where(function($sql) use ($query) {
+                                            $sql->where('budget_item' ,'LIKE', '%'. $query .'%')
+                                                ->orWhere('program_name', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('saa_ctrl_number', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('year', 'LIKE', '%'. $query .'%');
+                                        })
+                                        ->where(function($sql) {
+                                            $sql->where('sof_classification', '=', 'GAA')
+                                                ->orWhere('sof_classification', '=', 'SAA');
+                                        })
                                         ->paginate(10);
             } else {
-                $data = BudgetLineItem::paginate(10);
+                $data =  BudgetLineItem::where('sof_classification', '=', 'GAA')
+                                        ->orWhere('sof_classification', '=', 'SAA')
+                                        ->paginate(10);
             }
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $data]);
         } else {
