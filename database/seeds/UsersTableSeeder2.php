@@ -355,7 +355,7 @@ class UsersTableSeeder2 extends Seeder
                 'id' => 27,
                 'name' => 'Arlene D. Santua',
                 'email' => 'arlene_santua76@yahoo.com.ph',
-                'username' => 'Arlene Santua',
+                'username' => 'admin_planning',
                 'role_id' => 1,
                 'email_verified_at' => NULL,
                 'password' => '$2y$10$ypK75rDbpZ0dreEdANU/t.OO7CfMV.yqqQT4Eo8B9ul6x1JZdITmy',
