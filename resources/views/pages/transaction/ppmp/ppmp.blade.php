@@ -49,7 +49,7 @@
                                 <div class="progress progress-xs mt-1 bg-info-o-60">
                                 <div class="progress-bar bg-info" id = "balance_progress" role="progressbar" style="width:0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>Utilized</span>
+                                <span class="card-title font-weight-bolder font-size-h6 mb-0  mt-4 text-hover-state-dark d-block"><i class="fas fa-money-bill text-danger mr-2"></i>System Encoded</span>
                                 <div class="font-weight-bold text-muted font-size-sm">
                                 <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2" id="utilize_amount">₱ 0.00</span> <span id="utilize_percentage">0%</span></div>
                                 <div class="progress progress-xs mt-1 bg-info-o-60">

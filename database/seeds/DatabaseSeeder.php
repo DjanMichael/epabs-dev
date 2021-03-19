@@ -41,5 +41,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(PrebuildProcurementSuppliesItems::class);
         // $this->call(GlobalSystemSettingsTableSeeder::class);
 
+        $this->call(RefInventoryClassification::class);
     }
 }
