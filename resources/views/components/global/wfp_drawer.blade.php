@@ -90,9 +90,50 @@
         <div class="col-12 col-md-4 mb-md-40" style="height:120px;"></div>
 
         @if(count($data["activities"]) <> 0)
+
+
         <div class="col-12 " style="position: relative;">
                 <div class="offcanvas-content pr-5 mr-n5" id="wfp_drawer_title">
-                    <div class="table-responsive-*">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <!--begin: Item-->
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                            <span class="mr-4">
+                                <i class="flaticon-piggy-bank icon-2x text-muted font-weight-bold"></i>
+                            </span>
+                            <div class="d-flex flex-column text-dark-75">
+                                <span class="font-weight-bolder font-size-sm">Total Budget Allocation</span>
+                                <span class="font-weight-bolder font-size-h5">
+                                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0),2) }}</span>
+                            </div>
+                        </div>
+                        <!--end: Item-->
+                        <!--begin: Item-->
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                            <span class="mr-4">
+                                <i class="flaticon-confetti icon-2x text-muted font-weight-bold"></i>
+                            </span>
+
+                            <div class="d-flex flex-column text-dark-75">
+                                <span class="font-weight-bolder font-size-sm">Total Budget Utilization</span>
+                                <span class="font-weight-bolder font-size-h5">
+                                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0),2) }}</span>
+                            </div>
+                        </div>
+                        <!--end: Item-->
+                        <!--begin: Item-->
+                        <div class="d-flex align-items-center flex-lg-fill mr-5 my-1">
+                            <span class="mr-4">
+                                <i class="flaticon-pie-chart icon-2x text-muted font-weight-bold"></i>
+                            </span>
+                            <div class="d-flex flex-column text-dark-75">
+                                <span class="font-weight-bolder font-size-sm">Balance</span>
+                                <span class="font-weight-bolder font-size-h5">
+                                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - (isset($hasConapBudget) ? $hasConapBudget->amount : 0) ,2) }}</span>
+                            </div>
+                        </div>
+                        <!--end: Item-->
+                    </div>
+                    <div class="table-responsive-* mt-2">
                         <table class="table table-sm table-bordered table-hover" class="wfp_table">
                             <thead style="text-align:center;" class="bg-secondary">
                                 <tr>
