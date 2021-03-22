@@ -97,6 +97,16 @@
             font-weight:bold;
             background-color:red;
         }
+
+        @media print {
+    img {
+        display: block;
+    }
+    img, table, ul, ol, .code-snippet {
+        page-break-inside: avoid;
+    }
+}
+
     </style>
 </head>
 <body >
@@ -306,10 +316,10 @@
             $hold_old="";
         ?>
         @forelse ($data["wfp_b"] as $row)
-        <?php
-            $sub_total_b += $row["activity_cost"];
-            $skip_td = 0;
-            if(count($data["wfp_b"]) > 1){
+            <?php
+                $sub_total_b += $row["activity_cost"];
+                $skip_td = 0;
+                if(count($data["wfp_b"]) > 1){
                     if( $i < count($data["wfp_b"])){
                         if($i == 0 || $row['out_function'] != $hold_old){
                             $skip_td = 1;
@@ -320,15 +330,15 @@
 
                     }
                 }
+                $i++;
+                $key = $row['out_function'] ;
+                $rowsc=count(collect($data['wfp_b'])->groupBy('out_function')["$key"]);
 
-            $i++;
-            $key = $row['out_function'] ;
-            $rowsc=count(collect($data['wfp_b'])->groupBy('out_function')["$key"]);
-        ?>
+            ?>
 
                 <tr class="t-row">
                     @if($skip_td == 1 || $rowsc == 1)
-                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
+                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!!  $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                     @endif
                     <td class="t-d" >{{ $row["out_activity"] }}</td>
                     <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
@@ -410,6 +420,16 @@
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a + $sub_total_b + $sub_total_c,2) }}</td>
             </tr>
         </table>
+        @php
+            $code = $data["wfp"]->code;
+            // dd($code);
+            // dd(substr($code,6,3));
+            $year = \App\RefYear::where('id',substr($code,6,3) -0)->first();
+            $status = \App\ZWfplogs::where('wfp_code',$code)->where('status','WFP')->orderBy('id','DESC')->first();
+
+        @endphp
+        <span style="font-size:11px;font-weight:bold;margin-left:6px;">Note: Work and Financial Plan {{ $year->year }} : {{ $status->remarks }}  <br>
+            &nbsp;&nbsp;SYSTEM GENERATED.</span>
     </main>
 </body>
 </html>
