@@ -15,7 +15,7 @@ class CreateTblWfpComments extends Migration
     {
         Schema::create('tbl_wfp_comments', function (Blueprint $table) {
             $table->id();
-            $table->string('wfp_code');
+            $table->longText('wfp_code');
             $table->integer('wfp_act_id');
             $table->integer('user_id');
             $table->integer('user_from');
