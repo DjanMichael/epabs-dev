@@ -229,9 +229,11 @@ class WfpController extends Controller
 
             $data["activities"] = WfpActivityInfo::where('code',$req->wfp_code)->get();
 
-            $year_id = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
-            $year_id = $year_id->select_year;
-            $year = RefYear::where('id',$year_id)->first();
+            // dd(substr($req->wfp_code,1,3) - 0);
+            // $year_id = GlobalSystemSettings::where('user_id',substr($req->wfp_code,0,3) - 0)->first();
+            // $year_id = $year_id->select_year;
+            // dd(substr($req->wfp_code,6,3) - 0);
+            $year = RefYear::where('id',substr($req->wfp_code,6,3) - 0)->first();
             // $status = ZWfpLogs::where('wfp_code',$req->wfp_code)->orderBy('created_at','DESC')->first();
 
             // if($status["status"] =='WFP' ){
@@ -262,6 +264,19 @@ class WfpController extends Controller
             //         $cmd["COMMENT"] = 0;
             //     }
             // }
+
+            $program_details = GlobalSystemSettings::where('user_id',substr($req->wfp_code,0,3) - 0)->first();
+            if($program_details){
+                $data["budget_allocation"] = BudgetAllocationUtilization::where('program_id', $program_details->select_program_id)
+                                                                        ->where('year_id',$program_details->select_year)
+                                                                        ->groupBy('program_id','budget_line_item_id')
+                                                                        ->get()->toArray();
+
+            }else{
+
+                $data["budget_allocation"] = null;
+            }
+
 
             $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->groupBy('wfp_act_id')
                                            ->get();
