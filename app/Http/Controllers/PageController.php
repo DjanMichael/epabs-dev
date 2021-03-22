@@ -17,6 +17,7 @@ use App\Views\WfpPpmpTotalCountByYear;
 use App\Views\BudgetExpenseClass;
 use App\Views\BudgetFunctionClass;
 use App\Views\GADBudgetSummary;
+use App\Views\BudgetLineItemSummary;
 class PageController extends Controller
 {
     public $pagination_user_wfp_status;
@@ -126,6 +127,20 @@ class PageController extends Controller
             abort(403);
         }
     }
+
+    public function getBLISummary()
+    {
+        $data =[];
+        $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
+
+        if($program){
+            $data["bli_summary"] = BudgetLineItemSummary::where('id',$program->select_year)->get()->toArray();
+        }else{
+            $data["bli_summary"] = [];
+        }
+        return view('components.global.bli_summary',['data'=>$data]);
+    }
+
     public function dashboard(Request $req){
         $data =[];
         $program = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();

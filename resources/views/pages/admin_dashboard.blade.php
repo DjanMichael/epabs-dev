@@ -632,6 +632,27 @@
         <div class="card card-custom gutter-b">
             <div class="card-header">
              <div class="card-title">
+                <h1> BUDGET LINE ITEM SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+             </div>
+            </div>
+            <div class="card-body">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true">
+                    <div class="timeline-items "  id="bli_summary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+             <div class="card-title">
               <h3 class="card-label">
                Event Logs
                <small>System Activity</small>
@@ -892,6 +913,22 @@ const primary = "#6993FF"
                     $("#total_gad_yes").html('₱ ' + nf.format(Number(gad_yes)));
                     $("#total_gad_no").html('₱ ' + nf.format(Number(gad_no)));
                     $("#GAD_total").html('₱ ' + nf.format(Number( gad_yes) + Number(gad_no)));
+
+
+                    var _url2 = "{{ route('get_bli_summary') }}";
+                    $.ajax({
+                        method:"GET",
+                        url: _url2,
+                        success:function(data)
+                        {
+                            document.getElementById('bli_summary').innerHTML = data;
+                        }
+                    })
+
+
+
+
+
 
                 },error:function(err){
                     console.log(err);
