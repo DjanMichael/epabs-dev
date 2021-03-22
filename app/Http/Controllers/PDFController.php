@@ -33,10 +33,13 @@ class PDFController extends Controller
         $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
         $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
-                                ->where('users.id',$data["wfp"]->user_id)->first();
-        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->orderBy('out_function')->get();
-        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->orderBy('out_function')->get();
-        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->orderBy('out_function')->get();
+                                    ->where('users.id',$data["wfp"]->user_id)->first();
+        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')
+                                        ->orderBy('out_function')->get();
+        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')
+                                        ->orderBy('out_function')->get();
+        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')
+                                        ->orderBy('out_function')->get();
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
@@ -55,9 +58,12 @@ class PDFController extends Controller
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
         $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
                                         ->where('users.id',$data["wfp"]->user_id)->first();
-        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->get();
-        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->get();
-        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->get();
+        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')
+                                            ->orderBy('out_function')->get();
+        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')
+                                            ->orderBy('out_function')->get();
+        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')
+                                            ->orderBy('out_function')->get();
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
