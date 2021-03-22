@@ -130,6 +130,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     //DASHBOARD
     Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
     Route::get('/system/get/user/wfp/status/list','PageController@getProgramStatusList')->name('get_program_wfp_status_list');
+    Route::get('/system/get/all/budget-line-item/summary','PageController@getBLISummary')->name('get_bli_summary');
 
     //CHAT
     Route::get('/system/get/user/messages/details/chatapp','ChatController@index')->name('r_chat');
