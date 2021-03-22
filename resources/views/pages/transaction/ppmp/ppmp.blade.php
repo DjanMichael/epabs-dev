@@ -240,80 +240,88 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-3">
                         <div class="row">
-                            <div class="col-6 col-md-3">January</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">January</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="jan_cart" onclick="addTotalQty('jan_cart')" onkeyup="addTotalQty('jan_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">Febuary</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">Febuary</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="feb_cart"onclick="addTotalQty('feb_cart')"  onkeyup="addTotalQty('feb_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">March</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">March</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="mar_cart" onclick="addTotalQty('mar_cart')"  onkeyup="addTotalQty('mar_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">April</div>
-                            <div class="col-6 col-md-3">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6">April</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="apr_cart" onclick="addTotalQty('apr_cart')"  onkeyup="addTotalQty('apr_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">May</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">May</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="may_cart" onclick="addTotalQty('may_cart')"  onkeyup="addTotalQty('may_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">June</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">June</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="june_cart" onclick="addTotalQty('june_cart')"  onkeyup="addTotalQty('june_cart')" class="form-control"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-3">
                         <div class="row">
-                            <div class="col-6 col-md-3">July</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">July</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="july_cart" onclick="addTotalQty('july_cart')"   onkeyup="addTotalQty('july_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">August</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">August</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="aug_cart" onclick="addTotalQty('aug_cart')"  onkeyup="addTotalQty('aug_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">September</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">September</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="sept_cart" onclick="addTotalQty('sept_cart')"  onkeyup="addTotalQty('sept_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">October</div>
-                            <div class="col-6 col-md-3">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6">October</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="oct_cart" onclick="addTotalQty('oct_cart')"  onkeyup="addTotalQty('oct_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">November</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">November</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="nov_cart" onclick="addTotalQty('nov_cart')"  onkeyup="addTotalQty('nov_cart')" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-3">December</div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-12 col-md-6">December</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <input type="number" value="0" id="dec_cart" onclick="addTotalQty('dec_cart')"  onkeyup="addTotalQty('dec_cart')" class="form-control"/>
                                 </div>
