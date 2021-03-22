@@ -66,8 +66,8 @@
                             </label>
                             <select class="form-control" id="gad_related">
                                 <option value=""></option>
-                                <option value="YES" {{ in_array($data["wfp_act"][0]->activity_gad_related,['YES',null]) ? 'selected' : '' }}>YES</option>
-                                <option value="NO" {{ in_array($data["wfp_act"][0]->activity_gad_related,['NO',null]) ? 'selected' : '' }}>NO</option>
+                                <option value="YES" {{ in_array($data["wfp_act"][0]->activity_gad_related ?? null,['YES']) ? 'selected' : '' }}>YES</option>
+                                <option value="NO" {{ in_array($data["wfp_act"][0]->activity_gad_related ?? null,['NO',null]) ? 'selected' : '' }}>NO</option>
                             </select>
                         </div>
                         <div class="col-md-3 col-6">

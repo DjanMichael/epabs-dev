@@ -527,7 +527,7 @@ class WfpController extends Controller
 
             if($check->out_function != null){
                 $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
-                ->where('tbl_wfp_activity.id','=',$req->wfp_id)->get();
+                                                ->where('tbl_wfp_activity.id','=',$req->wfp_id)->get();
 
                 $month_str = $data["wfp_act"][0]->activity_timeframe;
                 $data["activity_timeframe"] = [
