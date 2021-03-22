@@ -171,7 +171,14 @@
                         @endif
                     @endif
 
-                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                    @if($division == "RLED")
+                        GLENN H. TIANGHA, MD, MPH
+                        <br>
+                        RLED CHIEF
+                    @endif
+
+
+                    @if($division =="MSD" || $division =="HRDU" || $division =="PDOHO")
                         AILEEN A. SACOL, CPA, MMPSM
                         <br>
                         OIC - CHIEF ADMINISTRATIVE OFFICER
