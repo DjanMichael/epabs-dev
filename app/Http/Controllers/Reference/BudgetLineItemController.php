@@ -168,6 +168,13 @@ class BudgetLineItemController extends Controller
                             'year_id' => $request->year_id,
                             'allocation_amount' => $request->amount,
                             'status' => $request->status]);
+
+                        TableUnitBudgetAllocation::where('budget_line_item_id', '=', $request->id)
+                            ->update([                            
+                                'program_id' => $request->program,
+                                'unit_id' => $request->unit_id,
+                                'program_budget' => $request->amount,
+                                'year_id' => $request->year_id]);
                     }
 
                     return response()->json(['message'=>'Successfully updated data','type'=>'update']);
@@ -187,17 +194,15 @@ class BudgetLineItemController extends Controller
                     
                     $budget_id = RefBudgetLineItem::create($budget_item)->id;
 
-                    if ($request->fund_source == "SAA") { 
-                        $unit_budget_allocation = [
-                            'program_id' => $request->program,
-                            'unit_id' => $request->unit_id,
-                            'budget_line_item_id' => $budget_id,
-                            'program_budget' => $request->amount,
-                            'year_id' => $request->year_id
-                        ];
-                        TableUnitBudgetAllocation::create($unit_budget_allocation);
-                    }
-
+                    $unit_budget_allocation = [
+                        'program_id' => $request->program,
+                        'unit_id' => $request->unit_id,
+                        'budget_line_item_id' => $budget_id,
+                        'program_budget' => $request->amount,
+                        'year_id' => $request->year_id
+                    ];
+                    TableUnitBudgetAllocation::create($unit_budget_allocation);
+                    
                     return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
                 }
                 else {

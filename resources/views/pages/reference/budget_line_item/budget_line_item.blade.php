@@ -42,7 +42,7 @@
                             purpose:'', year :'', amount :'' };
 
             let rules = { fund_source :'required', budget_item :'required', program:'required', division:'required',
-                            saa_number:'required', purpose:'required', year :'required', amount :'required' };
+                            purpose:'required', year :'required', amount :'required' };
 
             var btn = KTUtil.getById("kt_btn_1");
             var btn_search = KTUtil.getById("btn_search");
@@ -118,12 +118,12 @@
                 var valueSelected  = optionSelected.val();
                 var textSelected   = optionSelected.text();
                 if (textSelected == 'SAA') {
-                    $(".form_budget_item").hide();
+                    $(".form_budget_item").show();
                     $(".form_division").show();
                     $(".form_section").show();
                     $(".form_program").show();
                     $(".form_year").show();
-                    $(".form_saa_number").show();
+                    $(".form_saa_number").hide();
                     $(".form_purpose").show();
                     $(".form_amount").show();
                 }
@@ -135,7 +135,7 @@
                     $(".form_section").hide();
                     $(".form_program").hide();
                     $(".form_saa_number").hide();
-                    $(".form_purpose").hide();
+                    $(".form_purpose").show();
                 }
                 else {
                     hideComponents();
@@ -213,13 +213,14 @@
                                         ? 0 : $("#section").val();
                     data.program = ($("#program").val() == "" && fund_source != 'SAA') 
                                         ? 0 : $("#program").val();            
-                    data.budget_item = ($("#budget_item").val() == "") ? $("#saa_control_number").val() : $("#budget_item").val();
+                    data.budget_item = $("#budget_item").val();
+                    // data.budget_item = ($("#budget_item").val() == "") ? $("#saa_control_number").val() : $("#budget_item").val();
                     data.year = $("#year").val();
-                    data.saa_number = ($("#saa_control_number").val() == "" && fund_source != 'SAA') 
-                                        ? "None" : $("#saa_control_number").val();
+                    data.saa_number = "";
+                    // data.saa_number = ($("#saa_control_number").val() == "" && fund_source != 'SAA') 
+                                        // ? "None" : $("#saa_control_number").val();
                     data.amount = $("#amount").val();
-                    data.purpose = ($("#purpose").val() == "" && fund_source != 'SAA')
-                                        ? "None" : $("#purpose").val();
+                    data.purpose = $("#purpose").val();
                     
                     let validation = new Validator(data, rules);
                     if (validation.passes()) {
@@ -262,7 +263,7 @@
                                     $('#'+id).children('td[data-target=program_name]').html(program);
                                     $('#'+id).children('td[data-target=year]').html(year);
                                     $('#'+id).children('td[data-target=saa_ctrl_number]').html(data.saa_number == 'None' ? '' : data.saa_number);
-                                    $('#'+id).children('td[data-target=purpose]').html(data.purpose == 'None' ? '' : data.purpose);
+                                    $('#'+id).children('td[data-target=purpose]').html(data.purpose);
                                     $('#'+id).children('td[data-target=amount]').html(ReplaceNumberWithCommas(data.amount));
                                     $('#'+id).children('td[data-target=status]').html('<span class="label label-inline label-light-'+ (status == "ACTIVE" ? "success" : "danger") +' font-weight-bold">'+status+'</span>');
                                     toastr.success(result['message']);
