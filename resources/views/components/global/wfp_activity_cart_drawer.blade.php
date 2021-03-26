@@ -57,7 +57,7 @@
                                     <span class="text-muted font-weight-bold">{{ $row->classification }}</span>
                                     </td>
                                     <td class="text-left">
-                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row->price) }}</span>
+                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">₱ {{ number_format($row->price,2) }}</span>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
