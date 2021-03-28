@@ -9,7 +9,7 @@
     <style>
            /* margin : top right bottom left */
         @page {
-            margin: 80px 30px 120px 30px;
+            margin: 80px 30px 140px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -287,16 +287,17 @@
                 $rowsc= count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
             ?>
                     <tr class="t-row">
-                        @if($skip_td == 1 || $rowsc == 1)
+                        {{-- @if($skip_td == 1 || $rowsc == 1)
                             <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                        @endif
+                        @endif --}}
+                        <td class="t-d txt-center">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                         <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                         <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                     </tr>
@@ -344,16 +345,17 @@
             ?>
 
                 <tr class="t-row">
-                    @if($skip_td == 1 || $rowsc == 1)
+                    {{-- @if($skip_td == 1 || $rowsc == 1)
                         <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!!  $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                    @endif
+                    @endif --}}
+                    <td class="t-d txt-center">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                     <td class="t-d" >{{ $row["out_activity"] }}</td>
                     <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                     <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                     <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                     <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                     <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                    <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                    <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                     <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                     <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                 </tr>
@@ -400,16 +402,17 @@
                 ?>
 
                     <tr class="t-row">
-                        @if($skip_td == 1 || $rowsc == 1)
+                        {{-- @if($skip_td == 1 || $rowsc == 1)
                             <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                        @endif
+                        @endif --}}
+                        <td class="t-d txt-center" >{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important;">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                         <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                         <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                     </tr>
