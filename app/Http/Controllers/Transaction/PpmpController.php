@@ -44,7 +44,7 @@ class PpmpController extends Controller
             'balance' => 0,
             'balance_amount_p' => 0
         ];
-        $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->get()->toArray();
+        $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->orderByRaw('classification ASC')->get()->toArray();
         for($i =0 ; $i < count($data["ppmp_item_category"])  ; $i++ ){
             $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)
                                                             ->where('classification','=',$data["ppmp_item_category"][$i]["classification"])
@@ -61,7 +61,7 @@ class PpmpController extends Controller
     public function product_item_index(){
         $data=[];
 
-        $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->get()->toArray();
+        $data["ppmp_item_category"] = ProcurementMedSupplies::select(DB::raw('classification'))->distinct('classification')->orderByRaw('classification ASC')->get()->toArray();
         for($i =0 ; $i < count($data["ppmp_item_category"])  ; $i++ ){
             $data["ppmp_item_category"][$i]["item_count"] = ProcurementMedSupplies::where('price','!=',0)->where('classification','=',$data["ppmp_item_category"][$i]["classification"])->count();
         }

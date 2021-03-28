@@ -16,7 +16,7 @@
         <span class="font-weight-bolder d-block font-size-lg">{{ $row["unit_name"] }}</span>
     </td>
     <td>
-        <span class="text-primary font-weight-bolder d-block font-size-lg">₱ {{ number_format($row["price"]) }}</span>
+        <span class="text-primary font-weight-bolder d-block font-size-lg">₱ {{ number_format($row["price"],2) }}</span>
     </td>
 </tr>
 @empty
