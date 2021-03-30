@@ -136,18 +136,33 @@ class PDFController extends Controller
 
     public function printPR(Request $req){
         $data = [];
+        $data["pr_drum"] = [];
         $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)
                                             ->first();
         $data["pr_details"] = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)
-                                        ->get()->groupBy('item_classification','')->toArray();
-
-
-
+                                            ->where('item_classification','!=','DRUGS AND MEDICINES')
+                                            ->get()->groupBy('item_classification','');
+        $data["pr_drum"] = ProgramPurchaseRequestDetails::join('tbl_procurement_medicine','tbl_procurement_medicine.id','tbl_pr_details.item_id')
+                                                        ->join('ref_dm_category','ref_dm_category.id','tbl_procurement_medicine.category_id')
+                                                        ->where('pr_code',$req->pr_code)
+                                                        ->where('item_classification','DRUGS AND MEDICINES')
+                                                        ->get()->groupBy('category');
+        $isFoundDRUM = false;
+        $temp = $data["pr_details"]->map(function ($data) use($isFoundDRUM) {
+            foreach ($data as $row)
+            {
+                if($row["item_type"] == "DRUM"){
+                    return true;
+                }
+            }
+        });
+        // dd($data["pr_drum"]);
+        $data["pr_template"] = ($temp->flatten()->toArray()[0] ?? 'drum' != null) ? 'DRUM_TEMPLATE' : 'SUPPLIES_TEMPLATE';
 
         return PDF::loadView('components.global.reports.print_program_pr',['data' => $data])
                     ->setPaper('legal', 'portrait')
                     ->stream('PR'. $req->pr_code .'.pdf');
-        // return view('components.global.reports.print_program_pr');
+        // return view('components.global.reports.print_program_pr',['data'=> $data]);
     }
 
 
