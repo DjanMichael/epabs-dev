@@ -1,20 +1,25 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\GlobalSystemSettings;
-class global_system_settings extends Seeder
+
+class GlobalSystemSettingsTableSeeder extends Seeder
 {
+
     /**
-     * Run the database seeds.
+     * Auto generated seed file
      *
      * @return void
      */
     public function run()
     {
-    \DB::table('global_system_settings')->delete();
+        
 
-    \DB::table('global_system_settings')->insert(array (
-            0 =>
+        \DB::table('global_system_settings')->delete();
+        
+        \DB::table('global_system_settings')->insert(array (
+            0 => 
             array (
                 'id' => 1,
                 'user_id' => 2,
@@ -24,7 +29,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 11:18:47',
                 'updated_at' => '2021-02-10 08:43:45',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'user_id' => 3,
@@ -34,7 +39,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 11:50:34',
                 'updated_at' => '2021-01-27 14:56:32',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'user_id' => 4,
@@ -44,7 +49,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 11:50:47',
                 'updated_at' => '2021-02-11 08:43:51',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'user_id' => 5,
@@ -54,7 +59,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 12:02:25',
                 'updated_at' => '2021-02-10 11:02:49',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'user_id' => 7,
@@ -64,7 +69,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 12:40:27',
                 'updated_at' => '2021-02-09 11:07:01',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'user_id' => 8,
@@ -74,7 +79,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 12:50:34',
                 'updated_at' => '2021-02-09 10:53:18',
             ),
-            6 =>
+            6 => 
             array (
                 'id' => 7,
                 'user_id' => 9,
@@ -84,7 +89,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 13:16:21',
                 'updated_at' => '2021-02-10 11:42:43',
             ),
-            7 =>
+            7 => 
             array (
                 'id' => 8,
                 'user_id' => 10,
@@ -94,7 +99,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 13:19:20',
                 'updated_at' => '2021-02-11 09:15:50',
             ),
-            8 =>
+            8 => 
             array (
                 'id' => 9,
                 'user_id' => 11,
@@ -104,7 +109,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 14:35:24',
                 'updated_at' => '2021-02-10 12:02:04',
             ),
-            9 =>
+            9 => 
             array (
                 'id' => 10,
                 'user_id' => 12,
@@ -114,7 +119,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 14:35:39',
                 'updated_at' => '2021-02-10 12:02:12',
             ),
-            10 =>
+            10 => 
             array (
                 'id' => 11,
                 'user_id' => 13,
@@ -124,7 +129,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 14:43:59',
                 'updated_at' => '2021-02-10 12:22:17',
             ),
-            11 =>
+            11 => 
             array (
                 'id' => 12,
                 'user_id' => 14,
@@ -134,7 +139,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 14:46:23',
                 'updated_at' => '2021-02-09 11:25:23',
             ),
-            12 =>
+            12 => 
             array (
                 'id' => 14,
                 'user_id' => 16,
@@ -144,7 +149,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-11 15:40:29',
                 'updated_at' => '2021-02-11 09:25:18',
             ),
-            13 =>
+            13 => 
             array (
                 'id' => 15,
                 'user_id' => 17,
@@ -154,7 +159,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-12 08:27:42',
                 'updated_at' => '2021-02-11 09:01:48',
             ),
-            14 =>
+            14 => 
             array (
                 'id' => 16,
                 'user_id' => 18,
@@ -164,7 +169,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-12 13:16:06',
                 'updated_at' => '2021-02-10 13:47:34',
             ),
-            15 =>
+            15 => 
             array (
                 'id' => 17,
                 'user_id' => 19,
@@ -174,7 +179,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-12 14:38:45',
                 'updated_at' => '2021-01-12 14:48:37',
             ),
-            16 =>
+            16 => 
             array (
                 'id' => 18,
                 'user_id' => 20,
@@ -184,7 +189,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-12 15:01:42',
                 'updated_at' => '2021-01-12 15:01:42',
             ),
-            17 =>
+            17 => 
             array (
                 'id' => 19,
                 'user_id' => 1,
@@ -194,7 +199,7 @@ class global_system_settings extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-02-17 00:04:16',
             ),
-            18 =>
+            18 => 
             array (
                 'id' => 20,
                 'user_id' => 21,
@@ -204,7 +209,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 09:24:18',
                 'updated_at' => '2021-01-13 12:56:14',
             ),
-            19 =>
+            19 => 
             array (
                 'id' => 21,
                 'user_id' => 22,
@@ -214,7 +219,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 10:59:44',
                 'updated_at' => '2021-02-11 09:23:55',
             ),
-            20 =>
+            20 => 
             array (
                 'id' => 22,
                 'user_id' => 23,
@@ -224,7 +229,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:30:23',
                 'updated_at' => '2021-01-13 15:30:23',
             ),
-            21 =>
+            21 => 
             array (
                 'id' => 23,
                 'user_id' => 24,
@@ -234,7 +239,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:34:55',
                 'updated_at' => '2021-01-25 22:28:37',
             ),
-            22 =>
+            22 => 
             array (
                 'id' => 24,
                 'user_id' => 25,
@@ -244,7 +249,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:38:09',
                 'updated_at' => '2021-02-11 09:22:17',
             ),
-            23 =>
+            23 => 
             array (
                 'id' => 25,
                 'user_id' => 26,
@@ -254,7 +259,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:40:46',
                 'updated_at' => '2021-02-10 09:16:11',
             ),
-            24 =>
+            24 => 
             array (
                 'id' => 26,
                 'user_id' => 27,
@@ -264,7 +269,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:43:21',
                 'updated_at' => '2021-01-27 14:34:04',
             ),
-            25 =>
+            25 => 
             array (
                 'id' => 27,
                 'user_id' => 28,
@@ -274,7 +279,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:47:50',
                 'updated_at' => '2021-02-09 14:43:57',
             ),
-            26 =>
+            26 => 
             array (
                 'id' => 28,
                 'user_id' => 29,
@@ -284,7 +289,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:52:54',
                 'updated_at' => '2021-01-13 15:52:54',
             ),
-            27 =>
+            27 => 
             array (
                 'id' => 29,
                 'user_id' => 30,
@@ -294,7 +299,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:53:38',
                 'updated_at' => '2021-02-11 13:22:41',
             ),
-            28 =>
+            28 => 
             array (
                 'id' => 30,
                 'user_id' => 31,
@@ -304,7 +309,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 15:59:27',
                 'updated_at' => '2021-01-13 15:59:27',
             ),
-            29 =>
+            29 => 
             array (
                 'id' => 31,
                 'user_id' => 32,
@@ -314,7 +319,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 16:05:59',
                 'updated_at' => '2021-02-10 09:33:03',
             ),
-            30 =>
+            30 => 
             array (
                 'id' => 32,
                 'user_id' => 33,
@@ -324,7 +329,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 16:07:09',
                 'updated_at' => '2021-02-09 16:03:02',
             ),
-            31 =>
+            31 => 
             array (
                 'id' => 33,
                 'user_id' => 34,
@@ -334,7 +339,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 16:08:38',
                 'updated_at' => '2021-02-09 13:55:34',
             ),
-            32 =>
+            32 => 
             array (
                 'id' => 34,
                 'user_id' => 35,
@@ -344,7 +349,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 16:10:14',
                 'updated_at' => '2021-02-11 13:24:50',
             ),
-            33 =>
+            33 => 
             array (
                 'id' => 35,
                 'user_id' => 36,
@@ -354,7 +359,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-13 16:13:52',
                 'updated_at' => '2021-01-13 16:13:52',
             ),
-            34 =>
+            34 => 
             array (
                 'id' => 36,
                 'user_id' => 37,
@@ -364,7 +369,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-14 13:55:06',
                 'updated_at' => '2021-02-09 15:08:41',
             ),
-            35 =>
+            35 => 
             array (
                 'id' => 37,
                 'user_id' => 38,
@@ -374,7 +379,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-14 14:25:47',
                 'updated_at' => '2021-01-14 14:25:47',
             ),
-            36 =>
+            36 => 
             array (
                 'id' => 38,
                 'user_id' => 39,
@@ -384,7 +389,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-14 14:38:38',
                 'updated_at' => '2021-01-14 14:38:38',
             ),
-            37 =>
+            37 => 
             array (
                 'id' => 39,
                 'user_id' => 40,
@@ -394,7 +399,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-15 13:38:38',
                 'updated_at' => '2021-02-13 12:58:37',
             ),
-            38 =>
+            38 => 
             array (
                 'id' => 40,
                 'user_id' => 41,
@@ -404,7 +409,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-19 14:57:51',
                 'updated_at' => '2021-01-19 14:57:51',
             ),
-            39 =>
+            39 => 
             array (
                 'id' => 41,
                 'user_id' => 42,
@@ -414,7 +419,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-01-20 09:24:07',
                 'updated_at' => '2021-01-20 09:27:19',
             ),
-            40 =>
+            40 => 
             array (
                 'id' => 42,
                 'user_id' => 43,
@@ -424,7 +429,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-03 09:47:02',
                 'updated_at' => '2021-02-03 09:47:02',
             ),
-            41 =>
+            41 => 
             array (
                 'id' => 43,
                 'user_id' => 44,
@@ -434,7 +439,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 10:46:00',
                 'updated_at' => '2021-02-09 10:46:00',
             ),
-            42 =>
+            42 => 
             array (
                 'id' => 44,
                 'user_id' => 45,
@@ -444,7 +449,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 10:46:56',
                 'updated_at' => '2021-02-09 10:46:56',
             ),
-            43 =>
+            43 => 
             array (
                 'id' => 45,
                 'user_id' => 46,
@@ -454,7 +459,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 11:09:06',
                 'updated_at' => '2021-02-10 13:49:23',
             ),
-            44 =>
+            44 => 
             array (
                 'id' => 46,
                 'user_id' => 47,
@@ -464,7 +469,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 11:12:53',
                 'updated_at' => '2021-02-10 14:58:50',
             ),
-            45 =>
+            45 => 
             array (
                 'id' => 47,
                 'user_id' => 48,
@@ -474,7 +479,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 11:46:22',
                 'updated_at' => '2021-02-09 11:46:22',
             ),
-            46 =>
+            46 => 
             array (
                 'id' => 48,
                 'user_id' => 49,
@@ -484,7 +489,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 13:08:32',
                 'updated_at' => '2021-02-10 14:58:07',
             ),
-            47 =>
+            47 => 
             array (
                 'id' => 49,
                 'user_id' => 50,
@@ -494,7 +499,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 14:46:39',
                 'updated_at' => '2021-02-09 15:05:47',
             ),
-            48 =>
+            48 => 
             array (
                 'id' => 50,
                 'user_id' => 51,
@@ -504,7 +509,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 14:49:46',
                 'updated_at' => '2021-02-09 15:03:23',
             ),
-            49 =>
+            49 => 
             array (
                 'id' => 51,
                 'user_id' => 52,
@@ -514,7 +519,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 14:50:03',
                 'updated_at' => '2021-02-09 16:13:35',
             ),
-            50 =>
+            50 => 
             array (
                 'id' => 52,
                 'user_id' => 53,
@@ -524,7 +529,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-09 15:12:38',
                 'updated_at' => '2021-02-09 15:14:28',
             ),
-            51 =>
+            51 => 
             array (
                 'id' => 53,
                 'user_id' => 54,
@@ -534,7 +539,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-10 09:16:49',
                 'updated_at' => '2021-02-10 09:23:51',
             ),
-            52 =>
+            52 => 
             array (
                 'id' => 54,
                 'user_id' => 55,
@@ -544,7 +549,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-10 10:01:43',
                 'updated_at' => '2021-02-10 10:02:42',
             ),
-            53 =>
+            53 => 
             array (
                 'id' => 55,
                 'user_id' => 56,
@@ -554,7 +559,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-10 10:41:30',
                 'updated_at' => '2021-02-10 16:48:51',
             ),
-            54 =>
+            54 => 
             array (
                 'id' => 56,
                 'user_id' => 57,
@@ -564,7 +569,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-10 11:32:42',
                 'updated_at' => '2021-02-10 12:21:54',
             ),
-            55 =>
+            55 => 
             array (
                 'id' => 57,
                 'user_id' => 59,
@@ -574,7 +579,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-10 12:46:17',
                 'updated_at' => '2021-02-10 13:20:41',
             ),
-            56 =>
+            56 => 
             array (
                 'id' => 58,
                 'user_id' => 60,
@@ -584,7 +589,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 09:20:15',
                 'updated_at' => '2021-02-11 09:20:15',
             ),
-            57 =>
+            57 => 
             array (
                 'id' => 59,
                 'user_id' => 61,
@@ -594,7 +599,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:05:16',
                 'updated_at' => '2021-02-11 13:32:25',
             ),
-            58 =>
+            58 => 
             array (
                 'id' => 60,
                 'user_id' => 62,
@@ -604,7 +609,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:19:03',
                 'updated_at' => '2021-02-11 13:37:35',
             ),
-            59 =>
+            59 => 
             array (
                 'id' => 61,
                 'user_id' => 63,
@@ -614,7 +619,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:19:22',
                 'updated_at' => '2021-02-11 13:28:51',
             ),
-            60 =>
+            60 => 
             array (
                 'id' => 62,
                 'user_id' => 64,
@@ -624,7 +629,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:23:32',
                 'updated_at' => '2021-02-11 13:23:32',
             ),
-            61 =>
+            61 => 
             array (
                 'id' => 63,
                 'user_id' => 65,
@@ -634,7 +639,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:23:55',
                 'updated_at' => '2021-02-11 13:30:35',
             ),
-            62 =>
+            62 => 
             array (
                 'id' => 64,
                 'user_id' => 66,
@@ -644,7 +649,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:25:14',
                 'updated_at' => '2021-02-11 13:32:29',
             ),
-            63 =>
+            63 => 
             array (
                 'id' => 65,
                 'user_id' => 67,
@@ -654,7 +659,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:28:38',
                 'updated_at' => '2021-02-11 13:30:21',
             ),
-            64 =>
+            64 => 
             array (
                 'id' => 66,
                 'user_id' => 68,
@@ -664,7 +669,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:29:21',
                 'updated_at' => '2021-02-11 13:32:43',
             ),
-            65 =>
+            65 => 
             array (
                 'id' => 67,
                 'user_id' => 69,
@@ -674,7 +679,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:30:33',
                 'updated_at' => '2021-02-11 13:33:12',
             ),
-            66 =>
+            66 => 
             array (
                 'id' => 68,
                 'user_id' => 70,
@@ -684,7 +689,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:37:17',
                 'updated_at' => '2021-02-11 13:37:17',
             ),
-            67 =>
+            67 => 
             array (
                 'id' => 69,
                 'user_id' => 71,
@@ -694,7 +699,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 13:39:10',
                 'updated_at' => '2021-02-11 13:40:24',
             ),
-            68 =>
+            68 => 
             array (
                 'id' => 70,
                 'user_id' => 72,
@@ -704,7 +709,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 14:31:29',
                 'updated_at' => '2021-02-11 15:00:36',
             ),
-            69 =>
+            69 => 
             array (
                 'id' => 71,
                 'user_id' => 73,
@@ -714,7 +719,7 @@ class global_system_settings extends Seeder
                 'created_at' => '2021-02-11 14:43:31',
                 'updated_at' => '2021-02-11 15:00:37',
             ),
-            70 =>
+            70 => 
             array (
                 'id' => 72,
                 'user_id' => 74,
@@ -725,4 +730,7 @@ class global_system_settings extends Seeder
                 'updated_at' => '2021-02-11 14:58:06',
             ),
         ));
+        
+        
+    }
 }

@@ -38,6 +38,19 @@ class PurchaseRequestController extends Controller
         return view('pages.transaction.pr.pr',['data' =>$data]);
     }
 
+    public function savePurpose(Request $req)
+    {
+        $pr = ProgramPurchaseRequest::where('pr_code',$req->prcode)->first();
+        $pr->pr_purpose = $req->purpose;
+        return $pr->save();
+    }
+
+    public function getPRPurpose(Request $req)
+    {
+        $pr = ProgramPurchaseRequest::where('pr_code',$req->prcode)->first();
+        return $pr->pr_purpose ?? null;
+    }
+
     public function redirectCreatePurchaseRequest(){
         $data =[];
         $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
@@ -53,10 +66,10 @@ class PurchaseRequestController extends Controller
             $a->pr_code = $ppmp_code[0]->ppmp_code;
             $a->program_id =  $settings["select_program_id"];
             $a->year_id =  $settings["select_year"];
-            $a->agency = env('PR_AGENCY');
+            $a->agency = env('PR_AGENCY') ?? "DEPARTMENT OF HEALTH CENTER FOR HEALTH DEVELOPMENT - CARAGA";
             $a->office = $data["unit"]->section;
             $a->division = $data["unit"]->division;
-            $a->pr_purpose ="test";
+            $a->pr_purpose ="NO PURPOSE ENCODED";
             $a->prepared_user_name = Auth::user()->name;
             $a->prepared_user_id = Auth::user()->id;
             $save_1 = $a->save();
@@ -68,6 +81,7 @@ class PurchaseRequestController extends Controller
             $b->save();
 
             if($save_1){
+                $data["prcode"] = $a->pr_code;
                 return view('pages.transaction.pr.pr_create',['data'=> $data]);
             }
         }else{
@@ -319,7 +333,7 @@ class PurchaseRequestController extends Controller
 
     public function editPr(Request $req){
         $data = [];
-        $data['ppmp_code'] = $req->pr_code;
+        $data['prcode'] = $req->pr_code;
         return view('pages.transaction.pr.pr_create',['data'=>$data]);
     }
 

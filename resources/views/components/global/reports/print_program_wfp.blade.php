@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>WFP</title>
     <link rel="shortcut icon" href="{{ asset('dist/assets/media/logos/favicon.ico') }}"/>
-
     <style>
            /* margin : top right bottom left */
         @page {
-            margin: 80px 30px 120px 30px;
+            margin: 80px 30px 140px 30px;
         }
         *{
             font-family: Arial, Helvetica, sans-serif;
@@ -99,6 +97,16 @@
             font-weight:bold;
             background-color:red;
         }
+
+        @media print {
+    img {
+        display: block;
+    }
+    img, table, ul, ol, .code-snippet {
+        page-break-inside: avoid;
+    }
+}
+
     </style>
 </head>
 <body >
@@ -152,18 +160,25 @@
                     ?>
                     @if($division =="RD/ARD")
                         @if($unit == "ARD" || $unit == "PLANNING")
-                            GERNA M. MANATAD, MD, PHSAE, MDM
+                            SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                             <br>
-                            OIC-DIRECTOR III
+                            DIRECTOR III
                         @endif
                         @if($unit == "RD")
-                            JOSE R. LLACUNA JR., MD, MPH, CESO III
+                            CESAR C. CASSION, MD, MPH, CESO IV
                             <br>
                             DIRECTOR IV
                         @endif
                     @endif
 
-                    @if($division =="RLED" || $division =="MSD" || $division =="HRDU" || $division =="PDOHO")
+                    @if($division == "RLED")
+                        GLENN H. TIANGHA, MD, MPH
+                        <br>
+                        RLED CHIEF
+                    @endif
+
+
+                    @if($division =="MSD" || $division =="HRDU" || $division =="PDOHO")
                         AILEEN A. SACOL, CPA, MMPSM
                         <br>
                         OIC - CHIEF ADMINISTRATIVE OFFICER
@@ -180,25 +195,25 @@
                 <td style="width:20%">
                     Reviewed By:
                     <br><br><br><br>
-                    JEAN AGANAP-PINGAL, MPA
+                    ENGR. ARLENE D. SANTUA
                     <br>
-                    AO V/BUDGET OFFICER
+                    PLANNING OFFICER III
                     <br>
                     Date: _____________
                 </td>
                 <td style="width:20%">
                     Recommending Approval:
                     <br><br><br><br>
-                    GERNA M. MANATAD, MD, PHSA, MDM
+                    SADAILA K. RAKI-IN, MD, MCHM, MDM, CESE
                     <br>
-                    OIC-DIRECTOR III
+                    DIRECTOR III
                     <br>
                     Date: _____________
                 </td>
                 <td style="width:20%">
                     Approved By:
                     <br><br><br><br>
-                    JOSE R. LLACUNA JR., MD, MPH, CESO III
+                    CESAR C. CASSION, MD, MPH, CESO IV
                     <br>
                     DIRECTOR IV
                     <br>
@@ -272,16 +287,17 @@
                 $rowsc= count(collect($data['wfp_a'])->groupBy('out_function')["$key"]);
             ?>
                     <tr class="t-row">
-                        @if($skip_td == 1 || $rowsc == 1)
+                        {{-- @if($skip_td == 1 || $rowsc == 1)
                             <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                        @endif
+                        @endif --}}
+                        <td class="t-d txt-center">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                         <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                         <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                     </tr>
@@ -308,10 +324,10 @@
             $hold_old="";
         ?>
         @forelse ($data["wfp_b"] as $row)
-        <?php
-            $sub_total_b += $row["activity_cost"];
-            $skip_td = 0;
-            if(count($data["wfp_b"]) > 1){
+            <?php
+                $sub_total_b += $row["activity_cost"];
+                $skip_td = 0;
+                if(count($data["wfp_b"]) > 1){
                     if( $i < count($data["wfp_b"])){
                         if($i == 0 || $row['out_function'] != $hold_old){
                             $skip_td = 1;
@@ -322,23 +338,24 @@
 
                     }
                 }
+                $i++;
+                $key = $row['out_function'] ;
+                $rowsc=count(collect($data['wfp_b'])->groupBy('out_function')["$key"]);
 
-            $i++;
-            $key = $row['out_function'] ;
-            $rowsc=count(collect($data['wfp_b'])->groupBy('out_function')["$key"]);
-        ?>
+            ?>
 
                 <tr class="t-row">
-                    @if($skip_td == 1 || $rowsc == 1)
-                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                    @endif
+                    {{-- @if($skip_td == 1 || $rowsc == 1)
+                        <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!!  $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
+                    @endif --}}
+                    <td class="t-d txt-center">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                     <td class="t-d" >{{ $row["out_activity"] }}</td>
                     <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                     <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                     <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                     <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                     <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                    <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                    <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                     <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                     <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                 </tr>
@@ -385,16 +402,17 @@
                 ?>
 
                     <tr class="t-row">
-                        @if($skip_td == 1 || $rowsc == 1)
+                        {{-- @if($skip_td == 1 || $rowsc == 1)
                             <td class="t-d txt-center" rowspan="{{ $rowsc }}">{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
-                        @endif
+                        @endif --}}
+                        <td class="t-d txt-center" >{!! $instance_wfp_info->getOutputFunctionById($row["out_function"]) !!}</td>
                         <td class="t-d" >{{ $row["out_activity"] }}</td>
                         <td class="t-d txt-center">{{ $a->activityTimeFrameConvertToMonths($row["activity_timeframe"]) }}</td>
                         <td class="t-d txt-center">{{ $row["target_q1"] ? $row["target_q1"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q2"] ? $row["target_q2"] : ''}}</td>
                         <td class="t-d txt-center">{{ $row["target_q3"] ? $row["target_q3"] : '' }}</td>
                         <td class="t-d txt-center">{{ $row["target_q4"] ? $row["target_q4"] : ''}}</td>
-                        <td class="t-d"><span style="font-family: DejaVu Sans !important">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
+                        <td class="t-d" style="text-align:right;"><span style="font-family: DejaVu Sans !important;">&#8369;</span> {{ number_format($row["activity_cost"],2) }}</td>
                         <td class="t-d txt-center">{{ $row["sof_classification"] }}</td>
                         <td class="t-d txt-center">{{ $row["responsible_person"] }}</td>
                     </tr>
@@ -412,6 +430,16 @@
                 <td class="t-d" style="font-family: DejaVu Sans !important" colspan="3">&#8369; {{ number_format($sub_total_a + $sub_total_b + $sub_total_c,2) }}</td>
             </tr>
         </table>
+        @php
+            $code = $data["wfp"]->code;
+            // dd($code);
+            // dd(substr($code,6,3));
+            $year = \App\RefYear::where('id',substr($code,6,3) -0)->first();
+            $status = \App\ZWfplogs::where('wfp_code',$code)->where('status','WFP')->orderBy('id','DESC')->first();
+
+        @endphp
+        <span style="font-size:11px;font-weight:bold;margin-left:6px;">Note: Work and Financial Plan {{ $year->year }} : {{ $status->remarks }}  <br>
+            &nbsp;&nbsp;SYSTEM GENERATED.</span>
     </main>
 </body>
 </html>

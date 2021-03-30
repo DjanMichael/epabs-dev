@@ -25,11 +25,11 @@ class ProcurementMedicineController extends Controller
 
     public function getProcurementMedicineByPage(Request $request){
         $isAjaxRequest = $request->ajax();
-        $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->where('year_id',$settings->select_year)->first();
         if($isAjaxRequest) {
+            $settings = GlobalSystemSettings::where('user_id',Auth::user()->id)->first();
             $data = ProcurementMedSupplies::where('item_type', 'DRUM')->where('year_id',$settings->select_year)->paginate(10);
-            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data]);
-        }else{
+            return view('pages.reference.procurement.table.display_item',['procurement_item'=> $data, 'checker'=>'MEDS']);
+        } else {
             abort(403);
         }
     }

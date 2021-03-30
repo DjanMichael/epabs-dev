@@ -17,8 +17,9 @@ class CreateTblProgramConap extends Migration
             $table->id();
             $table->integer('program_id')->nullable(false);
             $table->integer('year_id')->nullable(false);
+            $table->integer('year_forwarded')->nullable(false);
             $table->decimal('amount',10,2)->nullable(false);
-            $table->string('bli_distribution')->nullable(false);
+            $table->longText('bli_distribution')->nullable(false);
             $table->timestamps();
         });
     }

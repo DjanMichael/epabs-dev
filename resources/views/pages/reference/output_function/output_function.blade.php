@@ -70,15 +70,17 @@
                     method: 'GET'
                 }).done(function(data) {
                     document.getElementById('dynamic_content').innerHTML= data;
-                    // if (id) {
+                    if (id) {
                         $('#output_function_id').val(id);
                         $("#function_deliverables option:contains(" + function_class +")").attr("selected", true);
                         $('#description').val(description);
                         $("#program option:contains(" + program +")").attr("selected", true);
-                        $('.div_status').css("display", (id == null) ? 'none' : '');
                         $('#chk_status').prop('checked', status == 'ACTIVE' ? false : true).trigger('click');
-
-                    // }
+                    }
+                    else {
+                        $('#chk_status').prop('checked', true).trigger('click');
+                    }
+                    $('.div_status').css("display", (id == null) ? 'none' : '');
                     $('#modal_reference').modal('toggle');
                 });
             });

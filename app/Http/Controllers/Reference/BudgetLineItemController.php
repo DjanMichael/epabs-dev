@@ -21,7 +21,9 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budget_line_item.budget_line_item', ['checker'=>'FUND']); }
 
     public function fetchBudgetLineItem(){
-        $data = BudgetLineItem::paginate(10);
+        $data = BudgetLineItem::where('sof_classification', '=', 'GAA')
+                                ->orWhere('sof_classification', '=', 'SAA')
+                                ->paginate(10);
         return $data;
     }
 
@@ -44,14 +46,22 @@ class BudgetLineItemController extends Controller
         {
             $query = $request->q;
             if($query != ''){
-                $data = BudgetLineItem::where('budget_item' ,'LIKE', '%'. $query .'%')
-                                        ->orWhere('program_name', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('saa_ctrl_number', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
-                                        ->orWhere('year', 'LIKE', '%'. $query .'%')
+                $data = BudgetLineItem::where(function($sql) use ($query) {
+                                            $sql->where('budget_item' ,'LIKE', '%'. $query .'%')
+                                                ->orWhere('program_name', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('saa_ctrl_number', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
+                                                ->orWhere('year', 'LIKE', '%'. $query .'%');
+                                        })
+                                        ->where(function($sql) {
+                                            $sql->where('sof_classification', '=', 'GAA')
+                                                ->orWhere('sof_classification', '=', 'SAA');
+                                        })
                                         ->paginate(10);
             } else {
-                $data = BudgetLineItem::paginate(10);
+                $data =  BudgetLineItem::where('sof_classification', '=', 'GAA')
+                                        ->orWhere('sof_classification', '=', 'SAA')
+                                        ->paginate(10);
             }
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $data]);
         } else {
@@ -73,11 +83,22 @@ class BudgetLineItemController extends Controller
         return view('pages.reference.budget_line_item.form.add_budget_line_item', ['data'=> $data]);
     }
 
-    public function getUnitProgram(Request $request){
+    public function getSection(Request $request){
         $select = "division";
         $value = $request->get('value');
+        $data = RefUnits::where($select, $value)->orderBy('section', 'ASC')->get();
+        $output = '<option value="">Please select section</option>';
+        foreach($data as $row){
+            $output .= '<option value="'.$row->id.'">'.$row->section.'</option>';
+        }
+        echo $output;
+    }
+
+    public function getUnitProgram(Request $request){
+        $select = "unit_id";
+        $value = $request->get('value');
         $data = UnitProgram::where($select, $value)->get();
-        $output = '<option>Please select program</option>';
+        $output = '<option value="">Please select program</option>';
         foreach($data as $row){
             $output .= '<option value="'.$row->program_id.'">'.$row->program_name.'</option>';
         }
@@ -147,6 +168,13 @@ class BudgetLineItemController extends Controller
                             'year_id' => $request->year_id,
                             'allocation_amount' => $request->amount,
                             'status' => $request->status]);
+
+                        TableUnitBudgetAllocation::where('budget_line_item_id', '=', $request->id)
+                            ->update([                            
+                                'program_id' => $request->program,
+                                'unit_id' => $request->unit_id,
+                                'program_budget' => $request->amount,
+                                'year_id' => $request->year_id]);
                     }
 
                     return response()->json(['message'=>'Successfully updated data','type'=>'update']);
@@ -166,17 +194,15 @@ class BudgetLineItemController extends Controller
                     
                     $budget_id = RefBudgetLineItem::create($budget_item)->id;
 
-                    if ($request->fund_source == "SAA") { 
-                        $unit_budget_allocation = [
-                            'program_id' => $request->program,
-                            'unit_id' => $request->unit_id,
-                            'budget_line_item_id' => $budget_id,
-                            'program_budget' => $request->amount,
-                            'year_id' => $request->year_id
-                        ];
-                        TableUnitBudgetAllocation::create($unit_budget_allocation);
-                    }
-
+                    $unit_budget_allocation = [
+                        'program_id' => $request->program,
+                        'unit_id' => $request->unit_id,
+                        'budget_line_item_id' => $budget_id,
+                        'program_budget' => $request->amount,
+                        'year_id' => $request->year_id
+                    ];
+                    TableUnitBudgetAllocation::create($unit_budget_allocation);
+                    
                     return response()->json(['message'=>'Successfully saved data','type'=>'insert']);
                 }
                 else {

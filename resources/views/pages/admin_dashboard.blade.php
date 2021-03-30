@@ -165,22 +165,41 @@
                                 <?php $total_budget = 0; ?>
 
                                 @if($data["budget_allocation"]  != null)
+                                    @php
+                                         $hasConapBudget = \App\ProgramConap::where('year_id',$data["budget_allocation"][0]["year_id"])
+                                                                            ->where('program_id',$data["budget_allocation"][0]["program_id"])
+                                                                            ->first() ?? null;
+                                    @endphp
                                     @foreach($data["budget_allocation"] as $row)
                                         <?php
                                             $total_budget += $row["program_budget"];
                                         ?>
+
                                         <div class="col-12">
-                                            <span>{{ $row["budget_item"] }}</span>
+                                            @if($row["source_of_fund_classification"] == "GAA")
+                                                <span>{{ $row["budget_item"] }}</span>
+                                            @else
+                                                <span>
+                                                    {{  $row["budget_item"]  }}  {{  $row["purpose"] !='' ? ' (' . $row["purpose"] . ')' : '' }}
+                                                </span>
+                                            @endif
                                             <span style="float:right;">₱ {{ number_format($row["program_budget"],2) }}</span>
                                         </div>
                                     @endforeach
                                 @else
                                     <div class="col-12">NO ALLOCATED BUDGET</div>
                                 @endif
+                                  @isset($hasConapBudget)
+                                    <div class="col-12">
+                                        <span>TRANSFERED FUNDS FOR UTILIZATION NEXT YEAR</span>
+                                        <span style="float:right;">₱ -{{ number_format($hasConapBudget->amount,2) }}</span>
+                                    </div>
+                                  @endisset
                                   <div class="separator separator-dashed separator-border-2 separator-primary mb-3 mt-6"></div>
                                   <div class="col-12">
                                     <span>TOTAL</span>
-                                    <span style="float:right;font-weight:bold;">₱ {{ number_format($total_budget,2) }}</span>
+
+                                    <span style="float:right;font-weight:bold;">₱ {{ number_format(($total_budget) - (isset($hasConapBudget) ? $hasConapBudget->amount : 0),2) }}</span>
                                 </div>
                               </div>
                             </div>
@@ -224,7 +243,7 @@
             <div class="d-flex flex-column text-dark-75">
                 <span class="font-weight-bolder font-size-sm">Balance</span>
                 <span class="font-weight-bolder font-size-h5">
-                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) ,2) }}</span>
+                <span class="text-dark-50 font-weight-bold">₱</span> {{ number_format(($data["budget_allocation"] != null ? $data["budget_allocation"][0]["yearly_budget"] : 0) -  ($data["budget_allocation"] != null ? collect($data["budget_allocation"])->sum('utilized_pi') : 0) - (isset($hasConapBudget) ? $hasConapBudget->amount : 0) ,2) }}</span>
             </div>
         </div>
         <!--end: Item-->
@@ -411,7 +430,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-9 col-xl-8">
                             <div class="row align-items-center">
-                                <div class="col-md-8 my-2 my-md-0">
+                                <div class="col-md-7 my-2 my-md-0">
                                     <div class="input-icon">
                                         <input type="text" class="form-control" placeholder="Search..." id="search_query" />
                                         <span>
@@ -419,14 +438,19 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 my-2 my-md-0">
+                                <div class="col-md-5 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
                                         <select class="form-control" id="wfp_status">
                                             <option value="">ALL</option>
-                                            <option value="4">Approved</option>
-                                            <option value="5">Revision</option>
-                                            <option value="6">Submitted</option>
+                                            <option value="3">WFP Not Submitted</option>
+                                            <option value="4">WFP Approved</option>
+                                            <option value="5">WFP Revision</option>
+                                            <option value="6">WFP Submitted</option>
+                                            <option value="7">PPMP Not Submitted</option>
+                                            <option value="8">PPMP Approved</option>
+                                            <option value="9">PPMP Revision</option>
+                                            <option value="10">PPMP Submitted</option>
                                         </select>
                                     </div>
                                 </div>
@@ -449,7 +473,7 @@
                             <div class="tab-pane fade show active" id="kt_tab_pane_5_3" role="tabpanel" aria-labelledby="kt_tab_pane_5_3">
                                 <!--begin::Table-->
                                 <div class="table-responsive">
-                                    <table class="table table-head-custom table-vertical-center">
+                                    <table class="table table-head-custom table-vertical-center table-hover">
                                         <thead class="py-5">
                                             <tr>
                                                 <th class="p-0 " colspan="2">PROGRAM MANAGER</th>
@@ -474,24 +498,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 col-12">
-        <div class="card card-custom gutter-b">
-            <div class="card-header">
-             <div class="card-title">
-              <h3 class="card-label">
-               Event Logs
-               <small>System Activity</small>
-              </h3>
-             </div>
-            </div>
-            <div class="card-body">
-                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 700px">
-                    <div class="timeline-items "  id="event_logs">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 
@@ -540,7 +547,7 @@
         <div class="card card-custom bgi-no-repeat card-stretch gutter-b">
             <!--begin::Body-->
             <div class="card-body">
-            <h1> BUDGET SUMMARY FUNCTION CLASS {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+            <h1> OUTPUT FUNCTION SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
             <br>
             <div class="table-responsive">
                 <table class="table table-head-custom table-vertical-center">
@@ -618,6 +625,48 @@
         </div>
     </div>
 </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+             <div class="card-title">
+                <h1> BUDGET LINE ITEM SUMMARY {{ $data["year"]->year ?? 'NO YEAR SELECTED' }}</h1>
+             </div>
+            </div>
+            <div class="card-body">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true">
+                    <div class="timeline-items "  id="bli_summary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+             <div class="card-title">
+              <h3 class="card-label">
+               Event Logs
+               <small>System Activity</small>
+              </h3>
+             </div>
+            </div>
+            <div class="card-body">
+                <div class="timeline timeline-5 scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 700px">
+                    <div class="timeline-items "  id="event_logs">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endif
@@ -818,6 +867,7 @@ const primary = "#6993FF"
                     $("#ppmp_notsubmitted").html(data.ppmp.ppmp_not_submitted);
                     $("#ppmp_total").html(data.ppmp.total_count.ppmp_count);
 
+                    console.log(data);
                     $("#mooe_act_no").html(data.budget.expense_class.mooe.act_no);
                     $("#mooe_total").html( '₱ ' + nf.format(data.budget.expense_class.mooe.amount));
 
@@ -853,12 +903,33 @@ const primary = "#6993FF"
 
                     $("#total_function_class").html('₱ ' + nf.format(Number(data.budget.function_class.strategic.total ?? 0) + Number(data.budget.function_class.core.total ?? 0) + Number(data.budget.function_class.support.total ?? 0)))
 
+                    var gad_yes_act = data.budget.GAD.YES != null ? data.budget.GAD.YES.act_no : 0;
+                    var gad_yes = data.budget.GAD.YES != null ? data.budget.GAD.YES.total : 0;
+                    var gad_no_act = data.budget.GAD.NO != null ? data.budget.GAD.NO.act_no : 0;
+                    var gad_no = data.budget.GAD.NO != null ? data.budget.GAD.NO.total : 0;
 
-                    $("#no_gad_act_no").html(data.budget.GAD.NO.act_no);
-                    $("#yes_gad_act_no").html(data.budget.GAD.YES.act_no);
-                    $("#total_gad_yes").html('₱ ' + nf.format(Number(data.budget.GAD.YES.total)));
-                    $("#total_gad_no").html('₱ ' + nf.format(Number(data.budget.GAD.NO.total)));
-                    $("#GAD_total").html('₱ ' + nf.format(Number( data.budget.GAD.NO.total) + Number(data.budget.GAD.YES.total)));
+                    $("#no_gad_act_no").html(gad_no_act);
+                    $("#yes_gad_act_no").html(gad_yes_act);
+                    $("#total_gad_yes").html('₱ ' + nf.format(Number(gad_yes)));
+                    $("#total_gad_no").html('₱ ' + nf.format(Number(gad_no)));
+                    $("#GAD_total").html('₱ ' + nf.format(Number( gad_yes) + Number(gad_no)));
+
+
+                    var _url2 = "{{ route('get_bli_summary') }}";
+                    $.ajax({
+                        method:"GET",
+                        url: _url2,
+                        success:function(data)
+                        {
+                            document.getElementById('bli_summary').innerHTML = data;
+                        }
+                    })
+
+
+
+
+
+
                 },error:function(err){
                     console.log(err);
                 }
@@ -874,9 +945,14 @@ const primary = "#6993FF"
             setTimeout(function(){
                 var newURL = location.href.split("?")[0];
                 window.history.pushState('object', document.title, newURL);
-                fetchAllSystemLogs();
-                fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
-                fetchStatusData();
+                var roleLogin = "{{ Auth::user()->role->roles }}";
+
+                 if(roleLogin != "PROGRAM COORDINATOR")
+                 {
+                    fetchAllSystemLogs();
+                    fetchhUserWfpStatusList(null,$("#search_query").val(),$("#wfp_status option:selected").text());
+                    fetchStatusData();
+                 }
             },1500)
 
 

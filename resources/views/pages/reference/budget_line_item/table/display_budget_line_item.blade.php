@@ -8,7 +8,7 @@
             <th scope="col" class="text-center">Program</th>
             <th scope="col" class="text-center">Year</th>
             <th scope="col" class="text-center">Allocation Amount</th>
-            <th scope="col" class="text-center">Control Number</th>
+            <th scope="col" class="text-center" style="display: none;">Control Number</th>
             <th scope="col" class="text-center">Purpose</th>
             <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Action</th>
@@ -23,7 +23,7 @@
                 <td data-target="program_name">{{ $row["program_name"] }}</td>
                 <td data-target="year">{{ $row["year"] }}</td>
                 <td data-target="amount" class="text-right">{{ number_format($row["allocation_amount"]) }}</td>
-                <td data-target="saa_ctrl_number">{{ $row["saa_ctrl_number"] }}</td>
+                <td style="display: none;" data-target="saa_ctrl_number">{{ $row["saa_ctrl_number"] }}</td>
                 <td data-target="purpose">{{ $row["purpose"] }}</td>
                 <td data-target="status">
                     <span class="label label-inline {{ $row["status"] == 'ACTIVE' ? 'label-light-success' : 'label-light-danger' }} font-weight-bold">{{ $row["status"] }}</span>
@@ -34,7 +34,8 @@
                     </a>
                 </td>
                 <td style="display: none;" data-target="division">{{ $row["division"] }}</td>
-                <td style="display: none;" data-target="program">{{ $row["unit_program_id"] }}</td>
+                <td style="display: none;" data-target="section">{{ $row["section"] }}</td>
+                <td style="display: none;" data-target="program">{{ $row["program_name"] }}</td>
             </tr>
             @empty
             <tr>

@@ -256,10 +256,10 @@
                             </div>
                         </div>
                     </div>
-                <div class="col-12 bg-secondary p-3">Performance Indicator</div>
+                <div class="col-12 bg-secondary p-3">Sub Activity</div>
                     <div class="col-12 mt-2 mb-2">
                         <button  type="button" class="btn btn-success"  id="btn_pi_add_new" disabled>
-                            <i class="flaticon2-add-1"></i> Add Performance Indicator
+                            <i class="flaticon2-add-1"></i> Add Sub Activity
                         </button>
                     </div>
                     <div class="col-12 mt-2 mb-2" id="pi_table">
@@ -319,7 +319,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Performance Indicator</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Sub Activity</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -377,11 +377,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Performance Indicator   <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" placeholder="Performance Indicator" id="peformance_indicator">
+                    <label>Sub Activity   <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Sub Activity" id="peformance_indicator">
                 </div>
                 <div class="form-group row">
-                    <label class="col-12 col-md-2 col-form-label">COMMODITIES/SUPPLIES</label>
+                    <label class="col-12 col-md-2 col-form-label">COMMODITIES/SUPPLIES/OTHERS</label>
                     <div class="col-12 col-md-4">
                         <span class="switch switch-danger">
                             <label>
@@ -675,7 +675,7 @@
             pi_validation.setAttributeNames({
                 budget_line_item_id:'Budget Line Item',
                 uacs_title_id:'UACS Title',
-                performance_indicator: 'Performance Indicator',
+                performance_indicator: 'Sub Activity',
                 ppmp_include:'IsPPMP',
                 catering_include:'IsCatering',
                 cost:'Cost',
@@ -694,7 +694,7 @@
                     data: {data : pi_data , id: $("#wfp_act_id").val(), bli_id : $("#buget_line_item").val() },
                     success:function(data){
                         if(data == 'success'){
-                            toastr.success("Performance Indicator Sucessfully Save", "Good Job");
+                            toastr.success("Sub Activity Sucessfully Save", "Good Job");
                             $("#wfp_performance_indicator").modal('hide');
                             $("#btn_pi_add_new").attr('disabled',false);
                             fetchPerformanceIndicator();
@@ -800,7 +800,7 @@
                 pi_validation.setAttributeNames({
                     budget_line_item_id:'Budget Line Item',
                     uacs_title_id:'UACS Title',
-                    performance_indicator: 'Performance Indicator',
+                    performance_indicator: 'Sub Activity',
                     ppmp_include:'IsPPMP',
                     catering_include:'IsCatering',
                     cost:'Cost',
@@ -815,7 +815,7 @@
                         data: {id : pi_id, pi : pi_data , bli_id : $("#buget_line_item").val()},
                         success:function(data){
                             if(data =='success'){
-                                toastr.success("Performance Indicator Sucessfully Updated", "Good Job");
+                                toastr.success("Sub Activity Sucessfully Updated", "Good Job");
                                 $("#wfp_performance_indicator").modal('hide');
                                 fetchPerformanceIndicator();
                             }else{
@@ -949,7 +949,7 @@
                                     $("#btn_pi_add_new").attr('disabled',false);
                                     Swal.fire(
                                         "Successfully Save WFP Activity",
-                                        "You may start adding Performance Indicator",
+                                        "You may start adding Sub Activity",
                                         "success"
                                     )
                                 }else if(data.message =='You dont have CONAP budget Allocated for this year'){
@@ -1457,7 +1457,7 @@
                                 if(data.message == 'success'){
                                     Swal.fire(
                                         "Deleted!",
-                                        "Performance Indicator has been deleted.",
+                                        "Sub Activity has been deleted.",
                                         "success"
                                     )
                                     fetchPerformanceIndicator();

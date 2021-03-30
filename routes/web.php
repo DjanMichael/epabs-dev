@@ -130,6 +130,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     //DASHBOARD
     Route::get('/system/get/all/event_logs','PageController@getAllEventLogs')->name('get_system_logs');
     Route::get('/system/get/user/wfp/status/list','PageController@getProgramStatusList')->name('get_program_wfp_status_list');
+    Route::get('/system/get/all/budget-line-item/summary','PageController@getBLISummary')->name('get_bli_summary');
 
     //CHAT
     Route::get('/system/get/user/messages/details/chatapp','ChatController@index')->name('r_chat');
@@ -153,6 +154,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/program/pr/list','Transaction\PurchaseRequestController@getPrList')->name('d_pr_list');
     Route::get('/user/program/pr/delete','Transaction\PurchaseRequestController@deleteProgramPr')->name('del_program_pr');
     Route::get('/user/program/pr/status/update','Transaction\PurchaseRequestController@changeStatusPr')->name('pr_status_change');
+    Route::get('/user/program/pr/save/purpose','Transaction\PurchaseRequestController@savePurpose')->name('pr_purpose_save');
+    Route::get('/user/program/pr/get/purpose','Transaction\PurchaseRequestController@getPRPurpose')->name('getPrStatus');
 
     // REPORTS
     Route::get('/user/reports/app','ReportsController@redirectToAPP')->name('r_rep_app');
@@ -160,6 +163,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/reports/wfp/consolidate','ReportsController@redirectToWfpConsolidated')->name('r_rep_wfp_consolidate');
     Route::get('/user/generate/report/app','ReportsController@generateAPP')->name('generate_app_report');
     Route::get('/user/generate/report/wfp','ReportsController@generateWFP')->name('generate_wfp_report');
+    Route::get('/user/reports/budget/distribution','ReportsController@redirectToBudgetDistribution')->name('r_budget_distribution');
+    Route::get('/user/generate/report/stats/budget','ReportsController@generateBudgetStatistics')->name('generate_budget_stats_report');
 
     //Transaction/Activity Calendar
     Route::get('/activity-calendar','Transaction\ActivityCalendarController@index')->name('r_activity_calendar');
@@ -241,7 +246,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/reference/annual/budget/search','Reference\AnnualBudgetController@getgetAnnualBudgetSearch')->name('d_get_annual_budget_search');
     Route::get('/system/reference/annual/budget/add-form','Reference\AnnualBudgetController@getAddForm')->name('d_add_annual_budget');
     Route::post('/system/reference/annual/add-budget','Reference\AnnualBudgetController@store')->name('a_annual_budget');
-    
+
     // Budget Item Routes
     Route::get('/system/reference/budget-item','Reference\BudgetItemController@index')->name('r_budget_item');
     Route::get('/system/reference/budget-item/all','Reference\BudgetItemController@getBudgetItem')->name('d_budget_item');
@@ -249,13 +254,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/system/reference/budget-item/search','Reference\BudgetItemController@getBudgetItemSearch')->name('d_get_budget_item_search');
     Route::get('/system/reference/budget-item/add-form','Reference\BudgetItemController@getAddForm')->name('d_add_budget_item');
     Route::post('/system/reference/add-budget-item','Reference\BudgetItemController@store')->name('a_budget_item');
-    
+
     // Budget Line Item Routes
     Route::get('/system/reference/budget-line-item','Reference\BudgetLineItemController@index')->name('r_budget_line_item');
     Route::get('/system/reference/budget-line-item/all','Reference\BudgetLineItemController@getBudgetLineItem')->name('d_budget_line_item');
     Route::get('/system/reference/budget-line-item/pagination','Reference\BudgetLineItemController@getBudgetLineItemByPage')->name('d_get_budget_line_item_by_page');
     Route::get('/system/reference/budget-line-item/search','Reference\BudgetLineItemController@getBudgetLineItemSearch')->name('d_get_budget_line_item_search');
     Route::get('/system/reference/budget-line-item/add-form','Reference\BudgetLineItemController@getAddForm')->name('d_add_budget_line_item');
+    Route::get('/system/reference/budget-line-item/section','Reference\BudgetLineItemController@getSection')->name('d_get_budget_section');
     Route::get('/system/reference/budget-line-item/program','Reference\BudgetLineItemController@getUnitProgram')->name('d_get_unit_program');
     Route::post('/system/reference/add-budget-line-item','Reference\BudgetLineItemController@store')->name('a_budget_line_item');
 

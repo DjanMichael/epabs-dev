@@ -1,5 +1,5 @@
 @forelse($data["wfp_user_list"] ?? [] as $row)
-    <tr >
+    <tr onclick="wfp_drawer_open('{{ $row->code }}')" style="cursor: pointer;">
         <td class="pt-3 pb-0">
             <div class="symbol symbol-circle symbol-45 ml-3 d-flex flex-column mb-5 align-items-center">
                 <span class="symbol-label font-size-h5">{{ Str::Title(Str::substr(Str::words($row->name,2),0,1)) }}</span>

@@ -33,10 +33,13 @@ class PDFController extends Controller
         $data["wfp_unit"] = RefUnits::where('id', $data["wfp"]->unit_id)->first();
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
         $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
-                                ->where('users.id',$data["wfp"]->user_id)->first();
-        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->orderBy('out_function')->get();
-        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->orderBy('out_function')->get();
-        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->orderBy('out_function')->get();
+                                    ->where('users.id',$data["wfp"]->user_id)->first();
+        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')
+                                        ->orderBy('out_function')->get();
+        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')
+                                        ->orderBy('out_function')->get();
+        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')
+                                        ->orderBy('out_function')->get();
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
@@ -55,9 +58,12 @@ class PDFController extends Controller
         $data["wfp_year"] = RefYear::where('id',$data["wfp"]->year_id)->first();
         $data["wfp_manager"] = User::join('users_profile','users_profile.user_id','users.id')
                                         ->where('users.id',$data["wfp"]->user_id)->first();
-        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')->orderBy('function_description')->get();
-        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')->orderBy('function_description')->get();
-        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')->orderBy('function_description')->get();
+        $data["wfp_a"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','A')
+                                            ->orderBy('out_function')->get();
+        $data["wfp_b"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','B')
+                                            ->orderBy('out_function')->get();
+        $data["wfp_c"] =  WfpActivityInfo::where('code',$code)->where('class_sequence','C')
+                                            ->orderBy('out_function')->get();
 
         // dd($data);
         return PDF::loadView('components.global.reports.print_program_wfp',['data' => $data])
@@ -86,6 +92,7 @@ class PDFController extends Controller
                     $pi_ids[$i] = $wfp_act_ids[$i]["id"];
                 }
             }
+            // dd($wfp_act_ids);
             $vw = "vw_procurement_drum_supplies_items";
             // $data["category"] = \DB::table($vw)->get()->toArray();
 
@@ -100,6 +107,7 @@ class PDFController extends Controller
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
+                                        ->where('tbl_ppmp_items.batch_id','=','')
                                         ->get()
                                         ->groupBy('classification')
                                         ->toArray();
@@ -112,7 +120,8 @@ class PDFController extends Controller
                                         })->where('year_id',$data["wfp"]->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
-                                        ->where($vw . '.classification','=','CATERING SERVICES')
+                                        // ->where($vw . '.classification','=','CATERING SERVICES')
+                                        ->where('tbl_ppmp_items.batch_id','!=','')
                                         ->get()->groupBy('wfp_act_per_indicator_id')->toArray();
 
 
@@ -127,17 +136,33 @@ class PDFController extends Controller
 
     public function printPR(Request $req){
         $data = [];
-        $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)->first();
+        $data["pr_drum"] = [];
+        $data["pr"] = ProgramPurchaseRequest::where('pr_code',$req->pr_code)
+                                            ->first();
         $data["pr_details"] = ProgramPurchaseRequestDetails::where('pr_code',$req->pr_code)
-                                        ->get()->groupBy('item_classification','')->toArray();
-
-
-
+                                            ->where('item_classification','!=','DRUGS AND MEDICINES')
+                                            ->get()->groupBy('item_classification','');
+        $data["pr_drum"] = ProgramPurchaseRequestDetails::join('tbl_procurement_medicine','tbl_procurement_medicine.id','tbl_pr_details.item_id')
+                                                        ->join('ref_dm_category','ref_dm_category.id','tbl_procurement_medicine.category_id')
+                                                        ->where('pr_code',$req->pr_code)
+                                                        ->where('item_classification','DRUGS AND MEDICINES')
+                                                        ->get()->groupBy('category');
+        $isFoundDRUM = false;
+        $temp = $data["pr_details"]->map(function ($data) use($isFoundDRUM) {
+            foreach ($data as $row)
+            {
+                if($row["item_type"] == "DRUM"){
+                    return true;
+                }
+            }
+        });
+        // dd($data["pr_drum"]);
+        $data["pr_template"] = ($temp->flatten()->toArray()[0] ?? 'drum' != null) ? 'DRUM_TEMPLATE' : 'SUPPLIES_TEMPLATE';
 
         return PDF::loadView('components.global.reports.print_program_pr',['data' => $data])
                     ->setPaper('legal', 'portrait')
                     ->stream('PR'. $req->pr_code .'.pdf');
-        // return view('components.global.reports.print_program_pr');
+        // return view('components.global.reports.print_program_pr',['data'=> $data]);
     }
 
 

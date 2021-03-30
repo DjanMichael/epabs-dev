@@ -229,9 +229,11 @@ class WfpController extends Controller
 
             $data["activities"] = WfpActivityInfo::where('code',$req->wfp_code)->get();
 
-            $year_id = GlobalSystemSettings::where('user_id',$this->auth_user_id)->first();
-            $year_id = $year_id->select_year;
-            $year = RefYear::where('id',$year_id)->first();
+            // dd(substr($req->wfp_code,1,3) - 0);
+            // $year_id = GlobalSystemSettings::where('user_id',substr($req->wfp_code,0,3) - 0)->first();
+            // $year_id = $year_id->select_year;
+            // dd(substr($req->wfp_code,6,3) - 0);
+            $year = RefYear::where('id',substr($req->wfp_code,6,3) - 0)->first();
             // $status = ZWfpLogs::where('wfp_code',$req->wfp_code)->orderBy('created_at','DESC')->first();
 
             // if($status["status"] =='WFP' ){
@@ -262,6 +264,19 @@ class WfpController extends Controller
             //         $cmd["COMMENT"] = 0;
             //     }
             // }
+
+            $program_details = GlobalSystemSettings::where('user_id',substr($req->wfp_code,0,3) - 0)->first();
+            if($program_details){
+                $data["budget_allocation"] = BudgetAllocationUtilization::where('program_id', $program_details->select_program_id)
+                                                                        ->where('year_id',$program_details->select_year)
+                                                                        ->groupBy('program_id','budget_line_item_id')
+                                                                        ->get()->toArray();
+
+            }else{
+
+                $data["budget_allocation"] = null;
+            }
+
 
             $data["comments"] = WfpComments::where('wfp_code',$req->wfp_code)->groupBy('wfp_act_id')
                                            ->get();
@@ -512,7 +527,7 @@ class WfpController extends Controller
 
             if($check->out_function != null){
                 $data["wfp_act"] = WfpActivity::join('tbl_activity_output_function','tbl_activity_output_function.id','tbl_wfp_activity.out_function')
-                ->where('tbl_wfp_activity.id','=',$req->wfp_id)->get();
+                                                ->where('tbl_wfp_activity.id','=',$req->wfp_id)->get();
 
                 $month_str = $data["wfp_act"][0]->activity_timeframe;
                 $data["activity_timeframe"] = [
@@ -682,8 +697,7 @@ class WfpController extends Controller
             if(( $sum_used_budget_bli + $req->pi["cost"])  > $wfp_act->activity_cost){
                 return 'exceeds budget';
             }
-            $check_balance = BudgetAllocationUtilization::where('wfp_code',Crypt::decryptString($req->pi["wfp_code"]))
-                                                        ->where('budget_line_item_id',$req->pi["budget_line_item_id"])
+            $check_balance = BudgetAllocationUtilization::where('budget_line_item_id',$req->pi["budget_line_item_id"])
                                                         // ->where('balance_plan','>',$req->cost)
                                                         ->groupBy('budget_line_item_id')
                                                         ->first();
@@ -706,6 +720,14 @@ class WfpController extends Controller
                 {
                     $delete_existing = TablePiCateringBatches::where('pi_id',$req->id)->delete();
                     if($delete_existing){
+                        $b_no = $req->pi["batches"] - 0;
+                        for($i=1; $i <= $b_no; $i++){
+                            $wfp_batch = new TablePiCateringBatches;
+                            $wfp_batch->pi_id = $req->id;
+                            $wfp_batch->batch_no = $i;
+                            $wfp_batch->save();
+                        }
+                    }else{
                         $b_no = $req->pi["batches"] - 0;
                         for($i=1; $i <= $b_no; $i++){
                             $wfp_batch = new TablePiCateringBatches;

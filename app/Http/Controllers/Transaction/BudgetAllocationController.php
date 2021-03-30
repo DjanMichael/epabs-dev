@@ -44,6 +44,7 @@ class BudgetAllocationController extends Controller
             $res = RefBudgetLineItem::join('ref_source_of_fund','ref_source_of_fund.id','ref_budget_line_item.fund_source_id')
                                     ->where('year_id',$req->year)
                                     ->where('ref_source_of_fund.sof_classification','GAA')
+                                    ->select('ref_budget_line_item.id','ref_budget_line_item.budget_item')
                                     ->get()->toArray();
             return view('pages.transaction.budget_allocation.component.select_bli',['data'=>$res]);
         }else{
@@ -237,11 +238,13 @@ class BudgetAllocationController extends Controller
                 foreach ($bli_data as $row){
 
                     $sof = RefSourceOfFund::where('sof_classification',$row["source_of_fund_classification"]. '-CONAP')->first();
+                  
                     if($row["source_of_fund_classification"] == 'GAA'){
                         $data_rbli =[
                             'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
                             'year_id'=> $nextYear->id,
-                            'unit_program_id'=> $req->program_id - 0,
+                            'unit_id' => 0,
+                            'program_id'=> $req->program_id - 0,
                             'allocation_amount'=> $row["ppmp_actual_balance"],
                             'fund_source_id'=> $sof->id
                         ];
@@ -249,7 +252,8 @@ class BudgetAllocationController extends Controller
                         $data_rbli =[
                             'budget_item'=> $row["source_of_fund_classification"] . '-CONAP (' . $row["budget_item"] .')',
                             'year_id'=> $nextYear->id,
-                            'unit_program_id'=> $req->program_id - 0,
+                            'program_id'=> $req->program_id - 0,
+                            'unit_id' => $unit_id->unit_id - 0,
                             'allocation_amount'=> $row["ppmp_actual_balance"],
                             'fund_source_id'=> $sof->id,
                             'saa_ctrl_number'=> $row["saa_ctrl_number"],
@@ -257,7 +261,7 @@ class BudgetAllocationController extends Controller
                         ];
                     }
 
-
+                    // dd($data_rbli);
                     $save = RefBudgetLineItem::create($data_rbli);
 
                     $data_tuba = [
@@ -267,6 +271,7 @@ class BudgetAllocationController extends Controller
                         'program_budget'=> $row["ppmp_actual_balance"],
                         'year_id'=> $nextYear->id
                     ];
+                    // dd($data_tuba);
 
                     TableUnitBudgetAllocation::create($data_tuba);
                 }
