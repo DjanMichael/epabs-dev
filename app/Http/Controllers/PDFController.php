@@ -156,9 +156,7 @@ class PDFController extends Controller
                 }
             }
         });
-        // dd($data["pr_drum"]);
-        $data["pr_template"] = ($temp->flatten()->toArray()[0] ?? 'drum' != null) ? 'DRUM_TEMPLATE' : 'SUPPLIES_TEMPLATE';
-
+        $data["pr_template"] = ($temp->flatten()->toArray()[0] == true) ? 'DRUM_TEMPLATE' : 'SUPPLIES_TEMPLATE';
         return PDF::loadView('components.global.reports.print_program_pr',['data' => $data])
                     ->setPaper('legal', 'portrait')
                     ->stream('PR'. $req->pr_code .'.pdf');

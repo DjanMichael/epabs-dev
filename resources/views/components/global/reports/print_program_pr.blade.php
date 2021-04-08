@@ -80,7 +80,7 @@
         }
         main{
             position: relative;
-            top:88px;
+            top:82.4px;
             padding:0px;
             width:100%;
         }
@@ -110,11 +110,11 @@
                 </td>
             </tr>
             <tr style="">
-                <td style="border-top:1px solid black;padding-left:5px;width:10px;">Dvision:</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:100px;font-weight:bold;">{{ $data["pr"]->division }}</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;"></td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;">PR. No.</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;">Date : {{ (Carbon\Carbon::parse($data["pr"]->created_at))->format('F d,Y') }}</td>
+                <td style="border-top:1px solid black;padding-left:5px;">Dvision:</td>
+                <td style="border-top:1px solid black;padding-left:5px;font-weight:bold;">{{ $data["pr"]->division }}</td>
+                <td style="border-top:1px solid black;padding-left:5px;"></td>
+                <td style="border-top:1px solid black;padding-left:5px;">PR. No.</td>
+                <td style="border-top:1px solid black;padding-left:5px;">Date : {{ (Carbon\Carbon::parse($data["pr"]->created_at))->format('F d,Y') }}</td>
             </tr>
             <tr>
                 <td style="padding-left:5px;">Office:</td>
@@ -311,11 +311,11 @@
                 </td>
             </tr>
             <tr style="">
-                <td style="border-top:1px solid black;padding-left:5px;width:10px;">Dvision:</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:100px;font-weight:bold;">{{ $data["pr"]->division }}</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;"></td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;">PR. No.</td>
-                <td style="border-top:1px solid black;padding-left:5px;width:30px;">Date : {{ (Carbon\Carbon::parse($data["pr"]->created_at))->format('F d,Y') }}</td>
+                <td style="border-top:1px solid black;padding-left:5px;">Dvision:</td>
+                <td style="border-top:1px solid black;padding-left:5px;font-weight:bold;">{{ $data["pr"]->division }}</td>
+                <td style="border-top:1px solid black;padding-left:5px;"></td>
+                <td style="border-top:1px solid black;padding-left:5px;">PR. No.</td>
+                <td style="border-top:1px solid black;padding-left:5px;">Date : {{ (Carbon\Carbon::parse($data["pr"]->created_at))->format('F d,Y') }}</td>
             </tr>
             <tr>
                 <td style="padding-left:5px;">Office:</td>
