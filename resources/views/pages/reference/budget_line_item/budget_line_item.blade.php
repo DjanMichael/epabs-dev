@@ -117,7 +117,7 @@
                 var optionSelected = $(this).find("option:selected");
                 var valueSelected  = optionSelected.val();
                 var textSelected   = optionSelected.text();
-                if (textSelected == 'SAA') {
+                if (textSelected == 'SAA' || textSelected == 'SAA-CONAP') {
                     $(".form_budget_item").show();
                     $(".form_division").show();
                     $(".form_section").show();
@@ -209,19 +209,19 @@
                     var year = $("#year option:selected").text();
                     
                     data.fund_source = $("#fund_source").val();
-                    data.division = ($("#section").val() == "" && fund_source != 'SAA') 
+                    data.division = ($("#section").val() == "" && (fund_source == 'GAA' || fund_source == 'GAA-CONAP')) 
                                         ? 0 : $("#section").val();
-                    data.program = ($("#program").val() == "" && fund_source != 'SAA') 
+                    data.program = ($("#program").val() == "" && (fund_source == 'GAA' || fund_source == 'GAA-CONAP')) 
                                         ? 0 : $("#program").val();            
                     data.budget_item = $("#budget_item").val();
                     // data.budget_item = ($("#budget_item").val() == "") ? $("#saa_control_number").val() : $("#budget_item").val();
                     data.year = $("#year").val();
                     // data.saa_number = "";
-                    data.saa_number = ($("#saa_control_number").val() == "" && fund_source != 'SAA') 
+                    data.saa_number = ($("#saa_control_number").val() == "" && (fund_source == 'GAA' || fund_source == 'GAA-CONAP')) 
                                         ? "None" : $("#saa_control_number").val();
                     data.amount = $("#amount").val();
                     data.purpose = $("#purpose").val();
-                    
+
                     let validation = new Validator(data, rules);
                     if (validation.passes()) {
                         e.preventDefault();
@@ -260,7 +260,7 @@
                                     $('#modal_reference').modal('toggle');
                                     $('#'+id).children('td[data-target=fund_source]').html(fund_source);
                                     $('#'+id).children('td[data-target=budget_item]').html(data.budget_item);
-                                    $('#'+id).children('td[data-target=program_name]').html(program);
+                                    $('#'+id).children('td[data-target=program_name]').html(fund_source == 'GAA' || fund_source == 'GAA-CONAP' ? '' : program);
                                     $('#'+id).children('td[data-target=year]').html(year);
                                     $('#'+id).children('td[data-target=saa_ctrl_number]').html(data.saa_number == 'None' ? '' : data.saa_number);
                                     $('#'+id).children('td[data-target=purpose]').html(data.purpose);

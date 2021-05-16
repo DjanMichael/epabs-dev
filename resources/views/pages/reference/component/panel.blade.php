@@ -54,7 +54,9 @@
                                             <select class="form-control" id="sort_by_fund_source">
                                                 <option value="">All</option>
                                                 <option value="GAA">GAA</option>
+                                                <option value="GAA-CONAP">GAA-CONAP</option>
                                                 <option value="SAA">SAA</option>
+                                                <option value="SAA-CONAP">SAA-CONAP</option>
                                             </select>
                                         </div>
                                     </div>

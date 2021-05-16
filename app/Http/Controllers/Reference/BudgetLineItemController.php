@@ -21,9 +21,7 @@ class BudgetLineItemController extends Controller
     public function index(){ return view('pages.reference.budget_line_item.budget_line_item', ['checker'=>'FUND']); }
 
     public function fetchBudgetLineItem(){
-        $data = BudgetLineItem::where('sof_classification', '=', 'GAA')
-                                ->orWhere('sof_classification', '=', 'SAA')
-                                ->paginate(10);
+        $data = BudgetLineItem::paginate(10);
         return $data;
     }
 
@@ -53,15 +51,9 @@ class BudgetLineItemController extends Controller
                                                 ->orWhere('sof_classification', 'LIKE', '%'. $query .'%')
                                                 ->orWhere('year', 'LIKE', '%'. $query .'%');
                                         })
-                                        ->where(function($sql) {
-                                            $sql->where('sof_classification', '=', 'GAA')
-                                                ->orWhere('sof_classification', '=', 'SAA');
-                                        })
                                         ->paginate(10);
             } else {
-                $data =  BudgetLineItem::where('sof_classification', '=', 'GAA')
-                                        ->orWhere('sof_classification', '=', 'SAA')
-                                        ->paginate(10);
+                $data =  BudgetLineItem::paginate(10);
             }
             return view('pages.reference.budget_line_item.table.display_budget_line_item',['budgetlineitem'=> $data]);
         } else {
@@ -77,7 +69,11 @@ class BudgetLineItemController extends Controller
                                     ->groupBy('division')
                                     ->orderBy('division', 'ASC')
                                     ->get();
-        $data['fund_source'] = RefSourceOfFund::where('status','ACTIVE')->orderBy('sof_classification', 'ASC')->get();
+        $data['fund_source'] = RefSourceOfFund::where('status','ACTIVE')
+                                                ->where('sof_classification', '!=', 'NEP')
+                                                ->where('sof_classification', '!=', 'CONAP')
+                                                ->orderBy('sof_classification', 'ASC')
+                                                ->get();
         $data['budget_item'] = RefBudgetItem::where('status','ACTIVE')
                                             ->orderBy('budget_item', 'ASC')->get();
         return view('pages.reference.budget_line_item.form.add_budget_line_item', ['data'=> $data]);
@@ -143,7 +139,7 @@ class BudgetLineItemController extends Controller
             } else {
                 $check = RefBudgetLineItem::find($request->id);
                 if ($check) {
-                    if ($request->fund_source == "SAA") { 
+                    if ($request->fund_source == "SAA" || $request->fund_source == "SAA-CONAP") { 
                         $check->update([
                             'fund_source_id' => $request->fund_source_id,
                             'budget_item' => $request->budget_item,
@@ -167,6 +163,7 @@ class BudgetLineItemController extends Controller
                             'budget_item' => $request->budget_item,
                             'year_id' => $request->year_id,
                             'allocation_amount' => $request->amount,
+                            'purpose' => $request->purpose,
                             'status' => $request->status]);
 
                         TableUnitBudgetAllocation::where('budget_line_item_id', '=', $request->id)
