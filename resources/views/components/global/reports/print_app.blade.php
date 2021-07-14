@@ -195,17 +195,19 @@
                 ?>
                 @foreach($data["app_category"] as $row)
                 <?php
-                    $inventory = \App\Views\ReportAppDetails::where('classification',$row["classification"])
-                                                            ->where('year_id',$data["static"]["year_id"])
-                                                            ->groupBy('id','item_type')
-                                                            ->get()->toArray();
+
+                    // $inventory = \App\Views\ReportAppDetails::where('classification',$row["classification"])
+                    //                                         ->where('year_id',$data["static"]["year_id"])
+                    //                                         ->groupBy('id','item_type')
+                    //                                         ->get()->toArray();
 
                     $i=1;
                 ?>
+                {{-- {{ dd($data["details"]["ACCOUNTABLE FORMS"])  }} --}}
                 <tr>
                     <td class="t-h-d2" colspan="27">{{  $row["classification"] }}</td>
                 </tr>
-                    @forelse($inventory as $row2)
+                    @forelse($data["details"][$row["classification"]] ?? [] as $row2)
                         <tr>
                             <td style="width:10px;text-align:center">{{ $i }}</td>
                             <td colspan="2" style="width:230px">{{ $row2["description"] }}</td>

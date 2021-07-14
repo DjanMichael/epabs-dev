@@ -31,6 +31,13 @@ class ReportsController extends Controller
                             'year_id' =>$req->year_id,
                             'year' =>$req->year
                         ];
+
+        $data["details"] = \App\Views\ReportAppDetails::where('year_id',$data["static"]["year_id"])
+                        ->get()->toArray();
+        $data["details"] = collect($data["details"])->groupBy('classification');
+
+
+        // dd($data);
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadView('components.global.reports.print_app',['data'=>$data]);
