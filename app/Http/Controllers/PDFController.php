@@ -93,9 +93,10 @@ class PDFController extends Controller
                 }
             }
             // dd($wfp_act_ids);
+
             $vw = "vw_procurement_drum_supplies_items";
             // $data["category"] = \DB::table($vw)->get()->toArray();
-
+            // dd($pi_ids);
             $data["ppmp_items"] = \DB::table('tbl_ppmp_items')
                                         ->join($vw,function($q) use ($vw)
                                         {
@@ -103,13 +104,13 @@ class PDFController extends Controller
                                             $q->on($vw . '.id','=','tbl_ppmp_items.item_id');
 
                                         })
-                                        ->where('year_id',$data["wfp"]->year_id)
+                                        ->where($vw .'.year_id',$data["wfp"]->year_id)
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
-                                        ->where('tbl_ppmp_items.batch_id','=','')
+                                        // ->where('tbl_ppmp_items.batch_id','=','')
                                         ->get()
-                                        ->groupBy('classification')
+                                        ->groupBy(['classification'])
                                         ->toArray();
 
             $data["ppmp_catering"] = \DB::table('tbl_ppmp_items')
