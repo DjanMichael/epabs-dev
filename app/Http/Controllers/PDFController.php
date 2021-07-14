@@ -108,7 +108,7 @@ class PDFController extends Controller
                                         ->join('tbl_wfp_activity_per_indicator','tbl_wfp_activity_per_indicator.id','tbl_ppmp_items.wfp_act_per_indicator_id')
                                         ->whereIn('tbl_ppmp_items.wfp_act_per_indicator_id',$pi_ids)
                                         ->where($vw . '.classification','!=','CATERING SERVICES')
-                                        // ->where('tbl_ppmp_items.batch_id','=','')
+                                        ->where('tbl_ppmp_items.batch_id','=',null)
                                         ->get()
                                         ->groupBy(['classification'])
                                         ->toArray();

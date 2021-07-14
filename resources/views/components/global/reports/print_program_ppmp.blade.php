@@ -74,7 +74,7 @@
         }
         .footer {
                 position: fixed;
-                bottom: -160px;
+                bottom: -200px;
                 left: 0px;
                 right: 0px;
                 height: 180px;
@@ -398,9 +398,10 @@
                         @if($row == $row1["classification"])
                         <?php $g_total += $row1["total_price"]; $first_row +=1;?>
                             <tr>
-                                @if ($first_row == 1)
+                                {{-- @if ($first_row == 1)
                                     <td style="border:1px solid black;padding:3px;"  class="t-d txt-center" rowspan="{{ $suppliesCount }}" >{{ $row1["uacs_id"] }}</td>
-                                @endif
+                                    @endif --}}
+                                <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["uacs_id"] }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d">{{   $row1["g_desc"]  }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["jan"] }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["feb"] }}</td>
@@ -415,8 +416,8 @@
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["nov"] }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["dec"] }}</td>
                                 <td style="border:1px solid black;padding:3px;" class="t-d txt-center">{{ $row1["qty"] }}</td>
-                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369;  {{ number_format($row1["unit_price"],2) }}</td>
-                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369; {{ number_format($row1["total_price"],2) }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right;">&#8369;  {{ number_format($row1["unit_price"],2) }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right;">&#8369; {{ number_format($row1["total_price"],2) }}</td>
                             </tr>
                         @endif
                 @endforeach
@@ -471,9 +472,10 @@
                                     $first_row += 1;
                                 ?>
                                 <tr>
-                                @if ($first_row == 1)
+                                {{-- @if ($first_row == 1)
                                     <td  rowspan="{{ count($items) }}" class="t-d txt-center">{{ $row3["uacs_id"] }}</td>
-                                @endif
+                                    @endif --}}
+                                <td class="t-d txt-center">{{ $row3["uacs_id"] }}</td>
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d">{{ $row4->description . ', ' . $row4->unit_name}}</td>
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->jan }}</td>
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->feb }}</td>
@@ -488,8 +490,8 @@
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->nov }}</td>
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $row4->dec }}</td>
                                 <td style="border:1px solid black;padding:3px;margin:0px;" class="t-d txt-center">{{ $qty2 }}</td>
-                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369;  {{ number_format($row4->price,2)  }}</td>
-                                <td class="t-d" style="font-family: DejaVu Sans !important">&#8369; {{ number_format($qty2 * $row4->price,2) }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right;">&#8369;  {{ number_format($row4->price,2)  }}</td>
+                                <td class="t-d" style="font-family: DejaVu Sans !important;text-align:right;">&#8369; {{ number_format($qty2 * $row4->price,2) }}</td>
                                 </tr>
                         @endforeach
                 @endforeach
@@ -497,7 +499,7 @@
         @endif
         <tr>
             <td colspan="16" style="border:1px solid black;padding:3px;font-weight:bold;text-align:right;" class="t-d">Total</td>
-            <td colspan="1" class="t-d" style="font-family: DejaVu Sans !important">&#8369;  {{ number_format($g_total,2) }}</td>
+            <td colspan="1" class="t-d" style="font-family: DejaVu Sans !important;text-align:right;">&#8369;  {{ number_format($g_total,2) }}</td>
         </tr>
 </table>
 <div style="font-size:12px;padding-left:5px;">Note: Technical Specifiproposecation for each item / Project being proposed shall be submitted as part of the PPMP.</div>
